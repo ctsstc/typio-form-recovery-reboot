@@ -1,0 +1,6 @@
+/.sass-cache/*
+*.DS_Store
+/css/*
+/js/min/*
+/grunt/node_modules/*
+/grunt/.sass-cache
