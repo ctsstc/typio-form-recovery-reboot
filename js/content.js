@@ -7,25 +7,33 @@
 		teraUIResults = teraUI.querySelector('.result-list'),
 		teraUIIsShowing = false,
 		sessionId = Date.now(),
-		teraUICurrentInput = undefined;
+		teraUICurrentInput = undefined,
+		teraUICurrentLoadedValues = {};
 
 	teraUIResults.addEventListener('click', function(e) {
 		var item = e.target,
 			input = teraUICurrentInput;
 
-		input.value = item.innerHTML;
-		delete input.dataset.orgValue;
+		if(!item.classList.contains('teraUI-ignore')) {
+			setElemValue(input, item.dataset.timestamp);
+			delete input.dataset.orgValue;
+		}
+
 		teraUI.classList.add('closed');
 	});
 
 	teraUIResults.addEventListener('mouseover', function(e) {
 		var item = e.target,
-			input = teraUICurrentInput;
+			input = teraUICurrentInput,
+			timestamp = item.dataset.timestamp;
 
 		if(input.dataset.orgValue === undefined) {
 			input.dataset.orgValue = input.value;
 		}
-		setElemValue(input, item.innerHTML);
+		if(timestamp === undefined) {
+			return false;
+		}
+		setElemValue(input, timestamp);
 	});
 
 	teraUIResults.addEventListener('mouseleave', function(e) {
@@ -44,11 +52,16 @@
 		return elem.innerHTML;
 	}
 
-	function setElemValue(elem, value) {
-		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
-			elem.value = value; // Todo: escape value
+	function setElemValue(elem, timestamp) {
+		if(!(timestamp in teraUICurrentLoadedValues)) {
+			return false;
 		}
-		elem.innerHTML = value;
+		var valueObj = teraUICurrentLoadedValues[timestamp];
+
+		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
+			elem.value = valueObj.value; // Todo: escape value
+		}
+		elem.innerHTML = valueObj.value;
 	}
 
 	function isEditable(elem) {
@@ -79,15 +92,18 @@
 			teraUI.classList.add('closed');
 			teraUI.style = 'top: '+ (inRect.top + window.scrollY) +'px; left: '+ (inRect.left + inRect.width - 22) +'px;';
 
+			teraUICurrentLoadedValues = inValues ? inValues : {};
+
 			if(inValues) {
 				var html = '';
 				for(var timestamp in inValues) {
-					var valobj = inValues[timestamp];
-					html += '<li>'+ valobj.value.encodeHTML() +'</li>';
+					var valobj = inValues[timestamp],
+						prepStr = valobj.value.encodeHTML().substring(0,35);
+					html += '<li data-timestamp="'+ timestamp +'">'+ prepStr +'</li>';
 				}
 				teraUIResults.innerHTML = html;
 			} else {
-				teraUIResults.innerHTML = '<li class="nope">Nothing to recover</li>';
+				teraUIResults.innerHTML = '<li class="teraUI-ignore">Nothing to recover</li>';
 			}
 		}
 	}, true);
@@ -205,7 +221,7 @@
 	}
 
 	String.prototype.encodeHTML = function() {
-		return this.replace(/[\"&'\/<>]/g, function (a) {
+		return this.replace(/<\/?[^>]+(>|$)/g, "").replace(/[\"&'\/<>]/g, function (a) {
 			return {
 				'"': '&quot;', '&': '&amp;', "'": '&#39;',
 				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
