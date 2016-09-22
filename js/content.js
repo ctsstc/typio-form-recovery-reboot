@@ -25,26 +25,47 @@
 		if(input.dataset.orgValue === undefined) {
 			input.dataset.orgValue = input.value;
 		}
-		input.value = item.innerHTML;
+		setElemValue(input, item.innerHTML);
 	});
 
 	teraUIResults.addEventListener('mouseleave', function(e) {
 		var input = teraUICurrentInput;
 
 		if(input.dataset.orgValue !== undefined) {
-			input.value = input.dataset.orgValue;
+			setElemValue(input, input.dataset.orgValue);
 			delete input.dataset.orgValue;
 		}
 	});
 
+	function getInputValue(elem) {
+		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
+			return elem.value;
+		}
+		return elem.innerHTML;
+	}
+
+	function setElemValue(elem, value) {
+		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
+			elem.value = value; // Todo: escape value
+		}
+		elem.innerHTML = value;
+	}
+
+	function isEditable(elem) {
+		if(elem && (elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') === 'true')) {
+			return true;
+		}
+		return false;
+	}
+
 	document.addEventListener('keyup', function(e) {
-		if(e.target && (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA')) {
+		if(isEditable(e.target)) {
 			saveValue(e);
 		}
 	});
 
 	document.addEventListener('focus', function(e) {
-		if(e.target && (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA')) {
+		if(isEditable(e.target)) {
 			var input = e.target,
 				inPath = getDomPath(input),
 				inHashPath = inPath.hashCode(),
@@ -72,7 +93,7 @@
 	}, true);
 
 	document.addEventListener('click', function(e) {
-		if(e.target.nodeName !== 'INPUT' && e.target.nodeName !== 'TEXTAREA' && teraUIIsShowing && e.target !== teraUIOpener && e.target !== teraUIResults && e.target.parentNode !== teraUIResults) {
+		if(!isEditable(e.target) && teraUIIsShowing && e.target !== teraUIOpener && e.target !== teraUIResults && e.target.parentNode !== teraUIResults) {
 			teraUI.classList.add('hidden');
 			teraUI.classList.add('closed');
 			teraUIIsShowing = false;
@@ -87,7 +108,7 @@
 		var path = getDomPath(e.target),
 			elem = document.querySelector(path),
 			elemId = elem.dataset.recId,
-			value = elem.value;
+			value = getInputValue(elem);
 
 		if(value.length < 3) {
 			return false;
@@ -143,9 +164,6 @@
 					sibCount++;
 				}
 			}
-			// if ( el.hasAttribute('id') && el.id != '' ) { no id shortcuts, ids are not unique in shadowDom
-			//   stack.unshift(el.nodeName.toLowerCase() + '#' + el.id);
-			// } else
 			var nodeName = el.nodeName.toLowerCase();
 			if (isShadow) {
 				nodeName += "::shadow";
