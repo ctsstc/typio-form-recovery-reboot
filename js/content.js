@@ -124,9 +124,10 @@
 		var path = getDomPath(e.target),
 			elem = document.querySelector(path),
 			elemId = elem.dataset.recId,
-			value = getInputValue(elem);
+			value = getInputValue(elem),
+			cleanValue = value.encodeHTML();
 
-		if(value.length < 3) {
+		if(cleanValue.length < 3) {
 			return false;
 		}
 
