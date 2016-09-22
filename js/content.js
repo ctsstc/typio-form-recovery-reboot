@@ -21,7 +21,7 @@
 			input = teraUICurrentInput;
 
 		if(item.dataset.timestamp !== undefined) {
-			setElemValue(input, item.dataset.timestamp);
+			setInputValueByTimestamp(item.dataset.timestamp);
 			delete input.dataset.orgValue;
 		}
 
@@ -35,19 +35,19 @@
 			timestamp = item.dataset.timestamp;
 
 		if(input.dataset.orgValue === undefined) {
-			input.dataset.orgValue = input.value;
+			input.dataset.orgValue = getInputValue(input);
 		}
 		if(timestamp === undefined) {
 			return false;
 		}
-		setElemValue(input, timestamp);
+		setInputValueByTimestamp(timestamp);
 	});
 
 	teraUIResults.addEventListener('mouseleave', function(e) {
 		var input = teraUICurrentInput;
 
 		if(input.dataset.orgValue !== undefined) {
-			setElemValue(input, input.dataset.orgValue);
+			setInputValue(input.dataset.orgValue);
 			delete input.dataset.orgValue;
 		}
 	});
@@ -59,24 +59,29 @@
 		return elem.innerHTML;
 	}
 
-	function setElemValue(elem, timestamp) {
+	function setInputValue(val) {
+		var input = teraUICurrentInput;
+		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
+			input.value = val;
+		}
+		input.innerHTML = val;
+	}
+
+	function setInputValueByTimestamp(timestamp) {
 		if(!(timestamp in teraUICurrentLoadedValues)) {
 			return false;
 		}
-		var valueObj = teraUICurrentLoadedValues[timestamp];
+		var valueObj = teraUICurrentLoadedValues[timestamp],
+			input = teraUICurrentInput;
 
-		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
-			elem.value = valueObj.value; // Todo: escape value
+		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
+			input.value = valueObj.value;
 		}
-		elem.innerHTML = valueObj.value;
+		input.innerHTML = valueObj.value;
 	}
 
 	function isEditable(elem) {
-
-		if(elem && (
-			elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' ||
-			(elem.getAttribute('contenteditable') === 'true' || findClosestParent(elem, function(parent) { return parent.getAttribute('contenteditable') === 'true' }))
-		)) {
+		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') === 'true') {
 			return true;
 		}
 		return false;
@@ -120,10 +125,6 @@
 		}
 	}, true);
 
-	document.addEventListener('blur', function(e) {
-		
-	}, true);
-
 	document.addEventListener('click', function(e) {
 		// Sometimes contenteditable fields gain focus by clicking anywhere
 		// within the parent form (even though you didn't click the contenteditable)
@@ -136,21 +137,16 @@
 	});
 
 	function saveValue(e) {
-		var path = getDomPath(e.target),
-			elem = document.querySelector(path),
-			elemId = elem.dataset.recId,
+		var elem = e.target,
+			path = getDomPath(elem),
 			value = getInputValue(elem),
-			cleanValue = value.encodeHTML();
+			cleanValue = value.encodeHTML(),
+			elemPathHash = ""+path.hashCode();
 
+		// Min length of string to save
 		if(cleanValue.length < 3) {
 			return false;
 		}
-
-		var elemForm = elem.form,
-			elemFormPath = elemForm ? getDomPath(elemForm) : null,
-
-			elemPathHash = ""+path.hashCode(),
-			elemFormPathHash = elemFormPath ? ""+elemFormPath.hashCode() : "";
 
 		var currValue = sessionStorage.getItem('field-' + elemPathHash),
 			currValue = JSON.parse(currValue),
@@ -175,7 +171,6 @@
 	}
 
 
-
 	function getDomPath(el) {
 		if (!el) {
 			return;
@@ -183,7 +178,6 @@
 		var stack = [];
 		var isShadow = false;
 		while (el.parentNode != null) {
-			// console.log(el.nodeName);
 			var sibCount = 0;
 			var sibIndex = 0;
 			// get sibling indexes
@@ -216,14 +210,6 @@
 		return stack.join(' > ');
 	}
 
-	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		if(request.action === 'ping') {
-			sendResponse({
-				message: true
-			});
-		}
-	});
-
 
 	String.prototype.hashCode = function(){
 		var hash = 0;
@@ -250,5 +236,14 @@
 		if (!parent) return undefined;
 		return fn(parent) ? parent : findClosestParent(parent, fn);
 	}
+
+	// Used to check if script is already injected. Message is sent from background.js
+	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+		if(request.action === 'ping') {
+			sendResponse({
+				message: true
+			});
+		}
+	});
 
 })();
