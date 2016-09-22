@@ -10,7 +10,6 @@
 		teraUICurrentInput = undefined,
 		teraUICurrentLoadedValues = {};
 
-
 	teraUIOpener.addEventListener('click', function(e) {
 		teraUI.classList.remove('closed');
 		e.stopPropagation();
@@ -109,10 +108,17 @@
 
 			teraUICurrentInput = input;
 
-			teraUIIsShowing = true;
-			teraUIShouldClose = false;
-			teraUI.classList.remove('hidden');
-			teraUI.classList.add('closed');
+			// Only show corner pop if it's not an input
+			if(input.nodeName !== 'INPUT') {
+				teraUIIsShowing = true;
+				teraUI.classList.remove('hidden');
+				teraUI.classList.add('closed');
+			} else {
+				teraUIIsShowing = false;
+				teraUI.classList.add('hidden');
+				teraUI.classList.add('closed');
+			}
+
 			teraUI.style = 'top: '+ (inRect.top + window.scrollY) +'px; left: '+ (inRect.left + inRect.width - 22) +'px;';
 
 			teraUICurrentLoadedValues = inValues ? inValues : {};
@@ -252,6 +258,11 @@
 			sendResponse({
 				message: true
 			});
+		}
+		else if(request.action === 'contextMenuRecover') {
+			teraUI.classList.remove('hidden');
+			teraUI.classList.remove('closed');
+			teraUIIsShowing = true;
 		}
 	});
 
