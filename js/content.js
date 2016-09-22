@@ -10,16 +10,23 @@
 		teraUICurrentInput = undefined,
 		teraUICurrentLoadedValues = {};
 
+
+	teraUIOpener.addEventListener('click', function(e) {
+		teraUI.classList.remove('closed');
+		e.stopPropagation();
+	});
+
 	teraUIResults.addEventListener('click', function(e) {
 		var item = e.target,
 			input = teraUICurrentInput;
 
-		if(!item.classList.contains('teraUI-ignore')) {
+		if(item.dataset.timestamp !== undefined) {
 			setElemValue(input, item.dataset.timestamp);
 			delete input.dataset.orgValue;
 		}
 
 		teraUI.classList.add('closed');
+		e.stopPropagation();
 	});
 
 	teraUIResults.addEventListener('mouseover', function(e) {
@@ -65,7 +72,11 @@
 	}
 
 	function isEditable(elem) {
-		if(elem && (elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') === 'true')) {
+
+		if(elem && (
+			elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' ||
+			(elem.getAttribute('contenteditable') === 'true' || findClosestParent(elem, function(parent) { return parent.getAttribute('contenteditable') === 'true' }))
+		)) {
 			return true;
 		}
 		return false;
@@ -88,6 +99,7 @@
 			teraUICurrentInput = input;
 
 			teraUIIsShowing = true;
+			teraUIShouldClose = false;
 			teraUI.classList.remove('hidden');
 			teraUI.classList.add('closed');
 			teraUI.style = 'top: '+ (inRect.top + window.scrollY) +'px; left: '+ (inRect.left + inRect.width - 22) +'px;';
@@ -108,16 +120,19 @@
 		}
 	}, true);
 
+	document.addEventListener('blur', function(e) {
+		
+	}, true);
+
 	document.addEventListener('click', function(e) {
-		if(!isEditable(e.target) && teraUIIsShowing && e.target !== teraUIOpener && e.target !== teraUIResults && e.target.parentNode !== teraUIResults) {
+		// Sometimes contenteditable fields gain focus by clicking anywhere
+		// within the parent form (even though you didn't click the contenteditable)
+		// field itself. Therefore we check if the active element is editable as well.
+		if(!isEditable(e.target) && !isEditable(document.activeElement)) {
 			teraUI.classList.add('hidden');
 			teraUI.classList.add('closed');
 			teraUIIsShowing = false;
 		}
-	});
-
-	teraUIOpener.addEventListener('click', function() {
-		teraUI.classList.remove('closed');
 	});
 
 	function saveValue(e) {
@@ -228,6 +243,12 @@
 				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
 			}[a];
 		});
+	}
+
+	function findClosestParent (startElement, fn) {
+		var parent = startElement.parentElement;
+		if (!parent) return undefined;
+		return fn(parent) ? parent : findClosestParent(parent, fn);
 	}
 
 })();
