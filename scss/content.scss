@@ -68,5 +68,13 @@
 				background: rgba(0,0,0,.1);
 			}
 		}
+
+		.separator {
+			margin: 4px 0;
+			padding: 0;
+			box-shadow: none;
+			height: 1px;
+			background: #444;
+		}
 	}
 }

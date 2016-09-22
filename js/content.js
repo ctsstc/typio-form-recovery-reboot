@@ -1,7 +1,7 @@
 ;(function() {
 	
-
 	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden closed'><a class='opener'></a><ul class='result-list'></ul></div>");
+
 	var teraUI = document.querySelector('#teraUI'),
 		teraUIOpener = teraUI.querySelector('.opener'),
 		teraUIResults = teraUI.querySelector('.result-list'),
@@ -23,6 +23,12 @@
 		if(item.dataset.timestamp !== undefined) {
 			setInputValueByTimestamp(item.dataset.timestamp);
 			delete input.dataset.orgValue;
+		}
+		else if(item.dataset.settingsLink !== undefined) {
+			chrome.runtime.sendMessage({action: 'openSettings'});
+		}
+		else if(item.dataset.disableLink !== undefined) {
+			chrome.runtime.sendMessage({action: 'blockDomain', domain: window.location.hostname});
 		}
 
 		teraUI.classList.add('closed');
@@ -122,6 +128,9 @@
 			} else {
 				teraUIResults.innerHTML = '<li class="teraUI-ignore">Nothing to recover</li>';
 			}
+			teraUIResults.innerHTML += '<li class="separator"></li>';
+			teraUIResults.innerHTML += '<li data-disable-link>Disable on '+ window.location.hostname +'</li>';
+			teraUIResults.innerHTML += '<li data-settings-link>Settings</li>';
 		}
 	}, true);
 

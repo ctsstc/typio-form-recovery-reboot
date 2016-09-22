@@ -20,7 +20,7 @@
 
     "web_accessible_resources": ["img/*.png"],
 
-    //"options_page": "options.html",
+    "options_page": "options.html",
 
     "browser_action": {
         "default_title": "Testing testing"
