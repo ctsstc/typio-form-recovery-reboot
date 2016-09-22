@@ -6,11 +6,12 @@
 		teraUIOpener = teraUI.querySelector('.opener'),
 		teraUIResults = teraUI.querySelector('.result-list'),
 		teraUIIsShowing = false,
-		sessionId = Date.now();
+		sessionId = Date.now(),
+		teraUICurrentInput = undefined;
 
 	teraUIResults.addEventListener('click', function(e) {
 		var item = e.target,
-			input = document.querySelector(teraUI.dataset.inputPath);
+			input = teraUICurrentInput;
 
 		input.value = item.innerHTML;
 		delete input.dataset.orgValue;
@@ -19,7 +20,7 @@
 
 	teraUIResults.addEventListener('mouseover', function(e) {
 		var item = e.target,
-			input = document.querySelector(teraUI.dataset.inputPath);
+			input = teraUICurrentInput;
 
 		if(input.dataset.orgValue === undefined) {
 			input.dataset.orgValue = input.value;
@@ -28,7 +29,7 @@
 	});
 
 	teraUIResults.addEventListener('mouseleave', function(e) {
-		var input = document.querySelector(teraUI.dataset.inputPath);
+		var input = teraUICurrentInput;
 
 		if(input.dataset.orgValue !== undefined) {
 			input.value = input.dataset.orgValue;
@@ -50,7 +51,7 @@
 				inValues = getValuesByPath(inPath),
 				inRect = input.getBoundingClientRect();
 
-			teraUI.dataset.inputPath = inPath;
+			teraUICurrentInput = input;
 
 			teraUIIsShowing = true;
 			teraUI.classList.remove('hidden');
