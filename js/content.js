@@ -140,6 +140,7 @@
 		if(inValues) {
 			var html = '';
 			for(var timestamp in inValues) {
+				if(timestamp == sessionId) {continue;} // Current session, don't need to show
 				var valobj = inValues[timestamp],
 					prepStr = valobj.value.encodeHTML().substring(0,50);
 
@@ -193,7 +194,7 @@
 			currValue = currValue ? currValue : {};
 
 		// Only store 10 versions
-		currValue = sortAndSliceValues(currValue, 10);
+		currValue = sortAndSliceValues(currValue, 11); // We'll only show 10, the last one is the current session
 
 		currValue[sessionId] = {
 			"value" : value,
