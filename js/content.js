@@ -35,6 +35,7 @@
 		}
 
 		hideUI();
+		input.classList.remove('teraUIActiveInput');
 
 		e.stopPropagation();
 	});
@@ -50,6 +51,8 @@
 		if(timestamp === undefined) {
 			return false;
 		}
+
+		input.classList.add('teraUIActiveInput');
 		setInputValueByTimestamp(timestamp);
 	});
 
@@ -60,6 +63,7 @@
 			setInputValue(input.dataset.orgValue);
 			delete input.dataset.orgValue;
 		}
+		input.classList.remove('teraUIActiveInput');
 	});
 
 	function getInputValue(elem) {
@@ -169,10 +173,7 @@
 	function hideUI() {
 		teraUI.classList.add('hidden');
 		teraUIIsShowing = false;
-
-		setTimeout(function() {
-			teraUICurrentInput = undefined;
-		}, 20);
+		teraUICurrentInput = undefined;
 	};
 
 	function saveValue(e) {

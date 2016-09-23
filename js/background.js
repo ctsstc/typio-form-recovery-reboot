@@ -25,7 +25,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 				return false;
 			}
 
-			chrome.tabs.executeScript(tabId, {file: 'js/content.js'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.js', runAt: 'document_end'});
 			chrome.tabs.insertCSS(tabId, {file: 'css/content.css'});
 		});
 	});

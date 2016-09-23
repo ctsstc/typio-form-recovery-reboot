@@ -3,7 +3,7 @@
 
 #teraUI {
 	position: absolute;
-	z-index: 10000;
+	z-index: 99999999999;
 
 	&.hidden {
 		display: none;
@@ -40,4 +40,9 @@
 			}
 		}
 	}
+}
+
+.teraUIActiveInput {
+	background: #FCF9D6 !important;
+	color: #222 !important;
 }
