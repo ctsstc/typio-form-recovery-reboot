@@ -6,7 +6,7 @@
 		teraUIOpener = teraUI.querySelector('.opener'),
 		teraUIResults = teraUI.querySelector('.result-list'),
 		teraUIIsShowing = false,
-		sessionId = Date.now(),
+		sessionId = (new Date).getTime(),
 		teraUICurrentInput = undefined,
 		teraUICurrentLoadedValues = {};
 
@@ -128,6 +128,7 @@
 				for(var timestamp in inValues) {
 					var valobj = inValues[timestamp],
 						prepStr = valobj.value.encodeHTML().substring(0,35);
+
 					html += '<li data-timestamp="'+ timestamp +'">'+ prepStr +'</li>';
 				}
 				teraUIResults.innerHTML = html;
@@ -166,6 +167,9 @@
 		var currValue = sessionStorage.getItem('field-' + elemPathHash),
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
+
+		// Only store 10 versions
+		currValue = sortAndSliceValues(currValue, 10);
 
 		currValue[sessionId] = {
 			"value" : value,
@@ -265,5 +269,29 @@
 			teraUIIsShowing = true;
 		}
 	});
+
+	function sortAndSliceValues(obj, size) {
+
+		var timestamps = [], timestamp, count = 0, sliced = {};
+
+		// Store all timestamps
+		for(timestamp in obj) {
+			if(obj.hasOwnProperty(timestamp)) {
+				timestamps.push(timestamp);
+			}
+		}
+
+		timestamps = timestamps.sort(function(a, b) {
+			return a+b;
+		});
+
+		for(; count < timestamps.length; ++count) {
+			if(count >= size) break;
+			sliced[timestamps[count]] = obj[timestamps[count]];
+			console.log(obj[timestamps[count]].value);
+		}
+
+		return sliced;
+	};
 
 })();
