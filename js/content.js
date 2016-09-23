@@ -256,11 +256,13 @@
 
 
 	function getDomPath(el) {
-		if (!el) {
-			return;
+
+		// Check easy way first
+		if(el.id) {
+			return '#' + el.id;
 		}
+
 		var stack = [];
-		var isShadow = false;
 		while (el.parentNode != null) {
 			var sibCount = 0;
 			var sibIndex = 0;
@@ -275,20 +277,12 @@
 				}
 			}
 			var nodeName = el.nodeName.toLowerCase();
-			if (isShadow) {
-				nodeName += "::shadow";
-				isShadow = false;
-			}
 			if ( sibCount > 1 ) {
 				stack.unshift(nodeName + ':nth-of-type(' + (sibIndex + 1) + ')');
 			} else {
 				stack.unshift(nodeName);
 			}
 			el = el.parentNode;
-			if (el.nodeType === 11) { // for shadow dom, we
-				isShadow = true;
-				el = el.host;
-			}
 		}
 		stack.splice(0,1); // removes the html element
 		return stack.join(' > ');
