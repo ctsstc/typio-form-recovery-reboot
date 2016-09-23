@@ -164,7 +164,7 @@
 			return false;
 		}
 
-		var currValue = sessionStorage.getItem('field-' + elemPathHash),
+		var currValue = sessionStorage.getItem('teraField-' + elemPathHash),
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
 
@@ -178,12 +178,12 @@
 
 		currValue = JSON.stringify(currValue);
 
-		sessionStorage.setItem('field-' + elemPathHash, currValue);
+		sessionStorage.setItem('teraField-' + elemPathHash, currValue);
 	}
 
 	function getValuesByPath(path) {
 		var hashedPath = path.hashCode(),
-			values = sessionStorage.getItem('field-' + hashedPath),
+			values = sessionStorage.getItem('teraField-' + hashedPath),
 			values = values ? JSON.parse(values) : null;
 
 		return values;
