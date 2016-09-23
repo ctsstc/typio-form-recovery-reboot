@@ -1,5 +1,22 @@
 ;(function() {
 	
+	/*
+	var blah = {
+		'7': 'blahsdf2',
+		'5': 'fbladsfh',
+		'1': 'blah',
+		'3': 'blvvah',
+		'4': 'aablah4',
+		'2': 'blssah',
+		'9': 'bnhh',
+		'8': 'b4h'
+	};
+	for(var b in blah) {
+		console.log(b, blah[b]);
+	}
+	console.log(sortAndSliceValues(blah, 10));
+	*/
+
 	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='result-list'></ul></div>");
 
 	var teraUI = document.querySelector('#teraUI'),
@@ -32,6 +49,12 @@
 		if(item.dataset.timestamp !== undefined) {
 			setInputValueByTimestamp(item.dataset.timestamp);
 			delete input.dataset.orgValue;
+		}
+		if('delete' in item.dataset) {
+			deleteValue(item.dataset.delete);
+			item.parentElement.remove();
+			e.stopPropagation();
+			return true;
 		}
 
 		hideUI();
@@ -137,14 +160,14 @@
 
 		positionUI();
 
-		if(inValues) {
+		if(Object.keys(inValues).length > 0) {
 			var html = '';
 			for(var timestamp in inValues) {
 				if(timestamp == sessionId) {continue;} // Current session, don't need to show
 				var valobj = inValues[timestamp],
 					prepStr = valobj.value.encodeHTML().substring(0,50);
 
-				html += '<li data-timestamp="'+ timestamp +'">'+ prepStr +'</li>';
+				html += '<li data-timestamp="'+ timestamp +'"><span title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
 			}
 			teraUIResults.innerHTML = html;
 		} else {
@@ -174,7 +197,7 @@
 	function hideUI() {
 		teraUI.classList.add('hidden');
 		teraUIIsShowing = false;
-		teraUICurrentInput = undefined;
+		//teraUICurrentInput = undefined;
 	};
 
 	function saveValue(e) {
@@ -204,6 +227,22 @@
 		currValue = JSON.stringify(currValue);
 
 		sessionStorage.setItem('teraField-' + elemPathHash, currValue);
+	}
+
+	function deleteValue(timestamp) {
+		var input = teraUICurrentInput,
+			inPath = getDomPath(input),
+			inHash = inPath.hashCode(),
+			currValue = sessionStorage.getItem('teraField-' + inHash),
+
+			currValue = JSON.parse(currValue),
+			currValue = currValue ? currValue : {};
+
+		delete currValue[timestamp];
+
+		currValue = JSON.stringify(currValue);
+
+		sessionStorage.setItem('teraField-' + inHash, currValue);
 	}
 
 	function getValuesByPath(path) {
@@ -303,10 +342,12 @@
 			}
 		}
 
+		// Sort timestamps
 		timestamps = timestamps.sort(function(a, b) {
 			return a+b;
 		});
 
+		// Grab X values from obj in order of sorted timestamps
 		for(; count < timestamps.length; ++count) {
 			if(count >= size) break;
 			sliced[timestamps[count]] = obj[timestamps[count]];

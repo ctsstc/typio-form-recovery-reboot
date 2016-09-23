@@ -1,12 +1,5 @@
 
 
-
-// When the toolbar icon is clicked
-chrome.browserAction.onClicked.addListener(function(tab) {
-	alert("test");
-});
-
-
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 	// If not complete or invalid URL
