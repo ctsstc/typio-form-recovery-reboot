@@ -9,56 +9,26 @@
 		display: none;
 	}
 
-	&.closed {
-		.result-list {
-			display: none;
-		}
-	}
-
-	.opener {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 22px;
-		width: 22px;
-		display: block;
-		background-color: #3685b5;
-		cursor: pointer;
-		opacity: .7;
-		-webkit-mask: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDQ4IDQ4IiB3aWR0aD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0OHY0OGgtNDh6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTI1Ljk5IDZjLTkuOTUgMC0xNy45OSA4LjA2LTE3Ljk5IDE4aC02bDcuNzkgNy43OS4xNC4yOSA4LjA3LTguMDhoLTZjMC03LjczIDYuMjctMTQgMTQtMTRzMTQgNi4yNyAxNCAxNC02LjI3IDE0LTE0IDE0Yy0zLjg3IDAtNy4zNi0xLjU4LTkuODktNC4xMWwtMi44MyAyLjgzYzMuMjUgMy4yNiA3Ljc0IDUuMjggMTIuNzEgNS4yOCA5Ljk1IDAgMTguMDEtOC4wNiAxOC4wMS0xOHMtOC4wNi0xOC0xOC4wMS0xOHptLTEuOTkgMTB2MTBsOC41NiA1LjA4IDEuNDQtMi40My03LTQuMTV2LTguNWgtM3oiLz48L3N2Zz4=) no-repeat top left;
-		mask: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDQ4IDQ4IiB3aWR0aD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0OHY0OGgtNDh6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTI1Ljk5IDZjLTkuOTUgMC0xNy45OSA4LjA2LTE3Ljk5IDE4aC02bDcuNzkgNy43OS4xNC4yOSA4LjA3LTguMDhoLTZjMC03LjczIDYuMjctMTQgMTQtMTRzMTQgNi4yNyAxNCAxNC02LjI3IDE0LTE0IDE0Yy0zLjg3IDAtNy4zNi0xLjU4LTkuODktNC4xMWwtMi44MyAyLjgzYzMuMjUgMy4yNiA3Ljc0IDUuMjggMTIuNzEgNS4yOCA5Ljk1IDAgMTguMDEtOC4wNiAxOC4wMS0xOHMtOC4wNi0xOC0xOC4wMS0xOHptLTEuOTkgMTB2MTBsOC41NiA1LjA4IDEuNDQtMi40My03LTQuMTV2LTguNWgtM3oiLz48L3N2Zz4=) no-repeat top left;
-		-webkit-mask-size: contain;
-		mask-size: contain;
-
-		&:hover {
-			opacity: 1;
-		}
-	}
-
 	.result-list {
-		position: absolute;
-		top: 0;
-		left: 25px;
 		margin: 0; padding: 0; // Reset, some websites fuck it up
 		display: block;
 		background: #FFF;
-		width: 200px;
+		width: 250px;
 		overflow: hidden;
-		border-radius: 3px;
-		box-shadow: 0 0 3px rgba(0,0,0,.25), 0 2px 4px rgba(0,0,0,.10);
+		box-shadow: 0 1px 4px rgba(0,0,0,.5), 0 1px 10px rgba(0,0,0,.2);
 
 		li {
 			display: block;
 			margin: 0;
 			padding: 6px 10px;
-			cursor: pointer;
+			cursor: default;
 			font-size: 13px;
 			color: #444;
 			font-family: sans-serif;
 			text-overflow: ellipsis;
 			overflow: hidden;
 			white-space: nowrap;
-			box-shadow: inset 0 -1px 0 rgba(0,0,0,.1), 0 1px 0 #FFF;
+			box-shadow: inset 0 -1px 0 rgba(0,0,0,.1);
 
 			&:last-child {
 				box-shadow: none;
@@ -66,15 +36,8 @@
 
 			&:hover {
 				background: rgba(0,0,0,.1);
+				box-shadow: none;
 			}
-		}
-
-		.separator {
-			margin: 4px 0;
-			padding: 0;
-			box-shadow: none;
-			height: 1px;
-			background: #444;
 		}
 	}
 }

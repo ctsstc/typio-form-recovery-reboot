@@ -1,7 +1,5 @@
 
 
-var tabUrlHistory = {};
-
 
 // When the toolbar icon is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
@@ -23,26 +21,28 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 		chrome.tabs.sendMessage(tabId, {action: 'ping'}, function(response) {
 
 			// Already injected, let's bail
-			if(response) {
+			if(response === true) {
 				return false;
 			}
 
 			chrome.tabs.executeScript(tabId, {file: 'js/content.js'});
 			chrome.tabs.insertCSS(tabId, {file: 'css/content.css'});
 		});
-
-		chrome.contextMenus.create({
-			id: 'teraRecover',
-			title : 'Recover field text',
-			contexts : ['editable']
-		});
-
-		chrome.contextMenus.onClicked.addListener(function(data) {
-			if(data.menuItemId === 'teraRecover') {
-				chrome.tabs.sendMessage(tabId, {action: 'contextMenuRecover'});
-			}
-		});
 	});
+});
+
+chrome.contextMenus.create({
+	id: 'teraRecover',
+	title : 'Recover field text',
+	contexts : ['editable']
+});
+
+chrome.contextMenus.onClicked.addListener(function(data) {
+	if(data.menuItemId === 'teraRecover') {
+		chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {action: 'contextMenuRecover'});
+		});
+	}
 });
 
 

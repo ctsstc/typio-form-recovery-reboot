@@ -1,18 +1,28 @@
 ;(function() {
 	
-	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden closed'><a class='opener'></a><ul class='result-list'></ul></div>");
+	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='result-list'></ul></div>");
 
 	var teraUI = document.querySelector('#teraUI'),
-		teraUIOpener = teraUI.querySelector('.opener'),
 		teraUIResults = teraUI.querySelector('.result-list'),
 		teraUIIsShowing = false,
 		sessionId = (new Date).getTime(),
 		teraUICurrentInput = undefined,
 		teraUICurrentLoadedValues = {};
 
-	teraUIOpener.addEventListener('click', function(e) {
-		teraUI.classList.remove('closed');
-		e.stopPropagation();
+	document.addEventListener('contextmenu', function(e) {
+		if(e.button === 2) {
+			teraUICurrentInput = getEditable(e.target);
+		}
+	});
+
+	document.addEventListener('click', function(e) {
+		if(teraUIIsShowing) hideUI();
+	});
+
+	window.addEventListener('resize', function() {
+		if(teraUIIsShowing) {
+			positionUI();
+		}
 	});
 
 	teraUIResults.addEventListener('click', function(e) {
@@ -23,14 +33,9 @@
 			setInputValueByTimestamp(item.dataset.timestamp);
 			delete input.dataset.orgValue;
 		}
-		else if(item.dataset.settingsLink !== undefined) {
-			chrome.runtime.sendMessage({action: 'openSettings'});
-		}
-		else if(item.dataset.disableLink !== undefined) {
-			chrome.runtime.sendMessage({action: 'blockDomain', domain: window.location.hostname});
-		}
 
-		teraUI.classList.add('closed');
+		hideUI();
+
 		e.stopPropagation();
 	});
 
@@ -85,11 +90,20 @@
 		input.innerHTML = valueObj.value;
 	}
 
+	// Check if element is editable
 	function isEditable(elem) {
-		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') === 'true') {
+		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') == 'true') {
 			return true;
 		}
 		return false;
+	}
+	
+	// Check if element is editable OR is within a contenteditable parent
+	function getEditable(elem) {
+		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') == 'true') {
+			return elem;
+		}
+		return findClosestParent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
 	}
 
 	document.addEventListener('keyup', function(e) {
@@ -99,58 +113,67 @@
 	});
 
 	document.addEventListener('focus', function(e) {
-		if(isEditable(e.target)) {
-			var input = e.target,
-				inPath = getDomPath(input),
-				inHashPath = inPath.hashCode(),
-				inValues = getValuesByPath(inPath),
-				inRect = input.getBoundingClientRect();
-
-			teraUICurrentInput = input;
-
-			// Only show corner pop if it's not an input
-			if(input.nodeName !== 'INPUT') {
-				teraUIIsShowing = true;
-				teraUI.classList.remove('hidden');
-				teraUI.classList.add('closed');
-			} else {
-				teraUIIsShowing = false;
-				teraUI.classList.add('hidden');
-				teraUI.classList.add('closed');
-			}
-
-			teraUI.style = 'top: '+ (inRect.top + window.scrollY) +'px; left: '+ (inRect.left + inRect.width - 22) +'px;';
-
-			teraUICurrentLoadedValues = inValues ? inValues : {};
-
-			if(inValues) {
-				var html = '';
-				for(var timestamp in inValues) {
-					var valobj = inValues[timestamp],
-						prepStr = valobj.value.encodeHTML().substring(0,35);
-
-					html += '<li data-timestamp="'+ timestamp +'">'+ prepStr +'</li>';
-				}
-				teraUIResults.innerHTML = html;
-			} else {
-				teraUIResults.innerHTML = '<li class="teraUI-ignore">Nothing to recover</li>';
-			}
-			teraUIResults.innerHTML += '<li class="separator"></li>';
-			teraUIResults.innerHTML += '<li data-disable-link>Disable on '+ window.location.hostname +'</li>';
-			teraUIResults.innerHTML += '<li data-settings-link>Settings</li>';
-		}
+		if(teraUIIsShowing) hideUI();
 	}, true);
 
-	document.addEventListener('click', function(e) {
-		// Sometimes contenteditable fields gain focus by clicking anywhere
-		// within the parent form (even though you didn't click the contenteditable)
-		// field itself. Therefore we check if the active element is editable as well.
-		if(!isEditable(e.target) && !isEditable(document.activeElement)) {
-			teraUI.classList.add('hidden');
-			teraUI.classList.add('closed');
-			teraUIIsShowing = false;
+	function buildUI() {
+
+		// If opened before window has finished loading
+		if(!teraUICurrentInput) {
+			confirm('shit');
+			return false;
 		}
-	});
+
+		var input = teraUICurrentInput,
+			inPath = getDomPath(input),
+			inHashPath = inPath.hashCode(),
+			inValues = getValuesByPath(inPath);
+
+		teraUICurrentLoadedValues = inValues ? inValues : {};
+
+		positionUI();
+
+		if(inValues) {
+			var html = '';
+			for(var timestamp in inValues) {
+				var valobj = inValues[timestamp],
+					prepStr = valobj.value.encodeHTML().substring(0,50);
+
+				html += '<li data-timestamp="'+ timestamp +'">'+ prepStr +'</li>';
+			}
+			teraUIResults.innerHTML = html;
+		} else {
+			teraUIResults.innerHTML = '<li>Nothing to recover</li>';
+		}
+	}
+
+	function positionUI() {
+		var inputRect = teraUICurrentInput.getBoundingClientRect(),
+		UIWidth = 250, leftPos = 0;
+
+		if((inputRect.left + inputRect.width + UIWidth) <= window.innerWidth) {
+			leftPos = inputRect.left + inputRect.width;
+		} else if((inputRect.left - UIWidth) > 0) {
+			leftPos = inputRect.left - UIWidth;
+		} else {
+			leftPos = window.innerWidth - UIWidth;
+		}
+
+		teraUI.style = 'top: '+ (inputRect.top + window.scrollY) +'px; left: '+ leftPos +'px;';
+	}
+
+	function showUI() {
+		teraUI.classList.remove('hidden');
+		teraUIIsShowing = true;
+	};
+	function hideUI() {
+		teraUI.classList.add('hidden');
+		teraUIIsShowing = false;
+
+		setTimeout(function() {
+			teraUICurrentInput = undefined;
+		}, 20);
+	};
 
 	function saveValue(e) {
 		var elem = e.target,
@@ -259,14 +282,11 @@
 	// Used to check if script is already injected. Message is sent from background.js
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'ping') {
-			sendResponse({
-				message: true
-			});
+			sendResponse(true);
 		}
 		else if(request.action === 'contextMenuRecover') {
-			teraUI.classList.remove('hidden');
-			teraUI.classList.remove('closed');
-			teraUIIsShowing = true;
+			buildUI();
+			showUI();
 		}
 	});
 
@@ -288,7 +308,6 @@
 		for(; count < timestamps.length; ++count) {
 			if(count >= size) break;
 			sliced[timestamps[count]] = obj[timestamps[count]];
-			console.log(obj[timestamps[count]].value);
 		}
 
 		return sliced;
