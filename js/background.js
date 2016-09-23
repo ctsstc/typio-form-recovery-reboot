@@ -30,6 +30,18 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 			chrome.tabs.executeScript(tabId, {file: 'js/content.js'});
 			chrome.tabs.insertCSS(tabId, {file: 'css/content.css'});
 		});
+
+		chrome.contextMenus.create({
+			id: 'teraRecover',
+			title : 'Recover field text',
+			contexts : ['editable']
+		});
+
+		chrome.contextMenus.onClicked.addListener(function(data) {
+			if(data.menuItemId === 'teraRecover') {
+				chrome.tabs.sendMessage(tabId, {action: 'contextMenuRecover'});
+			}
+		});
 	});
 });
 
