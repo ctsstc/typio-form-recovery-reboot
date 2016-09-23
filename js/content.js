@@ -160,7 +160,8 @@
 
 		positionUI();
 
-		if(Object.keys(inValues).length > 0) {
+		if(inValues && Object.keys(inValues).length > 0) {
+
 			var html = '';
 			for(var timestamp in inValues) {
 				if(timestamp == sessionId) {continue;} // Current session, don't need to show
