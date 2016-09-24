@@ -9,9 +9,57 @@
 	tera.UI = document.querySelector('#teraUI');
 	tera.UIResults = teraUI.querySelector('.result-list');
 	tera.UIIsShowing = false;
-	tera.session = (new Date).getTime();
+	tera.session = Math.round(new Date().getTime()/1000);
 	tera.UICurrentInput = undefined;
 	tera.loadedEntries = {};
+
+	tera.init = function() {
+		tera.cleanEntries();
+	}
+
+	var shh = 0;
+
+	tera.cleanEntries = function() {
+		var entries = [],
+			now = tera.session;
+
+
+		for (field in sessionStorage) {
+			if(field.indexOf('teraField') === 0) {
+
+				var entries = JSON.parse(sessionStorage[field]);
+
+				// Field has entries
+				if(Object.keys(entries).length > 0) {
+					for(timestamp in entries) {
+						var timeleft = (now-timestamp);
+
+						// Too old
+						if (timeleft > 20) {
+							console.log('deleting', entries[timestamp]);
+							delete entries[timestamp];
+						} else {
+							console.log('keeping', timeleft);
+						}
+					}
+
+					// There are entries left, save again
+					if(Object.keys(entries).length > 0) {
+						entries = JSON.stringify(entries);
+						sessionStorage.setItem(field, entries);
+					
+					} // Too old, delete
+					else {
+						sessionStorage.removeItem(field);
+					}
+
+					// Save field entries again
+					console.log(entries);
+				}
+			}
+		}
+
+	}
 
 	tera.getInputValue = function(elem) {
 		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
@@ -121,7 +169,7 @@
 			path = tera.generateDomPath(elem),
 			value = tera.getInputValue(elem),
 			cleanValue = tera.helpers.encodeHTML(value),
-			elemPathHash = "" + tera.helpers.hashCode(path);
+			elemPathHash = tera.helpers.hashCode(path);
 
 		// Min length of string to save
 		if(cleanValue.length < 3) {
@@ -300,9 +348,10 @@
 	document.addEventListener('keyup', function(e) {
 		tera.helpers.debounce(function() {
 			if(tera.isEditable(e.target)) {
+				console.log('saving target');
 				tera.saveEntry(e.target);
 			}
-		}, 1000);
+		}, 500);
 	});
 
 	document.addEventListener('focus', function(e) {
@@ -365,6 +414,7 @@
 	});
 
 
+	tera.init();
 
 
 })();
