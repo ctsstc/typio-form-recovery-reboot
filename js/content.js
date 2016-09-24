@@ -222,25 +222,31 @@
 			"path" : path
 		}
 
+		// Update storage
 		currValue = JSON.stringify(currValue);
-
 		sessionStorage.setItem('teraField-' + elemPathHash, currValue);
 	}
 
 	tera.deleteEntry = function(timestamp) {
 		var input = tera.UICurrentInput,
 			inPath = tera.generateDomPath(input),
-			inHash = tera.helpers.hashCode(inPath),
-			currValue = sessionStorage.getItem('teraField-' + inHash),
+			elemPathHash = tera.helpers.hashCode(inPath),
+			currValue = sessionStorage.getItem('teraField-' + elemPathHash),
 
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
 
 		delete currValue[timestamp];
 
-		currValue = JSON.stringify(currValue);
+		// If this is the last entry, just delete the whole storage item
+		if(Object.keys(currValue).length === 0) {
+			sessionStorage.removeItem('teraField-' + elemPathHash);
 
-		sessionStorage.setItem('teraField-' + inHash, currValue);
+		// Otherwise save storage item
+		} else {
+			currValue = JSON.stringify(currValue);
+			sessionStorage.setItem('teraField-' + elemPathHash, currValue);
+		}
 	}
 
 	tera.getEntryByPath = function(path) {
