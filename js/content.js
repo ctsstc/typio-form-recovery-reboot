@@ -1,21 +1,4 @@
 ;(function() {
-	
-	/*
-	var blah = {
-		'7': 'blahsdf2',
-		'5': 'fbladsfh',
-		'1': 'blah',
-		'3': 'blvvah',
-		'4': 'aablah4',
-		'2': 'blssah',
-		'9': 'bnhh',
-		'8': 'b4h'
-	};
-	for(var b in blah) {
-		console.log(b, blah[b]);
-	}
-	console.log(sortAndSliceValues(blah, 10));
-	*/
 
 	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='result-list'></ul></div>");
 
@@ -147,7 +130,6 @@
 
 		// If opened before window has finished loading
 		if(!teraUICurrentInput) {
-			confirm('shit');
 			return false;
 		}
 
@@ -161,10 +143,13 @@
 		positionUI();
 
 		if(inValues && Object.keys(inValues).length > 0) {
-
 			var html = '';
+			inValues[sessionId] = true; // Mock current session, won't show anyway
 			for(var timestamp in inValues) {
-				if(timestamp == sessionId) {continue;} // Current session, don't need to show
+
+				// Current session, don't need to show
+				if(timestamp == sessionId) {continue;}
+
 				var valobj = inValues[timestamp],
 					prepStr = valobj.value.encodeHTML().substring(0,50);
 
@@ -202,7 +187,7 @@
 	};
 
 	function saveValue(e) {
-		var elem = e.target,
+		var elem = e.target || e, // For testing
 			path = getDomPath(elem),
 			value = getInputValue(elem),
 			cleanValue = value.encodeHTML(),
@@ -217,8 +202,7 @@
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
 
-		// Only store 10 versions
-		currValue = sortAndSliceValues(currValue, 11); // We'll only show 10, the last one is the current session
+		currValue = sortAndSliceValues(currValue, 10);
 
 		currValue[sessionId] = {
 			"value" : value,
@@ -333,14 +317,14 @@
 		// Store all timestamps
 		for(timestamp in obj) {
 			if(obj.hasOwnProperty(timestamp)) {
-				timestamps.push(timestamp);
+				timestamps.push(parseInt(timestamp));
 			}
 		}
 
 		// Sort timestamps
 		timestamps = timestamps.sort(function(a, b) {
-			return a+b;
-		});
+			return a - b;
+		}).reverse();
 
 		// Grab X values from obj in order of sorted timestamps
 		for(; count < timestamps.length; ++count) {
