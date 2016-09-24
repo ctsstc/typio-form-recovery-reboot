@@ -13,89 +13,6 @@
 	tera.UICurrentInput = undefined;
 	tera.loadedEntries = {};
 
-
-	document.addEventListener('contextmenu', function(e) {
-		tera.UICurrentInput = tera.getEditable(e.target);
-	});
-
-	document.addEventListener('click', function(e) {
-		if(tera.UIIsShowing) tera.hideUI();
-	});
-
-	window.addEventListener('resize', function() {
-		if(tera.UIIsShowing) {
-			tera.positionUI();
-		}
-	});
-
-	document.addEventListener('keyup', function(e) {
-		if(tera.isEditable(e.target)) {
-			tera.saveEntry(e);
-		}
-	});
-
-	document.addEventListener('focus', function(e) {
-		if(tera.UIIsShowing) tera.hideUI();
-	}, true);
-
-	tera.UIResults.addEventListener('click', function(e) {
-		var item = e.target,
-			input = tera.UICurrentInput;
-
-		if('delete' in item.dataset) {
-
-			// Delete from storage and delete dom entry
-			tera.deleteEntry(item.dataset.delete);
-			item.parentElement.remove();
-
-			// Restore input text from before hovering
-			tera.setInputValue(input.dataset.orgValue);
-			delete input.dataset.orgValue;
-			input.classList.remove('teraUIActiveInput');
-
-			e.stopPropagation();
-			return true;
-		}
-		if(item.dataset.timestamp !== undefined) {
-			tera.setInputValueByTimestamp(item.dataset.timestamp);
-			delete input.dataset.orgValue;
-		}
-
-		tera.hideUI();
-		input.classList.remove('teraUIActiveInput');
-
-		e.stopPropagation();
-	});
-
-	tera.UIResults.addEventListener('mouseover', function(e) {
-		var item = e.target,
-			input = tera.UICurrentInput,
-			timestamp = item.dataset.timestamp;
-
-		if(input.dataset.orgValue === undefined) {
-			input.dataset.orgValue = tera.getInputValue(input);
-		}
-		if(timestamp === undefined) {
-			return false;
-		}
-
-		input.classList.add('teraUIActiveInput');
-		tera.setInputValueByTimestamp(timestamp);
-	});
-
-	tera.UIResults.addEventListener('mouseleave', function(e) {
-		var input = tera.UICurrentInput;
-
-		if(input.dataset.orgValue !== undefined) {
-			tera.setInputValue(input.dataset.orgValue);
-			delete input.dataset.orgValue;
-		}
-		input.classList.remove('teraUIActiveInput');
-	});
-
-
-
-
 	tera.getInputValue = function(elem) {
 		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
 			return elem.value;
@@ -200,7 +117,7 @@
 	};
 
 	tera.saveEntry = function(e) {
-		var elem = e.target || e, // For testing
+		var elem = e.target || e,
 			path = tera.generateDomPath(elem),
 			value = tera.getInputValue(elem),
 			cleanValue = tera.helpers.encodeHTML(value),
@@ -341,6 +258,17 @@
 		});
 	}
 
+	tera.helpers.debounce = function(fn, delay) {
+		//return function () {
+			var context = this, args = arguments;
+			clearTimeout(tera.helpers.debounce.func);
+			tera.helpers.debounce.func = setTimeout(function () {
+				fn.apply(context, args);
+			}, delay);
+		//};
+	}
+	tera.helpers.debounce.func = null;
+
 	// Used to check if script is already injected. Message is sent from background.js
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'ping') {
@@ -351,5 +279,92 @@
 			tera.showUI();
 		}
 	});
+
+
+
+
+	document.addEventListener('contextmenu', function(e) {
+		tera.UICurrentInput = tera.getEditable(e.target);
+	});
+
+	document.addEventListener('click', function(e) {
+		if(tera.UIIsShowing) tera.hideUI();
+	});
+
+	window.addEventListener('resize', function() {
+		if(tera.UIIsShowing) {
+			tera.positionUI();
+		}
+	});
+
+	document.addEventListener('keyup', function(e) {
+		tera.helpers.debounce(function() {
+			if(tera.isEditable(e.target)) {
+				tera.saveEntry(e.target);
+			}
+		}, 1000);
+	});
+
+	document.addEventListener('focus', function(e) {
+		if(tera.UIIsShowing) tera.hideUI();
+	}, true);
+
+	tera.UIResults.addEventListener('click', function(e) {
+		var item = e.target,
+			input = tera.UICurrentInput;
+
+		if('delete' in item.dataset) {
+
+			// Delete from storage and delete dom entry
+			tera.deleteEntry(item.dataset.delete);
+			item.parentElement.remove();
+
+			// Restore input text from before hovering
+			tera.setInputValue(input.dataset.orgValue);
+			delete input.dataset.orgValue;
+			input.classList.remove('teraUIActiveInput');
+
+			e.stopPropagation();
+			return true;
+		}
+		if(item.dataset.timestamp !== undefined) {
+			tera.setInputValueByTimestamp(item.dataset.timestamp);
+			delete input.dataset.orgValue;
+		}
+
+		tera.hideUI();
+		input.classList.remove('teraUIActiveInput');
+
+		e.stopPropagation();
+	});
+
+	tera.UIResults.addEventListener('mouseover', function(e) {
+		var item = e.target,
+			input = tera.UICurrentInput,
+			timestamp = item.dataset.timestamp;
+
+		if(input.dataset.orgValue === undefined) {
+			input.dataset.orgValue = tera.getInputValue(input);
+		}
+		if(timestamp === undefined) {
+			return false;
+		}
+
+		input.classList.add('teraUIActiveInput');
+		tera.setInputValueByTimestamp(timestamp);
+	});
+
+	tera.UIResults.addEventListener('mouseleave', function(e) {
+		var input = tera.UICurrentInput;
+
+		if(input.dataset.orgValue !== undefined) {
+			tera.setInputValue(input.dataset.orgValue);
+			delete input.dataset.orgValue;
+		}
+		input.classList.remove('teraUIActiveInput');
+	});
+
+
+
 
 })();
