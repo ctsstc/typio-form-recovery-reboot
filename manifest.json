@@ -1,9 +1,14 @@
 {
     "manifest_version": 2,
 
-    "name": "Form Recovery",
-    "description": "...",
+    "name": "Tera Form Recovery",
+    "description": "Robust form recovery that just works.",
     "version": "1.0",
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
 
     "permissions": [
         "tabs",
@@ -20,9 +25,5 @@
 
     "web_accessible_resources": ["img/*.png"],
 
-    "options_page": "options.html",
-
-    "browser_action": {
-        "default_title": "Testing testing"
-    }
+    "options_page": "options.html"
 }
