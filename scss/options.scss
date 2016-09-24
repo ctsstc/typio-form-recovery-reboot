@@ -4,6 +4,17 @@ body {
 	font-size: 15px;
 	color: #444;
 	line-height: 1.3em;
+	background: #19527b url(../img/settings.jpg) top left no-repeat;
+}
+
+.page-container {
+	position: absolute;
+	top: 0;
+	left: 278px;
+	right: 0;
+	bottom: 0;
+	background: #FFF;
+	padding: 50px;
 }
 
 h1 {

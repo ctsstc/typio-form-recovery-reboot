@@ -6,14 +6,16 @@
 	<link rel="stylesheet" href="css/options.css">
 </head>
 <body>
+	
+	<div class="page-container">
+		<h1>Settings</h1>
+		<p>
+			<label for="textarea-blacklist">Do not recover input on these domains:</label><br/>
+			<textarea class="autosave" id="textarea-blacklist" data-option="domainBlacklist" cols="40" rows="8" placeholder="One domain per row"></textarea>
+		</p>
 
-	<h1>Settings</h1>
-	<p>
-		<label for="textarea-blacklist">Do not recover input on these domains:</label><br/>
-		<textarea class="autosave" id="textarea-blacklist" data-option="domainBlacklist" cols="40" rows="8" placeholder="One domain per row"></textarea>
-	</p>
-
-	<p><button id="saveAndClose">Save and close</button>.</p>
+		<p><button id="saveAndClose">Save and close</button>.</p>
+	</div>
 	
 	<script src="js/options.js"></script>
 </body>
