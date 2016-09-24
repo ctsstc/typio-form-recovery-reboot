@@ -11,7 +11,8 @@
 	tera.UIIsShowing = false;
 	tera.session = Math.round(new Date().getTime()/1000);
 	tera.UICurrentInput = undefined;
-	tera.loadedEntries = {};
+	tera.loadedEntries = {},
+	tera.storagePrefix = 'teraField';
 
 	tera.init = function() {
 		tera.cleanEntries();
@@ -25,7 +26,7 @@
 
 
 		for (field in localStorage) {
-			if(field.indexOf('teraField') === 0) {
+			if(field.indexOf(tera.storagePrefix) === 0) {
 
 				var entries = JSON.parse(localStorage[field]);
 
@@ -109,13 +110,14 @@
 		var input = tera.UICurrentInput,
 			inPath = tera.generateDomPath(input),
 			inHashPath = tera.helpers.hashCode(inPath),
-			inValues = tera.getEntryByPath(inPath);
+			inValues = tera.getEntriesByPath(inPath);
 
 		tera.loadedEntries = inValues ? inValues : {};
 
 		// Don't show current entry
 		if(inValues && Object.keys(inValues).length > 0) delete inValues[tera.session];
 
+		// Build entry list
 		if(inValues && Object.keys(inValues).length > 0) {
 			var html = '';
 			for(var timestamp in inValues) {
@@ -126,9 +128,10 @@
 				html += '<li data-timestamp="'+ timestamp +'"><span title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
 			}
 			tera.UIResults.innerHTML = html;
-		} else {
-			tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
 		}
+
+		// No entries, show fallback
+		tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
 
 		tera.positionUI();
 	}
@@ -170,7 +173,7 @@
 			return false;
 		}
 
-		var currValue = localStorage.getItem('teraField-' + elemPathHash),
+		var currValue = localStorage.getItem(tera.storagePrefix + elemPathHash),
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
 
@@ -183,14 +186,14 @@
 
 		// Update storage
 		currValue = JSON.stringify(currValue);
-		localStorage.setItem('teraField-' + elemPathHash, currValue);
+		localStorage.setItem(tera.storagePrefix + elemPathHash, currValue);
 	}
 
 	tera.deleteEntry = function(timestamp) {
 		var input = tera.UICurrentInput,
 			inPath = tera.generateDomPath(input),
 			elemPathHash = tera.helpers.hashCode(inPath),
-			currValue = localStorage.getItem('teraField-' + elemPathHash),
+			currValue = localStorage.getItem(tera.storagePrefix + elemPathHash),
 
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
@@ -199,18 +202,18 @@
 
 		// If this is the last entry, just delete the whole storage item
 		if(Object.keys(currValue).length === 0) {
-			localStorage.removeItem('teraField-' + elemPathHash);
+			localStorage.removeItem(tera.storagePrefix + elemPathHash);
 
 		// Otherwise save storage item
 		} else {
 			currValue = JSON.stringify(currValue);
-			localStorage.setItem('teraField-' + elemPathHash, currValue);
+			localStorage.setItem(tera.storagePrefix + elemPathHash, currValue);
 		}
 	}
 
-	tera.getEntryByPath = function(path) {
+	tera.getEntriesByPath = function(path) {
 		var hashedPath = tera.helpers.hashCode(path),
-			values = localStorage.getItem('teraField-' + hashedPath),
+			values = localStorage.getItem(tera.storagePrefix + hashedPath),
 			values = values ? JSON.parse(values) : null;
 
 		return values;
