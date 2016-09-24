@@ -148,15 +148,14 @@
 
 		tera.loadedEntries = inValues ? inValues : {};
 
+		// Don't show current entry
+		delete inValues[tera.session];
+
 		tera.positionUI();
 
 		if(inValues && Object.keys(inValues).length > 0) {
 			var html = '';
-			inValues[tera.session] = true; // Mock current session, won't show anyway
 			for(var timestamp in inValues) {
-
-				// Current session, don't need to show
-				if(timestamp == tera.session) {continue;}
 
 				var valobj = inValues[timestamp],
 					prepStr = tera.helpers.encodeHTML(valobj.value).substring(0,50);
