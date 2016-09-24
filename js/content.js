@@ -35,8 +35,8 @@
 					for(timestamp in entries) {
 						var timeleft = (now-timestamp);
 
-						// Too old
-						if (timeleft > 60) {
+						// Too old, 1 week timeout
+						if (timeleft > 604800) {
 							delete entries[timestamp];
 						}
 					}
@@ -114,24 +114,26 @@
 
 		tera.loadedEntries = inValues ? inValues : {};
 
+
 		// Don't show current entry
 		if(inValues && Object.keys(inValues).length > 0) delete inValues[tera.session];
 
 		// Build entry list
 		if(inValues && Object.keys(inValues).length > 0) {
-			var html = '';
-			for(var timestamp in inValues) {
-
+			var html = '', timestamp;
+			for(timestamp in inValues) {
 				var valobj = inValues[timestamp],
 					prepStr = tera.helpers.encodeHTML(valobj.value).substring(0,50);
 
 				html += '<li data-timestamp="'+ timestamp +'"><span title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
 			}
 			tera.UIResults.innerHTML = html;
-		}
 
 		// No entries, show fallback
-		tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
+		} else {
+			tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
+		}
+
 
 		tera.positionUI();
 	}
@@ -303,6 +305,9 @@
 		});
 	}
 
+
+	// Alright this works but i don't really understand it
+	// and it's probably not implemented correctly. Should fix.
 	tera.helpers.debounce = function(fn, delay) {
 		var context = this, args = arguments;
 		clearTimeout(tera.helpers.debounce.func);
@@ -345,7 +350,6 @@
 
 		tera.helpers.debounce(function() {
 			if(tera.isEditable(target)) {
-				//document.body.querySelector('.debug').innerHTML = (target.value || target);
 				tera.saveEntry(target);
 			}
 		}, 400);
