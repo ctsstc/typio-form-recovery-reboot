@@ -2,97 +2,115 @@
 
 	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='result-list'></ul></div>");
 
-	var teraUI = document.querySelector('#teraUI'),
-		teraUIResults = teraUI.querySelector('.result-list'),
-		teraUIIsShowing = false,
-		sessionId = (new Date).getTime(),
-		teraUICurrentInput = undefined,
-		teraUICurrentLoadedValues = {};
+
+	var tera = {};
+	tera.helpers = {};
+
+	tera.UI = document.querySelector('#teraUI');
+	tera.UIResults = teraUI.querySelector('.result-list');
+	tera.UIIsShowing = false;
+	tera.session = (new Date).getTime();
+	tera.UICurrentInput = undefined;
+	tera.loadedEntries = {};
+
 
 	document.addEventListener('contextmenu', function(e) {
 		if(e.button === 2) {
-			teraUICurrentInput = getEditable(e.target);
+			tera.UICurrentInput = tera.getEditable(e.target);
 		}
 	});
 
 	document.addEventListener('click', function(e) {
-		if(teraUIIsShowing) hideUI();
+		if(tera.UIIsShowing) tera.hideUI();
 	});
 
 	window.addEventListener('resize', function() {
-		if(teraUIIsShowing) {
-			positionUI();
+		if(tera.UIIsShowing) {
+			tera.positionUI();
 		}
 	});
 
-	teraUIResults.addEventListener('click', function(e) {
+	document.addEventListener('keyup', function(e) {
+		if(tera.isEditable(e.target)) {
+			tera.saveEntry(e);
+		}
+	});
+
+	document.addEventListener('focus', function(e) {
+		if(tera.UIIsShowing) tera.hideUI();
+	}, true);
+
+	tera.UIResults.addEventListener('click', function(e) {
 		var item = e.target,
-			input = teraUICurrentInput;
+			input = tera.UICurrentInput;
 
 		if(item.dataset.timestamp !== undefined) {
-			setInputValueByTimestamp(item.dataset.timestamp);
+			tera.setInputValueByTimestamp(item.dataset.timestamp);
 			delete input.dataset.orgValue;
 		}
 		if('delete' in item.dataset) {
-			deleteValue(item.dataset.delete);
+			tera.deleteEntry(item.dataset.delete);
 			item.parentElement.remove();
 			e.stopPropagation();
 			return true;
 		}
 
-		hideUI();
+		tera.hideUI();
 		input.classList.remove('teraUIActiveInput');
 
 		e.stopPropagation();
 	});
 
-	teraUIResults.addEventListener('mouseover', function(e) {
+	tera.UIResults.addEventListener('mouseover', function(e) {
 		var item = e.target,
-			input = teraUICurrentInput,
+			input = tera.UICurrentInput,
 			timestamp = item.dataset.timestamp;
 
 		if(input.dataset.orgValue === undefined) {
-			input.dataset.orgValue = getInputValue(input);
+			input.dataset.orgValue = tera.getInputValue(input);
 		}
 		if(timestamp === undefined) {
 			return false;
 		}
 
 		input.classList.add('teraUIActiveInput');
-		setInputValueByTimestamp(timestamp);
+		tera.setInputValueByTimestamp(timestamp);
 	});
 
-	teraUIResults.addEventListener('mouseleave', function(e) {
-		var input = teraUICurrentInput;
+	tera.UIResults.addEventListener('mouseleave', function(e) {
+		var input = tera.UICurrentInput;
 
 		if(input.dataset.orgValue !== undefined) {
-			setInputValue(input.dataset.orgValue);
+			tera.setInputValue(input.dataset.orgValue);
 			delete input.dataset.orgValue;
 		}
 		input.classList.remove('teraUIActiveInput');
 	});
 
-	function getInputValue(elem) {
+
+
+
+	tera.getInputValue = function(elem) {
 		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
 			return elem.value;
 		}
 		return elem.innerHTML;
 	}
 
-	function setInputValue(val) {
-		var input = teraUICurrentInput;
+	tera.setInputValue = function(val) {
+		var input = tera.UICurrentInput;
 		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
 			input.value = val;
 		}
 		input.innerHTML = val;
 	}
 
-	function setInputValueByTimestamp(timestamp) {
-		if(!(timestamp in teraUICurrentLoadedValues)) {
+	tera.setInputValueByTimestamp = function(timestamp) {
+		if(!(timestamp in tera.loadedEntries)) {
 			return false;
 		}
-		var valueObj = teraUICurrentLoadedValues[timestamp],
-			input = teraUICurrentInput;
+		var valueObj = tera.loadedEntries[timestamp],
+			input = tera.UICurrentInput;
 
 		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
 			input.value = valueObj.value;
@@ -101,7 +119,7 @@
 	}
 
 	// Check if element is editable
-	function isEditable(elem) {
+	tera.isEditable = function(elem) {
 		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') == 'true') {
 			return true;
 		}
@@ -109,60 +127,50 @@
 	}
 	
 	// Check if element is editable OR is within a contenteditable parent
-	function getEditable(elem) {
+	tera.getEditable = function(elem) {
 		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') == 'true') {
 			return elem;
 		}
-		return findClosestParent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
+		return tera.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
 	}
 
-	document.addEventListener('keyup', function(e) {
-		if(isEditable(e.target)) {
-			saveValue(e);
-		}
-	});
-
-	document.addEventListener('focus', function(e) {
-		if(teraUIIsShowing) hideUI();
-	}, true);
-
-	function buildUI() {
+	tera.buildUI = function() {
 
 		// If opened before window has finished loading
-		if(!teraUICurrentInput) {
+		if(!tera.UICurrentInput) {
 			return false;
 		}
 
-		var input = teraUICurrentInput,
-			inPath = getDomPath(input),
-			inHashPath = inPath.hashCode(),
-			inValues = getValuesByPath(inPath);
+		var input = tera.UICurrentInput,
+			inPath = tera.generateDomPath(input),
+			inHashPath = tera.helpers.hashCode(inPath),
+			inValues = tera.getEntryByPath(inPath);
 
-		teraUICurrentLoadedValues = inValues ? inValues : {};
+		tera.loadedEntries = inValues ? inValues : {};
 
-		positionUI();
+		tera.positionUI();
 
 		if(inValues && Object.keys(inValues).length > 0) {
 			var html = '';
-			inValues[sessionId] = true; // Mock current session, won't show anyway
+			inValues[tera.session] = true; // Mock current session, won't show anyway
 			for(var timestamp in inValues) {
 
 				// Current session, don't need to show
-				if(timestamp == sessionId) {continue;}
+				if(timestamp == tera.session) {continue;}
 
 				var valobj = inValues[timestamp],
-					prepStr = valobj.value.encodeHTML().substring(0,50);
+					prepStr = tera.helpers.encodeHTML(valobj.value).substring(0,50);
 
 				html += '<li data-timestamp="'+ timestamp +'"><span title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
 			}
-			teraUIResults.innerHTML = html;
+			tera.UIResults.innerHTML = html;
 		} else {
-			teraUIResults.innerHTML = '<li>Nothing to recover</li>';
+			tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
 		}
 	}
 
-	function positionUI() {
-		var inputRect = teraUICurrentInput.getBoundingClientRect(),
+	tera.positionUI = function() {
+		var inputRect = tera.UICurrentInput.getBoundingClientRect(),
 		UIWidth = 250, leftPos = 0;
 
 		if((inputRect.left + inputRect.width + UIWidth) <= window.innerWidth) {
@@ -176,22 +184,22 @@
 		teraUI.style = 'top: '+ (inputRect.top + window.scrollY) +'px; left: '+ leftPos +'px;';
 	}
 
-	function showUI() {
+	tera.showUI = function() {
 		teraUI.classList.remove('hidden');
-		teraUIIsShowing = true;
+		tera.UIIsShowing = true;
 	};
-	function hideUI() {
+	tera.hideUI = function() {
 		teraUI.classList.add('hidden');
-		teraUIIsShowing = false;
-		//teraUICurrentInput = undefined;
+		tera.UIIsShowing = false;
+		//tera.UICurrentInput = undefined;
 	};
 
-	function saveValue(e) {
+	tera.saveEntry = function(e) {
 		var elem = e.target || e, // For testing
-			path = getDomPath(elem),
-			value = getInputValue(elem),
-			cleanValue = value.encodeHTML(),
-			elemPathHash = ""+path.hashCode();
+			path = tera.generateDomPath(elem),
+			value = tera.getInputValue(elem),
+			cleanValue = tera.helpers.encodeHTML(value),
+			elemPathHash = "" + tera.helpers.hashCode(path);
 
 		// Min length of string to save
 		if(cleanValue.length < 3) {
@@ -202,9 +210,9 @@
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
 
-		currValue = sortAndSliceValues(currValue, 10);
+		currValue = tera.prepareEntryObject(currValue, 10);
 
-		currValue[sessionId] = {
+		currValue[tera.session] = {
 			"value" : value,
 			"path" : path
 		}
@@ -214,10 +222,10 @@
 		sessionStorage.setItem('teraField-' + elemPathHash, currValue);
 	}
 
-	function deleteValue(timestamp) {
-		var input = teraUICurrentInput,
-			inPath = getDomPath(input),
-			inHash = inPath.hashCode(),
+	tera.deleteEntry = function(timestamp) {
+		var input = tera.UICurrentInput,
+			inPath = tera.generateDomPath(input),
+			inHash = tera.helpers.hashCode(inPath),
 			currValue = sessionStorage.getItem('teraField-' + inHash),
 
 			currValue = JSON.parse(currValue),
@@ -230,17 +238,46 @@
 		sessionStorage.setItem('teraField-' + inHash, currValue);
 	}
 
-	function getValuesByPath(path) {
-		var hashedPath = path.hashCode(),
+	tera.getEntryByPath = function(path) {
+		var hashedPath = tera.helpers.hashCode(path),
 			values = sessionStorage.getItem('teraField-' + hashedPath),
 			values = values ? JSON.parse(values) : null;
 
 		return values;
 	}
 
+	tera.prepareEntryObject = function(obj, size) {
 
-	function getDomPath(el) {
+		var timestamps = [], timestamp, count = 0, sliced = {};
 
+		// Store all timestamps
+		for(timestamp in obj) {
+			if(obj.hasOwnProperty(timestamp)) {
+				timestamps.push(parseInt(timestamp));
+			}
+		}
+
+		// Sort timestamps
+		timestamps = timestamps.sort(function(a, b) {
+			return a - b;
+		}).reverse();
+
+		// Grab X values from obj in order of sorted timestamps
+		for(; count < timestamps.length; ++count) {
+			if(count >= size) break;
+			sliced[timestamps[count]] = obj[timestamps[count]];
+		}
+
+		return sliced;
+	};
+
+	tera.parent = function(startElement, fn) {
+		var parent = startElement.parentElement;
+		if (!parent) return undefined;
+		return fn(parent) ? parent : tera.parent(parent, fn);
+	}
+
+	tera.generateDomPath = function(el) {
 		// Check easy way first
 		if(el.id) {
 			return '#' + el.id;
@@ -273,30 +310,24 @@
 	}
 
 
-	String.prototype.hashCode = function(){
+	tera.helpers.hashCode = function(str){
 		var hash = 0;
-		if (this.length == 0) return hash;
-		for (i = 0; i < this.length; i++) {
-			char = this.charCodeAt(i);
+		if (str.length == 0) return hash;
+		for (i = 0; i < str.length; i++) {
+			char = str.charCodeAt(i);
 			hash = ((hash<<5)-hash)+char;
 			hash = hash & hash; // Convert to 32bit integer
 		}
 		return hash;
 	}
 
-	String.prototype.encodeHTML = function() {
-		return this.replace(/<\/?[^>]+(>|$)/g, "").replace(/[\"&'\/<>]/g, function (a) {
+	tera.helpers.encodeHTML = function(str) {
+		return str.replace(/<\/?[^>]+(>|$)/g, "").replace(/[\"&'\/<>]/g, function (a) {
 			return {
 				'"': '&quot;', '&': '&amp;', "'": '&#39;',
 				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
 			}[a];
 		});
-	}
-
-	function findClosestParent (startElement, fn) {
-		var parent = startElement.parentElement;
-		if (!parent) return undefined;
-		return fn(parent) ? parent : findClosestParent(parent, fn);
 	}
 
 	// Used to check if script is already injected. Message is sent from background.js
@@ -305,34 +336,9 @@
 			sendResponse(true);
 		}
 		else if(request.action === 'contextMenuRecover') {
-			buildUI();
-			showUI();
+			tera.buildUI();
+			tera.showUI();
 		}
 	});
-
-	function sortAndSliceValues(obj, size) {
-
-		var timestamps = [], timestamp, count = 0, sliced = {};
-
-		// Store all timestamps
-		for(timestamp in obj) {
-			if(obj.hasOwnProperty(timestamp)) {
-				timestamps.push(parseInt(timestamp));
-			}
-		}
-
-		// Sort timestamps
-		timestamps = timestamps.sort(function(a, b) {
-			return a - b;
-		}).reverse();
-
-		// Grab X values from obj in order of sorted timestamps
-		for(; count < timestamps.length; ++count) {
-			if(count >= size) break;
-			sliced[timestamps[count]] = obj[timestamps[count]];
-		}
-
-		return sliced;
-	};
 
 })();
