@@ -15,9 +15,7 @@
 
 
 	document.addEventListener('contextmenu', function(e) {
-		if(e.button === 2) {
-			tera.UICurrentInput = tera.getEditable(e.target);
-		}
+		tera.UICurrentInput = tera.getEditable(e.target);
 	});
 
 	document.addEventListener('click', function(e) {
@@ -44,15 +42,23 @@
 		var item = e.target,
 			input = tera.UICurrentInput;
 
+		if('delete' in item.dataset) {
+
+			// Delete from storage and delete dom entry
+			tera.deleteEntry(item.dataset.delete);
+			item.parentElement.remove();
+
+			// Restore input text from before hovering
+			tera.setInputValue(input.dataset.orgValue);
+			delete input.dataset.orgValue;
+			input.classList.remove('teraUIActiveInput');
+
+			e.stopPropagation();
+			return true;
+		}
 		if(item.dataset.timestamp !== undefined) {
 			tera.setInputValueByTimestamp(item.dataset.timestamp);
 			delete input.dataset.orgValue;
-		}
-		if('delete' in item.dataset) {
-			tera.deleteEntry(item.dataset.delete);
-			item.parentElement.remove();
-			e.stopPropagation();
-			return true;
 		}
 
 		tera.hideUI();
@@ -149,9 +155,7 @@
 		tera.loadedEntries = inValues ? inValues : {};
 
 		// Don't show current entry
-		delete inValues[tera.session];
-
-		tera.positionUI();
+		if(inValues && Object.keys(inValues).length > 0) delete inValues[tera.session];
 
 		if(inValues && Object.keys(inValues).length > 0) {
 			var html = '';
@@ -166,6 +170,8 @@
 		} else {
 			tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
 		}
+
+		tera.positionUI();
 	}
 
 	tera.positionUI = function() {
