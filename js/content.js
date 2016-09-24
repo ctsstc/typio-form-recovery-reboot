@@ -24,10 +24,10 @@
 			now = tera.session;
 
 
-		for (field in sessionStorage) {
+		for (field in localStorage) {
 			if(field.indexOf('teraField') === 0) {
 
-				var entries = JSON.parse(sessionStorage[field]);
+				var entries = JSON.parse(localStorage[field]);
 
 				// Field has entries
 				if(Object.keys(entries).length > 0) {
@@ -35,26 +35,20 @@
 						var timeleft = (now-timestamp);
 
 						// Too old
-						if (timeleft > 20) {
-							console.log('deleting', entries[timestamp]);
+						if (timeleft > 60) {
 							delete entries[timestamp];
-						} else {
-							console.log('keeping', timeleft);
 						}
 					}
 
 					// There are entries left, save again
 					if(Object.keys(entries).length > 0) {
 						entries = JSON.stringify(entries);
-						sessionStorage.setItem(field, entries);
+						localStorage.setItem(field, entries);
 					
-					} // Too old, delete
+					} // All entries are gone, it's an empty object
 					else {
-						sessionStorage.removeItem(field);
+						localStorage.removeItem(field);
 					}
-
-					// Save field entries again
-					console.log(entries);
 				}
 			}
 		}
@@ -176,7 +170,7 @@
 			return false;
 		}
 
-		var currValue = sessionStorage.getItem('teraField-' + elemPathHash),
+		var currValue = localStorage.getItem('teraField-' + elemPathHash),
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
 
@@ -189,14 +183,14 @@
 
 		// Update storage
 		currValue = JSON.stringify(currValue);
-		sessionStorage.setItem('teraField-' + elemPathHash, currValue);
+		localStorage.setItem('teraField-' + elemPathHash, currValue);
 	}
 
 	tera.deleteEntry = function(timestamp) {
 		var input = tera.UICurrentInput,
 			inPath = tera.generateDomPath(input),
 			elemPathHash = tera.helpers.hashCode(inPath),
-			currValue = sessionStorage.getItem('teraField-' + elemPathHash),
+			currValue = localStorage.getItem('teraField-' + elemPathHash),
 
 			currValue = JSON.parse(currValue),
 			currValue = currValue ? currValue : {};
@@ -205,18 +199,18 @@
 
 		// If this is the last entry, just delete the whole storage item
 		if(Object.keys(currValue).length === 0) {
-			sessionStorage.removeItem('teraField-' + elemPathHash);
+			localStorage.removeItem('teraField-' + elemPathHash);
 
 		// Otherwise save storage item
 		} else {
 			currValue = JSON.stringify(currValue);
-			sessionStorage.setItem('teraField-' + elemPathHash, currValue);
+			localStorage.setItem('teraField-' + elemPathHash, currValue);
 		}
 	}
 
 	tera.getEntryByPath = function(path) {
 		var hashedPath = tera.helpers.hashCode(path),
-			values = sessionStorage.getItem('teraField-' + hashedPath),
+			values = localStorage.getItem('teraField-' + hashedPath),
 			values = values ? JSON.parse(values) : null;
 
 		return values;
@@ -307,13 +301,11 @@
 	}
 
 	tera.helpers.debounce = function(fn, delay) {
-		//return function () {
-			var context = this, args = arguments;
-			clearTimeout(tera.helpers.debounce.func);
-			tera.helpers.debounce.func = setTimeout(function () {
-				fn.apply(context, args);
-			}, delay);
-		//};
+		var context = this, args = arguments;
+		clearTimeout(tera.helpers.debounce.func);
+		tera.helpers.debounce.func = setTimeout(function () {
+			fn.apply(context, args);
+		}, delay);
 	}
 	tera.helpers.debounce.func = null;
 
@@ -346,12 +338,14 @@
 	});
 
 	document.addEventListener('keyup', function(e) {
+		var target = e.target;
+
 		tera.helpers.debounce(function() {
-			if(tera.isEditable(e.target)) {
-				console.log('saving target');
-				tera.saveEntry(e.target);
+			if(tera.isEditable(target)) {
+				//document.body.querySelector('.debug').innerHTML = (target.value || target);
+				tera.saveEntry(target);
 			}
-		}, 500);
+		}, 400);
 	});
 
 	document.addEventListener('focus', function(e) {
