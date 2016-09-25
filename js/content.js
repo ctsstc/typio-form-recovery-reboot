@@ -308,6 +308,7 @@
 
 	// Alright this works but i don't really understand it
 	// and it's probably not implemented correctly. Should fix.
+	/*
 	tera.helpers.debounce = function(fn, delay) {
 		var context = this, args = arguments;
 		clearTimeout(tera.helpers.debounce.func);
@@ -316,6 +317,7 @@
 		}, delay);
 	}
 	tera.helpers.debounce.func = null;
+	*/
 
 	// Used to check if script is already injected. Message is sent from background.js
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -332,6 +334,7 @@
 
 
 	document.addEventListener('contextmenu', function(e) {
+		if(tera.UIIsShowing) tera.hideUI();
 		tera.UICurrentInput = tera.getEditable(e.target);
 	});
 
@@ -348,11 +351,11 @@
 	document.addEventListener('keyup', function(e) {
 		var target = e.target;
 
-		tera.helpers.debounce(function() {
+		//tera.helpers.debounce(function() {
 			if(tera.isEditable(target)) {
 				tera.saveEntry(target);
 			}
-		}, 400);
+		//}, 400);
 	});
 
 	document.addEventListener('focus', function(e) {
