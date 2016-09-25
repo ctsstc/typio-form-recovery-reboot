@@ -1,6 +1,7 @@
 
 var toggleBlackButton = document.getElementById('toggleBlacklist'),
 	clearDataButton = document.getElementById('clearDomainStorage'),
+	moreOptionsLink = document.getElementById('moreOptionsLink'),
 	tabId, url;
 
 chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
@@ -12,6 +13,9 @@ chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
 	});
 });
 
+moreOptionsLink.addEventListener('click', function() {
+	chrome.runtime.openOptionsPage();
+});
 
 clearDataButton.addEventListener('click', function() {
 	clearDataButton.innerHTML = 'Deleting...';
