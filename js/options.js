@@ -18,6 +18,7 @@
 					continue;
 				}
 
+
 				// If we have a stored value of this option, update form elem
 				if((stored[optionName] !== undefined)) {
 

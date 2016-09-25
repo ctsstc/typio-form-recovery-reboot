@@ -13,12 +13,37 @@
 	tera.UICurrentInput = undefined;
 	tera.loadedEntries = {},
 	tera.storagePrefix = 'teraField';
+	tera.allowedFieldTypes = ['text', 'search', 'url', 'email', 'color', 'date', 'datetime', 'time', 'datetime-local', 'month', 'week', 'number', 'range', 'tel'];
+	tera.options = {
+		savePasswords: false,
+		storageTimeDays: 7
+	};
+	tera.optionValidators = {
+		savePasswords: function(bool) {
+			return bool == true ? true : false;
+		},
+		storageTimeDays: function(days) {
+			days = parseInt(days);
+			return days > 0 && days < 365 ? days : tera.options.storageTimeDays;
+		}
+	};
 
 	tera.init = function() {
-		tera.cleanEntries();
-	}
 
-	var shh = 0;
+		// Remove expired entries
+		tera.cleanEntries();
+
+		// Override default options
+		chrome.storage.sync.get(null, function(options) {
+			if(options) {
+				for(opt in options) {
+					if(opt in tera.options) {
+						tera.options[opt] = tera.optionValidators[opt](options[opt]);
+					}
+				}
+			}
+		});
+	}
 
 	tera.cleanEntries = function() {
 		var entries = [],
@@ -35,8 +60,8 @@
 					for(timestamp in entries) {
 						var timeleft = (now-timestamp);
 
-						// Too old, 1 week timeout
-						if (timeleft > 604800) {
+						// Too old
+						if (timeleft > (tera.options.storageTimeDays*86400)) {
 							delete entries[timestamp];
 						}
 					}
@@ -86,17 +111,31 @@
 
 	// Check if element is editable
 	tera.isEditable = function(elem) {
-		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') == 'true') {
+
+		// Check if input with valid type
+		if(elem.nodeName == 'INPUT' && tera.allowedFieldTypes.includes(elem.type)) {
+			return true;
+
+		// If it's a password input, check if that's allowed
+		} else if(elem.nodeName == 'INPUT' && elem.type == 'password' && tera.options.savePasswords == true) {
+			return true;
+
+		// Check if textarea
+		} else if(elem.nodeName == 'TEXTAREA') {
+			return true;
+
+		// Check if contenteditable
+		} else if(elem.getAttribute('contenteditable') == 'true') {
 			return true;
 		}
+
+		// Nah, fuck off mate-o
 		return false;
 	}
 	
 	// Check if element is editable OR is within a contenteditable parent
 	tera.getEditable = function(elem) {
-		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA' || elem.getAttribute('contenteditable') == 'true') {
-			return elem;
-		}
+		if(tera.isEditable(elem)) return elem;
 		return tera.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
 	}
 
@@ -346,8 +385,10 @@
 			sendResponse(true);
 		}
 		else if(request.action === 'contextMenuRecover') {
-			tera.buildUI();
-			tera.showUI();
+			if(tera.UICurrentInput) {
+				tera.buildUI();
+				tera.showUI();
+			}
 		}
 	});
 
@@ -357,8 +398,11 @@
 	document.addEventListener('contextmenu', function(e) {
 		if(tera.UIIsShowing) tera.hideUI();
 		var newInput = tera.getEditable(e.target);
+
 		if(newInput) {
 			tera.UICurrentInput = newInput;
+		} else {
+			tera.UICurrentInput = undefined;
 		}
 	});
 
@@ -375,11 +419,9 @@
 	document.addEventListener('keyup', function(e) {
 		var target = e.target;
 
-		//tera.helpers.debounce(function() {
-			if(tera.isEditable(target)) {
-				tera.saveEntry(target);
-			}
-		//}, 400);
+		if(tera.isEditable(target)) {
+			tera.saveEntry(target);
+		}
 	});
 
 	document.addEventListener('focus', function(e) {
