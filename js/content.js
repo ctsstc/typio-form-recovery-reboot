@@ -136,8 +136,9 @@
 					entry = entries[timestamp],
 					prepStr = tera.helpers.encodeHTML(entry.value).substring(0,50);
 
-				html += '<li data-timestamp="'+ timestamp +'"><span title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
+				html += '<li data-timestamp="'+ timestamp +'"><span class="icon-right" title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
 			}
+			html += '<li class="has-icon-left" data-delete-all="'+ inHashPath +'"><span class="icon-left"></span>Delete all entries</li>';
 
 			tera.UIResults.innerHTML = html;
 
@@ -171,7 +172,6 @@
 	tera.hideUI = function() {
 		teraUI.classList.add('hidden');
 		tera.UIIsShowing = false;
-		//tera.UICurrentInput = undefined;
 	};
 
 	tera.saveEntry = function(e) {
@@ -221,6 +221,16 @@
 		} else {
 			currValue = JSON.stringify(currValue);
 			localStorage.setItem(tera.storagePrefix + elemPathHash, currValue);
+		}
+	}
+
+	tera.deleteAllEntriesByPathHash = function(hash) {
+		var entries = localStorage.getItem(tera.storagePrefix + hash),
+			entries = JSON.parse(entries),
+			entries = entries ? entries : {};
+
+		if(Object.keys(entries).length > 0) {
+			localStorage.removeItem(tera.storagePrefix + hash)
 		}
 	}
 
@@ -346,7 +356,10 @@
 
 	document.addEventListener('contextmenu', function(e) {
 		if(tera.UIIsShowing) tera.hideUI();
-		tera.UICurrentInput = tera.getEditable(e.target);
+		var newInput = tera.getEditable(e.target);
+		if(newInput) {
+			tera.UICurrentInput = newInput;
+		}
 	});
 
 	document.addEventListener('click', function(e) {
@@ -377,7 +390,10 @@
 		var item = e.target,
 			input = tera.UICurrentInput;
 
+		// If delete was clicked
 		if('delete' in item.dataset) {
+
+			var ul = item.parentElement.parentElement;
 
 			// Delete from storage and delete dom entry
 			tera.deleteEntry(item.dataset.delete);
@@ -388,8 +404,20 @@
 			delete input.dataset.orgValue;
 			input.classList.remove('teraUIActiveInput');
 
+			// If no more entries, hide
+			var lis = ul.querySelector('li[data-timestamp]');
+			if(!ul.querySelector('li[data-timestamp]')) {
+				tera.hideUI();
+			}
+
 			e.stopPropagation();
 			return true;
+
+		// If delete all was clicked
+		} else if('deleteAll' in item.dataset) {
+			var hashPath = item.dataset.deleteAll;
+			tera.deleteAllEntriesByPathHash(hashPath);
+			tera.hideUI();
 		}
 		if(item.dataset.timestamp !== undefined) {
 			tera.setInputValueByTimestamp(item.dataset.timestamp);
