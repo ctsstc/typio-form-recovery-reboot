@@ -110,30 +110,41 @@
 		var input = tera.UICurrentInput,
 			inPath = tera.generateDomPath(input),
 			inHashPath = tera.helpers.hashCode(inPath),
-			inValues = tera.getEntriesByPath(inPath);
+			entries = tera.getEntriesByPath(inPath);
 
-		tera.loadedEntries = inValues ? inValues : {};
-
+		// Used when entry is selected in dropdown
+		tera.loadedEntries = entries ? entries : {};
 
 		// Don't show current entry
-		if(inValues && Object.keys(inValues).length > 0) delete inValues[tera.session];
+		if(entries && Object.keys(entries).length > 0) delete entries[tera.session];
 
 		// Build entry list
-		if(inValues && Object.keys(inValues).length > 0) {
-			var html = '', timestamp;
-			for(timestamp in inValues) {
-				var valobj = inValues[timestamp],
-					prepStr = tera.helpers.encodeHTML(valobj.value).substring(0,50);
+		if(entries && Object.keys(entries).length > 0) {
+			var timestamps = [],
+				timestamp,
+				html = '';
+
+			// Grab all timestamps and sort them newest > oldest
+			for(timestamp in entries) {
+				timestamps.push(parseInt(timestamp));
+			}
+			timestamps.sort().reverse();
+
+			// Loop through timestamps in order and build entries
+			for(timestamp in timestamps) {
+				var timestamp = timestamps[timestamp];
+					entry = entries[timestamp],
+					prepStr = tera.helpers.encodeHTML(entry.value).substring(0,50);
 
 				html += '<li data-timestamp="'+ timestamp +'"><span title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
 			}
+
 			tera.UIResults.innerHTML = html;
 
 		// No entries, show fallback
 		} else {
 			tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
 		}
-
 
 		tera.positionUI();
 	}
