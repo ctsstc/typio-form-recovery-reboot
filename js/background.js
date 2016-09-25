@@ -75,8 +75,8 @@ function getOption(option, callback) {
 
 function isBlacklisted(url, callback) {
 
-	// Grab current hostname without subdomain
-	var currDom = new URL(url).hostname.match(/\w+.\w+$/)[0];
+	// Grab current hostname with subdomain
+	var currDom = new URL(url).hostname;
 
 	getOption('domainBlacklist', function(stored) {
 		if(!stored) {
