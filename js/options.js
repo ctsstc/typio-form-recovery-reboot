@@ -18,22 +18,24 @@
 					continue;
 				}
 
-				// Skip if invalid stored value
-				if(stored[optionName] == 'undefined') {
-					continue;
-				}
+				// If we have a stored value of this option, update form elem
+				if((stored[optionName] !== undefined)) {
 
-				// Check if we have a stored value of this option,
-				// and if so, update form elem
-				if(stored[optionName] !== 'undefined') {
-					if(opt.type === 'checkbox') {
-						opt.checked = stored[optionName];
+					// If checkbox/radio, compare value before setting "checked" attribute
+					if(opt.type === 'checkbox' || opt.type === 'radio') {
+						if(opt.value == stored[optionName]) {
+							opt.checked = true;
+						} else {
+							opt.checked = false;
+						}
+
+					// Not checkbox, just set value
 					} else {
 						opt.value = stored[optionName];
 					}
 				}
 
-				// Change listener which updates stored value
+				// Set event listener which updates stored value
 				opt.onchange = saveOption;
 				opt.onkeyup = saveOption;
 			}
@@ -45,10 +47,6 @@
 		var value = this.value,
 			optionName = this.getAttribute('data-option'),
 			data = {};
-
-		if(this.type === 'checkbox') {
-			value = this.checked;
-		}
 
 		data[optionName] = value;
 
