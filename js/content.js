@@ -191,14 +191,21 @@
 
 	tera.positionUI = function() {
 		var inputRect = tera.UICurrentInput.getBoundingClientRect(),
-		UIWidth = 250, leftPos = 0;
+			bodyRect = document.body.getBoundingClientRect(),
+			UIWidth = 250, leftPos = 0,
+			inputBodyOffset = inputRect.left - bodyRect.left;
 
-		if((inputRect.left + inputRect.width + UIWidth) <= window.innerWidth) {
-			leftPos = inputRect.left + inputRect.width;
+		// First try to align on right side of input
+		if((inputRect.left + inputRect.width + UIWidth) <= document.documentElement.clientWidth) {
+			leftPos = inputBodyOffset + inputRect.width;
+
+		// Otherwise align on left side of input
 		} else if((inputRect.left - UIWidth) > 0) {
-			leftPos = inputRect.left - UIWidth;
+			leftPos = inputBodyOffset - UIWidth;
+
+		// Otherwise align right side of window
 		} else {
-			leftPos = window.innerWidth - UIWidth;
+			leftPos = document.documentElement.clientWidth - UIWidth;
 		}
 
 		teraUI.style = 'top: '+ (inputRect.top + window.scrollY) +'px; left: '+ leftPos +'px;';
