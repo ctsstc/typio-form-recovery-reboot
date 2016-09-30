@@ -31,6 +31,7 @@
 			overflow: hidden;
 			white-space: nowrap;
 			transition-duration: .2s;
+			text-align: left; // Reset
 
 			&:last-child {
 				border-top: 1px solid #DDD;
