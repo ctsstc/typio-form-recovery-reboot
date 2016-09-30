@@ -177,7 +177,7 @@
 
 				html += '<li data-timestamp="'+ timestamp +'"><span class="icon-right" title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
 			}
-			html += '<li class="has-icon-left" data-delete-all="'+ inHashPath +'"><span class="icon-left"></span>Delete all entries</li>';
+			html += '<li data-delete-all="'+ inHashPath +'">Delete all entries</li>';
 
 			tera.UIResults.innerHTML = html;
 

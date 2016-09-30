@@ -46,11 +46,7 @@
 				}
 			}
 
-			&.has-icon-left {
-				padding-left: 30px;
-			}
-
-			.icon-right, .icon-left {
+			.icon-right {
 				position: absolute;
 				top: 0;
 				bottom: 0;
@@ -71,11 +67,6 @@
 					opacity: 1;
 					transition-duration: .2s;
 				}
-			}
-			.icon-left {
-				left: 0;
-				opacity: .7;
-				background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMyMzFGMjA7fQo8L3N0eWxlPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yODQuMywyNDUuMWwxMTAuOS0xMTAuOWM3LjgtNy44LDcuOC0yMC41LDAtMjguM3MtMjAuNS03LjgtMjguMywwTDI1NiwyMTYuOEwxNDUuMSwxMDUuOSAgYy03LjgtNy44LTIwLjUtNy44LTI4LjMsMHMtNy44LDIwLjUsMCwyOC4zbDExMC45LDExMC45TDExNi45LDM1NS45Yy03LjgsNy44LTcuOCwyMC41LDAsMjguM2MzLjksMy45LDksNS45LDE0LjEsNS45ICBjNS4xLDAsMTAuMi0yLDE0LjEtNS45TDI1NiwyNzMuM2wxMTAuOSwxMTAuOWMzLjksMy45LDksNS45LDE0LjEsNS45czEwLjItMiwxNC4xLTUuOWM3LjgtNy44LDcuOC0yMC41LDAtMjguM0wyODQuMywyNDUuMXoiLz48L3N2Zz4=);
 			}
 		}
 	}
