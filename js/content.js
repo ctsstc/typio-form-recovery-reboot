@@ -1,3 +1,5 @@
+"use strict";
+
 ;(function() {
 
 	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='result-list'></ul></div>");
