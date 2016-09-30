@@ -1,4 +1,3 @@
-"use strict";
 
 ;(function() {
 
@@ -38,7 +37,7 @@
 		// Override default options
 		chrome.storage.sync.get(null, function(options) {
 			if(options) {
-				for(opt in options) {
+				for(var opt in options) {
 					if(opt in tera.options) {
 						tera.options[opt] = tera.optionValidators[opt](options[opt]);
 					}
@@ -52,14 +51,14 @@
 			now = tera.session;
 
 
-		for (field in localStorage) {
+		for (var field in localStorage) {
 			if(field.indexOf(tera.storagePrefix) === 0) {
 
 				var entries = JSON.parse(localStorage[field]);
 
 				// Field has entries
 				if(Object.keys(entries).length > 0) {
-					for(timestamp in entries) {
+					for(var timestamp in entries) {
 						var timeleft = (now-timestamp);
 
 						// Too old

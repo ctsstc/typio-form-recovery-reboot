@@ -1,4 +1,3 @@
-"use strict";
 
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 

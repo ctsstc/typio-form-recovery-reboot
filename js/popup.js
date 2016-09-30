@@ -1,4 +1,4 @@
-"use strict";
+
 
 var toggleBlackButton = document.getElementById('toggleBlacklist'),
 	clearDataButton = document.getElementById('clearDomainStorage'),
