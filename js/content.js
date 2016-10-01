@@ -14,7 +14,7 @@
 	tera.UICurrentInput = undefined;
 	tera.loadedEntries = {},
 	tera.storagePrefix = 'teraField';
-	tera.allowedFieldTypes = ['text', 'search', 'url', 'email', 'color', 'date', 'datetime', 'time', 'datetime-local', 'month', 'week', 'number', 'range', 'tel'];
+	tera.allowedFieldTypes = ['text', 'search', 'url', 'email', 'number', 'tel'];
 	tera.options = {
 		savePasswords: false,
 		storageTimeDays: 7
