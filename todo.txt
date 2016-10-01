@@ -1,4 +1,0 @@
-Improve settings page
-Make logo
-Use localstorage instead of sessionstorage
-Fix double dash in session name

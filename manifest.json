@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
 
-    "name": "Tera Form Recovery",
+    "name": "Typio Form Recovery",
     "description": "Robust form recovery that just works.",
     "version": "1.0",
     "icons": {
@@ -36,7 +36,7 @@
             "16": "img/icon16.png",
             "38": "img/icon38.png"
         },
-        "default_title": "Form recovery",
+        "default_title": "Typio Form recovery",
         "default_popup": "html/popup.html"
     }
 }
