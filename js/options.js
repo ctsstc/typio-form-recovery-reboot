@@ -1,4 +1,3 @@
-
 ;(function() {
 
 	var options = document.getElementsByClassName('autosave');

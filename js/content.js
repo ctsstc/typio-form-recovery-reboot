@@ -1,4 +1,3 @@
-
 ;(function() {
 
 	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='tera-result-list'></ul></div>");
@@ -521,16 +520,8 @@
 			tera.hideUI();
 		}
 
-		/*
-		// ???
-		if(item.dataset.timestamp !== undefined) {
-			tera.setInputPlaceholdersByTimestamp(item.dataset.timestamp);
-			delete input.dataset.orgValue;
-		}
-		*/
-
 		tera.hideUI();
-		tera.resetPlaceholders(true); // Remove placeholder styling from all inputs
+		tera.resetPlaceholders(true); // Remove placeholder styling from all inputs, keeps the text
 
 		e.stopPropagation();
 	});
