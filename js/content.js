@@ -1,14 +1,14 @@
 
 ;(function() {
 
-	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='result-list'></ul></div>");
+	document.body.insertAdjacentHTML('afterbegin', "<div id='teraUI' class='hidden'><ul class='tera-result-list'></ul></div>");
 
 
 	var tera = {};
 	tera.helpers = {};
 
 	tera.UI = document.querySelector('#teraUI');
-	tera.UIResults = teraUI.querySelector('.result-list');
+	tera.UIResults = teraUI.querySelector('.tera-result-list');
 	tera.UIIsShowing = false;
 	tera.session = Math.round(new Date().getTime()/1000);
 	tera.UICurrentInput = undefined;
@@ -89,25 +89,65 @@
 		return elem.innerHTML;
 	}
 
-	tera.setInputValue = function(val) {
-		var input = tera.UICurrentInput;
+	// We need to check the node type to set the value correctly so it's better to extract it into one place
+	tera.setInputValue = function(input, val) {
+
+		// Make "val" arg optional
+		if(val === undefined) {
+			val = input;
+			input = tera.UICurrentInput;
+		}
+
 		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
 			input.value = val;
+		} else {
+			input.innerHTML = val;
 		}
-		input.innerHTML = val;
 	}
 
-	tera.setInputValueByTimestamp = function(timestamp) {
-		if(!(timestamp in tera.loadedEntries)) {
-			return false;
-		}
-		var valueObj = tera.loadedEntries[timestamp],
-			input = tera.UICurrentInput;
+	tera.setInputPlaceholdersByTimestamp = function(timestamp, specificInput) {
 
-		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
-			input.value = valueObj.value;
+		var entryValues = tera.getEntriesByTimestamp(timestamp);
+
+		if(entryValues.length) {
+			for(i in entryValues) {
+				var entry = entryValues[i],
+					input = document.querySelector(entry.path);
+
+				// If a specific input was supplied, only continue if we're looping through that input
+				if(specificInput && specificInput !== input) {
+					continue;
+				}
+
+				input.classList.add('teraUIActiveInput');
+
+				// Save original value, to be restored later
+				if(!input.dataset.hasOwnProperty('orgValue')) {
+					if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
+						input.dataset.orgValue = input.value;
+					} else {
+						input.dataset.orgValue = input.innerHTML;
+					}
+				}
+
+				tera.setInputValue(input, entry.value);
+			}
 		}
-		input.innerHTML = valueObj.value;
+	}
+
+	tera.resetPlaceholders = function(keepValue) {
+		var phs = document.querySelectorAll('.teraUIActiveInput');
+
+		for(i in phs) {
+			var input = phs[i];
+
+			// querySelectorAll returns an object of DOM nodes and a "length" value, we only wanna loop through the DOMs
+			if(!input.nodeName) continue;
+
+			input.classList.remove('teraUIActiveInput');
+			if(!keepValue) tera.setInputValue(input, input.dataset.orgValue);
+			delete input.dataset.orgValue;
+		}
 	}
 
 	// Check if element is editable
@@ -176,7 +216,11 @@
 					entry = entries[timestamp],
 					prepStr = tera.helpers.encodeHTML(entry.value).substring(0,50);
 
-				html += '<li data-timestamp="'+ timestamp +'"><span class="icon-right" title="Delete entry" data-delete="'+ timestamp +'"></span>'+ prepStr +'</li>';
+				html += '<li data-timestamp="'+ timestamp +'">';
+					html += '<span data-delete="'+ timestamp +'" class="tera-icon-right tera-icon-delete" title="Delete entry"></span>';
+					html += '<span data-set-single-entry="'+ timestamp +'" class="tera-icon-right tera-icon-single" title="Recover this input"></span>';
+					html += prepStr;
+				html += '</li>';
 			}
 			html += '<li data-delete-all="'+ inHashPath +'">Delete all entries</li>';
 
@@ -271,6 +315,7 @@
 		}
 	}
 
+	// Delete all entries by input path
 	tera.deleteAllEntriesByPathHash = function(hash) {
 		var entries = localStorage.getItem(tera.storagePrefix + hash),
 			entries = JSON.parse(entries),
@@ -281,12 +326,33 @@
 		}
 	}
 
+	// Get all entries by input path
 	tera.getEntriesByPath = function(path) {
 		var hashedPath = tera.helpers.hashCode(path),
 			values = localStorage.getItem(tera.storagePrefix + hashedPath),
 			values = values ? JSON.parse(values) : null;
 
 		return values;
+	}
+
+	// Get entries from all inputs by timestamp
+	tera.getEntriesByTimestamp = function(timestamp) {
+		var allStorage = localStorage,
+			entries = [];
+
+		for(node in allStorage) {
+			if(node.indexOf(tera.storagePrefix) === 0) {
+				var parsed = JSON.parse(allStorage[node]);
+
+				for(entry in parsed) {
+					if(entry == timestamp) {
+						entries.push(parsed[entry]);
+					}
+				}
+			}
+		}
+
+		return entries;
 	}
 
 	tera.prepareEntryObject = function(obj, size) {
@@ -374,19 +440,6 @@
 	}
 
 
-	// Alright this works but i don't really understand it
-	// and it's probably not implemented correctly. Should fix.
-	/*
-	tera.helpers.debounce = function(fn, delay) {
-		var context = this, args = arguments;
-		clearTimeout(tera.helpers.debounce.func);
-		tera.helpers.debounce.func = setTimeout(function () {
-			fn.apply(context, args);
-		}, delay);
-	}
-	tera.helpers.debounce.func = null;
-	*/
-
 	// Used to check if script is already injected. Message is sent from background.js
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'ping') {
@@ -450,9 +503,7 @@
 			item.parentElement.remove();
 
 			// Restore input text from before hovering
-			tera.setInputValue(input.dataset.orgValue);
-			delete input.dataset.orgValue;
-			input.classList.remove('teraUIActiveInput');
+			tera.resetPlaceholders();
 
 			// If no more entries, hide
 			var lis = ul.querySelector('li[data-timestamp]');
@@ -469,13 +520,17 @@
 			tera.deleteAllEntriesByPathHash(hashPath);
 			tera.hideUI();
 		}
+
+		/*
+		// ???
 		if(item.dataset.timestamp !== undefined) {
-			tera.setInputValueByTimestamp(item.dataset.timestamp);
+			tera.setInputPlaceholdersByTimestamp(item.dataset.timestamp);
 			delete input.dataset.orgValue;
 		}
+		*/
 
 		tera.hideUI();
-		input.classList.remove('teraUIActiveInput');
+		tera.resetPlaceholders(true); // Remove placeholder styling from all inputs
 
 		e.stopPropagation();
 	});
@@ -483,31 +538,23 @@
 	tera.UIResults.addEventListener('mouseover', function(e) {
 		var item = e.target,
 			input = tera.UICurrentInput,
-			timestamp = item.dataset.timestamp;
+			setSingleEntry = item.dataset.setSingleEntry ? input : false,
+			timestamp = item.dataset.timestamp || item.dataset.setSingleEntry;
 
-		if(input.dataset.orgValue === undefined) {
-			input.dataset.orgValue = tera.getInputValue(input);
-		}
+		tera.resetPlaceholders();
+
 		if(timestamp === undefined) {
 			return false;
 		}
 
-		input.classList.add('teraUIActiveInput');
-		tera.setInputValueByTimestamp(timestamp);
+		tera.setInputPlaceholdersByTimestamp(timestamp, setSingleEntry);
 	});
 
 	tera.UIResults.addEventListener('mouseleave', function(e) {
-		var input = tera.UICurrentInput;
-
-		if(input.dataset.orgValue !== undefined) {
-			tera.setInputValue(input.dataset.orgValue);
-			delete input.dataset.orgValue;
-		}
-		input.classList.remove('teraUIActiveInput');
+		tera.resetPlaceholders();
 	});
 
 
 	tera.init();
-
 
 })();
