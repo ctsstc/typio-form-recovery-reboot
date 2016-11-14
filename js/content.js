@@ -13,7 +13,7 @@
 	tera.UICurrentInput = undefined;
 	tera.loadedEntries = {},
 	tera.storagePrefix = 'teraField';
-	tera.allowedFieldTypes = ['text', 'search', 'url', 'email', 'number', 'tel'];
+	tera.allowedFieldTypes = ['checkbox', 'color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
 	tera.options = {
 		savePasswords: false,
 		storageTimeDays: 7
@@ -83,7 +83,15 @@
 
 	tera.getInputValue = function(elem) {
 		if(elem.nodeName == 'INPUT' || elem.nodeName == 'TEXTAREA') {
-			return elem.value;
+
+			// Special care for checkable inputs
+			if(elem.type === 'checkbox' || elem.type === 'radio') {
+				return elem.checked ? 1 : 0;
+
+			} else {
+				return elem.value;
+			}
+
 		}
 		return elem.innerHTML;
 	}
@@ -98,7 +106,30 @@
 		}
 
 		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
-			input.value = val;
+
+			// Special care for checkable inputs
+			if(input.type === 'checkbox') {
+				val = parseInt(val);
+				input.checked = val ? true : false;
+
+			} else if(input.type === 'radio') {
+
+				// Set by value
+				if(val == parseInt(val)) {
+					input.checked = true;
+
+				// Set by path
+				} else {
+					var orgRadio = document.querySelector(val);
+					if(orgRadio) {
+						orgRadio.checked = true;
+					}
+				}
+
+			} else {
+				input.value = val;
+			}
+
 		} else {
 			input.innerHTML = val;
 		}
@@ -123,7 +154,24 @@
 				// Save original value, to be restored later
 				if(!input.dataset.hasOwnProperty('orgValue')) {
 					if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
-						input.dataset.orgValue = input.value;
+
+						if(input.type === 'checkbox') {
+							input.dataset.orgValue = input.checked ? 1 : 0;
+
+						} else if(input.type === 'radio') {
+							var radioSiblings = document.querySelectorAll('input[type=radio][name="'+ input.name +'"]');
+							radioSiblings.forEach(function(sib) {
+								if(sib.checked) {
+									var orgPath = tera.generateDomPath(sib);
+									input.dataset.orgValue = orgPath;
+								}
+							});
+
+						} else {
+							input.dataset.orgValue = input.value;
+						}
+
+					// Contenteditable
 					} else {
 						input.dataset.orgValue = input.innerHTML;
 					}
@@ -144,7 +192,11 @@
 			if(!input.nodeName) continue;
 
 			input.classList.remove('teraUIActiveInput');
-			if(!keepValue) tera.setInputValue(input, input.dataset.orgValue);
+
+			if(!keepValue) {
+				tera.setInputValue(input, input.dataset.orgValue);
+			}
+
 			delete input.dataset.orgValue;
 		}
 	}
@@ -267,13 +319,25 @@
 	tera.saveEntry = function(e) {
 		var elem = e.target || e,
 			path = tera.generateDomPath(elem),
+			elemPathHash = tera.helpers.hashCode(path),
 			value = tera.getInputValue(elem),
-			cleanValue = tera.helpers.encodeHTML(value),
-			elemPathHash = tera.helpers.hashCode(path);
+			cleanValue = tera.helpers.encodeHTML(value);
 
 		// Min length of string to save
-		if(cleanValue.length < 3) {
-			return false;
+		// Removed because of numbers and input fields such as checkboxes etc
+		// Todo: Remove current entry if value is empty
+		//if(cleanValue.length < 1) {
+		//	return false;
+		//}
+
+		if(elem.type === 'radio') {
+			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ elem.name +'"]');
+
+			siblingRadios.forEach(function(sib) {
+				if(sib !== elem) {
+					tera.deleteEntry(tera.session, sib);
+				}
+			});
 		}
 
 		var currValue = localStorage.getItem(tera.storagePrefix + elemPathHash),
@@ -292,8 +356,8 @@
 		localStorage.setItem(tera.storagePrefix + elemPathHash, currValue);
 	}
 
-	tera.deleteEntry = function(timestamp) {
-		var input = tera.UICurrentInput,
+	tera.deleteEntry = function(timestamp, input) {
+		var input = input ? input : tera.UICurrentInput,
 			inPath = tera.generateDomPath(input),
 			elemPathHash = tera.helpers.hashCode(inPath),
 			currValue = localStorage.getItem(tera.storagePrefix + elemPathHash),
@@ -386,8 +450,9 @@
 	}
 
 	tera.generateDomPath = function(el) {
-		// Check easy way first
-		if(el.id) {
+
+		// Check easy way first, does it have a valid id?
+		if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
 			return '#' + el.id;
 		}
 
@@ -430,7 +495,7 @@
 	}
 
 	tera.helpers.encodeHTML = function(str) {
-		return str.replace(/<\/?[^>]+(>|$)/g, "").replace(/[\"&'\/<>]/g, function (a) {
+		return (str + "").replace(/<\/?[^>]+(>|$)/g, "").replace(/[\"&'\/<>]/g, function (a) {
 			return {
 				'"': '&quot;', '&': '&amp;', "'": '&#39;',
 				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
@@ -482,6 +547,11 @@
 		if(tera.isEditable(target)) {
 			tera.saveEntry(target);
 		}
+	});
+	document.addEventListener('change', function(e) {
+		var target = e.target;
+
+		tera.saveEntry(target);
 	});
 
 	document.addEventListener('focus', function(e) {
