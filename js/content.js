@@ -231,6 +231,15 @@
 		return tera.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
 	}
 
+	tera.isEditableText = function(elem) {
+		var textEditable = ['email', 'password', 'search', 'tel', 'text', 'url', 'number'];
+
+		if( textEditable.includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
+			return true;
+		}
+		return false;
+	}
+
 	tera.buildUI = function() {
 
 		// If opened before window has finished loading
@@ -324,11 +333,10 @@
 			cleanValue = tera.helpers.encodeHTML(value);
 
 		// Min length of string to save
-		// Removed because of numbers and input fields such as checkboxes etc
-		// Todo: Remove current entry if value is empty
-		//if(cleanValue.length < 1) {
-		//	return false;
-		//}
+		if(cleanValue.length < 1 && tera.isEditableText(elem)) {
+			tera.deleteEntry(tera.session, elem);
+			return false;
+		}
 
 		if(elem.type === 'radio') {
 			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ elem.name +'"]');
@@ -551,7 +559,9 @@
 	document.addEventListener('change', function(e) {
 		var target = e.target;
 
-		tera.saveEntry(target);
+		if(tera.isEditable(target)) {
+			tera.saveEntry(target);
+		}
 	});
 
 	document.addEventListener('focus', function(e) {
