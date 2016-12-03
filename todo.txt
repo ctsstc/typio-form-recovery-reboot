@@ -1,0 +1,6 @@
+- Run in iframes (inject contentscript?)
+	- Should add support for WYSIWYG editors, i think
+- Add support for select elements, forgot about that
+- Add right-click to whole page and not just inputs
+	- Might cause issues with checkboxes/radios
+- Add restore dialog where you can see all stored data per field (?)
