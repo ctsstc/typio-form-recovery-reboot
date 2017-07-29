@@ -16,7 +16,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 				return false;
 			}
 
-			chrome.tabs.executeScript(tabId, {file: 'js/content.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.helpers.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.db.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.ui.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.engine.js', runAt: 'document_end'});
 			chrome.tabs.insertCSS(tabId, {file: 'css/content.css'});
 		});
 	});
@@ -29,6 +32,7 @@ chrome.contextMenus.create({
 });
 
 chrome.contextMenus.onClicked.addListener(function(data) {
+	console.log(data);
 	if(data.menuItemId === 'teraRecover') {
 		chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {action: 'contextMenuRecover'});

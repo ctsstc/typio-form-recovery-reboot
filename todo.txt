@@ -4,3 +4,12 @@
 - Add right-click to whole page and not just inputs
 	- Might cause issues with checkboxes/radios
 - Add restore dialog where you can see all stored data per field (?)
+
+
+* Run "prepareEntryObject" (slice max count) at page load or something
+* Version bump in include URL to prevent bugs when ushing update ?v=3423
+* terafm = TERAF
+* Add "can't find any entries"? in result list and explanation
+* "Delete all" should delete all except for current session
+
+Fixed: Saved passwords even when option was set to disabled
