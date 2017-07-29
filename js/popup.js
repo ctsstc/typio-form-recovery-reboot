@@ -71,10 +71,10 @@ function _getBlocked(callback) {
 
 function _setBlockButtonState(blocked) {
 	if(blocked) {
-		toggleBlackButton.innerHTML = 'Remove from blacklist';
+		toggleBlackButton.innerHTML = 'Enable extension on this site';
 		toggleBlackButton.dataset.blocked = 1;
 	} else {
-		toggleBlackButton.innerHTML = 'Add to blacklist';
+		toggleBlackButton.innerHTML = 'Disable extension on this site';
 		toggleBlackButton.dataset.blocked = 0;
 	}
 }
