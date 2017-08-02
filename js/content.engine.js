@@ -6,7 +6,7 @@ window.terafm = window.terafm || {};
 
 	tera.helpers = {};
 	tera.UICurrentInput = undefined;
-	tera.allowedFieldTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
+	tera.allowedInputTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
 	tera.options = {
 		savePasswords: false,
 		storageTimeDays: 7
@@ -93,10 +93,10 @@ window.terafm = window.terafm || {};
 	});
 
 	// Check if element is editable
-	 function isEditable(elem) {
+	function isEditable(elem) {
 
 		// Check if input with valid type
-		if(elem.nodeName == 'INPUT' && tera.allowedFieldTypes.includes(elem.type)) {
+		if(elem.nodeName == 'INPUT' && tera.allowedInputTypes.includes(elem.type)) {
 
 			// Is it a password field?
 			if(elem.type == 'password' && tera.options.savePasswords !== true) {
@@ -107,6 +107,9 @@ window.terafm = window.terafm || {};
 
 		// Check if textarea
 		} else if(elem.nodeName == 'TEXTAREA') {
+			return true;
+
+		} else if(elem.nodeName == 'SELECT') {
 			return true;
 
 		// Check if contenteditable

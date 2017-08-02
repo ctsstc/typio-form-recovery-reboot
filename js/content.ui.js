@@ -241,6 +241,9 @@ window.terafm = window.terafm || {};
 							input.dataset.orgValue = input.value;
 						}
 
+					} else if(input.nodeName == 'SELECT') {
+						input.dataset.orgValue = input.value;
+
 					// Contenteditable
 					} else {
 						input.dataset.orgValue = input.innerHTML;
@@ -285,6 +288,8 @@ window.terafm = window.terafm || {};
 				return input.value;
 			}
 
+		} else if(input.nodeName === 'SELECT') {
+			return input.value;
 		}
 		return input.innerHTML;
 	}
@@ -315,6 +320,9 @@ window.terafm = window.terafm || {};
 			} else {
 				input.value = val;
 			}
+
+		} else if(input.nodeName == 'SELECT') {
+			input.value = val;
 
 		} else {
 			input.innerHTML = val;
