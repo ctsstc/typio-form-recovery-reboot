@@ -17,10 +17,34 @@ window.terafm = window.terafm || {};
 	// Loads disk storage to in-memory
 	function loadStorageFromDisk(callback) {
 		terafm.indexedDB.load(function(res) {
-			storage = JSON.parse(res);
-			console.log('loaded from indexedDB');
+			if(res) {
+				storage = JSON.parse(res);
+				console.log('loaded from indexedDB');
+			}
+
 			callback();
 		});
+	}
+
+
+	// This should only run once per domain, after the extension has been updated
+	function convertLegacyStorage() {
+		var found = false;
+
+		for(item in localStorage) {
+			if(item.indexOf('teraField') === 0) {
+				var inputId = item.replace('teraField', 'field');
+
+				storage[inputId] = JSON.parse(localStorage.getItem(item));
+				found = true;
+
+				console.log('restored', item, 'into', inputId)
+			}
+		}
+
+		if(found) {
+			sync();
+		}
 	}
 
 
@@ -31,6 +55,7 @@ window.terafm = window.terafm || {};
 		init: function(callback) {
 			// Initiate connected and load disk storage to in memory
 			terafm.indexedDB.init(function() {
+				//convertLegacyStorage();
 				loadStorageFromDisk(callback);
 			});
 		},
