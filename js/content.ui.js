@@ -47,10 +47,6 @@ window.terafm = window.terafm || {};
 			positionResultList(contextTarget);
 
 			showResultList();
-
-			// Ask database for input revision history
-
-			// Populate, position and display result list
 		},
 
 		generateDomPath: function(el) {

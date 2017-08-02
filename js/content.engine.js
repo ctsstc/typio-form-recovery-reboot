@@ -82,54 +82,12 @@ window.terafm = window.terafm || {};
 	}
 
 
-
-
-	// tera.deleteEntry = deleteSingleRevisionByInput
-
-	// tera.deleteAllEntriesByPathHash = deleteAllRevisionsByInput
-
-	// tera.getEntriesByPath = getRevisionsByInput
-
-	// tera.getEntriesByTimestamp = getRevisionsBySession
-
-	tera.prepareEntryObject = function(obj, size) {
-
-		var timestamps = [], timestamp, count = 0, sliced = {};
-
-		// Store all timestamps
-		for(timestamp in obj) {
-			if(obj.hasOwnProperty(timestamp)) {
-				timestamps.push(parseInt(timestamp));
-			}
-		}
-
-		// Sort timestamps
-		timestamps = timestamps.sort(function(a, b) {
-			return a - b;
-		}).reverse();
-
-		// Grab X values from obj in order of sorted timestamps
-		for(; count < timestamps.length; ++count) {
-			if(count >= size) break;
-			sliced[timestamps[count]] = obj[timestamps[count]];
-		}
-
-		return sliced;
-	};
-
-
 	// Used to check if script is already injected. Message is sent from background.js
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'ping') {
 			sendResponse(true);
 		}
 		else if(request.action === 'contextMenuRecover') {
-			/*
-			if(tera.UICurrentInput) {
-				tera.buildUI();
-				tera.showUI();
-			}
-			*/
 			terafm.ui.recoverContextTarget()
 		}
 	});
@@ -175,6 +133,19 @@ window.terafm = window.terafm || {};
 		return false;
 	}
 
+	function deleteRadioSiblingsFromStorage(input) {
+		if(input.type == 'radio' && input.name) {
+			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
+			siblingRadios.forEach(function(sib) {
+				if(sib !== input) {
+					var sibPath = terafm.ui.generateDomPath(sib);
+					// Delete current sibling revision
+					terafm.db.deleteSingleRevisionByInput(sibPath);
+				}
+			});
+		}
+	}
+
 
 	terafm.engine = {
 
@@ -196,17 +167,10 @@ window.terafm = window.terafm || {};
 				return false;
 			}
 
-			/*
-			if(elem.type === 'radio') {
-				var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ elem.name +'"]');
-
-				siblingRadios.forEach(function(sib) {
-					if(sib !== elem) {
-						tera.deleteEntry(tera.session, sib);
-					}
-				});
+			// Special care for radio inputs, have to delete siblings
+			if(input.type === 'radio') {
+				deleteRadioSiblingsFromStorage(input);
 			}
-			*/
 
 			var data = {
 				value: inputValue, // Not safe value
