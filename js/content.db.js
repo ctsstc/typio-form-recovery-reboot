@@ -9,22 +9,31 @@ window.terafm = window.terafm || {};
 
 	// Writes in memory storage to disk (IndexedDB or localStorage)
 	function sync() {
-		localStorage.setItem('teraStorage', JSON.stringify(storage));
+		terafm.indexedDB.save(JSON.stringify(storage), function() {
+			console.log('synced')
+		});
 	}
 
 	// Loads disk storage to in-memory
-	function loadStorageFromDisk() {
-		storage = JSON.parse(localStorage.getItem('teraStorage')) || {};
+	function loadStorageFromDisk(callback) {
+		terafm.indexedDB.load(function(res) {
+			storage = JSON.parse(res);
+			console.log('loaded from indexedDB');
+			callback();
+		});
 	}
-
-	// TEMPORARY BOTH LINES
-	loadStorageFromDisk();
-	setInterval(sync, 1000);
 
 
 
 	// Public facing methods
 	window.terafm.db = {
+
+		init: function(callback) {
+			// Initiate connected and load disk storage to in memory
+			terafm.indexedDB.init(function() {
+				loadStorageFromDisk(callback);
+			});
+		},
 
 		sessionId: function() {
 			return sessionId;
@@ -40,6 +49,7 @@ window.terafm = window.terafm || {};
 				storage[hashedPath] = {}
 			}
 			storage[hashedPath][sessionId] = obj;
+			sync();
 		},
 
 		getAllRevisions: function() {
@@ -74,6 +84,7 @@ window.terafm = window.terafm || {};
 				storage[hashedPath] = {};
 				storage[hashedPath][sessionId] = tmpCurr;
 			}
+			sync();
 		},
 
 		deleteSingleRevisionByInput: function(inputPath, session) {
@@ -81,6 +92,7 @@ window.terafm = window.terafm || {};
 				session = session || sessionId;
 
 			return terafm.db.deleteSingleRevisionByInputId(inputId, session);
+			sync();
 		},
 
 		deleteSingleRevisionByInputId: function(inputId, session) {
@@ -94,6 +106,7 @@ window.terafm = window.terafm || {};
 					delete storage[inputId]
 				}
 			}
+			sync();
 		}
 
 	};

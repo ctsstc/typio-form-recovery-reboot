@@ -25,8 +25,17 @@ window.terafm = window.terafm || {};
 
 	tera.init = function() {
 
+		terafm.db.init(function() {
+			tera.loadExtensionOptions(function() {
+				tera.deleteExpiredSessions();
+			});
+		});
+
 		terafm.ui.injectHTML();
 		terafm.ui.setupEventHandlers();
+	}
+
+	tera.loadExtensionOptions = function(callback) {
 
 		// Override default options
 		chrome.storage.sync.get(null, function(options) {
@@ -37,10 +46,8 @@ window.terafm = window.terafm || {};
 					}
 				}
 			}
-
-			// Remove expired entries
-			tera.deleteExpiredSessions();
 		});
+
 	}
 
 	tera.deleteExpiredSessions = function() {
