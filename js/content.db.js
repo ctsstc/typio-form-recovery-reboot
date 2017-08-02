@@ -58,10 +58,18 @@ window.terafm = window.terafm || {};
 			return JSON.parse(JSON.stringify(entries));
 		},
 
-		// Todo: Delete all except for current session
 		deleteAllRevisionsByInput: function(inputPath) {
-			var hashedPath = terafm.helpers.generateInputId(inputPath);
+
+			var hashedPath = terafm.helpers.generateInputId(inputPath),
+				tmpCurr = storage[hashedPath][sessionId];
+
 			delete storage[hashedPath];
+
+			// Restore only current, if there is one
+			if(tmpCurr !== undefined) {
+				storage[hashedPath] = {};
+				storage[hashedPath][sessionId] = tmpCurr;
+			}
 		},
 
 		deleteSingleRevisionByInput: function(inputPath, session) {
