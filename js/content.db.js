@@ -28,6 +28,7 @@ window.terafm = window.terafm || {};
 
 
 	// This should only run once per domain, after the extension has been updated
+	// Copies localStorage to in memory, then writes to IndexedDB.
 	function convertLegacyStorage() {
 		var found = false;
 

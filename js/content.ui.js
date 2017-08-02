@@ -1,21 +1,68 @@
 window.terafm = window.terafm || {};
 
-
-
 (function() {
-
-	//resultListContainer = document.querySelector('#tera-result-list-container');
-	//resultList = resultListContainer.querySelector('.tera-result-list');
-	//resultListVisible = false;
 
 	var contextTarget = null,
 		contextRecoveryListVisible = false;
 
 
+
+	function buildDialog() {
+		var revs = terafm.db.getAllRevisions(),
+			sessions = [],
+			html = '';
+
+		for(input in revs) {
+			for(rev in revs[input]) {
+				if(!sessions[rev]) {
+					sessions[rev] = [];
+				}
+				sessions[rev].push(revs[input][rev]);
+			}
+		}
+
+		for(sess in sessions) {
+			
+			var iso = new Date(sess*1000).toISOString();
+			var time = terafm.helpers.prettyDate(iso);
+
+			html += '<p class="session-descriptor">'+ time +'</p>';
+			html += '<ul>';
+			for(rev in sessions[sess]) {
+				html += '<li>';
+					html += '<p class="excerpt">'+ sessions[sess][rev].value +'</p>';
+					html += '<p class="details">'+ sessions[sess][rev].path +'</p>';
+					html += '<div class="actions">';
+						html += '<a href="#">More info</a>';
+						html += '<a href="#">Recover</a>';
+					html += '</div>';
+				html += '</li>';
+			}
+			html += '</ul>';
+		}
+
+		var target = document.querySelector('#tera-recover-dialog .recover-list-container');
+		target.innerHTML = html;
+	}
+
+
+
 	window.terafm.ui = {
 
 		injectHTML: function() {
-			document.body.insertAdjacentHTML('afterbegin', "<div id='tera-result-list-container' class='hidden'><ul class='tera-result-list'></ul></div>");
+			var html = '';
+			html += "<div id='tera-result-list-container' class='hidden'>";
+				html += "<ul class='tera-result-list'></ul>"
+			html += "</div>";
+			html += "<div class='tera-dialog hidden' id='tera-recover-dialog'>";
+				html += '<div class="header">';
+				html += '<span class="close-btn tera-trigger-close-dialog"></span>';
+					html += '<h3>Here\'s a list of all the saved entries from this site.</h3>';
+				html += '</div>';
+				html += '<div class="recover-list-container">';
+				html += '</div>';
+			html += '</div>';
+			document.body.insertAdjacentHTML('afterbegin', html);
 		},
 
 		setupEventHandlers: function() {
@@ -120,65 +167,14 @@ window.terafm = window.terafm || {};
 			html += '<li data-delete-all="'+ inputId +'">Delete all entries</li>';
 		}
 
+		html += '<li data-browse-all>Browse all saved data</li>';
+
 
 		var resultListContainer = document.querySelector('#tera-result-list-container'),
 			resultList = resultListContainer.querySelector('.tera-result-list');
 
 		resultList.innerHTML = html;
 	}
-
-	/*tera.buildUI = function() {
-
-		// If opened before window has finished loading
-		if(!tera.UICurrentInput) {
-			return false;
-		}
-
-		var input = tera.UICurrentInput,
-			inPath = tera.generateDomPath(input),
-			inHashPath = tera.helpers.hashCode(inPath),
-			entries = tera.getEntriesByPath(inPath);
-
-		// Don't show current entry
-		if(entries) {
-			delete entries[tera.session];
-		}
-
-		// Build entry list
-		if(entries) {
-			var timestamps = [],
-				timestamp,
-				html = '';
-
-			// Grab all timestamps and sort them newest > oldest
-			for(timestamp in entries) {
-				timestamps.push(parseInt(timestamp));
-			}
-			timestamps.sort().reverse();
-
-			// Loop through timestamps in order and build entries
-			for(timestamp in timestamps) {
-				var timestamp = timestamps[timestamp];
-					entry = entries[timestamp],
-					prepStr = tera.helpers.encodeHTML(entry.value).substring(0,50);
-
-				html += '<li data-timestamp="'+ timestamp +'">';
-					html += '<span data-delete="'+ timestamp +'" class="tera-icon-right tera-icon-delete" title="Delete entry"></span>';
-					html += '<span data-set-single-entry="'+ timestamp +'" class="tera-icon-right tera-icon-single" title="Recover this input"></span>';
-					html += prepStr;
-				html += '</li>';
-			}
-			html += '<li data-delete-all="'+ inHashPath +'">Delete all entries</li>';
-
-			tera.UIResults.innerHTML = html;
-
-		// No entries, show fallback
-		} else {
-			tera.UIResults.innerHTML = '<li>Nothing to recover</li>';
-		}
-
-		//tera.positionUI();
-	}*/
 
 
 	function positionResultList(target) {
@@ -376,6 +372,11 @@ window.terafm = window.terafm || {};
 		} else if('deleteAll' in item.dataset) {
 			var hashPath = item.dataset.deleteAll;
 			terafm.db.deleteAllRevisionsByInput(inputPath);
+		
+		// Browse all dialog
+		} else if('browseAll' in item.dataset) {
+			buildDialog();
+			document.querySelector('#tera-recover-dialog').classList.remove('hidden')
 		}
 
 		hideResultList();
@@ -418,9 +419,13 @@ window.terafm = window.terafm || {};
 		contextTarget = e.target;
 	}
 
-	function documentClickHandler() {
+	function documentClickHandler(e) {
 		if(contextRecoveryListVisible) {
 			hideResultList();
+		}
+
+		if(e.target.classList.contains('tera-trigger-close-dialog')) {
+			document.querySelector('#tera-recover-dialog').classList.add('hidden');
 		}
 	}
 

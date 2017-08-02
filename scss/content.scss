@@ -85,6 +85,141 @@
 	}
 }
 
+#tera-recover-dialog {
+	font-family: sans-serif;
+	font-size: 16px;
+	color: #333;
+
+	.header {
+		padding: 30px 25px;
+		border-bottom: 1px solid #d6d6d6;
+
+		.close-btn {
+			float: right;
+		}
+
+		h3 {
+			font-weight: bold;
+		}
+	}
+
+	.recover-list-container {
+		background: #d6d6d6;
+		height: calc(100% - 77px);
+		overflow-y: auto;
+		padding-top: 20px;
+
+		.session-descriptor {
+			color: #555;
+			margin: 0 25px 0 25px;
+		}
+
+		ul {
+			background: #FFF;
+			margin: 5px 20px 20px;
+
+			li {
+				position: relative;
+				padding: 15px 25px;
+				border-bottom: 1px solid #DDD;
+
+				&:hover {
+					background: rgba(0,0,0,.07);
+
+					.actions {
+						pointer-events: auto;
+						opacity: 1;
+						transition-duration: .2s;
+					}
+				}
+
+				.excerpt {
+					color: #333;
+				}
+
+				.details {
+					font-size: 13px;
+					color: #777;
+					font-style: italic;
+					margin-top: 5px;
+				}
+
+				.actions {
+					position: absolute;
+					top: 50%;
+					right: 0;
+					transform: translateY(-50%);
+					opacity: 0;
+					pointer-events: none;
+					transition-duration: .1s;
+
+					a {
+						display: inline-block;
+						margin-right: 20px;
+						padding: 8px;
+						border-radius: 2px;
+						text-decoration: none;
+						background: #19a7a7;
+						color: #FFF;
+					}
+				}
+			}
+		}
+	}
+}
+
+.tera-dialog {
+	position: fixed;
+	top: 50px;
+	left: 50px;
+	right: 50px;
+	bottom: 50px;
+	background: #FFF;
+	max-width: 600px;
+	max-height: 600px;
+	margin: auto;
+	overflow: hidden;
+
+	&.hidden {
+		display: none;
+	}
+
+	& * {
+		box-sizing: border-box;
+	}
+
+	.close-btn {
+		height: 20px;
+		width: 20px;
+		display: inline-block;
+		position: relative;
+		cursor: pointer;
+		transition-duration: .1s;	
+
+		&:hover {
+			transform: scale(1.1);
+		}
+
+		&:before, &:after {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: 3px;
+			height: 100%;
+			background: #333;
+			content: '';
+			border-radius: 3px;
+		}
+
+		&:before {
+			transform: rotate(45deg);
+		}
+		&:after {
+			transform: rotate(-45deg);
+		}
+	}
+}
+
 .teraUIActiveInput {
 	background: #FCF9D6 !important;
 	color: #222 !important;

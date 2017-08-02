@@ -4,8 +4,6 @@ window.terafm = window.terafm || {};
 
 	var tera = {};
 
-	tera.helpers = {};
-	tera.UICurrentInput = undefined;
 	tera.allowedInputTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
 	tera.options = {
 		savePasswords: false,
@@ -23,11 +21,11 @@ window.terafm = window.terafm || {};
 		}
 	};
 
-	tera.init = function() {
+	function init() {
 
 		terafm.db.init(function() {
-			tera.loadExtensionOptions(function() {
-				tera.deleteExpiredSessions();
+			loadExtensionOptions(function() {
+				deleteExpiredSessions();
 			});
 		});
 
@@ -35,7 +33,7 @@ window.terafm = window.terafm || {};
 		terafm.ui.setupEventHandlers();
 	}
 
-	tera.loadExtensionOptions = function(callback) {
+	function loadExtensionOptions(callback) {
 
 		// Override default options
 		chrome.storage.sync.get(null, function(options) {
@@ -50,7 +48,7 @@ window.terafm = window.terafm || {};
 
 	}
 
-	tera.deleteExpiredSessions = function() {
+	function deleteExpiredSessions() {
 
 		var inputs = terafm.db.getAllRevisions(),
 			// Now - Seconds to store = past point in time when everything earlier is expired
@@ -66,17 +64,6 @@ window.terafm = window.terafm || {};
 			}
 		}
 	}
-
-
-	// Used to check if script is already injected. Message is sent from background.js
-	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		if(request.action === 'ping') {
-			sendResponse(true);
-		}
-		else if(request.action === 'contextMenuRecover') {
-			terafm.ui.recoverContextTarget()
-		}
-	});
 
 	// Check if element is editable
 	function isEditable(elem) {
@@ -109,7 +96,7 @@ window.terafm = window.terafm || {};
 	
 	// Check if element is editable OR is within a contenteditable parent
 	function getEditable(elem) {
-		if(tera.isEditable(elem)) return elem;
+		if(isEditable(elem)) return elem;
 		return terafm.ui.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
 	}
 
@@ -147,11 +134,11 @@ window.terafm = window.terafm || {};
 			var inputPath = terafm.ui.generateDomPath(input),
 				inputId = terafm.helpers.generateInputId(inputPath),
 
-				safeInputValue = terafm.helpers.encodeHTML(input);
+				safeInputValue = terafm.helpers.encodeHTML(inputValue);
 
 
 			// Min length of string to save (only if text input)
-			if(safeInputValue.length < 1 && tera.isEditableText(input)) {
+			if(safeInputValue.length < 1 && isEditableText(input)) {
 				terafm.db.deleteSingleRevisionByInput(inputPath);
 				return false;
 			}
@@ -171,6 +158,19 @@ window.terafm = window.terafm || {};
 	}
 
 
-	tera.init();
+	// Used to check if script is already injected. Message is sent from background.js
+	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+		// Used to check if content scripts are already injected
+		if(request.action === 'ping') {
+			sendResponse(true);
+		
+		} else if(request.action === 'contextMenuRecover') {
+			terafm.ui.recoverContextTarget()
+		}
+	});
+
+
+	init();
 
 })();
