@@ -42,9 +42,13 @@ window.terafm = window.terafm || {};
 			storage[hashedPath][sessionId] = obj;
 		},
 
+		getAllRevisions: function() {
+			return terafm.helpers.cloneObject(storage);
+		},
+
 		getRevisionsByInput: function(inputPath) {
 			var hashedPath = terafm.helpers.generateInputId(inputPath);
-			return JSON.parse(JSON.stringify(storage[hashedPath] || {}))
+			return terafm.helpers.cloneObject(storage[hashedPath] || {})
 		},
 
 		getRevisionsBySession: function(timestamp) {
@@ -55,7 +59,7 @@ window.terafm = window.terafm || {};
 				}
 			}
 
-			return JSON.parse(JSON.stringify(entries));
+			return terafm.helpers.cloneObject(entries || {});
 		},
 
 		deleteAllRevisionsByInput: function(inputPath) {
@@ -73,16 +77,21 @@ window.terafm = window.terafm || {};
 		},
 
 		deleteSingleRevisionByInput: function(inputPath, session) {
-			var hashedPath = terafm.helpers.generateInputId(inputPath),
+			var inputId = terafm.helpers.generateInputId(inputPath),
 				session = session || sessionId;
 
+			return terafm.db.deleteSingleRevisionByInputId(inputId, session);
+		},
+
+		deleteSingleRevisionByInputId: function(inputId, session) {
+
 			// Check if input exists in storage
-			if( storage[hashedPath] ) {
-				delete storage[hashedPath][session];
+			if( storage[inputId] ) {
+				delete storage[inputId][session];
 
 				// If this was the only revision, just delete the whole storage item
-				if( Object.keys(storage[hashedPath]).length < 1 ) {
-					delete storage[hashedPath]
+				if( Object.keys(storage[inputId]).length < 1 ) {
+					delete storage[inputId]
 				}
 			}
 		}

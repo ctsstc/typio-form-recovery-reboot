@@ -13,20 +13,17 @@ window.terafm = window.terafm || {};
 	};
 
 
-	tera.optionValidators = {
+	tera.optionSanitizers = {
 		savePasswords: function(bool) {
 			return bool == true ? true : false;
 		},
 		storageTimeDays: function(days) {
 			days = parseInt(days);
-			return days > 0 && days < 365 ? days : tera.options.storageTimeDays;
+			return (days > 0 && days < 366) ? days : (days > 365) ? days : tera.options.storageTimeDays;
 		}
 	};
 
 	tera.init = function() {
-
-		// Remove expired entries
-		//tera.cleanEntries();
 
 		terafm.ui.injectHTML();
 		terafm.ui.setupEventHandlers();
@@ -36,49 +33,31 @@ window.terafm = window.terafm || {};
 			if(options) {
 				for(var opt in options) {
 					if(opt in tera.options) {
-						tera.options[opt] = tera.optionValidators[opt](options[opt]);
+						tera.options[opt] = tera.optionSanitizers[opt](options[opt]);
 					}
 				}
 			}
+
+			// Remove expired entries
+			tera.deleteExpiredSessions();
 		});
 	}
 
-	// Remove entries too old (tera.options.storageTimeDays*86400)
-	tera.cleanEntries = function() {
-		/*
-		var entries = [],
-			now = tera.session;
+	tera.deleteExpiredSessions = function() {
 
+		var inputs = terafm.db.getAllRevisions(),
+			// Now - Seconds to store = past point in time when everything earlier is expired
+			expirePoint = terafm.db.sessionId() - (tera.options.storageTimeDays * 86400); // 86400 = 24h
 
-		for (var field in localStorage) {
-			if(field.indexOf(tera.storagePrefix) === 0) {
+		for (inputId in inputs) {
+			for(session in inputs[inputId]) {
 
-				var entries = JSON.parse(localStorage[field]);
-
-				// Field has entries
-				if(Object.keys(entries).length > 0) {
-					for(var timestamp in entries) {
-						var timeleft = (now-timestamp);
-
-						// Too old
-						if (timeleft > (tera.options.storageTimeDays*86400)) {
-							delete entries[timestamp];
-						}
-					}
-
-					// There are entries left, save again
-					if(Object.keys(entries).length > 0) {
-						entries = JSON.stringify(entries);
-						localStorage.setItem(field, entries);
-					
-					} // All entries are gone, it's an empty object
-					else {
-						localStorage.removeItem(field);
-					}
+				// Expired
+				if(session < expirePoint) {
+					terafm.db.deleteSingleRevisionByInputId(inputId, session);
 				}
 			}
 		}
-		*/
 	}
 
 

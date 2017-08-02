@@ -21,6 +21,10 @@ window.terafm.helpers = {
 				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
 			}[a];
 		});
+	},
+
+	cloneObject: function(orgObj) {
+		return JSON.parse(JSON.stringify(orgObj));
 	}
 
 }
