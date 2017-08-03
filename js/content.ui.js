@@ -9,42 +9,44 @@ window.terafm = window.terafm || {};
 
 	headerHTML += '<span class="close-btn trigger-close-dialog"></span>';
 	headerHTML += '<h3>Here\'s a list of all the saved entries from this site.</h3>';
-	contentHTML = '<p>Hello world!</p>'
+	contentHTML = '<p>Hello world!</p>';
 
-	terafm.dialog.create('recover');
-	terafm.dialog.setHeaderHTML('recover', headerHTML);
+	if(window.location.host == 's.codepen.io') {
+		terafm.dialog.create('recover');
+		terafm.dialog.setHeaderHTML('recover', headerHTML);
 	
-	var shroot = terafm.dialog.getShadowRoot('recover')
-	shroot.addEventListener('click', function(e) {
-		var btn = e.path[0],
-			listItem = btn.closest('li'),
-			expCont = listItem.querySelector('.expanded-content'),
-			collCont = listItem.querySelector('.collapsed-content');
+		var shroot = terafm.dialog.getShadowRoot('recover');
+		shroot.addEventListener('click', function(e) {
+			var btn = e.path[0],
+				listItem = btn.closest('li'),
+				expCont = listItem.querySelector('.expanded-content'),
+				collCont = listItem.querySelector('.collapsed-content');
 
-		expCont.style = 'height: auto;';
-		collCont.style = 'height: auto;';
+			expCont.style = 'height: auto;';
+			collCont.style = 'height: auto;';
+
+			setTimeout(function() {
+				var expContHeight = expCont.offsetHeight,
+					collContHeight = collCont.offsetHeight;
+
+				// Collapse
+				if(listItem.classList.contains('expanded')) {
+					listItem.style = 'height: ' + collContHeight + 'px;';
+					expCont.style = 'height: 0; padding: 0;';
+				} else {
+					listItem.style = 'height: ' + expContHeight + 'px;';
+				}
+
+				listItem.classList.toggle('expanded');
+			}, 3);
+		})
+
 
 		setTimeout(function() {
-			var expContHeight = expCont.offsetHeight,
-				collContHeight = collCont.offsetHeight;
+			buildDialog();
 
-			// Collapse
-			if(listItem.classList.contains('expanded')) {
-				listItem.style = 'height: ' + collContHeight + 'px;';
-				expCont.style = 'height: 0; padding: 0;';
-			} else {
-				listItem.style = 'height: ' + expContHeight + 'px;';
-			}
-
-			listItem.classList.toggle('expanded');
-		}, 3);
-	})
-
-
-	setTimeout(function() {
-		buildDialog();
-
-	}, 400);
+		}, 400);
+	}
 
 	function buildDialog() {
 		var revs = terafm.db.getAllRevisions(),

@@ -11,6 +11,13 @@ window.terafm = window.terafm || {};
 				injectShadowRoot(id);
 				injectDialogHTML(id);
 				setupEventListeners(id);
+
+				setTimeout(function() {
+					dialogs[id].querySelector('.dialog-container').classList.add('open');
+				}, 200);
+				setTimeout(function() {
+					dialogs[id].querySelector('.dialog-container').classList.add('open2');
+				}, 250);
 			}
 		},
 
@@ -53,13 +60,47 @@ window.terafm = window.terafm || {};
 	}
 
 	function injectDialogHTML(id) {
-		var cssPath = chrome.runtime.getURL('css/content.dialog.css');
+		var diagCSSPath = chrome.runtime.getURL('css/content.dialog.css');
 
 		var html = '';
-		html += '<style> @import url("'+ cssPath +'"); </style>';
-		html += '<div class="tera-dialog hidden">';
-			html += '<div id="header"></div>';
-			html += '<div id="content"></div>';
+		html += '<style> @import url("'+ diagCSSPath +'"); </style>';
+
+		html += '<div class="dialog-overlay"></div>';
+		html += '<div class="dialog-container">';
+		
+			html += '<div class="left-pane">';
+				html += '<div class="top-bar">';
+					html += '<p>All saved data for '+ window.location.host +'</p>';
+					html += '<span>Close</span>';
+				html += '</div>';
+
+				html += '<div class="recovery-container">';
+					html += '<p class="session-timestamp">Yesterday at 3:53pm</p>';
+					html += '<ul>';
+						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
+						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
+						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
+					html += '</ul>';
+					html += '<p class="session-timestamp">Yesterday at 3:53pm</p>';
+					html += '<ul>';
+						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
+						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
+						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
+					html += '</ul>';
+				html += '</div>';
+			html += '</div>';
+
+			html += '<div class="right-pane">';
+				html += '<div class="top-bar">';
+					html += '<button>Recover</button>';
+					html += '<button>Recover session</button>';
+					html += 'Yesterday at 3:53pm';
+				html += '</div>';
+				html += '<div class="content-box">';
+					html += 'Here is a somewhat small string that is to be recovered maybe possibly.';
+				html += '</div>';
+
+			html += '</div>';
 		html += '</div>';
 
 		dialogs[id].innerHTML = html;
