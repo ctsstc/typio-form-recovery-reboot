@@ -5,7 +5,46 @@ window.terafm = window.terafm || {};
 	var contextTarget = null,
 		contextRecoveryListVisible = false;
 
+	var headerHTML = '';
 
+	headerHTML += '<span class="close-btn trigger-close-dialog"></span>';
+	headerHTML += '<h3>Here\'s a list of all the saved entries from this site.</h3>';
+	contentHTML = '<p>Hello world!</p>'
+
+	terafm.dialog.create('recover');
+	terafm.dialog.setHeaderHTML('recover', headerHTML);
+	
+	var shroot = terafm.dialog.getShadowRoot('recover')
+	shroot.addEventListener('click', function(e) {
+		var btn = e.path[0],
+			listItem = btn.closest('li'),
+			expCont = listItem.querySelector('.expanded-content'),
+			collCont = listItem.querySelector('.collapsed-content');
+
+		expCont.style = 'height: auto;';
+		collCont.style = 'height: auto;';
+
+		setTimeout(function() {
+			var expContHeight = expCont.offsetHeight,
+				collContHeight = collCont.offsetHeight;
+
+			// Collapse
+			if(listItem.classList.contains('expanded')) {
+				listItem.style = 'height: ' + collContHeight + 'px;';
+				expCont.style = 'height: 0; padding: 0;';
+			} else {
+				listItem.style = 'height: ' + expContHeight + 'px;';
+			}
+
+			listItem.classList.toggle('expanded');
+		}, 3);
+	})
+
+
+	setTimeout(function() {
+		buildDialog();
+
+	}, 400);
 
 	function buildDialog() {
 		var revs = terafm.db.getAllRevisions(),
@@ -21,6 +60,9 @@ window.terafm = window.terafm || {};
 			}
 		}
 
+		sessions = sessions.reverse();
+		// console.log(sessions)
+
 		for(sess in sessions) {
 			
 			var iso = new Date(sess*1000).toISOString();
@@ -29,20 +71,36 @@ window.terafm = window.terafm || {};
 			html += '<p class="session-descriptor">'+ time +'</p>';
 			html += '<ul>';
 			for(rev in sessions[sess]) {
+
+				var safeString = terafm.helpers.encodeHTML(sessions[sess][rev].value),
+					excerpt = safeString.substring(0, 220),
+					excerpt = excerpt.length < safeString.length ? excerpt + ' ... <a>View more</a>' : excerpt,
+					wordCount = safeString.split(/\s/).length;
+
 				html += '<li>';
-					html += '<p class="excerpt">'+ sessions[sess][rev].value +'</p>';
-					html += '<p class="details">'+ sessions[sess][rev].path +'</p>';
-					html += '<div class="actions">';
-						html += '<a href="#">More info</a>';
-						html += '<a href="#">Recover</a>';
+
+					html += '<div class="expanded-content">';
+						html += '<div class="actions">';
+							html += '<a data-toggle-expand class="toggle-less">Collapse</a>';
+							html += '<a data-recover>Recover</a>';
+							html += wordCount + ' words';
+						html += '</div>';
+						html += '<p>'+ safeString +'</p>';
 					html += '</div>';
+
+					html += '<div class="collapsed-content">';
+						html += '<p >'+ excerpt +'</p>';
+					html += '</div>';
+
 				html += '</li>';
 			}
+
 			html += '</ul>';
 		}
 
-		var target = document.querySelector('#tera-recover-dialog .recover-list-container');
-		target.innerHTML = html;
+
+		terafm.dialog.setContentHTML('recover', html);
+		terafm.dialog.show('recover');
 	}
 
 
@@ -54,14 +112,6 @@ window.terafm = window.terafm || {};
 			html += "<div id='tera-result-list-container' class='hidden'>";
 				html += "<ul class='tera-result-list'></ul>"
 			html += "</div>";
-			html += "<div class='tera-dialog hidden' id='tera-recover-dialog'>";
-				html += '<div class="header">';
-				html += '<span class="close-btn tera-trigger-close-dialog"></span>';
-					html += '<h3>Here\'s a list of all the saved entries from this site.</h3>';
-				html += '</div>';
-				html += '<div class="recover-list-container">';
-				html += '</div>';
-			html += '</div>';
 			document.body.insertAdjacentHTML('afterbegin', html);
 		},
 
@@ -376,7 +426,6 @@ window.terafm = window.terafm || {};
 		// Browse all dialog
 		} else if('browseAll' in item.dataset) {
 			buildDialog();
-			document.querySelector('#tera-recover-dialog').classList.remove('hidden')
 		}
 
 		hideResultList();

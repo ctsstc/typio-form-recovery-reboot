@@ -1,0 +1,174 @@
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+
+* {
+	box-sizing: border-box;
+}
+
+p {
+	margin: 0;
+}
+
+
+.tera-dialog {
+	font-family: sans-serif;
+	font-size: 16px;
+	color: #333;
+
+	#header {
+
+		.close-btn {
+			float: right;
+		}
+
+		h3 {
+			font-weight: bold;
+			margin: 0;
+		}
+	}
+
+	#content {
+
+		.session-descriptor {
+			color: #555;
+			margin: 0 25px 0 25px;
+			text-align: center;
+			font-weight: bold;
+			font-size: 13px;
+		}
+
+		ul {
+			margin: 0 20px 30px;
+			padding: 0;
+			display: block;
+			background: #FFF;
+			box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 0 10px rgba(0,0,0,.07);
+
+			li {
+				position: relative;
+				list-style: none;
+				display: block;
+				overflow: hidden;
+				cursor: pointer;
+				transition-duration: .2s;
+				border-bottom: 1px solid #DDD;
+
+				&:last-child {
+					border-bottom: 10
+				}
+
+				&:hover {	
+				a {
+						color: blue;
+					}
+				}
+
+				&.expanded {
+					z-index: 3;
+					box-shadow: 0 0 4px rgba(0,0,0,.5);
+				}
+
+				.collapsed-content, .expanded-content {
+					position: relative;
+					padding: 15px 25px;
+				}
+				.expanded-content {
+					//position: absolute;
+					z-index: 2;
+					background: #FFF;
+					overflow: hidden;
+					height: 0;
+					padding: 0 25px;
+				}
+
+				.actions {
+					// position: sticky;
+					// top: 0;
+					// left: 0;
+					// right: 0;
+					background: #FFF;
+					margin-bottom: 10px;
+					border-bottom: 1px solid #c7c7c7;
+					padding-bottom: 15px;
+
+					&:last-child {
+						padding: 0 25px;
+					}
+
+					a {
+						display: inline-block;
+						margin-right: 20px;
+						padding: 6px 8px;
+						border-radius: 2px;
+						text-decoration: none;
+						background: #19a7a7;
+						color: #FFF;
+						font-size: 14px;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+	}
+}
+
+.tera-dialog {
+	position: fixed;
+	top: 50px;
+	left: 50px;
+	right: 50px;
+	bottom: 50px;
+	background: #FFF;
+	max-width: 700px;
+	max-height: 600px;
+	margin: auto;
+	overflow: hidden;
+	line-height: 22px;
+
+	&.hidden {
+		display: none;
+	}
+
+	#header {
+		padding: 25px 25px 20px;
+		border-bottom: 1px solid #d6d6d6;
+	}
+
+	#content {
+		background: #EBEEF0;
+		height: calc(100% - 77px);
+		overflow-y: auto;
+		padding-top: 20px;
+	}
+
+	.close-btn {
+		height: 20px;
+		width: 20px;
+		display: inline-block;
+		position: relative;
+		cursor: pointer;
+		transition-duration: .1s;	
+
+		&:hover {
+			transform: scale(1.1);
+		}
+
+		&:before, &:after {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: 3px;
+			height: 100%;
+			background: #333;
+			content: '';
+			border-radius: 3px;
+		}
+
+		&:before {
+			transform: rotate(45deg);
+		}
+		&:after {
+			transform: rotate(-45deg);
+		}
+	}
+}
