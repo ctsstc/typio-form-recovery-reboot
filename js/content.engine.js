@@ -2,12 +2,14 @@ window.terafm = window.terafm || {};
 
 (function() {
 
-	var tera = {};
+	var tera = {
 
-	tera.allowedInputTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
+	};
+
 	tera.options = {
 		savePasswords: false,
-		storageTimeDays: 7
+		storageTimeDays: 7,
+		
 	};
 
 
@@ -29,8 +31,9 @@ window.terafm = window.terafm || {};
 			});
 		});
 
-		terafm.ui.injectHTML();
-		terafm.ui.setupEventHandlers();
+		terafm.inputManager.setup();
+		terafm.dialog.setup();
+		terafm.context.setup();
 	}
 
 	function loadExtensionOptions(callback) {
@@ -65,50 +68,6 @@ window.terafm = window.terafm || {};
 		}
 	}
 
-	// Check if element is editable
-	function isEditable(elem) {
-
-		// Check if input with valid type
-		if(elem.nodeName == 'INPUT' && tera.allowedInputTypes.includes(elem.type)) {
-
-			// Is it a password field?
-			if(elem.type == 'password' && tera.options.savePasswords !== true) {
-				return false;
-			}
-
-			return true;
-
-		// Check if textarea
-		} else if(elem.nodeName == 'TEXTAREA') {
-			return true;
-
-		} else if(elem.nodeName == 'SELECT') {
-			return true;
-
-		// Check if contenteditable
-		} else if(elem.getAttribute('contenteditable') == 'true') {
-			return true;
-		}
-
-		// Nah, fuck off mate-o
-		return false;
-	}
-	
-	// Check if element is editable OR is within a contenteditable parent
-	function getEditable(elem) {
-		if(isEditable(elem)) return elem;
-		return terafm.ui.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
-	}
-
-	function isEditableText(elem) {
-		var textEditable = ['email', 'password', 'search', 'tel', 'text', 'url', 'number'];
-
-		if( textEditable.includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
-			return true;
-		}
-		return false;
-	}
-
 	function deleteRadioSiblingsFromStorage(input) {
 		if(input.type == 'radio' && input.name) {
 			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
@@ -124,6 +83,10 @@ window.terafm = window.terafm || {};
 
 
 	terafm.engine = {
+
+		options: {
+			allowedInputTypes: ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'],
+		},
 
 		saveRevision: function(input, inputValue) {
 
@@ -154,6 +117,19 @@ window.terafm = window.terafm || {};
 			}
 
 			terafm.db.saveRevision(inputPath, data);
+		},
+
+		recoverSession: function(session) {
+			// for(input in session) {
+				console.log(session)
+			// }
+		},
+		recoverInput: function(input, session) {
+
+		},
+
+		recoverInputInto: function(input, session, target) {
+
 		}
 	}
 
@@ -166,7 +142,10 @@ window.terafm = window.terafm || {};
 			sendResponse(true);
 		
 		} else if(request.action === 'contextMenuRecover') {
-			terafm.ui.recoverContextTarget()
+			terafm.context.open();
+
+		} else if(request.action === 'openRecoveryDialog') {
+			terafm.dialog.open();
 		}
 	});
 

@@ -16,6 +16,7 @@ window.terafm = window.terafm || {};
 
 	// Loads disk storage to in-memory
 	function loadStorageFromDisk(callback) {
+		console.log('started indexedDB load')
 		terafm.indexedDB.load(function(res) {
 			if(res) {
 				storage = JSON.parse(res);
@@ -70,7 +71,7 @@ window.terafm = window.terafm || {};
 		},
 
 		saveRevision: function(inputPath, obj) {
-			var hashedPath = terafm.helpers.generateInputId(inputPath);
+			var hashedPath = terafm.inputManager.generateEditableId(inputPath);
 			if(!(hashedPath in storage)) {
 				storage[hashedPath] = {}
 			}
@@ -83,12 +84,19 @@ window.terafm = window.terafm || {};
 		},
 
 		getRevisionsByInput: function(inputPath) {
-			var hashedPath = terafm.helpers.generateInputId(inputPath);
+			var hashedPath = terafm.inputManager.generateEditableId(inputPath);
 			return terafm.helpers.cloneObject(storage[hashedPath] || {})
+		},
+
+		getRevisionByInputAndSession: function(inputId, session) {
+			if(storage[inputId]) {
+				return terafm.helpers.cloneObject(storage[inputId][session] || {});
+			}
 		},
 
 		getRevisionsBySession: function(timestamp) {
 			var entries = [];
+
 			for(input in storage) {
 				if(timestamp in storage[input]) {
 					entries.push(storage[input][timestamp]);
@@ -100,7 +108,7 @@ window.terafm = window.terafm || {};
 
 		deleteAllRevisionsByInput: function(inputPath) {
 
-			var hashedPath = terafm.helpers.generateInputId(inputPath),
+			var hashedPath = terafm.inputManager.generateEditableId(inputPath),
 				tmpCurr = storage[hashedPath][sessionId];
 
 			delete storage[hashedPath];
@@ -114,7 +122,7 @@ window.terafm = window.terafm || {};
 		},
 
 		deleteSingleRevisionByInput: function(inputPath, session) {
-			var inputId = terafm.helpers.generateInputId(inputPath),
+			var inputId = terafm.inputManager.generateEditableId(inputPath),
 				session = session || sessionId;
 
 			return terafm.db.deleteSingleRevisionByInputId(inputId, session);

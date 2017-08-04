@@ -19,8 +19,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 			chrome.tabs.executeScript(tabId, {file: 'js/content.helpers.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.indexedDBDriver.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.db.js', runAt: 'document_end'});
-			chrome.tabs.executeScript(tabId, {file: 'js/content.dialog.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.inputManager.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.ui.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.dialog.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.context.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.engine.js', runAt: 'document_end'});
 			chrome.tabs.insertCSS(tabId, {file: 'css/content.css'});
 		});
@@ -28,16 +30,27 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 });
 
 chrome.contextMenus.create({
-	id: 'teraRecover',
-	title : 'Recover field text',
+	id: 'recoverEditable',
+	title : 'Recover this field',
 	contexts : ['editable']
 });
 
+chrome.contextMenus.create({
+	id: 'openRecoveryDialog',
+	title : 'Open form recovery',
+	contexts : ['all']
+});
+
 chrome.contextMenus.onClicked.addListener(function(data) {
-	console.log(data);
-	if(data.menuItemId === 'teraRecover') {
+
+	if(data.menuItemId === 'recoverEditable') {
 		chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {action: 'contextMenuRecover'});
+		});
+
+	} else if(data.menuItemId === 'openRecoveryDialog') {
+		chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {action: 'openRecoveryDialog'});
 		});
 	}
 });

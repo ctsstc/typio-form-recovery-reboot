@@ -2,108 +2,163 @@ window.terafm = window.terafm || {};
 
 (function() {
 
-	var dialogs = {};
+	var dialog,
+		currInput, currSess;
 
 	window.terafm.dialog = {
-
-		create: function(id, header, content) {
-			if(!(id in dialogs)) {
-				injectShadowRoot(id);
-				injectDialogHTML(id);
-				setupEventListeners(id);
-
-				setTimeout(function() {
-					dialogs[id].querySelector('.dialog-container').classList.add('open');
-				}, 200);
-				setTimeout(function() {
-					dialogs[id].querySelector('.dialog-container').classList.add('open2');
-				}, 250);
+		setup: function() {
+			if(!dialog) {
+				injectShadowRoot();
+				injectDialogHTML();
+				setupEventListeners();
 			}
 		},
+		open: function() {
+			populate();
+			open();
+		}
+	}
 
-		setHeaderHTML: function(id, html) {
-			dialogs[id].querySelector('.tera-dialog #header').innerHTML = html;
-		},
+	function populate() {
 
-		setContentHTML: function(id, html) {
-			dialogs[id].querySelector('.tera-dialog #content').innerHTML = html;
-		},
+		var revs = terafm.db.getAllRevisions();
 
-		show: function(id) {
-			dialogs[id].querySelector('.tera-dialog').classList.remove('hidden');
-		},
+		var sessions = {},
+			html = '';
 
-		hide: function(id) {
-			dialogs[id].querySelector('.tera-dialog').classList.add('hidden');
-		},
-
-		getShadowRoot: function(id) {
-			return dialogs[id];
+		for(input in revs) {
+			for(rev in revs[input]) {
+				if(!sessions[rev]) {
+					sessions[rev] = [];
+				}
+				sessions[rev][input] = revs[input][rev];
+			}
 		}
 
-	}
+		for(sess in sessions) {
+			
+			var iso = new Date(sess*1000).toISOString();
+			var time = terafm.helpers.prettyDate(iso) || iso;
 
-	function setupEventListeners(id) {
-		dialogs[id].addEventListener('click', function(e) {
-			if(e.path[0].classList.contains('trigger-close-dialog')) {
-				terafm.dialog.hide(id);
+			html += '<p class="session-timestamp">'+ time +'</p>';
+			html += '<ul>';
+			for(input in sessions[sess]) {
+
+				var safeString = terafm.helpers.encodeHTML(sessions[sess][input].value),
+					excerpt = safeString.substring(0, 220),
+					excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt;
+
+				html += '<li data-set-current data-field="'+ input +'" data-session="'+ sess +'">';
+					html += excerpt;
+				html += '</li>';
 			}
-		}, true);
+
+			html += '</ul>';
+		}
+
+		dialog.querySelector('.recovery-container').innerHTML = html;
 	}
 
-	function injectShadowRoot(id) {
-		var idTarget = 'terafm-dialog-' + id;
-		document.body.insertAdjacentHTML('afterbegin', '<div id="'+ idTarget +'"></div>');
+	function open() {
+		dialog.querySelector('.shadow-root').classList.remove('hidden');
 
-		var shadowRoot = document.getElementById(idTarget).createShadowRoot({mode: 'open'});
-		dialogs[id] = shadowRoot;
+		setTimeout(function() {
+			dialog.querySelector('.shadow-root').classList.add('open');
+		}, 200);
+		setTimeout(function() {
+			dialog.querySelector('.shadow-root').classList.add('open2');
+		}, 250);
 	}
 
-	function injectDialogHTML(id) {
+	function hide() {
+		dialog.querySelector('.shadow-root').classList.add('hidden');
+	}
+
+	function setCurrentStatus(status, callback) {
+		if(status) {
+			setCurrentStatus(false);
+			setTimeout(function() {
+				dialog.querySelector('.shadow-root').classList.add('current-loaded');
+				callback();
+			}, 200);
+		} else {
+			dialog.querySelector('.shadow-root').classList.remove('current-loaded');
+		}
+	}
+
+	function injectShadowRoot() {
+		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-dialog"></div>');
+
+		console.log('creating dialog')
+		var shadowRoot = document.getElementById('terafm-dialog').createShadowRoot({mode: 'open'});
+		dialog = shadowRoot;
+	}
+
+	function injectDialogHTML() {
 		var diagCSSPath = chrome.runtime.getURL('css/content.dialog.css');
 
 		var html = '';
 		html += '<style> @import url("'+ diagCSSPath +'"); </style>';
 
-		html += '<div class="dialog-overlay"></div>';
-		html += '<div class="dialog-container">';
-		
-			html += '<div class="left-pane">';
-				html += '<div class="top-bar">';
-					html += '<p>All saved data for '+ window.location.host +'</p>';
-					html += '<span>Close</span>';
+		html += '<div class="shadow-root hidden">';
+			html += '<div class="dialog-overlay"></div>';
+			html += '<div class="dialog-container">';
+			
+				html += '<div class="left-pane">';
+					html += '<div class="top-bar">';
+						html += '<p>All saved data for '+ window.location.host +'</p>';
+						html += '<span>Close</span>';
+					html += '</div>';
+
+					html += '<div class="recovery-container"></div>';
 				html += '</div>';
 
-				html += '<div class="recovery-container">';
-					html += '<p class="session-timestamp">Yesterday at 3:53pm</p>';
-					html += '<ul>';
-						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
-						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
-						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
-					html += '</ul>';
-					html += '<p class="session-timestamp">Yesterday at 3:53pm</p>';
-					html += '<ul>';
-						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
-						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
-						html += '<li>Rread property injectHTML of undefined. Uncaught TypeError: Cannot read property injectHTML of undefined read property injectHTML of undefined.</li>';
-					html += '</ul>';
-				html += '</div>';
-			html += '</div>';
+				html += '<div class="right-pane">';
+					html += '<div class="top-bar">';
+						html += '<button>Recover</button>';
+						html += '<button>Recover session</button>';
+						html += 'Yesterday at 3:53pm';
+					html += '</div>';
+					html += '<div class="content-box">';
+						html += 'Select an entry to the left.';
+					html += '</div>';
 
-			html += '<div class="right-pane">';
-				html += '<div class="top-bar">';
-					html += '<button>Recover</button>';
-					html += '<button>Recover session</button>';
-					html += 'Yesterday at 3:53pm';
 				html += '</div>';
-				html += '<div class="content-box">';
-					html += 'Here is a somewhat small string that is to be recovered maybe possibly.';
-				html += '</div>';
-
 			html += '</div>';
 		html += '</div>';
 
-		dialogs[id].innerHTML = html;
+		dialog.innerHTML = html;
+	}
+
+	function setCurrent(field, session) {
+		currInput = field;
+		currSess = session;
+
+		var fullrev = terafm.db.getRevisionByInputAndSession(currInput, currSess),
+			safeString = terafm.helpers.encodeHTML(fullrev.value);
+
+		setCurrentStatus(true, function() {
+			dialog.querySelector('.right-pane .content-box').innerHTML = safeString;
+		})
+
+	}
+
+	function setupEventListeners() {
+		dialog.addEventListener('click', function(e) {
+
+			if(e.path[0].classList.contains('trigger-close-dialog')) {
+				hide();
+
+			} else if(e.path[0].dataset.setCurrent !== undefined) {
+				var li = e.path[0];
+				setCurrent(li.dataset.field, li.dataset.session);
+			}
+		}, true);
+
+		dialog.querySelector('.dialog-overlay').addEventListener('click', function(e) {
+			console.log('clicked', e)
+			hide();
+		})
 	}
 
 })();

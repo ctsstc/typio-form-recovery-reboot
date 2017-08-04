@@ -26,6 +26,20 @@ $right-pane-padding: 50px;
 	z-index: 100;
 }
 
+.shadow-root {
+
+	&.hidden {
+		display: none;
+	}
+
+	&.open .right-pane {
+		transform: rotateY(5deg);
+	}
+	&.open2 .right-pane {
+		transform: none;
+	}
+}
+
 .dialog-container {
 	position: fixed;
 	top: 30px;
@@ -49,8 +63,8 @@ $right-pane-padding: 50px;
 		left: 0;
 		width: $left-pane-width;
 		background: #EDEDED;
-		// overflow: auto;
-		overflow: hidden;
+		overflow: auto;
+		// overflow: hidden;
 		z-index: 3;
 
 		&::-webkit-scrollbar {
@@ -122,13 +136,6 @@ $right-pane-padding: 50px;
 			}
 		}
 	}
-
-	&.open .right-pane {
-		transform: rotateY(5deg);
-	}
-	&.open2 .right-pane {
-		transform: none;
-	}
 	.right-pane {
 		position: absolute;
 		top: $right-pane-padding;
@@ -140,7 +147,7 @@ $right-pane-padding: 50px;
 		transform: translateX(-60px) rotateY(5deg);
 		transform-origin: left;
 		transition-duration: .3s;
-
+		overflow: hidden;
 
 		&:after {
 			content: '';
@@ -156,6 +163,12 @@ $right-pane-padding: 50px;
 			padding: 20px;
 			border-bottom: 1px solid #DDD;
 			background: #FFF;
+			transform: translateY(-110%);
+			transition-duration: .2s;
+
+			.current-loaded & {
+				transform: none;
+			}
 
 			button {
 				background: #125ECF;
@@ -173,6 +186,14 @@ $right-pane-padding: 50px;
 			margin: 20px;
 			padding: 30px;
 			background: #FFF;
+			transform: scale(.95);
+			opacity: 0;
+			transition-duration: .2s;
+
+			.current-loaded & {
+				transform: none;
+				opacity: 1;
+			}
 		}
 	}
 }
