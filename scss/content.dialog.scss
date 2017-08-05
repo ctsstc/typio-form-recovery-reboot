@@ -60,16 +60,37 @@ $right-pane-padding: 50px;
 	transform: scale(.95);
 	transition-duration: .3s;
 	opacity: 0;
+	display: flex;
+	flex-flow: row;
+	padding-top: 30px;
 
-	.left-pane {
+	.top-bar {
 		position: absolute;
 		top: 0;
-		bottom: 0;
 		left: 0;
+		right: 0;
+		height: 30px;
+		background: #FFF;
+		z-index: 3;
+		line-height: 30px;
+		padding: 0 10px;
+
+		&:after {
+			content: '';
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			height: 3px;
+			background: linear-gradient(to bottom, rgba(0,0,0,.3), rgba(0,0,0,0));
+		}
+	}
+
+	.left-pane {
 		width: $left-pane-width;
+		flex: 0 1 auto;
 		background: #FFF;
 		overflow: hidden;
-		z-index: 3;
 		display: flex;
 		flex-flow: column;
 
@@ -81,13 +102,33 @@ $right-pane-padding: 50px;
 			.domain {
 				font-size: 20px;
 				margin: 0;
+				font-weight: bold;
 			}
 		}
 
 		.recovery-container {
 			flex: 1 1 auto;
 			overflow-y: scroll;
-			overflow-x: hidden;
+			position: relative;
+			margin-right: 5px;
+			margin-bottom: 20px;
+
+			&:before {
+				content: '';
+				position: sticky;
+				display: block;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 4px;
+				background: linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,0));
+				opacity: 0;
+				transition-duration: .3s;
+			}
+
+			&.scroll-not-top:before {
+				opacity: 1;
+			}
 
 			&::-webkit-scrollbar {
 				width: 8px;
@@ -98,10 +139,23 @@ $right-pane-padding: 50px;
 				background: transparent;
 			}
 
+			&:hover::-webkit-scrollbar-thumb {
+				background: #D9D9D9;
+			}
+
 			/* Handle */
 			&::-webkit-scrollbar-thumb {
 				border-radius: 10px;
-				background: #A1A1A1;
+				background: transparent;
+			}
+
+
+			li p {
+				margin: 0 0 10px 0;
+			}
+
+			.meta-bar {
+				font-size: 13px;
 			}
 		}
 
@@ -138,29 +192,27 @@ $right-pane-padding: 50px;
 			}
 
 			&:hover, &.current {
-				box-shadow: 0 0 0 1px #BBB;
+				box-shadow: 0 0 0 1px #5980FF;
 			}
 		}
 	}
 	.right-pane {
-		position: absolute;
-		top: 0;
-		left: $left-pane-width;
-		bottom: 0;
+		flex: 0 1 auto;
 		width: $right-pane-width;
 		background: #E7E7E7;
 		z-index: 2;
 		overflow: hidden;
+		position: relative;
 
-		/* &:after {
+		&:after {
 			content: '';
 			position: absolute;
 			top: 0;
 			left: 0;
 			bottom: 0;
-			width: 20px;
-			background: linear-gradient(to right, rgba(0,0,0,.2), rgba(0,0,0,0));
-		} */
+			width: 10px;
+			background: linear-gradient(to right, rgba(0,0,0,.06), rgba(0,0,0,0));
+		}
 
 		.page {
 			display: flex;

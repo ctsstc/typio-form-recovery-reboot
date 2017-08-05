@@ -38,10 +38,14 @@ window.terafm = window.terafm || {};
 
 				var safeString = terafm.helpers.encodeHTML(sessionData[sess][input].value),
 					excerpt = safeString.substring(0, 220),
-					excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt;
+					excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt,
+					wordCount = (safeString + '').split(/\s/).length;
 
 				html += '<li data-set-current data-field="'+ input +'" data-session="'+ sess +'">';
-					html += excerpt;
+					html += '<p class="excerpt">' + excerpt + '</p>';
+					html += '<div class="meta-bar">';
+						html += '<a href="#">Details</a> | ' + wordCount + ' words';
+					html += '</div>';
 				html += '</li>';
 			}
 
@@ -96,6 +100,7 @@ window.terafm = window.terafm || {};
 
 				html += '<div class="top-bar">';
 					html += 'Typio Form Recovery';
+					html += '<span style="float: right;">Close</span>';
 				html += '</div>';
 			
 				html += '<div class="left-pane">';
@@ -171,8 +176,8 @@ window.terafm = window.terafm || {};
 			if(target.classList.contains('trigger-close-dialog')) {
 				hide();
 
-			} else if(target.dataset.setCurrent !== undefined) {
-				var li = target;
+			} else if(target.dataset.setCurrent !== undefined || target.parentElement.dataset.setCurrent !== undefined) {
+				var li = target.dataset.setCurrent !== undefined ? li : target.parentElement;
 				setCurrent(li.dataset.field, li.dataset.session);
 				setPage('recover');
 				var old = dialog.querySelector('.recovery-container .current');
@@ -218,6 +223,16 @@ window.terafm = window.terafm || {};
 		dialog.querySelector('.dialog-overlay').addEventListener('click', function(e) {
 			hide();
 		})
+
+		dialog.querySelector('.recovery-container').addEventListener('scroll', function(e) {
+			var elem = e.path[0];
+
+			if(elem.scrollTop > 0) {
+				elem.classList.add('scroll-not-top');
+			} else {
+				elem.classList.remove('scroll-not-top');
+			}
+		});
 	}
 
 })();
