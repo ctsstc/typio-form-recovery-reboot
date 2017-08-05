@@ -3,7 +3,7 @@ window.terafm = window.terafm || {};
 (function() {
 
 	var dialog,
-		currInput, currSess;
+		currSelected = {};
 
 	window.terafm.dialog = {
 		setup: function() {
@@ -21,30 +21,22 @@ window.terafm = window.terafm || {};
 
 	function populate() {
 
-		var revs = terafm.db.getAllRevisions();
-
-		var sessions = {},
+		var sessionData = terafm.db.getAllRevisionsGroupedBySession(),
+			sortedSessionIds = Object.keys(sessionData).reverse(),
 			html = '';
 
-		for(input in revs) {
-			for(rev in revs[input]) {
-				if(!sessions[rev]) {
-					sessions[rev] = [];
-				}
-				sessions[rev][input] = revs[input][rev];
-			}
-		}
+		console.log(sessionData);
 
-		for(sess in sessions) {
-			
-			var iso = new Date(sess*1000).toISOString();
-			var time = terafm.helpers.prettyDate(iso) || iso;
+		for(sid in sortedSessionIds) {
 
-			html += '<p class="session-timestamp">'+ time +'</p>';
+			var sess = sortedSessionIds[sid],
+				prettyTime = terafm.helpers.prettyDateFromTimestamp(sess);
+
+			html += '<p class="session-timestamp">'+ prettyTime +'</p>';
 			html += '<ul>';
-			for(input in sessions[sess]) {
+			for(input in sessionData[sess]) {
 
-				var safeString = terafm.helpers.encodeHTML(sessions[sess][input].value),
+				var safeString = terafm.helpers.encodeHTML(sessionData[sess][input].value),
 					excerpt = safeString.substring(0, 220),
 					excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt;
 
@@ -64,14 +56,12 @@ window.terafm = window.terafm || {};
 
 		setTimeout(function() {
 			dialog.querySelector('.shadow-root').classList.add('open');
-		}, 200);
-		setTimeout(function() {
-			dialog.querySelector('.shadow-root').classList.add('open2');
-		}, 250);
+		}, 10);
 	}
 
 	function hide() {
 		dialog.querySelector('.shadow-root').classList.add('hidden');
+		dialog.querySelector('.shadow-root').classList.remove('open');
 	}
 
 	function setCurrentStatus(status, callback) {
@@ -103,24 +93,35 @@ window.terafm = window.terafm || {};
 		html += '<div class="shadow-root hidden">';
 			html += '<div class="dialog-overlay"></div>';
 			html += '<div class="dialog-container">';
+
+				html += '<div class="top-bar">';
+					html += 'Typio Form Recovery';
+				html += '</div>';
 			
 				html += '<div class="left-pane">';
-					html += '<div class="top-bar">';
-						html += '<p>All saved data for '+ window.location.host +'</p>';
-						html += '<span>Close</span>';
+					html += '<div class="header">';
+						html += '<p class="domain">Recover '+ window.location.host +' <span data-set-page="settings" style="float: right;">[S]</span></p>';
 					html += '</div>';
-
 					html += '<div class="recovery-container"></div>';
 				html += '</div>';
 
 				html += '<div class="right-pane">';
-					html += '<div class="top-bar">';
-						html += '<button>Recover</button>';
-						html += '<button>Recover session</button>';
-						html += 'Yesterday at 3:53pm';
+
+					html += '<div class="page page-recover">';
+						html += '<div class="header">';
+							html += '<button data-recover>Recover</button>';
+							html += '<button data-recover-session>Recover session</button>';
+							html += '<p class="stats"> <span class="date"></span> <span class="size"></span> <span class="health"></span> </p>';
+						html += '</div>';
+						html += '<div class="content-box">';
+							html += 'Select an entry to the left.';
+						html += '</div>';
 					html += '</div>';
-					html += '<div class="content-box">';
-						html += 'Select an entry to the left.';
+
+					html += '<div class="page page-current page-home">HOME';
+					html += '</div>';
+
+					html += '<div class="page page-settings">SETTINGS';
 					html += '</div>';
 
 				html += '</div>';
@@ -131,32 +132,90 @@ window.terafm = window.terafm || {};
 	}
 
 	function setCurrent(field, session) {
-		currInput = field;
-		currSess = session;
 
-		var fullrev = terafm.db.getRevisionByInputAndSession(currInput, currSess),
+		currSelected.editableId = field;
+		currSelected.session = session;
+
+		var fullrev = terafm.db.getSingleRevisionByEditableAndSession(currSelected.editableId, currSelected.session),
 			safeString = terafm.helpers.encodeHTML(fullrev.value);
+
+		currSelected.editablePath = fullrev.path;
+		currSelected.editableValue = fullrev.value;
 
 		setCurrentStatus(true, function() {
 			dialog.querySelector('.right-pane .content-box').innerHTML = safeString;
+			dialog.querySelector('.right-pane .stats .date').innerHTML = terafm.helpers.prettyDateFromTimestamp(currSelected.session);
+			dialog.querySelector('.right-pane .stats .size').innerHTML = (fullrev.value + "").split(/\s/).length + ' words';
+			dialog.querySelector('.right-pane .stats .health').innerHTML = document.querySelector(currSelected.editablePath) ? 'OK' : 'NOT FOUND';
 		})
 
+	}
+
+	function setPage(pageId) {
+		var currPage = dialog.querySelector('.right-pane .page-current'),
+			newPage = dialog.querySelector('.right-pane .page-' + pageId);
+
+		if(newPage) {
+			currPage.classList.remove('page-current');
+			setTimeout(function() {
+				newPage.classList.add('page-current');
+			}, 200);
+		}
 	}
 
 	function setupEventListeners() {
 		dialog.addEventListener('click', function(e) {
 
-			if(e.path[0].classList.contains('trigger-close-dialog')) {
+			var target = e.path[0];
+
+			if(target.classList.contains('trigger-close-dialog')) {
 				hide();
 
-			} else if(e.path[0].dataset.setCurrent !== undefined) {
-				var li = e.path[0];
+			} else if(target.dataset.setCurrent !== undefined) {
+				var li = target;
 				setCurrent(li.dataset.field, li.dataset.session);
+				setPage('recover');
+				var old = dialog.querySelector('.recovery-container .current');
+				if(old) {
+					old.classList.remove('current');
+				}
+				li.classList.add('current');
+
+			} else if(target.dataset.setPage !== undefined) {
+				setPage(target.dataset.setPage);
+			
+			} else if(target.dataset.recover !== undefined) {
+
+				var target = document.querySelector(currSelected.editablePath);
+				if(target) {
+					terafm.editableManager.setEditableValue(target, currSelected.editableValue)
+					hide();
+				}
+
+			} else if(target.dataset.recoverSession !== undefined) {
+				var session = terafm.db.getRevisionsBySession(currSelected.session),
+					fails = 0;
+					
+				session.forEach(function(editable) {
+					var target = document.querySelector(editable.path);
+					if(target) {
+						terafm.editableManager.setEditableValue(target, editable.value);
+					} else {
+						fails += 1;
+					}
+				});
+
+				if(fails !== 0) {
+					console.log(fails, ' out of '+ session.length +' fields could not be recovered');
+				}
+
+				hide();
 			}
+
+
 		}, true);
 
 		dialog.querySelector('.dialog-overlay').addEventListener('click', function(e) {
-			console.log('clicked', e)
 			hide();
 		})
 	}

@@ -2,18 +2,7 @@ window.terafm = window.terafm || {};
 
 (function() {
 
-	var tera = {
-
-	};
-
-	tera.options = {
-		savePasswords: false,
-		storageTimeDays: 7,
-		
-	};
-
-
-	tera.optionSanitizers = {
+	var optionSanitizers = {
 		savePasswords: function(bool) {
 			return bool == true ? true : false;
 		},
@@ -28,10 +17,14 @@ window.terafm = window.terafm || {};
 		terafm.db.init(function() {
 			loadExtensionOptions(function() {
 				deleteExpiredSessions();
+
+				if(window.location.host === 's.codepen.io') {
+					terafm.dialog.open();
+				}
 			});
 		});
 
-		terafm.inputManager.setup();
+		terafm.editableManager.setup();
 		terafm.dialog.setup();
 		terafm.context.setup();
 	}
@@ -42,27 +35,29 @@ window.terafm = window.terafm || {};
 		chrome.storage.sync.get(null, function(options) {
 			if(options) {
 				for(var opt in options) {
-					if(opt in tera.options) {
-						tera.options[opt] = tera.optionSanitizers[opt](options[opt]);
+					if(opt in terafm.engine.options) {
+						terafm.engine.options[opt] = optionSanitizers[opt](options[opt]);
 					}
 				}
 			}
+			callback();
 		});
 
 	}
 
+
 	function deleteExpiredSessions() {
 
-		var inputs = terafm.db.getAllRevisions(),
+		var editables = terafm.db.getAllRevisions(),
 			// Now - Seconds to store = past point in time when everything earlier is expired
-			expirePoint = terafm.db.sessionId() - (tera.options.storageTimeDays * 86400); // 86400 = 24h
+			expirePoint = terafm.db.sessionId() - (terafm.engine.options.storageTimeDays * 86400); // 86400 = 24h
 
-		for (inputId in inputs) {
-			for(session in inputs[inputId]) {
+		for (editableId in editables) {
+			for(session in editables[editableId]) {
 
 				// Expired
 				if(session < expirePoint) {
-					terafm.db.deleteSingleRevisionByInputId(inputId, session);
+					terafm.db.deleteSingleRevisionByEditable(editableId, session);
 				}
 			}
 		}
@@ -86,37 +81,40 @@ window.terafm = window.terafm || {};
 
 		options: {
 			allowedInputTypes: ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'],
+		
+			savePasswords: false,
+			storageTimeDays: 7,
 		},
 
-		saveRevision: function(input, inputValue) {
+		saveRevision: function(editable, editableValue) {
 
-			if(!isEditable(input)) {
+			if(!isEditable(editable)) {
 				return false;
 			}
 
-			var inputPath = terafm.ui.generateDomPath(input),
-				inputId = terafm.helpers.generateInputId(inputPath),
+			var editablePath = terafm.ui.generateDomPath(editable),
+				editableId = terafm.helpers.generateEditableId(editablePath),
 
-				safeInputValue = terafm.helpers.encodeHTML(inputValue);
+				safeEditableValue = terafm.helpers.encodeHTML(editableValue);
 
 
-			// Min length of string to save (only if text input)
-			if(safeInputValue.length < 1 && isEditableText(input)) {
-				terafm.db.deleteSingleRevisionByInput(inputPath);
+			// Min length of string to save (only if text editable)
+			if(safeEditableValue.length < 1 && isEditableText(editable)) {
+				terafm.db.deleteSingleRevisionByInput(editablePath);
 				return false;
 			}
 
 			// Special care for radio inputs, have to delete siblings
-			if(input.type === 'radio') {
-				deleteRadioSiblingsFromStorage(input);
+			if(editable.type === 'radio') {
+				deleteRadioSiblingsFromStorage(editable);
 			}
 
 			var data = {
-				value: inputValue, // Not safe value
-				path: inputPath
+				value: editableValue, // Not safe value
+				path: editablePath
 			}
 
-			terafm.db.saveRevision(inputPath, data);
+			terafm.db.saveRevision(editableId, data);
 		},
 
 		recoverSession: function(session) {

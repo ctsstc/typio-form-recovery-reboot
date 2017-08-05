@@ -3,23 +3,24 @@ window.terafm = window.terafm || {};
 
 (function() {
 
-	var storage = {};
-	var sessionId = Math.round(new Date().getTime()/1000);
+	var db = {};
+
+	db.storage = {};
+	db.sessionId = Math.round(new Date().getTime()/1000);
 
 
 	// Writes in memory storage to disk (IndexedDB or localStorage)
 	function sync() {
-		terafm.indexedDB.save(JSON.stringify(storage), function() {
+		terafm.indexedDB.save(JSON.stringify(db.storage), function() {
 			console.log('synced')
 		});
 	}
 
 	// Loads disk storage to in-memory
 	function loadStorageFromDisk(callback) {
-		console.log('started indexedDB load')
 		terafm.indexedDB.load(function(res) {
 			if(res) {
-				storage = JSON.parse(res);
+				db.storage = JSON.parse(res);
 				console.log('loaded from indexedDB');
 			}
 
@@ -37,7 +38,7 @@ window.terafm = window.terafm || {};
 			if(item.indexOf('teraField') === 0) {
 				var inputId = item.replace('teraField', 'field');
 
-				storage[inputId] = JSON.parse(localStorage.getItem(item));
+				db.storage[inputId] = JSON.parse(localStorage.getItem(item));
 				found = true;
 
 				console.log('restored', item, 'into', inputId)
@@ -63,81 +64,98 @@ window.terafm = window.terafm || {};
 		},
 
 		sessionId: function() {
-			return sessionId;
+			return db.sessionId;
 		},
 
 		sync: function(){
 			sync();
 		},
 
-		saveRevision: function(inputPath, obj) {
-			var hashedPath = terafm.inputManager.generateEditableId(inputPath);
-			if(!(hashedPath in storage)) {
-				storage[hashedPath] = {}
+		saveRevision: function(editableId, obj) {
+			if(!(editableId in db.storage)) {
+				db.storage[editableId] = {}
 			}
-			storage[hashedPath][sessionId] = obj;
+			db.storage[editableId][db.sessionId] = obj;
 			sync();
 		},
 
 		getAllRevisions: function() {
-			return terafm.helpers.cloneObject(storage);
+			return terafm.helpers.cloneObject(db.storage);
 		},
 
-		getRevisionsByInput: function(inputPath) {
-			var hashedPath = terafm.inputManager.generateEditableId(inputPath);
-			return terafm.helpers.cloneObject(storage[hashedPath] || {})
-		},
+		getAllRevisionsGroupedBySession: function() {
 
-		getRevisionByInputAndSession: function(inputId, session) {
-			if(storage[inputId]) {
-				return terafm.helpers.cloneObject(storage[inputId][session] || {});
-			}
-		},
+			var sessions = {};
 
-		getRevisionsBySession: function(timestamp) {
-			var entries = [];
-
-			for(input in storage) {
-				if(timestamp in storage[input]) {
-					entries.push(storage[input][timestamp]);
+			for(editableId in db.storage) {
+				for(sessionId in db.storage[editableId]) {
+					if(sessions[sessionId] === undefined) {
+						sessions[sessionId] = {};
+					}
+					sessions[sessionId][editableId] = db.storage[editableId][sessionId];
 				}
 			}
 
-			return terafm.helpers.cloneObject(entries || {});
+			return terafm.helpers.cloneObject(sessions);
+
 		},
 
-		deleteAllRevisionsByInput: function(inputPath) {
+		getRevisionsByEditable: function(editableId) {
+			return terafm.helpers.cloneObject(db.storage[editableId] || {})
+		},
 
-			var hashedPath = terafm.inputManager.generateEditableId(inputPath),
-				tmpCurr = storage[hashedPath][sessionId];
-
-			delete storage[hashedPath];
-
-			// Restore only current, if there is one
-			if(tmpCurr !== undefined) {
-				storage[hashedPath] = {};
-				storage[hashedPath][sessionId] = tmpCurr;
+		getSingleRevisionByEditableAndSession: function(editableId, session) {
+			if(db.storage[editableId]) {
+				return terafm.helpers.cloneObject(db.storage[editableId][session] || {});
 			}
-			sync();
 		},
 
+		getRevisionsBySession: function(session) {
+			var revisions = [];
+
+			for(editable in db.storage) {
+				if(session in db.storage[editable]) {
+					revisions.push(db.storage[editable][session]);
+				}
+			}
+
+			return terafm.helpers.cloneObject(revisions || {});
+		},
+
+			// Todo should do it by inputId, not path
+		deleteAllRevisionsByEditable: function(inputPath) {
+
+			// var hashedPath = terafm.editableManager.generateEditableId(inputPath),
+			// 	tmpCurr = storage[hashedPath][sessionId];
+
+			// delete storage[hashedPath];
+
+			// // Restore only current, if there is one
+			// if(tmpCurr !== undefined) {
+			// 	storage[hashedPath] = {};
+			// 	storage[hashedPath][sessionId] = tmpCurr;
+			// }
+			// sync();
+		},
+
+		// Todo should do it by inputId, not path
 		deleteSingleRevisionByInput: function(inputPath, session) {
-			var inputId = terafm.inputManager.generateEditableId(inputPath),
-				session = session || sessionId;
+			// var inputId = terafm.editableManager.generateEditableId(inputPath),
+			// 	session = session || sessionId;
 
-			return terafm.db.deleteSingleRevisionByInputId(inputId, session);
-			sync();
+			// return terafm.db.deleteSingleRevisionByEditable(inputId, session);
+			// sync();
 		},
 
-		deleteSingleRevisionByInputId: function(inputId, session) {
+		deleteSingleRevisionByEditable: function(editableId, session) {
 
 			// Check if input exists in storage
-			if( storage[inputId] ) {
-				delete storage[inputId][session];
+			if( db.storage[editableId] ) {
+				delete db.storage[editableId][session];
 
 				// If this was the only revision, just delete the whole storage item
-				if( Object.keys(storage[inputId]).length < 1 ) {
-					delete storage[inputId]
+				if( Object.keys(db.storage[editableId]).length < 1 ) {
+					delete db.storage[editableId]
 				}
 			}
 			sync();

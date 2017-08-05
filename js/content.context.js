@@ -14,11 +14,11 @@ window.terafm = window.terafm || {};
 		},
 
 		open: function() {
-			var inputPath = terafm.inputManager.getPath(contextTarget),
-				inputId = terafm.inputManager.generateEditableId(inputPath),
-				revisions = terafm.db.getRevisionsByInput(inputPath);
+			var editablePath = terafm.editableManager.getPath(contextTarget),
+				editableId = terafm.editableManager.generateEditableId(editablePath),
+				revisions = terafm.db.getRevisionsByEditable(editableId);
 
-			populateContextMenu(revisions, inputId);
+			populateContextMenu(revisions, editableId);
 
 			positionContextMenu(contextTarget);
 
@@ -158,7 +158,7 @@ window.terafm = window.terafm || {};
 		var target = e.target;
 
 		if(target.dataset.session !== undefined) {
-			terafm.inputManager.resetPlaceholders(true);
+			terafm.editableManager.resetPlaceholders(true);
 			hideContextMenu();
 			
 		} else if(target.dataset.browseAll !== undefined) {
@@ -172,7 +172,7 @@ window.terafm = window.terafm || {};
 	function contextmenuMouseoverHandler(e) {
 		var sid = e.target.dataset.session;
 
-		terafm.inputManager.resetPlaceholders();
+		terafm.editableManager.resetPlaceholders();
 
 		if(sid !== undefined) {
 			var session = terafm.db.getRevisionsBySession(sid);
@@ -180,7 +180,7 @@ window.terafm = window.terafm || {};
 				var input = document.querySelector(session[entry].path);
 
 				if(input) {
-					terafm.inputManager.setInputValue(input, session[entry].value, true);
+					terafm.editableManager.setEditableValue(input, session[entry].value, true);
 				} else {
 					console.log('NOT FOUND!', session[entry].path)
 				}
@@ -195,7 +195,7 @@ window.terafm = window.terafm || {};
 		// I think this works because it's encapsulated within a shadowdom
 		// and html is not accessible as an ancestor. Maybe.
 		if( target.closest('html') ) {
-			terafm.inputManager.resetPlaceholders();
+			terafm.editableManager.resetPlaceholders();
 			console.log('left tera-result-list-container')
 		}
 	}

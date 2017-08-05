@@ -26,6 +26,24 @@ window.terafm.helpers = {
 		return JSON.parse(JSON.stringify(orgObj));
 	},
 
+	prettyDateFromTimestamp: function(timestamp) {
+		var timezoneOffsetMs =  (new Date()).getTimezoneOffset() * 60000,
+			date =  new Date( (timestamp*1000) - timezoneOffsetMs ),
+			pretty = terafm.helpers.prettyDate(date.toISOString());
+
+		if(!pretty) {
+			return date.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+				hour: 'numeric',
+				minute: 'numeric'
+			});
+		}
+
+		return pretty;
+	},
+
 	prettyDate: function(time) {
 		var date = new Date((time || "").replace(/-/g, "/").replace(/[TZ]/g, " ")),
 		diff = (((new Date()).getTime() - date.getTime()) / 1000),

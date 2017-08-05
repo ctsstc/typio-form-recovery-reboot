@@ -19,7 +19,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 			chrome.tabs.executeScript(tabId, {file: 'js/content.helpers.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.indexedDBDriver.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.db.js', runAt: 'document_end'});
-			chrome.tabs.executeScript(tabId, {file: 'js/content.inputManager.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.editableManager.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.ui.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.dialog.js', runAt: 'document_end'});
 			chrome.tabs.executeScript(tabId, {file: 'js/content.context.js', runAt: 'document_end'});

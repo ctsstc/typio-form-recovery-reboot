@@ -40,7 +40,7 @@ window.terafm = window.terafm || {};
 		// If delete all was clicked
 		} else if('deleteAll' in item.dataset) {
 			var hashPath = item.dataset.deleteAll;
-			terafm.db.deleteAllRevisionsByInput(inputPath);
+			terafm.db.deleteAllRevisionsByEditable(inputPath);
 		
 		// Browse all dialog
 		} else if('browseAll' in item.dataset) {

@@ -2,21 +2,21 @@ window.terafm = window.terafm || {};
 
 (function() {
 
-	window.terafm.inputManager = {
+	window.terafm.editableManager = {
 
 		setup: function() {
 			setupEventListeners();
 		},
 
-		setInputValue: function(input, value, placeholder) {
-			if(placeholder) {
-				setPlaceholderClass(input);
-				saveOriginalValue(input);
+		setEditableValue: function(editable, value, isPlaceholder) {
+			if(isPlaceholder) {
+				setPlaceholderClass(editable);
+				saveOriginalValue(editable);
 			} else {
-				removePlaceholderClass(input);
+				removePlaceholderClass(editable);
 			}
 
-			setInputValue(input, value);
+			setEditableValue(editable, value);
 		},
 
 		resetPlaceholders: function(keepvalues) {
@@ -79,11 +79,12 @@ window.terafm = window.terafm || {};
 	}
 
 	function saveEditable(editable, value) {
-			var editablePath = terafm.inputManager.getPath(editable);
+			var editablePath = terafm.editableManager.getPath(editable),
+				editableId = terafm.editableManager.generateEditableId(editablePath);
 
 			// Min length of string to save
 			if(value.length < 1) {
-				terafm.db.deleteSingleRevisionByInput(editablePath);
+				terafm.db.deleteSingleRevisionByEditable(editableId);
 				return false;
 			}
 
@@ -97,7 +98,7 @@ window.terafm = window.terafm || {};
 				path: editablePath
 			}
 
-			terafm.db.saveRevision(editablePath, data);
+			terafm.db.saveRevision(editableId, data);
 	}
 
 	// Radios require special attention, this is ugly but idk what to do with it
@@ -106,7 +107,7 @@ window.terafm = window.terafm || {};
 			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
 			siblingRadios.forEach(function(sib) {
 				if(sib !== input) {
-					var sibPath = terafm.inputManager.getPath(sib);
+					var sibPath = terafm.editableManager.getPath(sib);
 					// Delete current sibling revision
 					terafm.db.deleteSingleRevisionByInput(sibPath);
 				}
@@ -115,98 +116,99 @@ window.terafm = window.terafm || {};
 	}
 
 	function resetPlaceholders(keepValue) {
-		var phs = document.querySelectorAll('.teraUIActiveInput');
+		var placeholders = document.querySelectorAll('.teraUIActiveInput');
 
-		for(i in phs) {
-			var input = phs[i];
+		for(i in placeholders) {
+			var editable = placeholders[i];
 
 			// TODO: Switch to foreach to prevent??
 			// querySelectorAll returns an object of DOM nodes and a "length" value, we only wanna loop through the DOMs
-			if(!input.nodeName) continue;
+			if(!editable.nodeName) continue;
 
-			input.classList.remove('teraUIActiveInput');
+			editable.classList.remove('teraUIActiveInput');
 
 			if(!keepValue) {
-				setInputValue(input, input.dataset.teraOrgValue);
+				setEditableValue(editable, editable.dataset.teraOrgValue);
 			}
 
-			delete input.dataset.teraOrgValue;
+			delete editable.dataset.teraOrgValue;
 		}
 	}
 
 
-	function getEditableValue(input) {
-		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
+	function getEditableValue(editable) {
+		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
 
 			// Special care for checkable inputs
-			if(input.type === 'checkbox' || input.type === 'radio') {
-				return input.checked ? 1 : 0;
+			if(editable.type === 'checkbox' || editable.type === 'radio') {
+				return editable.checked ? 1 : 0;
 
 			} else {
-				return input.value;
+				return editable.value;
 			}
 
-		} else if(input.nodeName === 'SELECT') {
-			return input.value;
+		} else if(editable.nodeName === 'SELECT') {
+			return editable.value;
 		}
-		return input.innerHTML;
+		return editable.innerHTML;
 	}
 
-	function setPlaceholderClass(input) {
-		input.classList.add('teraUIActiveInput');
+	function setPlaceholderClass(editable) {
+		editable.classList.add('teraUIActiveInput');
 	}
-	function removePlaceholderClass(input) {
-		input.classList.remove('teraUIActiveInput');
+	function removePlaceholderClass(editable) {
+		editable.classList.remove('teraUIActiveInput');
 	}
 
 	// Saves editable value in dataset to be restored later
-	function saveOriginalValue(input) {
+	function saveOriginalValue(editable) {
 
-		if(!input.dataset.hasOwnProperty('teraOrgValue')) {
-			if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
+		if(!editable.dataset.hasOwnProperty('teraOrgValue')) {
+			if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
 
-				if(input.type === 'checkbox') {
-					input.dataset.teraOrgValue = input.checked ? 1 : 0;
+				if(editable.type === 'checkbox') {
+					editable.dataset.teraOrgValue = editable.checked ? 1 : 0;
 
-				} else if(input.type === 'radio') {
-					var radioSiblings = document.querySelectorAll('input[type=radio][name="'+ input.name +'"]');
+				} else if(editable.type === 'radio') {
+					var radioSiblings = document.querySelectorAll('input[type=radio][name="'+ editable.name +'"]');
 					radioSiblings.forEach(function(sib) {
 						if(sib.checked) {
-							var orgPath = terafm.inputManager.getPath(sib);
-							input.dataset.teraOrgValue = orgPath;
+							var orgPath = terafm.editableManager.getPath(sib);
+							editable.dataset.teraOrgValue = orgPath;
 						}
 					});
 
+				// Probably text/password/email or something with a value property
 				} else {
-					input.dataset.teraOrgValue = input.value;
+					editable.dataset.teraOrgValue = editable.value;
 				}
 
-			} else if(input.nodeName == 'SELECT') {
-				input.dataset.teraOrgValue = input.value;
+			} else if(editable.nodeName == 'SELECT') {
+				editable.dataset.teraOrgValue = editable.value;
 
 			// Contenteditable
 			} else {
-				input.dataset.teraOrgValue = input.innerHTML;
+				editable.dataset.teraOrgValue = editable.innerHTML;
 			}
 		}
 	}
 
 
 
-	function setInputValue(input, val) {
+	function setEditableValue(editable, val) {
 
-		if(input.nodeName == 'INPUT' || input.nodeName == 'TEXTAREA') {
+		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
 
 			// Special care for checkable inputs
-			if(input.type === 'checkbox') {
+			if(editable.type === 'checkbox') {
 				val = parseInt(val);
-				input.checked = val ? true : false;
+				editable.checked = val ? true : false;
 
-			} else if(input.type === 'radio') {
+			} else if(editable.type === 'radio') {
 
 				// Set by value
 				if(val == parseInt(val)) {
-					input.checked = true;
+					editable.checked = true;
 
 				// Set by path
 				} else {
@@ -217,14 +219,14 @@ window.terafm = window.terafm || {};
 				}
 
 			} else {
-				input.value = val;
+				editable.value = val;
 			}
 
-		} else if(input.nodeName == 'SELECT') {
-			input.value = val;
+		} else if(editable.nodeName == 'SELECT') {
+			editable.value = val;
 
 		} else {
-			input.innerHTML = val;
+			editable.innerHTML = val;
 		}
 	}
 
@@ -235,7 +237,7 @@ window.terafm = window.terafm || {};
 		if(elem.nodeName == 'INPUT' && terafm.engine.options.allowedInputTypes.includes(elem.type)) {
 
 			// Is it a password field?
-			if(elem.type == 'password' && tera.options.savePasswords !== true) {
+			if(elem.type == 'password' && terafm.engine.options.savePasswords !== true) {
 				return false;
 			}
 
