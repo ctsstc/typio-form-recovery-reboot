@@ -45,7 +45,7 @@ $right-pane-padding: 50px;
 
 .dialog-container {
 	position: fixed;
-	top: 30px;
+	top: 35px;
 	left: 30px;
 	right: 30px;
 	bottom: 30px;
@@ -63,47 +63,60 @@ $right-pane-padding: 50px;
 	display: flex;
 	flex-flow: row;
 	padding-top: 30px;
+	background: #FFF;
 
 	.top-bar {
 		position: absolute;
 		top: 0;
 		left: 0;
 		right: 0;
-		height: 30px;
-		background: #FFF;
+		height: 35px;
 		z-index: 3;
-		line-height: 30px;
+		line-height: 35px;
 		padding: 0 10px;
+		background: #224d6d;
+		color: #FFF;
+		font-size: 14px;
+	}
 
-		&:after {
-			content: '';
-			position: absolute;
-			top: 100%;
-			left: 0;
-			right: 0;
-			height: 3px;
-			background: linear-gradient(to bottom, rgba(0,0,0,.3), rgba(0,0,0,0));
+	.header {
+		flex: 0 1 auto;
+		background: #275e86;
+
+		.header-inner {
+			height: 80px;
+			padding: 0 25px;
+			line-height: 80px;
+		}
+
+		button {
+			background: rgba(0,0,0,.2);
+			display: inline-block;
+			padding: 10px 12px;
+			font-size: 14px;
+			color: #FFF;
+			margin: 0 20px 0 0;
+			border-radius: 2px;
+			border: 0;
+			cursor: pointer;
+
+			&:first-child {
+				background: #62a256;
+			}
 		}
 	}
 
 	.left-pane {
 		width: $left-pane-width;
 		flex: 0 1 auto;
-		background: #FFF;
 		overflow: hidden;
 		display: flex;
 		flex-flow: column;
 
-		.header {
-			height: 70px;
-			padding: 30px;
-			flex: 0 1 auto;
-
-			.domain {
-				font-size: 20px;
-				margin: 0;
-				font-weight: bold;
-			}
+		.header .domain {
+			font-size: 20px;
+			margin: 0;
+			color: #FFF;
 		}
 
 		.recovery-container {
@@ -120,10 +133,11 @@ $right-pane-padding: 50px;
 				top: 0;
 				left: 0;
 				right: 0;
-				height: 4px;
-				background: linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,0));
+				height: 5px;
+				background: linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,0));
 				opacity: 0;
 				transition-duration: .3s;
+				z-index: 5;
 			}
 
 			&.scroll-not-top:before {
@@ -161,20 +175,16 @@ $right-pane-padding: 50px;
 
 		.session-timestamp {
 			display: inline-block;
-			padding: 3px 12px;
 			font-size: 13px;
-			color: #FFF;
-			background: #777;
-			margin: 20px 0 0;
+			color: #444;
+			font-weight: bold;
 			margin-left: 50%;
 			transform: translateX(-50%);
-			border-radius: 5px 5px 0 0;
 		}
 
 		ul {
-			background: #FFF;
-			margin: 0 8px 0 20px;
-			border: 1px solid #DDDDDD;
+			margin: 0 8px 20px 20px;
+			box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2), 0 0 6px rgba(0, 0, 0, 0.2);
 		}
 
 		li {
@@ -182,9 +192,10 @@ $right-pane-padding: 50px;
 			padding: 20px;
 			border-bottom: 1px solid #DDDDDD;
 			cursor: pointer;
+			transition-duration: .1s;
 
 			&.current {
-				background: #EEEEEE;
+				background: #E9E9E9;
 			}
 
 			&:last-child {
@@ -192,7 +203,7 @@ $right-pane-padding: 50px;
 			}
 
 			&:hover, &.current {
-				box-shadow: 0 0 0 1px #5980FF;
+				box-shadow: 0 0 0 1px #7fa2d8;
 			}
 		}
 	}
@@ -204,39 +215,20 @@ $right-pane-padding: 50px;
 		overflow: hidden;
 		position: relative;
 
-		&:after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			width: 10px;
-			background: linear-gradient(to right, rgba(0,0,0,.06), rgba(0,0,0,0));
-		}
-
 		.page {
 			display: flex;
 			flex-flow: column;
-			padding: 30px;
 		}
 
-		.header {
-			flex: 0 1 auto;
-			margin-bottom: 20px;
-
-			button {
-				background: #125ECF;
-				display: inline-block;
-				padding: 8px 10px;
-				font-size: 14px;
-				color: #FFF;
-				margin: 0 15px 0 0;
-				border-radius: 2px;
-				border: 0;
+		.meta {
+			margin: 20px 30px 0;
+			p {
+				margin: 0;
 			}
 		}
 
 		.content-box {
+			margin: 20px 30px 30px;
 			padding: 20px;
 			background: #FFF;
 			flex: 1 1 auto;
@@ -261,4 +253,23 @@ $right-pane-padding: 50px;
 			pointer-events: auto;
 		}
 	}
+}
+
+.icon {
+	height: 16px;
+	width: 16px;
+	background-color: red;
+	display: inline-block;
+}
+.icon-clock {
+	background-image: url(../img/clock.icon.svg);
+	-webkit-mask: url(../img/clock.icon.svg) no-repeat 50% 50%;
+}
+.icon-bell {
+	background-image: url(../img/bell.icon.svg);
+	-webkit-mask: url(../img/bell.icon.svg) no-repeat 50% 50%;
+}
+.icon-stats {
+	background-image: url(../img/stats.icon.svg);
+	-webkit-mask: url(../img/stats.icon.svg) no-repeat 50% 50%;
 }
