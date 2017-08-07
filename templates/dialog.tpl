@@ -30,8 +30,11 @@
 					</span>
 					
 					<div class="header-partial partial-recover">
-						<button class="trigger-recover-single primary" title="Recover just this entry">Recover</button>
-						<button class="trigger-recover-single-to-target primary" title="Recover this entry into a new target (The original input field does not exist anymore or has been moved.)">Recover to target</button>
+						<button class="trigger-recover-single health-ok primary" title="Recover just this entry">Recover</button>
+						<button class="trigger-recover-single-to-target health-ok primary icon-btn" title="Recover this entry into a specific target ">
+							<svg height="16" width="14" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1389 1043q31 30 14 69-17 40-59 40h-382l201 476q10 25 0 49t-34 35l-177 75q-25 10-49 0t-35-34l-191-452-312 312q-19 19-45 19-12 0-24-5-40-17-40-59v-1504q0-42 40-59 12-5 24-5 27 0 45 19z"/></svg>
+						</button>
+						<button class="trigger-recover-single-to-target health-bad primary" title="Recover this entry into a new target (The original input field does not exist anymore or has been moved.)">Recover to target</button>
 						<button class="trigger-recover-session" title="Recover everything you typed that page load">Recover session</button>
 					</div>
 
@@ -49,30 +52,48 @@
 			<div class="content">
 				<div class="content-partial partial-recover">
 					<div class="meta">
-						<div class="stats">
-							<i class="icon icon-clock"></i> <span class="date"></span>
-							<i class="icon icon-stats"></i> <span class="size"></span>
 
-							<div class="health-ok">
-								<svg version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polyline clip-rule="evenodd" fill="none" fill-rule="evenodd" points="  21.2,5.6 11.2,15.2 6.8,10.8 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/><path d="M19.9,13c-0.5,3.9-3.9,7-7.9,7c-4.4,0-8-3.6-8-8c0-4.4,3.6-8,8-8c1.4,0,2.7,0.4,3.9,1l1.5-1.5C15.8,2.6,14,2,12,2  C6.5,2,2,6.5,2,12c0,5.5,4.5,10,10,10c5.2,0,9.4-3.9,9.9-9H19.9z"/></svg>
-								<span class="text">Target found</span>
-							</div>
-							<div class="health-bad">
-								<svg version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M13,17h-2v-2h2V17z M13,13h-2V7h2V13z"/><g><path d="M12,4c4.4,0,8,3.6,8,8s-3.6,8-8,8s-8-3.6-8-8S7.6,4,12,4 M12,2C6.5,2,2,6.5,2,12c0,5.5,4.5,10,10,10s10-4.5,10-10   C22,6.5,17.5,2,12,2L12,2z"/></g></svg>
-								<span class="text">Target not found</span>
-							</div>
+						<div class="stat-container">
+							<svg version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="info"/><g id="icons"><g id="time"><path d="M12,0C5.4,0,0,5.4,0,12c0,6.6,5.4,12,12,12s12-5.4,12-12C24,5.4,18.6,0,12,0z M12,21c-5,0-9-4-9-9c0-5,4-9,9-9s9,4,9,9    C21,17,17,21,12,21z"/><path d="M14,11.2V7c0-1.1-0.9-2-2-2s-2,0.9-2,2v5c0,0.5,0.2,1,0.6,1.4l3,3C14,16.8,14.5,17,15,17s1-0.2,1.4-0.6    c0.8-0.8,0.8-2,0-2.8L14,11.2z"/></g></g></svg>
+							<span class="date"></span>
 						</div>
+
+						<div class="stat-container">
+							<svg version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="info"/><g id="icons"><g id="statistics"><path d="M5,12H3c-1.1,0-2,0.9-2,2v6c0,1.1,0.9,2,2,2h2c1.1,0,2-0.9,2-2v-6C7,12.9,6.1,12,5,12z"/><path d="M13,2h-2C9.9,2,9,2.9,9,4v16c0,1.1,0.9,2,2,2h2c1.1,0,2-0.9,2-2V4C15,2.9,14.1,2,13,2z"/><path d="M21,8h-2c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h2c1.1,0,2-0.9,2-2V10C23,8.9,22.1,8,21,8z"/></g></g></svg>
+							<span class="size"></span>
+						</div>
+
+						<div class="health-ok stat-container">
+							<svg version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path clip-rule="evenodd" d="M21.652,3.211c-0.293-0.295-0.77-0.295-1.061,0L9.41,14.34  c-0.293,0.297-0.771,0.297-1.062,0L3.449,9.351C3.304,9.203,3.114,9.13,2.923,9.129C2.73,9.128,2.534,9.201,2.387,9.351  l-2.165,1.946C0.078,11.445,0,11.63,0,11.823c0,0.194,0.078,0.397,0.223,0.544l4.94,5.184c0.292,0.296,0.771,0.776,1.062,1.07  l2.124,2.141c0.292,0.293,0.769,0.293,1.062,0l14.366-14.34c0.293-0.294,0.293-0.777,0-1.071L21.652,3.211z" fill-rule="evenodd"/></svg>
+							<span class="text">Target found</span>
+						</div>
+						<div class="health-bad stat-container" title="The original input field does not exist anymore. You will have to manually select where to restore the text into when you click recover.">
+							<svg version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><title/><defs/><g fill="none" fill-rule="evenodd" id="Icons with numbers" stroke="none" stroke-width="1"><g fill="#dc9527" id="Group" transform="translate(-96.000000, -432.000000)"><path d="M103,443 L103,445 L105,445 L105,443 Z M104,448 C99.5817218,448 96,444.418278 96,440 C96,435.581722 99.5817218,432 104,432 C108.418278,432 112,435.581722 112,440 C112,444.418278 108.418278,448 104,448 Z M103,435 L103,442 L105,442 L105,435 Z M103,435" id="Oval 208 copy"/></g></g></svg>
+							<span class="text">Target not found</span>
+						</div>
+
 					</div>
 					<div class="full-text">
-						Select an entry to the left.
+						<button class="trigger-copy" title="Copy text to clipboard">Copy to clipboard</button>
+						<div class="container">
+							Text goes here
+						</div>
 					</div>
 				</div>
 				<div class="content-partial partial-settings">
 					<div class="inner-content">
-						<p><a href="#" class="trigger-delete-all">Delete all</a> saved data for this site.</p>
-						<p><a href="#" class="trigger-open-extension-settings">Open extension settings</a></p>
-						<hr>
-						<p>Is something broken? Leave feedback or feature requests on our <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open">bitbucket page</a>. Are you a developer? Tyio Form Recovery is open sourced, feel free to contribute!</p>
+						<h2>Site settings</h2>
+						<p><a class="trigger-delete-all">Delete all</a> saved data for this site.</p>
+						<p><a class="trigger-blacklist">Disable Typio on this site (add to blacklist)</a></p>
+
+						<br/>
+
+						<h2>Extension settings</h2>
+						<p><a class="trigger-open-extension-settings">Click here</a> to open extension settings.</p>
+						<p></p>
+
+						<br/><hr>
+						<p>Leave feedback or feature requests on our <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open">bitbucket page</a>. Are you a developer? Typio Form Recovery is open sourced, feel free to contribute!</p>
 					</div>
 				</div>
 				<div class="content-partial partial-default partial-current">

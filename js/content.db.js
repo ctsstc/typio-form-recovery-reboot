@@ -7,13 +7,12 @@ window.terafm = window.terafm || {};
 
 	db.storage = {};
 	db.sessionId = Math.round(new Date().getTime()/1000);
+	db.initiated = false;
 
 
 	// Writes in memory storage to disk (IndexedDB or localStorage)
 	function sync() {
-		terafm.indexedDB.save(JSON.stringify(db.storage), function() {
-			console.log('synced')
-		});
+		terafm.indexedDB.save(JSON.stringify(db.storage));
 	}
 
 	// Loads disk storage to in-memory
@@ -21,7 +20,6 @@ window.terafm = window.terafm || {};
 		terafm.indexedDB.load(function(res) {
 			if(res) {
 				db.storage = JSON.parse(res);
-				console.log('loaded from indexedDB');
 			}
 
 			callback();
@@ -40,8 +38,6 @@ window.terafm = window.terafm || {};
 
 				db.storage[inputId] = JSON.parse(localStorage.getItem(item));
 				found = true;
-
-				console.log('restored', item, 'into', inputId)
 			}
 		}
 
@@ -60,7 +56,12 @@ window.terafm = window.terafm || {};
 			terafm.indexedDB.init(function() {
 				//convertLegacyStorage();
 				loadStorageFromDisk(callback);
+				db.initiated = true;
 			});
+		},
+
+		initiated: function() {
+			return db.initiated ? true : false;
 		},
 
 		sessionId: function() {
@@ -136,31 +137,6 @@ window.terafm = window.terafm || {};
 			}
 
 			sync();
-		},
-
-			// Todo should do it by inputId, not path
-		deleteAllRevisionsByEditable: function(inputPath) {
-
-			// var hashedPath = terafm.editableManager.generateEditableId(inputPath),
-			// 	tmpCurr = storage[hashedPath][sessionId];
-
-			// delete storage[hashedPath];
-
-			// // Restore only current, if there is one
-			// if(tmpCurr !== undefined) {
-			// 	storage[hashedPath] = {};
-			// 	storage[hashedPath][sessionId] = tmpCurr;
-			// }
-			// sync();
-		},
-
-		// Todo should do it by inputId, not path
-		deleteSingleRevisionByInput: function(inputPath, session) {
-			// var inputId = terafm.editableManager.generateEditableId(inputPath),
-			// 	session = session || sessionId;
-
-			// return terafm.db.deleteSingleRevisionByEditable(inputId, session);
-			// sync();
 		},
 
 		deleteSingleRevisionByEditable: function(editableId, session) {

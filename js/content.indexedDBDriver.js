@@ -15,7 +15,7 @@ window.terafm = window.terafm || {};
 				updateRequest = objectStore.put(data, 'inputs');
 
 			updateRequest.onerror = function() {
-				console.log('shits fucked yo')
+				console.error('Typio Form Recovery: Could not save to database.');
 			}
 		},
 
@@ -41,7 +41,7 @@ window.terafm = window.terafm || {};
 			};
 
 			request.onerror = function(event) {
-				console.log('Could not open db.', event)
+				console.error('Typio Form Recovery: Could not initiate database.');
 			}
 
 			request.onupgradeneeded = function(event) {
@@ -58,12 +58,10 @@ window.terafm = window.terafm || {};
 			transaction.oncomplete = callback;
 
 			transaction.onerror = function(event) {
-				console.log('Transaction not opened due to error. Duplicate items not allowed.');
+				console.error('Typio Form Recovery: Could not create database transaction.');
 			};
 			
 			return transaction;
-		} else {
-			console.log('DB has to be initiated first', db)
 		}
 	}
 

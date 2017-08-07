@@ -7,22 +7,49 @@ window.terafm = window.terafm || {};
 		contextTarget;
 
 	window.terafm.context = {
-		setup: function() {
-			injectShadowRoot();
-			injectContextHTML();
-			setupEventHandlers();
+		open: function() {
+
+			// Can't do shit without a database yo
+			if(!terafm.db.initiated()) {
+				alert('Typio Form Recovery is having issues with the database.');
+				return false;
+			}
+
+			deepSetup(function() {
+				var editablePath = terafm.editableManager.getPath(contextTarget),
+					editableId = terafm.editableManager.generateEditableId(editablePath),
+					revisions = terafm.db.getRevisionsByEditable(editableId);
+
+				populateContextMenu(revisions, editableId);
+
+				positionContextMenu(contextTarget);
+
+				showContextMenu();
+			});
 		},
 
-		open: function() {
-			var editablePath = terafm.editableManager.getPath(contextTarget),
-				editableId = terafm.editableManager.generateEditableId(editablePath),
-				revisions = terafm.db.getRevisionsByEditable(editableId);
+		setup: setupBasicEventHandlers
 
-			populateContextMenu(revisions, editableId);
+	}
 
-			positionContextMenu(contextTarget);
+	// Listens for rightclicks
+	function setup() {
+		setupBasicEventHandlers();
+	}
 
-			showContextMenu();
+	// Inserts html and context eventhandlers
+	function deepSetup(callback) {
+		if(!contextmenu) {
+			injectShadowRoot();
+			injectContextHTML(function() {
+				setupEventHandlers();
+
+				// setTimeout(function() {
+					callback();
+				// }, 20);
+			});
+		} else {
+			callback();
 		}
 	}
 
@@ -48,13 +75,13 @@ window.terafm = window.terafm || {};
 
 			for(key in sortedKeys) {
 				var revision = revisions[sortedKeys[key]],
+					editableId = terafm.editableManager.generateEditableId(revision.path),
 					safeString = terafm.helpers.encodeHTML(revision.value).substring(0,50);
 
 				count += 1;
 
-				html += '<li data-session="'+ sortedKeys[key] +'">';
-					html += '<span data-delete class="tera-icon-right tera-icon-delete" title="Delete entry"></span>';
-					html += '<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover this input"></span>';
+				html += '<li data-session="'+ sortedKeys[key] +'" data-editable="'+ editableId +'">';
+					html += '<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover just this input"></span>';
 					html += safeString;
 				html += '</li>';
 
@@ -112,21 +139,37 @@ window.terafm = window.terafm || {};
 		contextmenu = document.getElementById('terafm-context').createShadowRoot({mode: 'open'});
 	}
 
-	function injectContextHTML() {
-		var CSSPath = chrome.runtime.getURL('css/content.css');
+	function injectContextHTML(callback) {
 
-		var html = '';
-		html += '<style> @import url("'+ CSSPath +'"); </style>';
-		html += "<div id='tera-result-list-container' class='hidden'>";
-			html += "<ul class='tera-result-list'><li>test</li></ul>"
-		html += "</div>";
-		contextmenu.innerHTML = html;
+		fetchContextStylesheet(function(css) {
+			var html = '';
+			html += '<style> '+ css +'</style>';
+			html += "<div id='tera-result-list-container' class='hidden'>";
+				html += "<ul class='tera-result-list'><li>test</li></ul>"
+			html += "</div>";
+
+			contextmenu.innerHTML = html;
+
+			callback();
+		});
+	}
+
+	function fetchContextStylesheet(callback) {
+		var stylePath = chrome.runtime.getURL('css/content.css'),
+			request = fetch(stylePath).then(response => response.text());
+
+		request.then(function(text) {
+			callback(text);
+		});
+	}
+
+	function setupBasicEventHandlers() {
+		document.addEventListener('contextmenu', documentContextHandler);
 	}
 
 	function setupEventHandlers() {
 		window.addEventListener('resize', windowResizeHandler);
 
-		document.addEventListener('contextmenu', documentContextHandler);
 		document.addEventListener('mousedown', documentMousedownHandler);
 		document.addEventListener('focus', documentFocusHandler, true);
 		
@@ -161,13 +204,16 @@ window.terafm = window.terafm || {};
 	}
 
 	function contextmenuMousedownHandler(e) {
-		console.log('stopped')
 		e.stopPropagation();
 	}
 	function contextmenuClickHandler(e) {
 		var target = e.target;
 
 		if(target.dataset.session !== undefined) {
+			terafm.editableManager.resetPlaceholders(true);
+			hideContextMenu();
+			
+		} else if(target.dataset.setSingleEntry !== undefined) {
 			terafm.editableManager.resetPlaceholders(true);
 			hideContextMenu();
 			
@@ -191,9 +237,17 @@ window.terafm = window.terafm || {};
 
 				if(input) {
 					terafm.editableManager.setEditableValue(input, session[entry].value, true);
-				} else {
-					console.log('NOT FOUND!', session[entry].path)
 				}
+			}
+		} else if(e.target.dataset.setSingleEntry !== undefined) {
+			var listItem = e.target.closest('[data-session]');
+
+			if(listItem) {
+				sid = listItem.dataset.session;
+				var editableId = listItem.dataset.editable,
+					revision = terafm.db.getSingleRevisionByEditableAndSession(editableId, sid);
+
+				terafm.editableManager.setEditableValue(contextTarget, revision.value, true);
 			}
 		}
 	}

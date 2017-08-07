@@ -13,7 +13,6 @@ window.terafm = window.terafm || {};
 				setPlaceholderClass(editable);
 				saveOriginalValue(editable);
 			} else {
-				console.log('removing placeholder for', editable, editable.classList)
 				removePlaceholderClass(editable);
 			}
 
@@ -39,8 +38,6 @@ window.terafm = window.terafm || {};
 			}, 200);
 		},
 
-		// Todo: Cash path in data attribute.
-		// How to handle element move? Does it ever happen? Maybe if siblings are removed?
 		getPath: function(el) {
 			// Check easy way first, does it have a valid id?
 			if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
@@ -145,8 +142,8 @@ window.terafm = window.terafm || {};
 		for(i in placeholders) {
 			var editable = placeholders[i];
 
-			// TODO: Switch to foreach to prevent??
 			// querySelectorAll returns an object of DOM nodes and a "length" value, we only wanna loop through the DOMs
+			// Switch to foreach to prevent?? There has to be a better way
 			if(!editable.nodeName) continue;
 
 			editable.classList.remove('teraUIActiveInput');
@@ -220,45 +217,37 @@ window.terafm = window.terafm || {};
 
 
 	function setEditableValue(editable, val) {
+		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
 
-		var event = new Event('keyup', {bubbles: true, cancelable: false});
-		editable.dispatchEvent(event);
-		console.log('triggered keyup', event);
+				// Special care for checkable inputs
+				if(editable.type === 'checkbox') {
+					val = parseInt(val);
+					editable.checked = val ? true : false;
 
-		setTimeout(function() {
-			if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
+				} else if(editable.type === 'radio') {
 
-					// Special care for checkable inputs
-					if(editable.type === 'checkbox') {
-						val = parseInt(val);
-						editable.checked = val ? true : false;
+					// Set by value
+					if(val == parseInt(val)) {
+						editable.checked = true;
 
-					} else if(editable.type === 'radio') {
-
-						// Set by value
-						if(val == parseInt(val)) {
-							editable.checked = true;
-
-						// Set by path
-						} else {
-							var orgRadio = document.querySelector(val);
-							if(orgRadio) {
-								orgRadio.checked = true;
-							}
-						}
-
+					// Set by path
 					} else {
-						editable.value = val;
+						var orgRadio = document.querySelector(val);
+						if(orgRadio) {
+							orgRadio.checked = true;
+						}
 					}
 
-			} else if(editable.nodeName == 'SELECT') {
-				editable.value = val;
+				} else {
+					editable.value = val;
+				}
 
-			} else {
-				console.log('setting innerHTML for', editable)
-				editable.innerHTML = val;
-			}
-		}, 1000);
+		} else if(editable.nodeName == 'SELECT') {
+			editable.value = val;
+
+		} else {
+			editable.innerHTML = val;
+		}
 	}
 
 	// Check if element is editable

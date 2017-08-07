@@ -7,12 +7,17 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 	// Check if blacklisted on this domain
 	isBlacklisted(tab.url, function(isBlacklisted) {
-		if(isBlacklisted) return false;
 
 		chrome.tabs.sendMessage(tabId, {action: 'ping'}, function(response) {
 
 			// Already injected, let's bail
 			if(response === true) {
+				return false;
+			}
+
+			// Page is blacklisted!
+			if(isBlacklisted) {
+				chrome.tabs.executeScript(tabId, {file: 'js/content.blacklisted.js', runAt: 'document_end'});
 				return false;
 			}
 

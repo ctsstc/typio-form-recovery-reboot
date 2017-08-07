@@ -6,18 +6,29 @@ window.terafm = window.terafm || {};
 		currentRevision = {};
 
 	window.terafm.dialog = {
-		setup: function() {
-			if(!dialog) {
-				injectShadowRoot();
-				injectDialogHTML(function() {
-					setupEventListeners();
-				});
-			}
-		},
 		open: function() {
-			setPage('default');
-			populate();
-			openDialog();
+			setup(function() {
+				setPage('default');
+				populate();
+				openDialog();
+			});
+		},
+		close: function() {
+			hideDialog();
+		}
+	}
+
+	function setup(callback) {
+		if(!dialog) {
+			injectShadowRoot();
+			injectDialogHTML(function() {
+				setTimeout(function() {
+					setupEventListeners();
+					callback();
+				}, 50);
+			});
+		} else {
+			callback();
 		}
 	}
 
@@ -50,7 +61,7 @@ window.terafm = window.terafm || {};
 					html += '<li data-set-current data-editable="'+ input +'" data-session="'+ sess +'">';
 						html += '<p class="excerpt">' + excerpt + '</p>';
 						html += '<div class="meta-bar">';
-							html += wordCount + ' words | <a>Details</a> |  <a data-delete-single data-editable="'+ input +'" data-session="'+ sess +'">Delete entry</a>';
+							html += wordCount + ' words | <a>Details</a> |  <a class="del-link" data-delete-single data-editable="'+ input +'" data-session="'+ sess +'">Delete entry</a>';
 						html += '</div>';
 					html += '</li>';
 				}
@@ -71,9 +82,11 @@ window.terafm = window.terafm || {};
 	}
 
 	function hideDialog() {
-		var shadowRoot = dialog.querySelector('.shadow-root');
+		if(dialog) {
+			var shadowRoot = dialog.querySelector('.shadow-root');
 
-		shadowRoot.classList.remove('open');
+			shadowRoot.classList.remove('open');
+		}
 	}
 
 	function injectDialogHTML(callback) {
@@ -177,7 +190,7 @@ window.terafm = window.terafm || {};
 				}
 
 
-			// Recover single to targettrigger
+			// Recover single to target trigger
 			} else if(target.classList.contains('trigger-recover-single-to-target')) {
 				hideDialog();
 				if(confirm('Click any input field to restore the data into.')) {
@@ -224,6 +237,36 @@ window.terafm = window.terafm || {};
 			} else if(target.classList.contains('trigger-delete-all')) {
 				terafm.db.deleteAllSessions();
 				populate();
+
+
+			// Copy to clipboard trigger
+			} else if(target.classList.contains('trigger-copy')) {
+				document.body.insertAdjacentHTML('afterbegin', '<textarea id="terafm-copy" style="position: absolute;"></textarea>');
+				var copyCont = document.querySelector('#terafm-copy');
+
+				copyCont.value = currentRevision.editableValue;
+				copyCont.focus();
+				copyCont.select();
+
+				// Give it some time for large texts
+				document.execCommand('copy');
+				document.body.removeChild(copyCont);
+
+				hideDialog();
+
+
+			// Add site to blacklist trigger
+			} else if(target.classList.contains('trigger-blacklist')) {
+				chrome.storage.sync.get('domainBlacklist', function(res) {
+					var blacklist = res.domainBlacklist;
+					blacklist += window.location.hostname + "\r\n";
+					chrome.storage.sync.set({
+						domainBlacklist: blacklist
+					});
+					target.parentElement.insertAdjacentHTML('afterbegin', 'Added to blacklist. Typio will not save any data on ' + window.location.hostname +' anymore. You can enable the extension for this site again by removing it from the blacklist in the extension settings.');
+					target.parentElement.removeChild(target);
+
+				});
 			}
 
 		});
@@ -247,11 +290,9 @@ window.terafm = window.terafm || {};
 	function setRevision(editableId, session) {
 
 		// These nodes will be updated
-		var fulltextNode = dialog.querySelector('.content .partial-recover .full-text'),
-			dateNode = dialog.querySelector('.content .partial-recover .stats .date'),
-			sizeNode = dialog.querySelector('.content .partial-recover .stats .size'),
-			healthGoodNode = dialog.querySelector('.content .partial-recover .stats .health-ok'),
-			healthBadNode = dialog.querySelector('.content .partial-recover .stats .health-bad');
+		var fulltextNode = dialog.querySelector('.content .partial-recover .full-text .container'),
+			dateNode = dialog.querySelector('.content .partial-recover .meta .date'),
+			sizeNode = dialog.querySelector('.content .partial-recover .meta .size');
 
 
 		// Get revision data
@@ -268,7 +309,7 @@ window.terafm = window.terafm || {};
 		// Make data pretty before we update the dom
 		var prettyDate = terafm.helpers.prettyDateFromTimestamp(session),
 			prettyDateFull = new Date(session*1000).toString(),
-			wordCount = revisionValue.split(/\s/).length + ' words', // TODO: Does it work with integers?
+			wordCount = revisionValue.split(/\s/).length + ' words',
 			healthStatus = document.querySelector(revision.path) ? true : false,
 			revisionValue = revisionValue.replace(/[\r\n]/gm, '<br/>');
 
@@ -287,7 +328,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function clickTargetToRestore(callback) {
-		document.body.insertAdjacentHTML('afterbegin', '<div id="thingy" style="position: absolute; z-index: 99999999; background: rgba(255,0,0,.5);"></div>');
+		document.body.insertAdjacentHTML('afterbegin', '<div id="thingy" style="position: absolute; z-index: 99999999; background: rgba(0,255,100,.5);"></div>');
 		var thingy = document.getElementById('thingy');
 		var thingyTarget;
 		document.body.addEventListener('mouseover', function(e) {

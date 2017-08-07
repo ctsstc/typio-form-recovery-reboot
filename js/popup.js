@@ -3,6 +3,7 @@
 var toggleBlackButton = document.getElementById('toggleBlacklist'),
 	clearDataButton = document.getElementById('clearDomainStorage'),
 	moreOptionsLink = document.getElementById('moreOptionsLink'),
+	openDialogLink = document.getElementById('openDialogTrigger'),
 	tabId, url;
 
 chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
@@ -19,14 +20,11 @@ moreOptionsLink.addEventListener('click', function() {
 });
 
 clearDataButton.addEventListener('click', function() {
-	clearDataButton.innerHTML = 'Deleting...';
-	chrome.tabs.executeScript(tabId, {
-		runAt: 'document_end',
-		code: "for(i in localStorage) if(i.indexOf('teraField') !== -1) localStorage.removeItem(i);" // TODO: Will not work anymore, duh
-	}, 	function() {
-		clearDataButton.innerHTML = 'Data deleted';
-		clearDataButton.disabled = true;
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		chrome.tabs.sendMessage(tabs[0].id, {action: 'clearData'});
 	});
+	clearDataButton.innerHTML = 'Data deleted';
+	clearDataButton.disabled = true;
 });
 
 
@@ -40,6 +38,12 @@ toggleBlackButton.addEventListener('click', function() {
 	}
 });
 
+openDialogLink.addEventListener('click', function() {
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		chrome.tabs.sendMessage(tabs[0].id, {action: 'openRecoveryDialog'});
+	});
+})
+
 function isBlocked(callback) {
 	_getBlocked(function(list) {
 		var regex = new RegExp('.*' + (url.replace('.', '\.')), 'gi'),
@@ -50,7 +54,7 @@ function isBlocked(callback) {
 }
 function unblock() {
 	_getBlocked(function(list) {
-		var regex = new RegExp('[\r\n]*.*' + (url.replace('.', '\.')), 'gi');
+		var regex = new RegExp('[\r\n]*.*' + (url.replace('.', '\.')) + '[\r\n]*.*', 'gi');
 
 		list = list.replace(regex, '');
 		chrome.storage.sync.set({domainBlacklist: list});
@@ -58,7 +62,7 @@ function unblock() {
 }
 function block() {
 	_getBlocked(function(list) {
-		list += "\r\n" + url;
+		list += url + "\r\n";
 		chrome.storage.sync.set({domainBlacklist: list});
 	});
 }
@@ -71,10 +75,10 @@ function _getBlocked(callback) {
 
 function _setBlockButtonState(blocked) {
 	if(blocked) {
-		toggleBlackButton.innerHTML = 'Enable extension on this site';
+		toggleBlackButton.innerHTML = 'Enable Typio on this site';
 		toggleBlackButton.dataset.blocked = 1;
 	} else {
-		toggleBlackButton.innerHTML = 'Disable extension on this site';
+		toggleBlackButton.innerHTML = 'Disable Typio on this site';
 		toggleBlackButton.dataset.blocked = 0;
 	}
 }

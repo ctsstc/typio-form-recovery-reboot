@@ -12,52 +12,74 @@ window.terafm = window.terafm || {};
 		}
 	};
 
+
+	window.terafm.engine = {
+
+		options: {
+			allowedInputTypes: ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'],
+		
+			savePasswords: false,
+			storageTimeDays: 7,
+		},
+
+		saveRevision: function(editable, editableValue) {
+
+			if(!isEditable(editable)) {
+				return false;
+			}
+
+			var editablePath = terafm.ui.generateDomPath(editable),
+				editableId = terafm.helpers.generateEditableId(editablePath),
+
+				safeEditableValue = terafm.helpers.encodeHTML(editableValue);
+
+
+			// Min length of string to save (only if text editable)
+			if(safeEditableValue.length < 1 && isEditableText(editable)) {
+				terafm.db.deleteSingleRevisionByInput(editablePath);
+				return false;
+			}
+
+			// Special care for radio inputs, have to delete siblings
+			if(editable.type === 'radio') {
+				deleteRadioSiblingsFromStorage(editable);
+			}
+
+			var data = {
+				value: editableValue, // Not safe value
+				path: editablePath
+			}
+
+			terafm.db.saveRevision(editableId, data);
+		}
+	}
+
+
 	function init() {
 
+		// Initiate DB, populate in-memory storage
 		terafm.db.init(function() {
+
+			// Load extension options into memory
 			loadExtensionOptions(function() {
+
+				// Delete old stuff (by storageDays option)
 				deleteExpiredSessions();
 
-				if(window.location.host === 's.codepen.io') {
+				// Initiated because it listens for input changes
+				terafm.editableManager.setup();
+
+				// if(window.location.host === 's.codepen.io') {
 					// setTimeout(function() {
-					// 	terafm.dialog.open();
-					// }, 20);
+						// terafm.dialog.open();
+					// }, 500); 
+				// }
 
-					setTimeout(function() {
-						document.body.insertAdjacentHTML('afterbegin', '<input id="dynoAfter" placeholder="Dyno after" />');
-						var dyno = document.querySelector('#dynoAfter');
-						dyno.addEventListener('keyup', function(e) {
-							e.stopPropagation();
-						});
-						dyno.addEventListener('change', function(e) {
-							e.stopPropagation();
-						});
-						console.dir(dyno);
-					}, 1000);
-
-
-					var observer = new MutationObserver(function(mutations) {
-						mutations.forEach(function(mutation) {
-							mutation.addedNodes.forEach(function(sdf) {
-								if(terafm.editableManager.isEditable(sdf)) {
-									console.log(sdf);
-								}
-							});
-						});    
-					});
-
-					observer.observe(document.body, {
-						attributes: false,
-						childList: true,
-						characterData: false
-					});
-
-				}
 			});
+
 		});
 
-		terafm.editableManager.setup();
-		terafm.dialog.setup();
+		// Initiated because it listens for rightclicks (html only injected when contextmenu is triggered)
 		terafm.context.setup();
 	}
 
@@ -108,62 +130,6 @@ window.terafm = window.terafm || {};
 		}
 	}
 
-
-	terafm.engine = {
-
-		options: {
-			allowedInputTypes: ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'],
-		
-			savePasswords: false,
-			storageTimeDays: 7,
-		},
-
-		saveRevision: function(editable, editableValue) {
-
-			if(!isEditable(editable)) {
-				return false;
-			}
-
-			var editablePath = terafm.ui.generateDomPath(editable),
-				editableId = terafm.helpers.generateEditableId(editablePath),
-
-				safeEditableValue = terafm.helpers.encodeHTML(editableValue);
-
-
-			// Min length of string to save (only if text editable)
-			if(safeEditableValue.length < 1 && isEditableText(editable)) {
-				terafm.db.deleteSingleRevisionByInput(editablePath);
-				return false;
-			}
-
-			// Special care for radio inputs, have to delete siblings
-			if(editable.type === 'radio') {
-				deleteRadioSiblingsFromStorage(editable);
-			}
-
-			var data = {
-				value: editableValue, // Not safe value
-				path: editablePath
-			}
-
-			terafm.db.saveRevision(editableId, data);
-		},
-
-		recoverSession: function(session) {
-			// for(input in session) {
-				console.log(session)
-			// }
-		},
-		recoverInput: function(input, session) {
-
-		},
-
-		recoverInputInto: function(input, session, target) {
-
-		}
-	}
-
-
 	// Used to check if script is already injected. Message is sent from background.js
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
@@ -176,6 +142,10 @@ window.terafm = window.terafm || {};
 
 		} else if(request.action === 'openRecoveryDialog') {
 			terafm.dialog.open();
+
+		} else if(request.action === 'clearData') {
+			terafm.db.deleteAllSessions();
+			terafm.dialog.close();
 		}
 	});
 
