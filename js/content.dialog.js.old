@@ -1,0 +1,210 @@
+window.terafm = window.terafm || {};
+
+(function() {
+
+	var dialog,
+		currSelected = {};
+
+	window.terafm.dialog = {
+		setup: function() {
+			if(!dialog) {
+				injectShadowRoot();
+				injectDialogHTML(function() {
+					setupEventListeners();
+				});
+			}
+		},
+		open: function() {
+			populate();
+			open();
+		}
+	}
+
+	function populate() {
+
+		var sessionData = terafm.db.getAllRevisionsGroupedBySession(),
+			sortedSessionIds = Object.keys(sessionData).reverse(),
+			html = '';
+
+		for(sid in sortedSessionIds) {
+
+			var sess = sortedSessionIds[sid],
+				prettyTime = terafm.helpers.prettyDateFromTimestamp(sess);
+
+			html += '<p class="session-timestamp">'+ prettyTime +'</p>';
+			html += '<ul>';
+			for(input in sessionData[sess]) {
+
+				var safeString = terafm.helpers.encodeHTML(sessionData[sess][input].value),
+					excerpt = safeString.substring(0, 220),
+					excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt,
+					wordCount = (safeString + '').split(/\s/).length;
+
+				html += '<li data-set-current data-field="'+ input +'" data-session="'+ sess +'">';
+					html += '<p class="excerpt">' + excerpt + '</p>';
+					html += '<div class="meta-bar">';
+						html += '<a href="#">Details</a> | ' + wordCount + ' words';
+					html += '</div>';
+				html += '</li>';
+			}
+
+			html += '</ul>';
+		}
+
+		dialog.querySelector('.recovery-container').innerHTML = html;
+	}
+
+	function open() {
+		dialog.querySelector('.shadow-root').classList.remove('hidden');
+
+		setTimeout(function() {
+			dialog.querySelector('.shadow-root').classList.add('open');
+		}, 10);
+	}
+
+	function hide() {
+		dialog.querySelector('.shadow-root').classList.add('hidden');
+		dialog.querySelector('.shadow-root').classList.remove('open');
+	}
+
+	function setCurrentStatus(status, callback) {
+		if(status) {
+			setCurrentStatus(false);
+			setTimeout(function() {
+				dialog.querySelector('.shadow-root').classList.add('current-loaded');
+				callback();
+			}, 200);
+		} else {
+			dialog.querySelector('.shadow-root').classList.remove('current-loaded');
+		}
+	}
+
+	function injectShadowRoot() {
+		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-dialog"></div>');
+
+		console.log('creating dialog')
+		var shadowRoot = document.getElementById('terafm-dialog').createShadowRoot({mode: 'open'});
+		dialog = shadowRoot;
+	}
+
+	function injectDialogHTML(callback) {
+		var diagCSSPath = chrome.runtime.getURL('css/content.dialog.css'),
+			template = chrome.runtime.getURL('templates/dialog.tpl');
+
+		fetch(template).then(function(res) {
+			res.text().then(function(html) {
+				html = html.replace('{{ cssPath }}', diagCSSPath);
+				html = html.replace('{{ hostname }}', window.location.hostname);
+				dialog.innerHTML = html;
+				injectDialogHTML();
+			});
+		});
+		
+	}
+
+	function setCurrent(field, session) {
+
+		currSelected.editableId = field;
+		currSelected.session = session;
+
+		var fullrev = terafm.db.getSingleRevisionByEditableAndSession(currSelected.editableId, currSelected.session),
+			safeString = terafm.helpers.encodeHTML(fullrev.value);
+
+		currSelected.editablePath = fullrev.path;
+		currSelected.editableValue = fullrev.value;
+
+		setCurrentStatus(true, function() {
+			dialog.querySelector('.right-pane .content-recover .full-text').innerHTML = safeString;
+			dialog.querySelector('.right-pane .stats .date').innerHTML = terafm.helpers.prettyDateFromTimestamp(currSelected.session);
+			dialog.querySelector('.right-pane .stats .size').innerHTML = (fullrev.value + "").split(/\s/).length + ' words';
+			dialog.querySelector('.right-pane .stats .health').innerHTML = document.querySelector(currSelected.editablePath) ? 'OK' : 'NOT FOUND';
+		})
+
+	}
+
+	function setPage(pageId) {
+		var currPage = dialog.querySelector('.right-pane .content-current'),
+			newPage = dialog.querySelector('.right-pane .content-' + pageId),
+
+			currHead = dialog.querySelector('.right-pane .header .header-current'),
+			newHead = dialog.querySelector('.right-pane .header .header-' + pageId);
+
+		currPage.classList.remove('content-current');
+		setTimeout(function() {
+			newPage.classList.add('content-current');
+		}, 200);
+
+		currHead.classList.remove('header-current');
+		setTimeout(function() {
+			newHead.classList.add('header-current');
+		}, 200);
+	}
+
+	function setupEventListeners() {
+		dialog.addEventListener('click', function(e) {
+
+			var target = e.path[0];
+
+			if(target.classList.contains('trigger-close-dialog')) {
+				hide();
+
+			} else if(target.dataset.setCurrent !== undefined || target.parentElement.dataset.setCurrent !== undefined) {
+				var li = target.dataset.setCurrent !== undefined ? li : target.parentElement;
+				setCurrent(li.dataset.field, li.dataset.session);
+				setPage('recover');
+				var old = dialog.querySelector('.recovery-container .current');
+				if(old) {
+					old.classList.remove('current');
+				}
+				li.classList.add('current');
+
+			} else if(target.dataset.setPage !== undefined) {
+				setPage(target.dataset.setPage);
+			
+			} else if(target.dataset.recover !== undefined) {
+
+				var target = document.querySelector(currSelected.editablePath);
+				if(target) {
+					terafm.editableManager.setEditableValue(target, currSelected.editableValue)
+					hide();
+				}
+
+			} else if(target.dataset.recoverSession !== undefined) {
+				var session = terafm.db.getRevisionsBySession(currSelected.session),
+					fails = 0;
+					
+				session.forEach(function(editable) {
+					var target = document.querySelector(editable.path);
+					if(target) {
+						terafm.editableManager.setEditableValue(target, editable.value);
+					} else {
+						fails += 1;
+					}
+				});
+
+				if(fails !== 0) {
+					console.log(fails, ' out of '+ session.length +' fields could not be recovered');
+				}
+
+				hide();
+			}
+
+
+		}, true);
+
+		dialog.querySelector('.dialog-overlay').addEventListener('click', function(e) {
+			hide();
+		})
+
+		dialog.querySelector('.recovery-container').addEventListener('scroll', function(e) {
+			var elem = e.path[0];
+
+			if(elem.scrollTop > 0) {
+				elem.classList.add('scroll-not-top');
+			} else {
+				elem.classList.remove('scroll-not-top');
+			}
+		});
+	}
+
+})();

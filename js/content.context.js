@@ -41,6 +41,8 @@ window.terafm = window.terafm || {};
 
 		} else {
 
+			var count = 0;
+
 			var sortedKeys = Object.keys(revisions);
 			sortedKeys = sortedKeys.sort().reverse();
 
@@ -48,11 +50,18 @@ window.terafm = window.terafm || {};
 				var revision = revisions[sortedKeys[key]],
 					safeString = terafm.helpers.encodeHTML(revision.value).substring(0,50);
 
+				count += 1;
+
 				html += '<li data-session="'+ sortedKeys[key] +'">';
 					html += '<span data-delete class="tera-icon-right tera-icon-delete" title="Delete entry"></span>';
 					html += '<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover this input"></span>';
 					html += safeString;
 				html += '</li>';
+
+				// Only show 10 entries in dropdown
+				if(count > 9) {
+					break;
+				}
 			}
 		}
 
@@ -135,7 +144,8 @@ window.terafm = window.terafm || {};
 	}
 
 	function documentContextHandler(e) {
-		contextTarget = e.target;
+		var editable = terafm.editableManager.getEditable(e.target);
+		contextTarget = editable;
 	}
 
 	function documentMousedownHandler(e) {
@@ -196,7 +206,6 @@ window.terafm = window.terafm || {};
 		// and html is not accessible as an ancestor. Maybe.
 		if( target.closest('html') ) {
 			terafm.editableManager.resetPlaceholders();
-			console.log('left tera-result-list-container')
 		}
 	}
 

@@ -19,7 +19,39 @@ window.terafm = window.terafm || {};
 				deleteExpiredSessions();
 
 				if(window.location.host === 's.codepen.io') {
-					terafm.dialog.open();
+					// setTimeout(function() {
+					// 	terafm.dialog.open();
+					// }, 20);
+
+					setTimeout(function() {
+						document.body.insertAdjacentHTML('afterbegin', '<input id="dynoAfter" placeholder="Dyno after" />');
+						var dyno = document.querySelector('#dynoAfter');
+						dyno.addEventListener('keyup', function(e) {
+							e.stopPropagation();
+						});
+						dyno.addEventListener('change', function(e) {
+							e.stopPropagation();
+						});
+						console.dir(dyno);
+					}, 1000);
+
+
+					var observer = new MutationObserver(function(mutations) {
+						mutations.forEach(function(mutation) {
+							mutation.addedNodes.forEach(function(sdf) {
+								if(terafm.editableManager.isEditable(sdf)) {
+									console.log(sdf);
+								}
+							});
+						});    
+					});
+
+					observer.observe(document.body, {
+						attributes: false,
+						childList: true,
+						characterData: false
+					});
+
 				}
 			});
 		});

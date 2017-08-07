@@ -23,7 +23,7 @@
         "persistent": false
     },
 
-    "web_accessible_resources": ["img/*.png", "css/*.css"],
+    "web_accessible_resources": ["img/*", "css/*.css", "templates/*.tpl"],
 
     "options_ui" : {
         "page": "html/options.html",

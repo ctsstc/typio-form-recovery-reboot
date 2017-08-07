@@ -73,7 +73,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		});
 	}
 	else if(request.action === 'openSettings') {
-		chrome.tabs.create({'url': '/options.html' });
+		chrome.runtime.openOptionsPage();
 	}
 
 });

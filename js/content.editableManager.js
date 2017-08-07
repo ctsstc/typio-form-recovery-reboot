@@ -13,6 +13,7 @@ window.terafm = window.terafm || {};
 				setPlaceholderClass(editable);
 				saveOriginalValue(editable);
 			} else {
+				console.log('removing placeholder for', editable, editable.classList)
 				removePlaceholderClass(editable);
 			}
 
@@ -21,6 +22,21 @@ window.terafm = window.terafm || {};
 
 		resetPlaceholders: function(keepvalues) {
 			resetPlaceholders(keepvalues);
+		},
+
+		flashEditable: function(editable) {
+			setTimeout(function() {
+				setPlaceholderClass(editable);
+				setTimeout(function() {
+					removePlaceholderClass(editable);
+					setTimeout(function() {
+						setPlaceholderClass(editable);
+						setTimeout(function() {
+							removePlaceholderClass(editable);
+						}, 150);
+					}, 150);
+				}, 150);
+			}, 200);
 		},
 
 		// Todo: Cash path in data attribute.
@@ -59,6 +75,14 @@ window.terafm = window.terafm || {};
 
 		generateEditableId: function(path) {
 			return 'field' + terafm.helpers.hash(path);
+		},
+
+		getEditable: function(target) {
+			return getEditable(target);
+		},
+
+		isEditable: function(target) {
+			return isEditable(target);
 		}
 
 	}
@@ -197,37 +221,44 @@ window.terafm = window.terafm || {};
 
 	function setEditableValue(editable, val) {
 
-		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
+		var event = new Event('keyup', {bubbles: true, cancelable: false});
+		editable.dispatchEvent(event);
+		console.log('triggered keyup', event);
 
-			// Special care for checkable inputs
-			if(editable.type === 'checkbox') {
-				val = parseInt(val);
-				editable.checked = val ? true : false;
+		setTimeout(function() {
+			if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
 
-			} else if(editable.type === 'radio') {
+					// Special care for checkable inputs
+					if(editable.type === 'checkbox') {
+						val = parseInt(val);
+						editable.checked = val ? true : false;
 
-				// Set by value
-				if(val == parseInt(val)) {
-					editable.checked = true;
+					} else if(editable.type === 'radio') {
 
-				// Set by path
-				} else {
-					var orgRadio = document.querySelector(val);
-					if(orgRadio) {
-						orgRadio.checked = true;
+						// Set by value
+						if(val == parseInt(val)) {
+							editable.checked = true;
+
+						// Set by path
+						} else {
+							var orgRadio = document.querySelector(val);
+							if(orgRadio) {
+								orgRadio.checked = true;
+							}
+						}
+
+					} else {
+						editable.value = val;
 					}
-				}
+
+			} else if(editable.nodeName == 'SELECT') {
+				editable.value = val;
 
 			} else {
-				editable.value = val;
+				console.log('setting innerHTML for', editable)
+				editable.innerHTML = val;
 			}
-
-		} else if(editable.nodeName == 'SELECT') {
-			editable.value = val;
-
-		} else {
-			editable.innerHTML = val;
-		}
+		}, 1000);
 	}
 
 	// Check if element is editable
@@ -264,7 +295,13 @@ window.terafm = window.terafm || {};
 		if(isEditable(elem)) return elem;
 
 		// Iterate every parent, return if parent is editable
-		return terafm.ui.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' })
+		//return terafm.ui.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' });
+		var parent = elem.closest('[contenteditable]');
+		if(parent) {
+			return parent;
+		}
+
+		return false;
 	}
 
 	function isEditableText(elem) {

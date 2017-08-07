@@ -7,7 +7,7 @@ window.terafm = window.terafm || {};
 		parent: function(elem, cb) {
 			var parent = elem.parentElement;
 			if (!parent) return undefined;
-			return fn(parent) ? parent : tera.parent(parent, cb);
+			return fn(parent) ? parent : terafm.ui.parent(parent, cb);
 		}
 	}
 

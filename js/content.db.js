@@ -122,6 +122,22 @@ window.terafm = window.terafm || {};
 			return terafm.helpers.cloneObject(revisions || {});
 		},
 
+		// Deletes everythinng except for current session
+		deleteAllSessions: function() {
+			for(editable in db.storage) {
+				var curr = db.storage[editable][db.sessionId];
+
+				delete db.storage[editable];
+
+				if(curr) {
+					db.storage[editable] = {};
+					db.storage[editable][db.sessionId] = curr;
+				}
+			}
+
+			sync();
+		},
+
 			// Todo should do it by inputId, not path
 		deleteAllRevisionsByEditable: function(inputPath) {
 

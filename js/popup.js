@@ -22,7 +22,7 @@ clearDataButton.addEventListener('click', function() {
 	clearDataButton.innerHTML = 'Deleting...';
 	chrome.tabs.executeScript(tabId, {
 		runAt: 'document_end',
-		code: "for(i in localStorage) if(i.indexOf('teraField') !== -1) localStorage.removeItem(i);"
+		code: "for(i in localStorage) if(i.indexOf('teraField') !== -1) localStorage.removeItem(i);" // TODO: Will not work anymore, duh
 	}, 	function() {
 		clearDataButton.innerHTML = 'Data deleted';
 		clearDataButton.disabled = true;

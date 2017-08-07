@@ -11,9 +11,22 @@ ul, li {
 	list-style: none;
 }
 
+p {
+	margin: 0 0 20px 0;
+}
+
+a {
+	color: #1e78b9; //#275e86;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 $left-pane-width: 500px;
 $right-pane-width: 500px;
-$right-pane-padding: 50px;
 
 
 .dialog-overlay {
@@ -23,35 +36,38 @@ $right-pane-padding: 50px;
 	right: 0;
 	bottom: 0;
 	background: rgba(255,255,255,.6);
-	z-index: 100;
 	opacity: 0;
 	transition-duration: .3s;
 }
 
 .shadow-root {
+	visibility: hidden;
+	overflow: auto;
+	z-index: 99999;
 
-	&.hidden {
-		display: none;
-	}
+	&.open {
+		visibility: visible;
 
-	&.open .dialog-container {
-		transform: none;
-		opacity: 1;
-	}
-	&.open .dialog-overlay {
-		opacity: 1;
+		.dialog-container {
+			transform: none;
+			opacity: 1;
+		}
+		.dialog-overlay {
+			opacity: 1;
+		}
 	}
 }
 
 .dialog-container {
 	position: fixed;
-	top: 35px;
-	left: 30px;
-	right: 30px;
-	bottom: 30px;
+	top: 20px;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
 	margin: auto;
-	width: $left-pane-width + $right-pane-width;
-	max-height: 600px;
+	max-width: $left-pane-width + $right-pane-width;
+	max-height: 650px;
+	min-width: 850px;
 	z-index: 110;
 	color: #333;
 	font-family: sans-serif;
@@ -62,7 +78,7 @@ $right-pane-padding: 50px;
 	opacity: 0;
 	display: flex;
 	flex-flow: row;
-	padding-top: 30px;
+	padding-top: 35px;
 	background: #FFF;
 
 	.top-bar {
@@ -77,6 +93,22 @@ $right-pane-padding: 50px;
 		background: #224d6d;
 		color: #FFF;
 		font-size: 14px;
+		overflow: hidden;
+
+		.close-btn {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			width: 39px;
+			fill: #FFF;
+			padding: 6px 8px;
+			cursor: pointer;
+
+			&:hover {
+				background: red;
+			}
+		}
 	}
 
 	.header {
@@ -85,11 +117,38 @@ $right-pane-padding: 50px;
 
 		.header-inner {
 			height: 80px;
-			padding: 0 25px;
+			margin: 0 25px;
 			line-height: 80px;
+			position: relative;
+		}
+
+		p.primary {
+			font-size: 20px;
+			margin: 0;
+			color: #FFF;
+		}
+
+		.settings-btn {
+			position: absolute;
+			top: 22px;
+			right: 0;
+			cursor: pointer;
+			padding: 4px;
+
+			svg {
+				width: 26px;
+				fill: #FFF;
+				display: block;
+				pointer-events: none;
+			}
+
+			&:hover {
+				opacity: .8;
+			}
 		}
 
 		button {
+			position: relative;
 			background: rgba(0,0,0,.2);
 			display: inline-block;
 			padding: 10px 12px;
@@ -99,9 +158,39 @@ $right-pane-padding: 50px;
 			border-radius: 2px;
 			border: 0;
 			cursor: pointer;
+			transition-duration: .1s;
+			box-shadow: 0 0 0 0 rgba(0,0,0,.2);
+			outline: none;
 
-			&:first-child {
+			&:hover {
 				background: #62a256;
+				box-shadow: 0 0 0 4px rgba(0,0,0,.2);
+
+				&:after, &:before {
+					display: block;
+				}
+			}
+
+			&.primary {
+				background: #62a256;
+				// box-shadow: 0 0 0 0 #62a256;
+			}
+
+			.shadow-root.health-ok & {
+				&.trigger-recover-single {
+					display: inline-block;
+				}
+				&.trigger-recover-single-to-target {
+					display: none;
+				}
+			}
+			.shadow-root:not(.health-ok) & {
+				&.trigger-recover-single {
+					display: none;
+				}
+				&.trigger-recover-single-to-target {
+					display: inline-block;
+				}
 			}
 		}
 	}
@@ -113,36 +202,13 @@ $right-pane-padding: 50px;
 		display: flex;
 		flex-flow: column;
 
-		.header .domain {
-			font-size: 20px;
-			margin: 0;
-			color: #FFF;
-		}
-
 		.recovery-container {
 			flex: 1 1 auto;
 			overflow-y: scroll;
 			position: relative;
 			margin-right: 5px;
-			margin-bottom: 20px;
-
-			&:before {
-				content: '';
-				position: sticky;
-				display: block;
-				top: 0;
-				left: 0;
-				right: 0;
-				height: 5px;
-				background: linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,0));
-				opacity: 0;
-				transition-duration: .3s;
-				z-index: 5;
-			}
-
-			&.scroll-not-top:before {
-				opacity: 1;
-			}
+			margin-top: 5px;
+			margin-bottom: 5px;
 
 			&::-webkit-scrollbar {
 				width: 8px;
@@ -153,38 +219,38 @@ $right-pane-padding: 50px;
 				background: transparent;
 			}
 
-			&:hover::-webkit-scrollbar-thumb {
-				background: #D9D9D9;
-			}
-
 			/* Handle */
 			&::-webkit-scrollbar-thumb {
 				border-radius: 10px;
-				background: transparent;
+				background: #D9D9D9;
+
+				&:hover {
+					background: #CACACA;
+				}
 			}
 
 
 			li p {
 				margin: 0 0 10px 0;
 			}
-
-			.meta-bar {
-				font-size: 13px;
-			}
-		}
-
-		.session-timestamp {
-			display: inline-block;
-			font-size: 13px;
-			color: #444;
-			font-weight: bold;
-			margin-left: 50%;
-			transform: translateX(-50%);
 		}
 
 		ul {
-			margin: 0 8px 20px 20px;
-			box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2), 0 0 6px rgba(0, 0, 0, 0.2);
+			position: relative;
+			margin: 50px 8px 10px 20px;
+			box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);//0 2px 3px rgba(0, 0, 0, 0.2), 0 0 6px rgba(0, 0, 0, 0.2);
+
+			&:before {
+				content: attr(data-pretty-date);
+				display: inline-block;
+				font-size: 13px;
+				color: #444;
+				font-weight: bold;
+				position: absolute;
+				top: -30px;
+				left: 50%;
+				transform: translateX(-50%);
+			}
 		}
 
 		li {
@@ -192,9 +258,8 @@ $right-pane-padding: 50px;
 			padding: 20px;
 			border-bottom: 1px solid #DDDDDD;
 			cursor: pointer;
-			transition-duration: .1s;
 
-			&.current {
+			&.selected {
 				background: #E9E9E9;
 			}
 
@@ -202,63 +267,154 @@ $right-pane-padding: 50px;
 				border-bottom: 0;
 			}
 
-			&:hover, &.current {
+			&:hover, &.selected {
 				box-shadow: 0 0 0 1px #7fa2d8;
 			}
 		}
 	}
 	.right-pane {
+		display: flex;
 		flex: 0 1 auto;
+		flex-flow: column;
 		width: $right-pane-width;
 		background: #E7E7E7;
-		z-index: 2;
+		z-index: 200000;
 		overflow: hidden;
 		position: relative;
 
-		.page {
-			display: flex;
-			flex-flow: column;
-		}
+		.header {
+			flex: 0 1 auto;
 
-		.meta {
-			margin: 20px 30px 0;
-			p {
-				margin: 0;
+			.header-partial {
+				display: none;
+
+				&.partial-current {
+					display: block;
+				}
 			}
 		}
 
-		.content-box {
-			margin: 20px 30px 30px;
-			padding: 20px;
-			background: #FFF;
+		.content {
+			display: flex;
+			flex-flow: column;
 			flex: 1 1 auto;
-			overflow: auto;
+
+			.content-partial {
+				display: none;
+
+				&.partial-current {
+					display: flex; // Or block, whatev
+				}
+
+				.inner-content {
+					margin: 30px;
+				}
+			}
+		}
+
+		.partial-recover {
+			display: flex;
+			flex-flow: column;
+			flex: 1 1 auto;
+
+			.meta {
+				flex: 0 1 auto;
+				margin: 20px 30px 0;
+				font-size: 13px;
+
+				.icon, svg {
+					position: relative;
+					top: 4px;
+					margin-right: 4px;
+				}
+
+				.shadow-root.health-ok & {
+					.health-ok {
+						display: inline-block;
+					}
+					.health-bad {
+						display: none;
+					}
+				}
+				.shadow-root:not(.health-ok) & {
+					.health-ok {
+						display: none;
+					}
+					.health-bad {
+						display: inline-block;
+					}
+				}
+
+				.health-ok, .health-bad {
+					display: inline;
+
+					svg {
+						fill: currentColor
+					}
+				}
+
+				.health-bad {
+					color: red;
+				}
+				.health-ok {
+					color: green;
+				}
+
+				svg {
+					width: 20px;
+				}
+
+				span {
+					margin-right: 25px;
+				}
+
+				p {
+					margin: 0;
+				}
+			}
+
+			.full-text {
+				flex: 1 1 auto;
+				margin: 20px 30px 30px;
+				padding: 20px;
+				background: #FFF;
+				overflow: auto;
+			}
+		}
+
+		.partial-default {
+			.centered {
+				width: 250px;
+				margin-left: 50%;
+				transform: translateX(-50%);
+				margin-top: 100px;
+				text-align: center;
+				color: #666;
+
+				.big-icon {
+					width: 100px;
+					fill: currentColor;
+					margin-bottom: 20px;
+				}
+
+				p {
+					margin: 0;
+					line-height: 30px;
+					font-size: 16px;
+				}
+
+				a {
+					font-weight: bold;
+				}
+			}
 		}
 	}
 
-	.page {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		transform: scale(.98);
-		opacity: 0;
-		pointer-events: none;
-		transition-duration: .2s;
-
-		&.page-current {
-			opacity: 1;
-			transform: none;
-			pointer-events: auto;
-		}
-	}
 }
 
 .icon {
-	height: 16px;
-	width: 16px;
-	background-color: red;
+	height: 18px;
+	width: 18px;
 	display: inline-block;
 }
 .icon-clock {
