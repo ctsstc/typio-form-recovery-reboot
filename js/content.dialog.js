@@ -329,36 +329,36 @@ window.terafm = window.terafm || {};
 
 	// This needs to be refactored bigtime
 	function clickTargetToRestore(callback) {
-		deleteClickyThingy();
 
-		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-thingy" style="position: absolute; z-index: 9999999999; background: rgba(0,255,100,.5);"></div>');
-		var thingy = document.getElementById('terafm-thingy');
-		
-		var thingyTarget;
-		document.body.addEventListener('mouseover', function(e) {
+		if(!document.getElementById('terafm-thingy')) document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-thingy" style="position: absolute; z-index: 9999999999; background: rgba(0, 255, 151, .4);" title="Restore text into this input"></div>');
+		var thingy = document.getElementById('terafm-thingy'),
+			thingyTarget;
+
+		var thingyMouseOverEvent = function(e) {
 			var target = e.toElement;
 
-			if(terafm.editableManager.isEditable(target)) {
+			if(terafm.editableManager.isEditable(target) && target !== thingy) {
+
 				var rect = target.getBoundingClientRect();
 				thingy.style.top = rect.top + 'px';
 				thingy.style.left = rect.left + 'px';
 				thingy.style.width = target.offsetWidth + 'px';
 				thingy.style.height = target.offsetHeight + 'px';
-
+				thingy.style.visibility = 'visible';
 				thingyTarget = target;
+
+			} else if(target !== thingy) {
+				thingy.style.visibility = 'hidden';
 			}
-		});
+		}
+		document.body.addEventListener('mouseover', thingyMouseOverEvent);
+
 		thingy.addEventListener('click', function() {
-			deleteClickyThingy();
+
+			thingy.parentElement.removeChild(thingy);
+			document.body.removeEventListener('mouseover', thingyMouseOverEvent);
 			callback(thingyTarget);
 		});
-	}
-
-	function deleteClickyThingy() {
-		var thingy = document.getElementById('terafm-thingy');
-		if(thingy) {
-			thingy.parentElement.removeChild(thingy);
-		}
 	}
 
 })();
