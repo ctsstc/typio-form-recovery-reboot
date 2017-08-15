@@ -327,9 +327,13 @@ window.terafm = window.terafm || {};
 
 	}
 
+	// This needs to be refactored bigtime
 	function clickTargetToRestore(callback) {
-		document.body.insertAdjacentHTML('afterbegin', '<div id="thingy" style="position: absolute; z-index: 99999999; background: rgba(0,255,100,.5);"></div>');
-		var thingy = document.getElementById('thingy');
+		deleteClickyThingy();
+
+		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-thingy" style="position: absolute; z-index: 99999999; background: rgba(0,255,100,.5);"></div>');
+		var thingy = document.getElementById('terafm-thingy');
+		
 		var thingyTarget;
 		document.body.addEventListener('mouseover', function(e) {
 			var target = e.toElement;
@@ -345,9 +349,16 @@ window.terafm = window.terafm || {};
 			}
 		});
 		thingy.addEventListener('click', function() {
-			thingy.parentElement.removeChild(thingy);
+			deleteClickyThingy();
 			callback(thingyTarget);
 		});
+	}
+
+	function deleteClickyThingy() {
+		var thingy = document.getElementById('terafm-thingy');
+		if(thingy) {
+			thingy.parentElement.removeChild(thingy);
+		}
 	}
 
 })();
