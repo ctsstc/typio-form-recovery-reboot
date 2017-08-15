@@ -15,6 +15,16 @@ window.terafm = window.terafm || {};
 				return false;
 			}
 
+
+			// Nothing (or nothing editable) was right clicked
+			// Can happen if page hasn't fully loaded at right click (eventhandlers haven't attached yet)
+			if(!contextTarget) {
+				// Could show alert here but it's barely noticeable
+				// in chrome so it would just be confusing to the user
+				console.log('open triggered and failed', contextTarget)
+				return false;
+			}
+
 			deepSetup(function() {
 				var editablePath = terafm.editableManager.getPath(contextTarget),
 					editableId = terafm.editableManager.generateEditableId(editablePath),
@@ -164,6 +174,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function setupBasicEventHandlers() {
+		console.log('right click attached')
 		document.addEventListener('contextmenu', documentContextHandler);
 	}
 
@@ -188,6 +199,7 @@ window.terafm = window.terafm || {};
 
 	function documentContextHandler(e) {
 		var editable = terafm.editableManager.getEditable(e.target);
+		console.log('right click', editable);
 		contextTarget = editable;
 	}
 
