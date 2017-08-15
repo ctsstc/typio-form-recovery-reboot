@@ -331,7 +331,7 @@ window.terafm = window.terafm || {};
 	function clickTargetToRestore(callback) {
 		deleteClickyThingy();
 
-		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-thingy" style="position: absolute; z-index: 99999999; background: rgba(0,255,100,.5);"></div>');
+		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-thingy" style="position: absolute; z-index: 9999999999; background: rgba(0,255,100,.5);"></div>');
 		var thingy = document.getElementById('terafm-thingy');
 		
 		var thingyTarget;
