@@ -91,9 +91,9 @@ window.terafm = window.terafm || {};
 	}
 
 	function documentChangeHandler(e) {
-		if(isEditable(e.target)) {
-			var editable = getEditable(e.target),
-				value = getEditableValue(editable);
+		var editable = getEditable(e.target);
+		if(editable) {
+			var value = getEditableValue(editable);
 
 			saveEditable(editable, value);
 		}
@@ -251,6 +251,8 @@ window.terafm = window.terafm || {};
 	}
 
 	// Check if element is editable
+	// In case of contenteditable it does NOT check if element is within
+	// a contenteditable field.
 	function isEditable(elem) {
 
 		// Check if input with valid type
@@ -286,7 +288,7 @@ window.terafm = window.terafm || {};
 		// Iterate every parent, return if parent is editable
 		//return terafm.ui.parent(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' });
 		var parent = elem.closest('[contenteditable]');
-		if(parent) {
+		if(parent !== null) {
 			return parent;
 		}
 
