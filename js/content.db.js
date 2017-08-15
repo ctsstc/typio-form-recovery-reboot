@@ -37,6 +37,7 @@ window.terafm = window.terafm || {};
 				var inputId = item.replace('teraField', 'field');
 
 				db.storage[inputId] = JSON.parse(localStorage.getItem(item));
+				localStorage.removeItem(item);
 				found = true;
 			}
 		}
@@ -54,7 +55,7 @@ window.terafm = window.terafm || {};
 		init: function(callback) {
 			// Initiate connected and load disk storage to in memory
 			terafm.indexedDB.init(function() {
-				//convertLegacyStorage();
+				convertLegacyStorage();
 				loadStorageFromDisk(callback);
 				db.initiated = true;
 			});
