@@ -31,7 +31,21 @@
 
 					// Not checkbox, just set value
 					} else {
-						opt.value = stored[optionName];
+
+						// Special case sanitazion
+						if(opt.dataset.option === 'storageTimeDays') {
+							var days = parseInt(stored[optionName]),
+								san =	(days > 0 && days < 366) ? days :
+										(days > 365) ? 365 : 
+										(days < 1) ? 1 :
+										7;
+
+							opt.value = san;
+						
+						} else {
+							opt.value = stored[optionName];
+						}
+
 					}
 				}
 

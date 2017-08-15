@@ -2,8 +2,8 @@
     "manifest_version": 2,
 
     "name": "Typio Form Recovery",
-    "description": "Robust form recovery that just works. Automatically saves everything you type and lets you recover it with the click of a button.",
-    "version": "1.1.0",
+    "description": "Robust form recovery that just works. Automatically saves text while you type.",
+    "version": "1.2.0",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",

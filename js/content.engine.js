@@ -8,7 +8,10 @@ window.terafm = window.terafm || {};
 		},
 		storageTimeDays: function(days) {
 			days = parseInt(days);
-			return (days > 0 && days < 366) ? days : (days > 365) ? days : tera.options.storageTimeDays;
+			return	(days > 0 && days < 366) ? days :
+					(days > 365) ? 365 : 
+					(days < 1) ? 1 :
+					tera.options.storageTimeDays;
 		}
 	};
 
