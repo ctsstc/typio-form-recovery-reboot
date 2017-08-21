@@ -1,20 +1,16 @@
 
-* Test WYSIWYG support, test codepen and wordpress and froala
-* Storage days in settings dialog should reflect sanitized value that runs
-* Test storage performance with lots of data (writing should be unaffected)
-* When recovering past session, should that be cloned into the new session? (e.g. should i trigger "onchange" on recovered inputs?) (compare old)
-* Extensive testing of legacy storage conversion
-* Manifest description
-* Test on loads of sites, wait a couple days
+Todo: Iframe support (inject iframe script)
 
-New: Recovery dialog! Allows you to browse all saved data gives you advanced recovery options.
+
+
+
+New: Recovery dialog! Allows you to browse all saved data and gives you advanced recovery options.
 New: Flashes input fields when recovering (useful for recovering sessions).
+New: Faster storage. Now uses in memory storage with asynchronous flat file offloading.
+New: Delete entry button removed from context menu to decrease clutter. Entries can be deleted in recovery dialog instead.
 
 Fixed: Saved passwords even when option was set to disabled in some cases
 Fixed: "Delete all" should delete all except for current session
 Fixed: Added support for "select" dropdowns
-Fixed: Max storage days is now unlimited (bug prevented setting higher than 7 days)
+Fixed: Max storage days is now one year (bug prevented setting higher than 7 days)
 Fixed: Better icon for "recover only this field" option in context menu
-
-Changed: Faster. Now uses in memory storage with asynchronous flat file offloading.
-Changed: Delete entry button removed from context menu. Entries can be deleted in recovery dialog instead.
