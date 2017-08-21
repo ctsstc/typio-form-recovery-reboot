@@ -77,6 +77,8 @@
 							Text goes here
 						</div>
 					</div>
+
+					<div class="editable-path"></div>
 				</div>
 				<div class="content-partial partial-settings">
 					<div class="inner-content">

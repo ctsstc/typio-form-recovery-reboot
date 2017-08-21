@@ -144,7 +144,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function injectShadowRoot() {
-		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-context"></div>');
+		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-context"></div>');
 
 		contextmenu = document.getElementById('terafm-context').createShadowRoot({mode: 'open'});
 	}

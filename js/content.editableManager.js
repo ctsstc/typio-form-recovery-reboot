@@ -38,14 +38,32 @@ window.terafm = window.terafm || {};
 			}, 200);
 		},
 
+		// See here for possible improvements:
+		// https://stackoverflow.com/questions/5728558/get-the-dom-path-of-the-clicked-a
 		getPath: function(el) {
-			// Check easy way first, does it have a valid id?
+
+			// Check easy way first, does elem have a valid id?
 			if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
 				return '#' + el.id;
 			}
 
-			var stack = [];
+			var parentWithId = el.closest('[id]'),
+				stack = [];
+
+			// Loop through parent elements and build path
 			while (el.parentNode != null) {
+
+				// If parent has ID, use that and stop building
+				if(el === parentWithId) {
+					stack.unshift('#' + parentWithId.id);
+					break;
+				}
+
+				// No need to go to html
+				if(el === document.body) {
+					break;
+				}
+
 				var sibCount = 0;
 				var sibIndex = 0;
 				// get sibling indexes
@@ -66,8 +84,10 @@ window.terafm = window.terafm || {};
 				}
 				el = el.parentNode;
 			}
-			stack.splice(0,1); // removes the html element
-			return stack.join(' > ');
+
+			stack = stack.join(' > ');
+
+			return stack;
 		},
 
 		generateEditableId: function(path) {

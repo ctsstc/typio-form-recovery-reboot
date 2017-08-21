@@ -82,6 +82,7 @@ $right-pane-width: 500px;
 	padding-top: 35px;
 	background: #FFF;
 	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.14), 0 1px 3px rgba(0, 0, 0, 0.19);
+	text-align: left;
 
 	.top-bar {
 		position: absolute;
@@ -280,6 +281,7 @@ $right-pane-width: 500px;
 			cursor: pointer;
 			color: #555;
 			transition-duration: .2s;
+			transition-property: box-shadow;
 
 			&.selected {
 				//background: #E9E9E9;
@@ -443,8 +445,21 @@ $right-pane-width: 500px;
 					left: 0;
 					right: 0;
 					padding: 20px;
+					padding-bottom: 50px;
 					overflow-x: auto;
 				}
+			}
+
+			.editable-path {
+				position: absolute;
+				bottom: 31px;
+				left: 31px;
+				right: 31px;
+				padding: 4px 20px;
+				font-size: 12px;
+				border-top: 1px solid #c5c5c5;
+				color: #a5a5a5;
+				background: #FFF;
 			}
 		}
 

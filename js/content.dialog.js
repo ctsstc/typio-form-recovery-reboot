@@ -105,7 +105,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function injectShadowRoot() {
-		document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-dialog"></div>');
+		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-dialog"></div>');
 
 		var shadowRoot = document.getElementById('terafm-dialog').createShadowRoot({mode: 'open'});
 		dialog = shadowRoot;
@@ -292,7 +292,8 @@ window.terafm = window.terafm || {};
 		// These nodes will be updated
 		var fulltextNode = dialog.querySelector('.content .partial-recover .full-text .container'),
 			dateNode = dialog.querySelector('.content .partial-recover .meta .date'),
-			sizeNode = dialog.querySelector('.content .partial-recover .meta .size');
+			sizeNode = dialog.querySelector('.content .partial-recover .meta .size'),
+			pathNode = dialog.querySelector('.content .partial-recover .editable-path');
 
 
 		// Get revision data
@@ -318,11 +319,13 @@ window.terafm = window.terafm || {};
 		dateNode.innerHTML = prettyDate;
 		dateNode.title = prettyDateFull;
 		sizeNode.innerHTML = wordCount;
+		pathNode.innerHTML = currentRevision.editablePath;
 
 		if(healthStatus) {
 			dialog.querySelector('.shadow-root').classList.add('health-ok');
 		} else {
 			dialog.querySelector('.shadow-root').classList.remove('health-ok');
+			fulltextNode.innerHTML += '<br/<br/>' + currentRevision.editablePath; // todo: remove me console.log()
 		}
 
 	}
