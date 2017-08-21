@@ -21,7 +21,7 @@ window.terafm = window.terafm || {};
 			if(!contextTarget) {
 				// Could show alert here but it's barely noticeable
 				// in chrome so it would just be confusing to the user
-				console.log('open triggered and failed', contextTarget)
+				console.error('OpenContext triggered and failed. Page probably hasn\'t finished loading.', contextTarget);
 				return false;
 			}
 
@@ -174,7 +174,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function setupBasicEventHandlers() {
-		console.log('right click attached')
+		//console.log('right click attached')
 		document.addEventListener('contextmenu', documentContextHandler);
 	}
 
@@ -199,7 +199,7 @@ window.terafm = window.terafm || {};
 
 	function documentContextHandler(e) {
 		var editable = terafm.editableManager.getEditable(e.target);
-		console.log('right click', editable);
+		//console.log('right click', editable);
 		contextTarget = editable;
 	}
 

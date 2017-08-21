@@ -30,12 +30,10 @@
 					</span>
 					
 					<div class="header-partial partial-recover">
-						<button class="trigger-recover-single health-ok primary" title="Recover just this entry">Recover</button>
-						<button class="trigger-recover-single-to-target health-ok primary icon-btn" title="Recover this entry into a specific target ">
-							<svg height="16" width="14" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1389 1043q31 30 14 69-17 40-59 40h-382l201 476q10 25 0 49t-34 35l-177 75q-25 10-49 0t-35-34l-191-452-312 312q-19 19-45 19-12 0-24-5-40-17-40-59v-1504q0-42 40-59 12-5 24-5 27 0 45 19z"/></svg>
-						</button>
+						<button class="trigger-recover-session primary health-ok" title="Recover everything you typed that page load">Recover session</button>
+						<button class="trigger-recover-single health-ok" title="Recover just this entry">Recover only this</button>
+						<button class="trigger-recover-single-to-target health-ok icon-btn" title="Recover this entry into a specific target input">Pick target</button>
 						<button class="trigger-recover-single-to-target health-bad primary" title="Recover this entry into a new target (The original input field does not exist anymore or has been moved.)">Recover to target</button>
-						<button class="trigger-recover-session" title="Recover everything you typed that page load">Recover session</button>
 					</div>
 
 					<div class="header-partial partial-settings">
