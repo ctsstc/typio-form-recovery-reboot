@@ -340,7 +340,7 @@ window.terafm = window.terafm || {};
 			if(terafm.editableManager.isEditable(target) && target !== thingy) {
 
 				var rect = target.getBoundingClientRect();
-				thingy.style.top = rect.top + 'px';
+				thingy.style.top = (rect.top + window.scrollY ) + 'px';
 				thingy.style.left = rect.left + 'px';
 				thingy.style.width = target.offsetWidth + 'px';
 				thingy.style.height = target.offsetHeight + 'px';
