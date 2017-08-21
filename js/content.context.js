@@ -232,6 +232,10 @@ window.terafm = window.terafm || {};
 		} else if(target.dataset.browseAll !== undefined) {
 			terafm.dialog.open();
 			hideContextMenu();
+
+		// Idk, just close it
+		} else {
+			hideContextMenu();
 		}
 
 		e.stopPropagation();
