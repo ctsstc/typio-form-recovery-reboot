@@ -325,7 +325,6 @@ window.terafm = window.terafm || {};
 			dialog.querySelector('.shadow-root').classList.add('health-ok');
 		} else {
 			dialog.querySelector('.shadow-root').classList.remove('health-ok');
-			fulltextNode.innerHTML += '<br/<br/>' + currentRevision.editablePath; // todo: remove me console.log()
 		}
 
 	}
