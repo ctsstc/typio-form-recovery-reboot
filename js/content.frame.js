@@ -3,26 +3,11 @@
 	// Only run in frames
 	if(window.top !== window) {
 
-		var terafm = window.top.terafm;
-
-
-		// For clicky thingy within iframes
-		var returnMouseoverCallback;
-		document.addEventListener('mouseover', function(e) {
-
-			if(returnMouseoverCallback) {
-
-				if(terafm.editableManager.isEditable(e.toElement)) {
-				
-					returnMouseoverCallback(e);
-				}
-			}
-		});
-		window.terafmGetMouseover = function(callback) {
-			returnMouseoverCallback = callback;
+		try {
+			var terafm = window.top.terafm;
+		} catch(e) {
+			return false;
 		}
-
-
 
 
 		// Set rightclick target in context controller
@@ -46,7 +31,7 @@
 
 
 
-
+		// For saving
 		document.addEventListener('change', documentChangeHandler);
 		document.addEventListener('keyup', documentChangeHandler);
 

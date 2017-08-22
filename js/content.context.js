@@ -32,8 +32,6 @@ window.terafm = window.terafm || {};
 					editableId = terafm.editableManager.generateEditableId(editablePath, iframePath),
 					revisions = terafm.db.getRevisionsByEditable(editableId);
 
-				console.log(editableId, editablePath, iframePath);
-
 				populateContextMenu(revisions, editableId);
 
 				positionContextMenu(contextTarget);

@@ -37,7 +37,6 @@ window.terafm = window.terafm || {};
 		generateEditableId: function(editablePath, framePath) {
 			if(!framePath) framePath = '';
 			var id = 'field' + terafm.helpers.hash(framePath + editablePath);
-			console.log(id, editablePath, framePath);
 			return id;
 		},
 
@@ -187,9 +186,6 @@ window.terafm = window.terafm || {};
 
 	function resetPlaceholders(keepValue) {
 		var placeholders = terafm.ui.deepQuerySelectorAll('.teraUIActiveInput');
-
-		console.clear();
-		console.log(placeholders);
 
 		for(i in placeholders) {
 			var editable = placeholders[i];

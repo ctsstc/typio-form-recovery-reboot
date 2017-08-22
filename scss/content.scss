@@ -87,3 +87,16 @@
 	position: relative;
 	z-index: 999999999999999;
 }
+
+.terafm-clicky-thingy {
+	position: absolute;
+	z-index: 999999999999;
+	background: rgba(100,255,255, .5);
+	box-shadow: 0 0 0 3px rgba(20,255,100,.6);
+	opacity: .8;
+	cursor: pointer;
+
+	&:hover {
+		opacity: 1;
+	}
+}

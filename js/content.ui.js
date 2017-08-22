@@ -18,9 +18,7 @@ window.terafm = window.terafm || {};
 				try{
 					var fres = frame.contentDocument.querySelectorAll(selector);
 					Array.prototype.push.apply(matches, fres);
-				} catch(e) {
-					console.log('nah', e);
-				};
+				} catch(e) {};
 			});
 
 			var topres = window.top.document.querySelectorAll(selector);

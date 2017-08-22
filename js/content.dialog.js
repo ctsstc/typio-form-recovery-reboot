@@ -330,61 +330,8 @@ window.terafm = window.terafm || {};
 	// This needs to be refactored bigtime
 	function clickTargetToRestore(callback) {
 
-		if(!document.getElementById('terafm-thingy')) document.body.insertAdjacentHTML('afterbegin', '<div id="terafm-thingy" style="position: absolute; z-index: 9999999999; background: rgba(0, 255, 151, .4);" title="Restore text into this input"></div>');
-		var thingy = document.getElementById('terafm-thingy'),
-			thingyTarget;
-
-		var thingyMouseOverEvent = function(e, offset) {
-			var target = e.toElement;
-
-			if(terafm.editableManager.isEditable(target) && target !== thingy) {
-
-				var rect = target.getBoundingClientRect();
-
-				var pos = {
-					top: (rect.top + window.scrollY),
-					left: rect.left
-				};
-
-				if(offset) {
-					pos.top += offset.top;
-					pos.left += offset.left;
-				}
-
-				thingy.style.top = pos.top + 'px';
-				thingy.style.left = pos.left + 'px';
-				thingy.style.width = target.offsetWidth + 'px';
-				thingy.style.height = target.offsetHeight + 'px';
-				thingy.style.visibility = 'visible';
-				thingyTarget = target;
-
-			} else if(target !== thingy) {
-				thingy.style.visibility = 'hidden';
-			}
-		}
-
-		var iframes = document.querySelectorAll('iframe');
-		iframes.forEach(function(frame) {
-			frame.addEventListener('mouseover', function(ei) {
-				ei.target.contentWindow.terafmGetMouseover(function(e) {
-					var offset = {},
-						rect = ei.target.getBoundingClientRect();
-				
-					offset.top = rect.top;
-					offset.left = rect.left;		
-
-					thingyMouseOverEvent(e, offset);
-				});
-			});
-		});
-
-		document.body.addEventListener('mouseover', thingyMouseOverEvent);
-
-		thingy.addEventListener('click', function() {
-
-			thingy.parentElement.removeChild(thingy);
-			document.body.removeEventListener('mouseover', thingyMouseOverEvent);
-			callback(thingyTarget);
+		terafm.editablePicker.pick(function(editable) {
+			callback(editable);
 		});
 	}
 
