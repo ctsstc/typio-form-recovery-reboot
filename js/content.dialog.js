@@ -32,20 +32,38 @@ window.terafm = window.terafm || {};
 		}
 	}
 
+	function prepareRevisions(sessions) {
+
+		var sessKeys = Object.keys(sessions),
+			currentSessionId = terafm.db.sessionId();
+
+		delete sessions[currentSessionId];
+
+		for(skey in sessKeys) {
+
+			// Delete if value is too short
+			for(editableId in sessions[sessKeys[skey]]) {
+				var editable = sessions[sessKeys[skey]][editableId];
+				if( (editable.value + '').length < 5) {
+					delete sessions[ sessKeys[skey] ][ editableId ];
+				}
+			}
+
+		}
+
+		return sessions;
+	}
+
 	function populate() {
 
 		var sessionData = terafm.db.getAllRevisionsGroupedBySession(),
+			sessionData = prepareRevisions(sessionData),
 			sortedSessionIds = Object.keys(sessionData).reverse(),
 			html = '',
 			currentSessionId = terafm.db.sessionId();
 
 		if(sortedSessionIds.length) {
 			for(sid in sortedSessionIds) {
-
-				// Don't list current
-				if(sortedSessionIds[sid] == currentSessionId) {
-					continue;
-				}
 
 				var sess = sortedSessionIds[sid],
 					prettyDate = terafm.helpers.prettyDateFromTimestamp(sess);
