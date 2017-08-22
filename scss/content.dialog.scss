@@ -23,6 +23,10 @@ a {
 	&:hover {
 		text-decoration: underline;
 	}
+
+	&.confirm {
+		font-weight: bold;
+	}
 }
 
 $left-pane-width: 500px;
@@ -307,9 +311,13 @@ $right-pane-width: 500px;
 				a {
 					color: #1e78b9;
 				}
-				.del-link {
+				.del-link, {
 					color: #e43434;
 				}
+			}
+
+			.del-link.confirm {
+				color: #e43434;
 			}
 
 			.meta-bar {

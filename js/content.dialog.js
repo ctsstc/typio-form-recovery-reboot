@@ -123,33 +123,46 @@ window.terafm = window.terafm || {};
 
 			// Delete single entry trigger
  			} else if(target.dataset.deleteSingle !== undefined) {
-				var editable = target.dataset.editable,
-					session = target.dataset.session;
 
-				terafm.db.deleteSingleRevisionByEditable(editable, session);
+ 				if(target.classList.contains('confirm')) {
+					var editable = target.dataset.editable,
+						session = target.dataset.session;
 
-				// Entry doesn't exist anymore, go back to default page
-				setPage('default');
+					terafm.db.deleteSingleRevisionByEditable(editable, session);
 
-				var li = target.closest('li'),
-					ul = li.parentElement;
+					// Entry doesn't exist anymore, go back to default page
+					setPage('default');
 
-				// Remove list item
-				ul.removeChild(li);
+					var li = target.closest('li'),
+						ul = li.parentElement;
 
-				// If that was the last list item, remove UL
-				if(ul.children.length < 1) {
+					// Remove list item
+					ul.removeChild(li);
 
-					// If last list item in last UL, re-populate the whole list (will result in "no entries" message)
-					if(ul.children.length === 0 && ul.parentElement.children.length === 1) {
-						populate();
+					// If that was the last list item, remove UL
+					if(ul.children.length < 1) {
 
-					// Remove empty ul (timestamp)
-					} else {
-						ul.parentElement.removeChild(ul);
+						// If last list item in last UL, re-populate the whole list (will result in "no entries" message)
+						if(ul.children.length === 0 && ul.parentElement.children.length === 1) {
+							populate();
+
+						// Remove empty ul (timestamp)
+						} else {
+							ul.parentElement.removeChild(ul);
+						}
+
 					}
+ 				} else {
+ 					target.classList.add('confirm');
+ 					target.innerHTML = 'Click again to delete';
 
-				}
+ 					setTimeout(function() {
+ 						if(target) {
+ 							target.classList.remove('confirm');
+ 							target.innerHTML = 'Delete entry';
+ 						}
+ 					}, 4000);
+ 				}
 
 
 			// Set current revision
