@@ -83,7 +83,7 @@ window.terafm = window.terafm || {};
 			}
 
 			// No need to go to html
-			if(el === document.body) {
+			if(el.nodeName === 'HTML') {
 				break;
 			}
 
