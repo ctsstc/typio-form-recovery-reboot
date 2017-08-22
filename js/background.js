@@ -20,17 +20,21 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 				chrome.tabs.executeScript(tabId, {file: 'js/content.blacklisted.js', runAt: 'document_end', allFrames: true});
 				return false;
 			}
-
-			chrome.tabs.executeScript(tabId, {file: 'js/content.frame.js', runAt: 'document_end', allFrames: true});
 			
-			chrome.tabs.executeScript(tabId, {file: 'js/content.helpers.js', runAt: 'document_end', allFrames: true});
-			chrome.tabs.executeScript(tabId, {file: 'js/content.indexedDBDriver.js', runAt: 'document_end', allFrames: true}); // NOT IN ALL FRAMES
-			chrome.tabs.executeScript(tabId, {file: 'js/content.db.js', runAt: 'document_end', allFrames: true}); // NOT IN ALL FRAMES
-			chrome.tabs.executeScript(tabId, {file: 'js/content.editableManager.js', runAt: 'document_end', allFrames: true});
-			chrome.tabs.executeScript(tabId, {file: 'js/content.ui.js', runAt: 'document_end', allFrames: true});
-			chrome.tabs.executeScript(tabId, {file: 'js/content.dialog.js', runAt: 'document_end'}); // NOT IN ALL FRAMES
-			chrome.tabs.executeScript(tabId, {file: 'js/content.context.js', runAt: 'document_end'}); // NOT IN ALL FRAMES
-			chrome.tabs.executeScript(tabId, {file: 'js/content.engine.js', runAt: 'document_end', allFrames: true});
+			// Will execute on every page
+			chrome.tabs.executeScript(tabId, {file: 'js/content.helpers.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.indexedDBDriver.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.db.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.editableManager.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.ui.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.dialog.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.context.js', runAt: 'document_end'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.engine.js', runAt: 'document_end'});
+
+			// Will only execute in iframes
+			chrome.tabs.executeScript(tabId, {file: 'js/content.frame.js', runAt: 'document_end', allFrames: true});
+
+			// CSS, all pages and iframes
 			chrome.tabs.insertCSS(tabId, {file: 'css/content.css', allFrames: true});
 		});
 	});

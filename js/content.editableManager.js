@@ -8,6 +8,10 @@ window.terafm = window.terafm || {};
 			setupEventListeners();
 		},
 
+		saveEditable: function(editable, value) {
+			return saveEditable(editable, value);
+		},
+
 		setEditableValue: function(editable, value, isPlaceholder) {
 			if(isPlaceholder) {
 				setPlaceholderClass(editable);
@@ -20,10 +24,97 @@ window.terafm = window.terafm || {};
 		},
 
 		resetPlaceholders: function(keepvalues) {
-			resetPlaceholders(keepvalues);
+			return resetPlaceholders(keepvalues);
 		},
 
 		flashEditable: function(editable) {
+			return flashEditable(editable);
+		},
+		getPath: function(el) {
+			return getPath(el);
+		},
+
+		generateEditableId: function(editablePath, framePath) {
+			if(!framePath) framePath = '';
+			var id = 'field' + terafm.helpers.hash(framePath + editablePath);
+			console.log(id, editablePath, framePath);
+			return id;
+		},
+
+		getEditableByPath: function(editablePath, framePath) {
+			return getEditableByPath(editablePath, framePath);
+		},
+
+		getEditable: function(target) {
+			return getEditable(target);
+		},
+
+		getEditableValue: function(editable) {
+			return getEditableValue(editable);
+		},
+
+		isEditable: function(target) {
+			return isEditable(target);
+		}
+
+	}
+
+
+	// See here for possible improvements:
+	// https://stackoverflow.com/questions/5728558/get-the-dom-path-of-the-clicked-a
+	// Careful cause changing this will result in editableID's changing
+	// which results in entries not being shown in context menu
+	function getPath(el) {
+
+		// Check easy way first, does elem have a valid id?
+		if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
+			return '#' + el.id;
+		}
+
+		var parentWithId = el.closest('[id]'),
+			stack = [];
+
+		// Loop through parent elements and build path
+		while (el.parentNode != null) {
+
+			// If parent has ID, use that and stop building
+			if(el === parentWithId) {
+				stack.unshift('#' + parentWithId.id);
+				break;
+			}
+
+			// No need to go to html
+			if(el === document.body) {
+				break;
+			}
+
+			var sibCount = 0;
+			var sibIndex = 0;
+			// get sibling indexes
+			for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
+				var sib = el.parentNode.childNodes[i];
+				if ( sib.nodeName == el.nodeName ) {
+					if ( sib === el ) {
+						sibIndex = sibCount;
+					}
+					sibCount++;
+				}
+			}
+			var nodeName = el.nodeName.toLowerCase();
+			if ( sibCount > 1 ) {
+				stack.unshift(nodeName + ':nth-of-type(' + (sibIndex + 1) + ')');
+			} else {
+				stack.unshift(nodeName);
+			}
+			el = el.parentNode;
+		}
+
+		stack = stack.join(' > ');
+
+		return stack;
+	}
+
+	function flashEditable(editable) {
 			setTimeout(function() {
 				setPlaceholderClass(editable);
 				setTimeout(function() {
@@ -36,79 +127,7 @@ window.terafm = window.terafm || {};
 					}, 150);
 				}, 150);
 			}, 200);
-		},
-
-		// See here for possible improvements:
-		// https://stackoverflow.com/questions/5728558/get-the-dom-path-of-the-clicked-a
-		getPath: function(el) {
-
-			// Check easy way first, does elem have a valid id?
-			if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
-				return '#' + el.id;
-			}
-
-			var parentWithId = el.closest('[id]'),
-				stack = [];
-
-			// Loop through parent elements and build path
-			while (el.parentNode != null) {
-
-				// If parent has ID, use that and stop building
-				if(el === parentWithId) {
-					stack.unshift('#' + parentWithId.id);
-					break;
-				}
-
-				// No need to go to html
-				if(el === document.body) {
-					break;
-				}
-
-				var sibCount = 0;
-				var sibIndex = 0;
-				// get sibling indexes
-				for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
-					var sib = el.parentNode.childNodes[i];
-					if ( sib.nodeName == el.nodeName ) {
-						if ( sib === el ) {
-							sibIndex = sibCount;
-						}
-						sibCount++;
-					}
-				}
-				var nodeName = el.nodeName.toLowerCase();
-				if ( sibCount > 1 ) {
-					stack.unshift(nodeName + ':nth-of-type(' + (sibIndex + 1) + ')');
-				} else {
-					stack.unshift(nodeName);
-				}
-				el = el.parentNode;
-			}
-
-			stack = stack.join(' > ');
-
-			return stack;
-		},
-
-		generateEditableId: function(editablePath, framePath) {
-			if(!framePath) framePath = '';
-			return 'field' + terafm.helpers.hash(framePath + editablePath);
-		},
-
-		getEditable: function(target) {
-			return getEditable(target);
-		},
-
-		getEditableByPath: function(editablePath, framePath) {
-			return getEditableByPath(editablePath, framePath);
-		},
-
-		isEditable: function(target) {
-			return isEditable(target);
-		}
-
 	}
-
 
 	function setupEventListeners() {
 		document.addEventListener('change', documentChangeHandler);
@@ -125,13 +144,14 @@ window.terafm = window.terafm || {};
 	}
 
 	function saveEditable(editable, value) {
+
 			var editablePath = terafm.editableManager.getPath(editable),
-				framePath = (window.top !== window) ? terafm.editableManager.getPath(window.frameElement) : '',
+				framePath = (editable.ownerDocument.defaultView !== window) ? terafm.editableManager.getPath(editable.ownerDocument.defaultView.frameElement) : '',
 				editableId = terafm.editableManager.generateEditableId(editablePath, framePath);
 
 			// Min length of string to save
 			if(value.length < 1) {
-				window.top.terafm.db.deleteSingleRevisionByEditable(editableId);
+				terafm.db.deleteSingleRevisionByEditable(editableId);
 				return false;
 			}
 
@@ -148,7 +168,7 @@ window.terafm = window.terafm || {};
 
 			// console.log('saving', editableId, data);
 
-			window.top.terafm.db.saveRevision(editableId, data);
+			terafm.db.saveRevision(editableId, data);
 	}
 
 	// Radios require special attention, this is ugly but idk what to do with it
@@ -159,7 +179,7 @@ window.terafm = window.terafm || {};
 				if(sib !== input) {
 					var sibPath = terafm.editableManager.getPath(sib);
 					// Delete current sibling revision
-					window.top.terafm.db.deleteSingleRevisionByInput(sibPath);
+					terafm.db.deleteSingleRevisionByInput(sibPath);
 				}
 			});
 		}

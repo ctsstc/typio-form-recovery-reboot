@@ -28,8 +28,11 @@ window.terafm = window.terafm || {};
 
 			deepSetup(function() {
 				var editablePath = terafm.editableManager.getPath(contextTarget),
-					editableId = terafm.editableManager.generateEditableId(editablePath),
+					iframePath = contextParentFrame ? terafm.editableManager.getPath(contextParentFrame) : '',
+					editableId = terafm.editableManager.generateEditableId(editablePath, iframePath),
 					revisions = terafm.db.getRevisionsByEditable(editableId);
+
+				console.log(editableId, editablePath, iframePath);
 
 				populateContextMenu(revisions, editableId);
 
@@ -156,9 +159,11 @@ window.terafm = window.terafm || {};
 	}
 
 	function hideContextMenu() {
-		var container = contextmenu.querySelector('#tera-result-list-container');
-		container.classList.add('hidden');
-		contextmenuVisible = false;
+		if(contextmenuVisible) {
+			var container = contextmenu.querySelector('#tera-result-list-container');
+			container.classList.add('hidden');
+			contextmenuVisible = false;
+		}
 	}
 
 	function injectShadowRoot() {

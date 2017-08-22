@@ -83,7 +83,7 @@ window.terafm = window.terafm || {};
 		});
 
 		// Initiated because it listens for rightclicks (html only injected when contextmenu is triggered)
-		if(window.top === window) terafm.context.setup();
+		terafm.context.setup();
 	}
 
 	function loadExtensionOptions(callback) {
@@ -140,13 +140,13 @@ window.terafm = window.terafm || {};
 		if(request.action === 'ping') {
 			sendResponse(true);
 		
-		} else if(request.action === 'contextMenuRecover' && window.top === window) {
-			window.top.terafm.context.open();
+		} else if(request.action === 'contextMenuRecover') {
+			terafm.context.open();
 
-		} else if(request.action === 'openRecoveryDialog' && window.top === window) {
-			window.top.terafm.dialog.open();
+		} else if(request.action === 'openRecoveryDialog') {
+			terafm.dialog.open();
 
-		} else if(request.action === 'clearData' && window.top === window) {
+		} else if(request.action === 'clearData') {
 			terafm.db.deleteAllSessions();
 			terafm.dialog.close();
 		}

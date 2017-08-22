@@ -363,15 +363,18 @@ window.terafm = window.terafm || {};
 			}
 		}
 
-		document.querySelector('iframe').addEventListener('mouseover', function(ei) {
-			ei.target.contentWindow.terafmGetMouseover(function(e) {
-				var offset = {},
-					rect = ei.target.getBoundingClientRect();
-			
-				offset.top = rect.top;
-				offset.left = rect.left;		
+		var iframes = document.querySelectorAll('iframe');
+		iframes.forEach(function(frame) {
+			frame.addEventListener('mouseover', function(ei) {
+				ei.target.contentWindow.terafmGetMouseover(function(e) {
+					var offset = {},
+						rect = ei.target.getBoundingClientRect();
+				
+					offset.top = rect.top;
+					offset.left = rect.left;		
 
-				thingyMouseOverEvent(e, offset);
+					thingyMouseOverEvent(e, offset);
+				});
 			});
 		});
 
