@@ -156,7 +156,7 @@ window.terafm = window.terafm || {};
 
 			// Special care for radio inputs, have to delete siblings
 			if(editable.type === 'radio') {
-				deleteRadioSiblingsFromStorage(editable);
+				deleteRadioSiblingsFromStorage(editable, framePath);
 			}
 
 			var data = {
@@ -170,15 +170,16 @@ window.terafm = window.terafm || {};
 			terafm.db.saveRevision(editableId, data);
 	}
 
-	// Radios require special attention, this is ugly but idk what to do with it
-	function deleteRadioSiblingsFromStorage(input) {
+	// Radios require special attention, this is ugly but it'll do for now
+	function deleteRadioSiblingsFromStorage(input, framePath) {
 		if(input.type == 'radio' && input.name) {
 			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
 			siblingRadios.forEach(function(sib) {
 				if(sib !== input) {
-					var sibPath = terafm.editableManager.getPath(sib);
+					var sibPath = terafm.editableManager.getPath(sib),
+						sibId = terafm.editableManager.generateEditableId(sibPath, framePath);
 					// Delete current sibling revision
-					terafm.db.deleteSingleRevisionByInput(sibPath);
+					terafm.db.deleteSingleRevisionByEditable(sibId);
 				}
 			});
 		}
@@ -363,7 +364,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function isEditableText(elem) {
-		var textEditable = ['email', 'password', 'search', 'tel', 'text', 'url', 'number'];
+		var textEditable = ['text', 'email', 'search', 'password', 'url', 'tel'];
 
 		if( textEditable.includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
 			return true;
