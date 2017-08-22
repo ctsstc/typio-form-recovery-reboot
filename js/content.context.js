@@ -4,7 +4,8 @@ window.terafm = window.terafm || {};
 
 	var contextmenu,
 		contextmenuVisible = false,
-		contextTarget;
+		contextTarget,
+		contextParentFrame;
 
 	window.terafm.context = {
 		open: function() {
@@ -38,7 +39,16 @@ window.terafm = window.terafm || {};
 			});
 		},
 
-		setup: setupBasicEventHandlers
+		close: function() {
+			hideContextMenu();
+		},
+
+		setup: setupBasicEventHandlers,
+
+		iframeSetContextTarget: function(target, frame) {
+			contextTarget = target;
+			contextParentFrame = frame;
+		}
 
 	}
 
@@ -111,7 +121,7 @@ window.terafm = window.terafm || {};
 	function positionContextMenu(target) {
 		var targetRect = target.getBoundingClientRect(),
 			bodyRect = document.body.getBoundingClientRect(),
-			UIWidth = 250, leftPos = 0,
+			UIWidth = 250, leftPos = 0, topPos = 0,
 			inputBodyOffset = targetRect.left - bodyRect.left;
 
 		// First try to align on right side of input
@@ -127,7 +137,15 @@ window.terafm = window.terafm || {};
 			leftPos = document.documentElement.clientWidth - UIWidth;
 		}
 
-		contextmenu.querySelector('#tera-result-list-container').style = 'top: '+ (targetRect.top + window.scrollY) +'px; left: '+ leftPos +'px;';
+		topPos = targetRect.top + window.scrollY;
+
+		if(contextParentFrame) {
+			var frameRect = contextParentFrame.getBoundingClientRect();
+			topPos += frameRect.top;
+			leftPos += frameRect.left;
+		}
+
+		contextmenu.querySelector('#tera-result-list-container').style = 'top: '+ topPos +'px; left: '+ leftPos +'px;';
 	}
 
 
@@ -201,6 +219,7 @@ window.terafm = window.terafm || {};
 		var editable = terafm.editableManager.getEditable(e.target);
 		//console.log('right click', editable);
 		contextTarget = editable;
+		contextParentFrame = undefined;
 	}
 
 	function documentMousedownHandler(e) {
@@ -249,7 +268,7 @@ window.terafm = window.terafm || {};
 		if(sid !== undefined) {
 			var session = terafm.db.getRevisionsBySession(sid);
 			for(entry in session) {
-				var input = document.querySelector(session[entry].path);
+				var input = terafm.editableManager.getEditableByPath(session[entry].path, session[entry].frame);
 
 				if(input) {
 					terafm.editableManager.setEditableValue(input, session[entry].value, true);

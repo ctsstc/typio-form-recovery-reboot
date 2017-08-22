@@ -25,36 +25,36 @@ window.terafm = window.terafm || {};
 			storageTimeDays: 7,
 		},
 
-		saveRevision: function(editable, editableValue) {
+		// saveRevision: function(editable, editableValue) {
 
-			if(!isEditable(editable)) {
-				return false;
-			}
+		// 	if(!isEditable(editable)) {
+		// 		return false;
+		// 	}
 
-			var editablePath = terafm.ui.generateDomPath(editable),
-				editableId = terafm.helpers.generateEditableId(editablePath),
+		// 	var editablePath = terafm.ui.generateDomPath(editable),
+		// 		editableId = terafm.helpers.generateEditableId(editablePath),
 
-				safeEditableValue = terafm.helpers.encodeHTML(editableValue);
+		// 		safeEditableValue = terafm.helpers.encodeHTML(editableValue);
 
 
-			// Min length of string to save (only if text editable)
-			if(safeEditableValue.length < 1 && isEditableText(editable)) {
-				terafm.db.deleteSingleRevisionByInput(editablePath);
-				return false;
-			}
+		// 	// Min length of string to save (only if text editable)
+		// 	if(safeEditableValue.length < 1 && isEditableText(editable)) {
+		// 		terafm.db.deleteSingleRevisionByInput(editablePath);
+		// 		return false;
+		// 	}
 
-			// Special care for radio inputs, have to delete siblings
-			if(editable.type === 'radio') {
-				deleteRadioSiblingsFromStorage(editable);
-			}
+		// 	// Special care for radio inputs, have to delete siblings
+		// 	if(editable.type === 'radio') {
+		// 		deleteRadioSiblingsFromStorage(editable);
+		// 	}
 
-			var data = {
-				value: editableValue, // Not safe value
-				path: editablePath
-			}
+		// 	var data = {
+		// 		value: editableValue, // Not safe value
+		// 		path: editablePath
+		// 	}
 
-			terafm.db.saveRevision(editableId, data);
-		}
+		// 	terafm.db.saveRevision(editableId, data);
+		// }
 	}
 
 
@@ -72,10 +72,10 @@ window.terafm = window.terafm || {};
 				// Initiated because it listens for input changes
 				terafm.editableManager.setup();
 
-				// if(window.location.host === 's.codepen.io') {
-					// setTimeout(function() {
-						// terafm.dialog.open();
-					// }, 500); 
+				// if(window.location.host === 's.codepen.io' && window.top === window) {
+				// 	setTimeout(function() {
+				// 		terafm.dialog.open();
+				// 	}, 300); 
 				// }
 
 			});
@@ -83,7 +83,7 @@ window.terafm = window.terafm || {};
 		});
 
 		// Initiated because it listens for rightclicks (html only injected when contextmenu is triggered)
-		terafm.context.setup();
+		if(window.top === window) terafm.context.setup();
 	}
 
 	function loadExtensionOptions(callback) {
@@ -140,13 +140,13 @@ window.terafm = window.terafm || {};
 		if(request.action === 'ping') {
 			sendResponse(true);
 		
-		} else if(request.action === 'contextMenuRecover') {
-			terafm.context.open();
+		} else if(request.action === 'contextMenuRecover' && window.top === window) {
+			window.top.terafm.context.open();
 
-		} else if(request.action === 'openRecoveryDialog') {
-			terafm.dialog.open();
+		} else if(request.action === 'openRecoveryDialog' && window.top === window) {
+			window.top.terafm.dialog.open();
 
-		} else if(request.action === 'clearData') {
+		} else if(request.action === 'clearData' && window.top === window) {
 			terafm.db.deleteAllSessions();
 			terafm.dialog.close();
 		}

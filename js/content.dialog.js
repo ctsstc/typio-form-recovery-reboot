@@ -117,7 +117,6 @@ window.terafm = window.terafm || {};
 
 			var target = e.path[0];
 
-
 			// Close dialog trigger
 			if(target.classList.contains('trigger-close-dialog')) {
 				hideDialog();
@@ -207,7 +206,7 @@ window.terafm = window.terafm || {};
 					fails = 0;
 					
 				session.forEach(function(editable) {
-					var target = document.querySelector(editable.path);
+					var target = terafm.editableManager.getEditableByPath(editable.path, editable.frame);
 					if(target) {
 						terafm.editableManager.setEditableValue(target, editable.value);
 						terafm.editableManager.flashEditable(target);
@@ -311,15 +310,14 @@ window.terafm = window.terafm || {};
 		var prettyDate = terafm.helpers.prettyDateFromTimestamp(session),
 			prettyDateFull = new Date(session*1000).toString(),
 			wordCount = revisionValue.split(/\s/).length + ' words',
-			healthStatus = document.querySelector(revision.path) ? true : false,
+			healthStatus = terafm.editableManager.getEditableByPath(revision.path, revision.frame) ? true : false,
 			revisionValue = revisionValue.replace(/[\r\n]/gm, '<br/>');
-
 
 		fulltextNode.innerHTML = revisionValue;
 		dateNode.innerHTML = prettyDate;
 		dateNode.title = prettyDateFull;
 		sizeNode.innerHTML = wordCount;
-		pathNode.innerHTML = currentRevision.editablePath;
+		pathNode.innerHTML = (revision.frame ? revision.frame + '<br/>' : '') + revision.path;
 
 		if(healthStatus) {
 			dialog.querySelector('.shadow-root').classList.add('health-ok');
@@ -336,14 +334,25 @@ window.terafm = window.terafm || {};
 		var thingy = document.getElementById('terafm-thingy'),
 			thingyTarget;
 
-		var thingyMouseOverEvent = function(e) {
+		var thingyMouseOverEvent = function(e, offset) {
 			var target = e.toElement;
 
 			if(terafm.editableManager.isEditable(target) && target !== thingy) {
 
 				var rect = target.getBoundingClientRect();
-				thingy.style.top = (rect.top + window.scrollY ) + 'px';
-				thingy.style.left = rect.left + 'px';
+
+				var pos = {
+					top: (rect.top + window.scrollY),
+					left: rect.left
+				};
+
+				if(offset) {
+					pos.top += offset.top;
+					pos.left += offset.left;
+				}
+
+				thingy.style.top = pos.top + 'px';
+				thingy.style.left = pos.left + 'px';
 				thingy.style.width = target.offsetWidth + 'px';
 				thingy.style.height = target.offsetHeight + 'px';
 				thingy.style.visibility = 'visible';
@@ -353,6 +362,19 @@ window.terafm = window.terafm || {};
 				thingy.style.visibility = 'hidden';
 			}
 		}
+
+		document.querySelector('iframe').addEventListener('mouseover', function(ei) {
+			ei.target.contentWindow.terafmGetMouseover(function(e) {
+				var offset = {},
+					rect = ei.target.getBoundingClientRect();
+			
+				offset.top = rect.top;
+				offset.left = rect.left;		
+
+				thingyMouseOverEvent(e, offset);
+			});
+		});
+
 		document.body.addEventListener('mouseover', thingyMouseOverEvent);
 
 		thingy.addEventListener('click', function() {

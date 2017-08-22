@@ -90,12 +90,17 @@ window.terafm = window.terafm || {};
 			return stack;
 		},
 
-		generateEditableId: function(path) {
-			return 'field' + terafm.helpers.hash(path);
+		generateEditableId: function(editablePath, framePath) {
+			if(!framePath) framePath = '';
+			return 'field' + terafm.helpers.hash(framePath + editablePath);
 		},
 
 		getEditable: function(target) {
 			return getEditable(target);
+		},
+
+		getEditableByPath: function(editablePath, framePath) {
+			return getEditableByPath(editablePath, framePath);
 		},
 
 		isEditable: function(target) {
@@ -121,11 +126,12 @@ window.terafm = window.terafm || {};
 
 	function saveEditable(editable, value) {
 			var editablePath = terafm.editableManager.getPath(editable),
-				editableId = terafm.editableManager.generateEditableId(editablePath);
+				framePath = (window.top !== window) ? terafm.editableManager.getPath(window.frameElement) : '',
+				editableId = terafm.editableManager.generateEditableId(editablePath, framePath);
 
 			// Min length of string to save
 			if(value.length < 1) {
-				terafm.db.deleteSingleRevisionByEditable(editableId);
+				window.top.terafm.db.deleteSingleRevisionByEditable(editableId);
 				return false;
 			}
 
@@ -136,10 +142,13 @@ window.terafm = window.terafm || {};
 
 			var data = {
 				value: value,
-				path: editablePath
+				path: editablePath,
+				frame: framePath
 			}
 
-			terafm.db.saveRevision(editableId, data);
+			// console.log('saving', editableId, data);
+
+			window.top.terafm.db.saveRevision(editableId, data);
 	}
 
 	// Radios require special attention, this is ugly but idk what to do with it
@@ -150,14 +159,17 @@ window.terafm = window.terafm || {};
 				if(sib !== input) {
 					var sibPath = terafm.editableManager.getPath(sib);
 					// Delete current sibling revision
-					terafm.db.deleteSingleRevisionByInput(sibPath);
+					window.top.terafm.db.deleteSingleRevisionByInput(sibPath);
 				}
 			});
 		}
 	}
 
 	function resetPlaceholders(keepValue) {
-		var placeholders = document.querySelectorAll('.teraUIActiveInput');
+		var placeholders = terafm.ui.deepQuerySelectorAll('.teraUIActiveInput');
+
+		console.clear();
+		console.log(placeholders);
 
 		for(i in placeholders) {
 			var editable = placeholders[i];
@@ -313,6 +325,25 @@ window.terafm = window.terafm || {};
 		}
 
 		return false;
+	}
+
+	function getEditableByPath(editablePath, framePath) {
+
+		try {
+			if(framePath) {
+				var frame = document.querySelector(framePath);
+
+				if(frame) {
+					var editable = frame.contentDocument.querySelector(editablePath);
+					return editable;
+				}
+
+			} else {
+				return document.querySelector(editablePath);
+			}
+		} catch(e) {
+			return false; // Probably invalid selector
+		}
 	}
 
 	function isEditableText(elem) {
