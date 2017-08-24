@@ -25,6 +25,22 @@ window.terafm = window.terafm || {};
 			Array.prototype.push.apply(matches, topres);
 
 			return matches.length ? matches : false;
+		},
+
+		// https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
+		getOffset: function( el ) {
+			var _x = 0;
+			var _y = 0;
+			while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+				_x += el.offsetLeft - el.scrollLeft;
+				_y += el.offsetTop - el.scrollTop;
+				el = el.offsetParent;
+			}
+
+			// Added
+			_y += window.scrollY;
+			_x += window.scrollX;
+			return { top: _y, left: _x };
 		}
 	}
 
