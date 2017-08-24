@@ -1,16 +1,12 @@
+Version 1.3 (24th aug, 2017):
+This update will cause certain input fields to not display old entries in the context menu, but the old entries can still be found in the recovery dialog (right click > open form recovery) and can be recovered by manually selecting a target. See more details in full changelog link below.
 
-Todo: Iframe support (inject iframe script)
+New: Support for WYSIWYG editors using iframes
+New: Delete entry link now asks you to confirm (double click)
+Fixed: Heaps of bugfixes and improvements
 
+Full changelog:
+https://bitbucket.org/nicklassandell/chrome-form-recovery
 
-
-
-New: Recovery dialog! Allows you to browse all saved data and gives you advanced recovery options.
-New: Flashes input fields when recovering (useful for recovering sessions).
-New: Faster storage. Now uses in memory storage with asynchronous flat file offloading.
-New: Delete entry button removed from context menu to decrease clutter. Entries can be deleted in recovery dialog instead.
-
-Fixed: Saved passwords even when option was set to disabled in some cases
-Fixed: "Delete all" should delete all except for current session
-Fixed: Added support for "select" dropdowns
-Fixed: Max storage days is now one year (bug prevented setting higher than 7 days)
-Fixed: Better icon for "recover only this field" option in context menu
+Feedback & Issues:
+https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open
