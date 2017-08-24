@@ -49,6 +49,11 @@ window.terafm = window.terafm || {};
 				if(cleanValue.length < 5) {
 					delete sessions[ sessKeys[skey] ][ editableId ];
 
+					// If last item in session, delete session from list to prevent empty <ul> tag
+					if(Object.keys(sessions[ sessKeys[skey] ]).length === 0) {
+						delete sessions[ sessKeys[skey] ];
+					}
+
 					// If empty, delete from database
 					if(cleanValue.length < 1) {
 						terafm.db.deleteSingleRevisionByEditable(editableId, sessKeys[skey]);
