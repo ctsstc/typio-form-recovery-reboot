@@ -34,6 +34,7 @@
 						<button class="trigger-recover-single health-ok" title="Recover just this entry">Recover only this</button>
 						<button class="trigger-recover-single-to-target health-ok icon-btn" title="Recover this entry into a specific target input">Pick target</button>
 						<button class="trigger-recover-single-to-target health-bad primary" title="Recover this entry into a new target (The original input field does not exist anymore or has been moved.)">Recover to target</button>
+						&nbsp;<!-- Can't figure out why but without this a single button gets top-aligned on some sites.  -->
 					</div>
 
 					<div class="header-partial partial-settings">
