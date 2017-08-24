@@ -133,6 +133,18 @@ window.terafm = window.terafm || {};
 		document.addEventListener('keyup', documentChangeHandler);
 	}
 
+	// var documentChangeHandler = terafm.helpers.debounce(function(e) {
+	// 	console.log('changed', e.target);
+	// 	var editable = getEditable(e.target);
+	// 	if(editable) {
+	// 		var value = getEditableValue(editable);
+
+	// 		saveEditable(editable, value);
+	// 	}
+	// }, 500);
+
+	// Don't wanna debounce this beacause it'd prevent saving search
+	// fields and similar if you submit before the timout ends
 	function documentChangeHandler(e) {
 		var editable = getEditable(e.target);
 		if(editable) {
@@ -149,6 +161,7 @@ window.terafm = window.terafm || {};
 				editableId = terafm.editableManager.generateEditableId(editablePath, framePath);
 
 			// Min length of string to save
+			// Don't bother removing HTML here, it's too expensive
 			if(value.length < 1) {
 				terafm.db.deleteSingleRevisionByEditable(editableId);
 				return false;
