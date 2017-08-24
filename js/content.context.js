@@ -22,7 +22,9 @@ window.terafm = window.terafm || {};
 			if(!contextTarget) {
 				// Could show alert here but it's barely noticeable
 				// in chrome so it would just be confusing to the user
-				console.error('OpenContext triggered and failed. Page probably hasn\'t finished loading.', contextTarget);
+				// console.error('OpenContext triggered and failed. Page probably hasn\'t finished loading.', contextTarget);
+
+				alert('Typio cannot open because the page has not finished loading OR the page is running within an inaccessible iframe object. Try again.');
 				return false;
 			}
 
