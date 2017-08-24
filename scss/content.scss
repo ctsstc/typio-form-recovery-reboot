@@ -79,7 +79,7 @@
 
 
 .teraUIActiveInput {
-	background: #FFFCB6 !important;
+	background: rgb(255, 251, 153) !important;
 	color: #222 !important;
 }
 
@@ -91,12 +91,12 @@
 .terafm-clicky-thingy {
 	position: absolute;
 	z-index: 999999999999;
-	background: rgba(100,255,255, .5);
-	box-shadow: 0 0 0 3px rgba(20,255,100,.6);
-	opacity: .8;
+	background: rgba(255, 251, 153, .8);
+	box-shadow: rgb(134, 130, 35) 0px 0px 0px 3px;
+	opacity: 1;
 	cursor: pointer;
 
 	&:hover {
-		opacity: 1;
+		background: rgba(255, 251, 153, .4);
 	}
 }
