@@ -43,12 +43,18 @@ window.terafm = window.terafm || {};
 
 			// Delete if value is too short
 			for(editableId in sessions[sessKeys[skey]]) {
-				var editable = sessions[sessKeys[skey]][editableId];
-				if( (editable.value + '').length < 5) {
+				var editable = sessions[sessKeys[skey]][editableId],
+					cleanValue = terafm.helpers.encodeHTML(editable.value);
+
+				if(cleanValue.length < 5) {
 					delete sessions[ sessKeys[skey] ][ editableId ];
+
+					// If empty, delete from database
+					if(cleanValue.length < 1) {
+						terafm.db.deleteSingleRevisionByEditable(editableId, sessKeys[skey]);
+					}
 				}
 			}
-
 		}
 
 		return sessions;

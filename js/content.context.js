@@ -101,6 +101,11 @@ window.terafm = window.terafm || {};
 					editableId = terafm.editableManager.generateEditableId(revision.path),
 					safeString = terafm.helpers.encodeHTML(revision.value).substring(0,50);
 
+				if(safeString.length < 1) {
+					terafm.db.deleteSingleRevisionByEditable(editableId, sortedKeys[key]);
+					continue;
+				}
+
 				count += 1;
 
 				html += '<li data-session="'+ sortedKeys[key] +'" data-editable="'+ editableId +'">';
@@ -141,6 +146,7 @@ window.terafm = window.terafm || {};
 		}
 
 		topPos = targetRect.top + window.scrollY;
+		leftPos += window.scrollX;
 
 		if(contextParentFrame) {
 			var frameRect = contextParentFrame.getBoundingClientRect();
