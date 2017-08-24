@@ -10,9 +10,12 @@ window.terafm = window.terafm || {};
 
 	var init = false;
 
+	var pickerIsOpen = false;
+
 	window.terafm.editablePicker = {
 		pick: function(callback) {
 			onPickCallback = callback;
+			pickerIsOpen = true;
 			openPicker();
 
 			if(!init) {
@@ -27,10 +30,23 @@ window.terafm = window.terafm || {};
 			if(e.target.classList.contains('terafm-clicky-thingy')) {
 				onPickCallback(availableEditables[e.target.dataset.id]);
 				availableEditables = [];
+				pickerIsOpen = false;
 				destroyAll();
 			}
 		}, true);
+
+		window.addEventListener('scroll', rePositionFunc);
 	}
+
+	var rePositionFunc = terafm.helpers.debounce(function() {
+		if(pickerIsOpen) {
+			// console.time('repos');
+			destroyAll();
+			openPicker();
+			// console.timeEnd('repos');
+		}
+	}, 50);
+
 
 	function openPicker() {
 		var iframes = findIframes();
@@ -53,22 +69,23 @@ window.terafm = window.terafm || {};
 	}
 
 	function createThingy(editable, offset) {
-		var editableRect = editable.getBoundingClientRect(),
-			pos = {};
+		var editablePos = terafm.ui.getOffset(editable),
+			editableRect = editable.getBoundingClientRect(),
+			thingyPos = {};
 
-		pos.top = editableRect.top + window.scrollY;
-		pos.left = editableRect.left + window.scrollX;
-		pos.width = editableRect.width;
-		pos.height = editableRect.height;
+		thingyPos.top = editablePos.top;
+		thingyPos.left = editablePos.left;
+		thingyPos.width = editableRect.width;
+		thingyPos.height = editableRect.height;
 
 		if(offset) {
-			pos.top += offset.top;
-			pos.left += offset.left;
+			thingyPos.top += offset.top;
+			thingyPos.left += offset.left;
 		}
 
 		var id = availableEditables.push(editable) - 1;
 
-		var html = '<div data-id="'+ id +'" style="top: '+ pos.top +'px; left: '+ pos.left +'px; width: '+ pos.width +'px; height: '+ pos.height +'px;" class="terafm-clicky-thingy"></div>';
+		var html = '<div data-id="'+ id +'" style="top: '+ thingyPos.top +'px; left: '+ thingyPos.left +'px; width: '+ thingyPos.width +'px; height: '+ thingyPos.height +'px;" class="terafm-clicky-thingy"></div>';
 	
 		document.body.insertAdjacentHTML('beforeend', html);
 	}
