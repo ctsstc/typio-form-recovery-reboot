@@ -4,51 +4,46 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         /*
-        uglify: {
-            dev: {
-                options: {
-                    mangle: false,
-                    preserveComments: true,
-                    beautify: true
+            uglify: {
+                dev: {
+                    options: {
+                        mangle: false,
+                        preserveComments: true,
+                        beautify: true
+                    },
+                    files: {
+                        '../js/min/app.js' : ['../js/angular.rangeSlider.js', '../js/mousetrap.js', '../js/app.js']
+                    }
                 },
-                files: {
-                    '../js/min/app.js' : ['../js/angular.rangeSlider.js', '../js/mousetrap.js', '../js/app.js']
+                dist: {
+                    options: {
+                        mangle: true,
+                        preserveComments: false,
+                        beautify: false
+                    },
+                    files: {
+                        '../js/min/app.js' : ['../js/angular.rangeSlider.js', '../js/mousetrap.js', '../js/app.js']
+                    }
                 }
             },
-            dist: {
-                options: {
-                    mangle: true,
-                    preserveComments: false,
-                    beautify: false
-                },
-                files: {
-                    '../js/min/app.js' : ['../js/angular.rangeSlider.js', '../js/mousetrap.js', '../js/app.js']
-                }
-            }
-        },
         */
 
-        compass: {
+        sass: {
             dist: {
-                options: {
-                    sassDir: '../scss/',
-                    cssDir: '../css/',
-                    environment: 'production'
-                }
-            },
-            dev: {
-                options: {
-                    sassDir: '../scss/',
-                    cssDir: '../css/',
-                    outputStyle: 'expanded'
-                }
+                files: [{
+                    expand: true,
+                    cwd: '../scss',
+                    src: '*.scss',
+                    dest: '../css/',
+                    ext: '.css'
+                }]
             }
         },
 
         watch: {
             scss: {
-                files: ['../scss/*.scss'],
-                tasks: ['compass:dev'],
+                files: ['../scss/**/*.scss'],
+                tasks: ['sass'],
                 options: {
                     spawn: false
                 }
@@ -66,9 +61,10 @@ module.exports = function(grunt) {
 
     });
 
+
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    // grunt.loadNpmTasks('grunt-contrib-uglify');
 
     //grunt.registerTask('default', ['watch:js']);
 }

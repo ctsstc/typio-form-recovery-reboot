@@ -1,12 +1,13 @@
-Version 1.3 (24th aug, 2017):
-This update will cause certain input fields to not display old entries in the context menu, but the old entries can still be found in the recovery dialog (right click > open form recovery) and can be recovered by manually selecting a target. See more details in full changelog link below.
 
-New: Support for WYSIWYG editors using iframes
-New: Delete entry link now asks you to confirm (double click)
-Fixed: Heaps of bugfixes and improvements
 
-Full changelog:
-https://bitbucket.org/nicklassandell/chrome-form-recovery
+Fix: Deprecated multiple shadow roots in one parent. All injected html is now within one parent root.
+Fix: Improved error message if trigger context before page load etc
 
-Feedback & Issues:
-https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open
+Todo:
+- Refactor everything
+- Escape should close clicky thingy
+- Concat all shadowroot css
+- Concat all content js??
+- Shadowdom support: https://www.polymer-project.org/2.0/docs/devguide/feature-overview
+	- Compare getpath old vs new to make sure no changes are found
+- I don't think radios work correctly within iframes/shadowdom

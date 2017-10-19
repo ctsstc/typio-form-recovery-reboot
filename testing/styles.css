@@ -1,0 +1,40 @@
+body {
+  background: #222;
+  padding: 30px;
+  margin: 0;
+  color: #FFF;
+}
+
+a {
+  color: #666;
+}
+
+input, textarea, .editable {
+  background: #444;
+  border: none;
+  margin: 5px;
+  padding: 3px;
+  font-family: sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  color: #DDD;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.editable {
+  height: 150px;
+  width: 320px;
+  overflow: auto;
+}
+
+.right {
+  float: right;
+}
+
+.frame {
+  display: inline-block;
+  padding: 3px;
+  margin: 0 5px;
+  border: 1px dotted #555;
+}

@@ -1,0 +1,31 @@
+*:not(img) {
+	box-sizing: border-box;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+p {
+	margin: 0 0 20px 0;
+}
+
+a {
+	color: #1e78b9; //#275e86;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&.confirm {
+		font-weight: bold;
+	}
+}
+
+@import "shadowRoot/contextmenu";
+@import "shadowRoot/dialog";
+@import "shadowRoot/toast";

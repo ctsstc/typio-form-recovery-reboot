@@ -2,7 +2,9 @@ window.terafm = window.terafm || {};
 
 (function() {
 
-	var contextmenu,
+	var shroot,
+		contextmenu,
+
 		contextmenuVisible = false,
 		contextTarget,
 		contextParentFrame;
@@ -16,28 +18,20 @@ window.terafm = window.terafm || {};
 				return false;
 			}
 
-
 			// Nothing (or nothing editable) was right clicked
 			// Can happen if page hasn't fully loaded at right click (eventhandlers haven't attached yet)
 			if(!contextTarget) {
-				// Could show alert here but it's barely noticeable
-				// in chrome so it would just be confusing to the user
-				// console.error('OpenContext triggered and failed. Page probably hasn\'t finished loading.', contextTarget);
-
-				alert('Typio cannot open because the page has not finished loading OR the page is running within an inaccessible iframe object. Try again.');
+				alert("Typio cannot open due to one of the following reasons:\n\n1) Page has not fully loaded yet.\n\n2) The page is running in an inaccessible frame (cross domain).\n\n3) You're tring to recover an illegal field (e.g. password field if disabled).");
 				return false;
 			}
 
 			deepSetup(function() {
 				var editablePath = terafm.editableManager.getPath(contextTarget),
 					iframePath = contextParentFrame ? terafm.editableManager.getPath(contextParentFrame) : '',
-					editableId = terafm.editableManager.generateEditableId(editablePath, iframePath),
-					revisions = terafm.db.getRevisionsByEditable(editableId);
+					editableId = terafm.editableManager.generateEditableId(editablePath, iframePath);
 
-				populateContextMenu(revisions, editableId);
-
+				populateContextMenu(editableId);
 				positionContextMenu(contextTarget);
-
 				showContextMenu();
 			});
 		},
@@ -62,68 +56,71 @@ window.terafm = window.terafm || {};
 
 	// Inserts html and context eventhandlers
 	function deepSetup(callback) {
-		if(!contextmenu) {
-			injectShadowRoot();
+		if(!shroot) {
+			shroot = terafm.getShadowRoot();
 			injectContextHTML(function() {
+				contextmenu = shroot.querySelector('#contextmenu');
 				setupEventHandlers();
-
-				// setTimeout(function() {
-					callback();
-				// }, 20);
+				callback();
 			});
 		} else {
 			callback();
 		}
 	}
 
-	function populateContextMenu(revisions, inputId) {
-		var sessionId = terafm.db.sessionId();
+	function populateContextMenu(editableId) {
+
+		var revs = terafm.db.getRevisionsByEditable(editableId),
+			revKeys = Object.keys(revs).reverse(),
+
+			currSessionId = terafm.db.sessionId();
+
+		var itemsLeft = 10;
+
 		var html = '';
 
-		// Don't show current session
-		if (sessionId in revisions) {
-			delete revisions[sessionId];
+		for(revKey in revKeys) {
+
+			// Skip current session
+			if(revKeys[revKey] == (currSessionId+"")) continue;
+
+			if(itemsLeft < 1) break; itemsLeft--;
+
+			html += generateListItemHtml(revKeys[revKey],  revs[revKeys[revKey]]);
+
 		}
 
+		// If less than 10 entries in field, get other recent entries to fill gap up to 10
+		if(itemsLeft > 0) {
+			var extraEntries = terafm.db.getRecentRevisions( editableId, itemsLeft );
 
-		if(Object.keys(revisions).length < 1) {
-			html = '<li>Nothing to recover</li>';
-
-		} else {
-
-			var count = 0;
-
-			var sortedKeys = Object.keys(revisions);
-			sortedKeys = sortedKeys.sort().reverse();
-
-			for(key in sortedKeys) {
-				var revision = revisions[sortedKeys[key]],
-					editableId = terafm.editableManager.generateEditableId(revision.path),
-					safeString = terafm.helpers.encodeHTML(revision.value).substring(0,50);
-
-				if(safeString.length < 1) {
-					terafm.db.deleteSingleRevisionByEditable(editableId, sortedKeys[key]);
-					continue;
-				}
-
-				count += 1;
-
-				html += '<li data-session="'+ sortedKeys[key] +'" data-editable="'+ editableId +'">';
-					html += '<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover just this input"></span>';
-					html += safeString;
-				html += '</li>';
-
-				// Only show 10 entries in dropdown
-				if(count > 9) {
-					break;
-				}
+			for(sessionId in extraEntries) {
+				html += generateListItemHtml(sessionId,  extraEntries[sessionId], true);
+				itemsLeft--;
 			}
 		}
 
-		html += '<li data-browse-all>Browse all saved data</li>';
+		if(itemsLeft === 10) {
+			html += '<li>No entries found for this input field</li>'
+		}
 
+		html += '<li class="link" data-browse-all>Browse all saved data</li>';
 
-		contextmenu.querySelector('ul').innerHTML = html;
+		shroot.querySelector('ul').innerHTML = html;
+	}
+
+	function generateListItemHtml(sessionId, revision, isOther) {
+		var editableId = terafm.editableManager.generateEditableId(revision.frame, revision.path),
+			safeString = encodeHTML(revision.value).substring(0,50);
+
+		var html = '';
+		html = `
+		<li data-session="`+ sessionId +`" data-editable="`+ editableId +`" ` + (isOther ? 'data-rec-other' : '') + `>
+			`+ (!isOther ? `<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover just this input"></span>` : '') + `
+			`+ safeString +`
+		</li>
+		`;
+		return html;
 	}
 
 	function positionContextMenu(target) {
@@ -154,44 +151,35 @@ window.terafm = window.terafm || {};
 			leftPos += frameRect.left;
 		}
 
-		contextmenu.querySelector('#tera-result-list-container').style = 'top: '+ topPos +'px; left: '+ leftPos +'px;';
+		shroot.querySelector('#contextmenu').style = 'top: '+ topPos +'px; left: '+ leftPos +'px;';
 	}
 
 
 	function showContextMenu() {
-		var container = contextmenu.querySelector('#tera-result-list-container');
+		var container = shroot.querySelector('#contextmenu');
 		container.classList.remove('hidden');
 		contextmenuVisible = true;
 	}
 
 	function hideContextMenu() {
 		if(contextmenuVisible) {
-			var container = contextmenu.querySelector('#tera-result-list-container');
+			var container = shroot.querySelector('#contextmenu');
 			container.classList.add('hidden');
 			contextmenuVisible = false;
 		}
 	}
 
-	function injectShadowRoot() {
-		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-context"></div>');
-
-		contextmenu = document.getElementById('terafm-context').createShadowRoot({mode: 'open'});
-	}
-
 	function injectContextHTML(callback) {
+		var template = chrome.runtime.getURL('templates/contextmenu.tpl');
 
-		fetchContextStylesheet(function(css) {
-			var html = '';
-			html += '<style> '+ css +'</style>';
-			html += "<div id='tera-result-list-container' class='hidden'>";
-				html += "<ul class='tera-result-list'><li>test</li></ul>"
-			html += "</div>";
+		var request = fetch(template).then(response => response.text());
 
-			contextmenu.innerHTML = html;
-
+		request.then(function(text) {
+			shroot.querySelector('div').insertAdjacentHTML('beforeend', text);
 			callback();
 		});
 	}
+
 
 	function fetchContextStylesheet(callback) {
 		var stylePath = chrome.runtime.getURL('css/content.css'),
@@ -239,7 +227,7 @@ window.terafm = window.terafm || {};
 		}
 	}
 
-	function documentFocusHandler() {
+	function documentFocusHandler(e) {
 		if(contextmenuVisible) {
 			hideContextMenu();
 		}
@@ -265,18 +253,19 @@ window.terafm = window.terafm || {};
 
 		// Idk, just close it
 		} else {
-			hideContextMenu();
+			//hideContextMenu();
 		}
 
 		e.stopPropagation();
 	}
 
 	function contextmenuMouseoverHandler(e) {
-		var sid = e.target.dataset.session;
+		var sid = e.target.dataset.session,
+			isRecOther = e.target.dataset.recOther !== undefined ? true : false;
 
 		terafm.editableManager.resetPlaceholders();
 
-		if(sid !== undefined) {
+		if(sid !== undefined && isRecOther == false) {
 			var session = terafm.db.getRevisionsBySession(sid);
 			for(entry in session) {
 				var input = terafm.editableManager.getEditableByPath(session[entry].path, session[entry].frame);
@@ -285,6 +274,12 @@ window.terafm = window.terafm || {};
 					terafm.editableManager.setEditableValue(input, session[entry].value, true);
 				}
 			}
+
+		} else if(sid !== undefined && isRecOther == true) {
+
+			var rev = terafm.db.getSingleRevisionByEditableAndSession(e.target.dataset.editable, sid);
+			terafm.editableManager.setEditableValue(contextTarget, rev.value, true);
+
 		} else if(e.target.dataset.setSingleEntry !== undefined) {
 			var listItem = e.target.closest('[data-session]');
 

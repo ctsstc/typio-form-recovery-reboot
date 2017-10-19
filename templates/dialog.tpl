@@ -1,6 +1,4 @@
-<style> @import url("{{ cssPath }}"); </style>
-
-<div class="shadow-root">
+<div class="dialog-root">
 	<div class="dialog-overlay trigger-close-dialog"></div>
 	<div class="dialog-container">
 

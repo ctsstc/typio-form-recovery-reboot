@@ -22,23 +22,37 @@ window.terafm = window.terafm || {};
 				setupEventListeners();
 				init = true;
 			}
+		},
+
+		abort: function() {
+			onPick(false);
+			onPickCallback = undefined;
+			terafm.toast.create('Restoration cancelled.');
 		}
 	};
 
+	function onPick(target) {
+		onPickCallback(target);
+		availableEditables = [];
+		pickerIsOpen = false;
+		destroyAll();
+	}
+
 	function setupEventListeners() {
 		document.addEventListener('click', function(e) {
-			if(e.target.classList.contains('terafm-clicky-thingy')) {
-				onPickCallback(availableEditables[e.target.dataset.id]);
-				availableEditables = [];
-				pickerIsOpen = false;
-				destroyAll();
+			if(e.target.classList.contains('terafm-element-picker')) {
+				onPick(availableEditables[e.target.dataset.id]);
 			}
 		}, true);
 
-		window.addEventListener('scroll', rePositionFunc);
+		window.addEventListener('scroll', rePositionFunc, {passive: true});
+
+		Mousetrap.bindGlobal('esc', function() {
+			terafm.editablePicker.abort();
+		})
 	}
 
-	var rePositionFunc = terafm.helpers.debounce(function() {
+	var rePositionFunc = debounce(function() {
 		if(pickerIsOpen) {
 			// console.time('repos');
 			destroyAll();
@@ -69,7 +83,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function createThingy(editable, offset) {
-		var editablePos = terafm.ui.getOffset(editable),
+		var editablePos = getElemOffset(editable),
 			editableRect = editable.getBoundingClientRect(),
 			thingyPos = {};
 
@@ -85,13 +99,13 @@ window.terafm = window.terafm || {};
 
 		var id = availableEditables.push(editable) - 1;
 
-		var html = '<div data-id="'+ id +'" style="top: '+ thingyPos.top +'px; left: '+ thingyPos.left +'px; width: '+ thingyPos.width +'px; height: '+ thingyPos.height +'px;" class="terafm-clicky-thingy"></div>';
+		var html = '<div data-id="'+ id +'" style="top: '+ thingyPos.top +'px; left: '+ thingyPos.left +'px; width: '+ thingyPos.width +'px; height: '+ thingyPos.height +'px;" class="terafm-element-picker"></div>';
 	
 		document.body.insertAdjacentHTML('beforeend', html);
 	}
 
 	function destroyAll() {
-		var things = document.querySelectorAll('.terafm-clicky-thingy');
+		var things = document.querySelectorAll('.terafm-element-picker');
 
 		deleteNodes(things);
 	}

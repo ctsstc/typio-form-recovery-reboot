@@ -1,0 +1,25 @@
+.toast {
+	background: #FFF;
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 9999999999999999;
+	padding: 10px;
+	color: #444;
+	opacity: 1;
+	font-family: sans-serif;
+	max-width: 300px;
+	line-height: 20px;
+	font-size: 15px;
+	border-radius: 3px;
+	box-shadow: 0 1px 3px rgba(0,0,0,.2);
+	transition-property: opacity;
+	transition-duration: .1s;
+	transition-timing-function: ease; /* ease (default) */
+
+	&.hidden {
+		opacity: 0;
+		transition-duration: 1s;
+		transition-timing-function: cubic-bezier(1, 0, 0.8, 1);
+	}
+}

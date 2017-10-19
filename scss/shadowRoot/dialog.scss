@@ -1,33 +1,4 @@
-@import "compass/css3";
-@import "compass/utilities/general/clearfix";
 
-* {
-	box-sizing: border-box;
-}
-
-ul, li {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-p {
-	margin: 0 0 20px 0;
-}
-
-a {
-	color: #1e78b9; //#275e86;
-	text-decoration: none;
-	cursor: pointer;
-
-	&:hover {
-		text-decoration: underline;
-	}
-
-	&.confirm {
-		font-weight: bold;
-	}
-}
 
 $left-pane-width: 500px;
 $right-pane-width: 500px;
@@ -44,7 +15,8 @@ $right-pane-width: 500px;
 	transition-duration: .3s;
 }
 
-.shadow-root {
+.dialog-root {
+	position: relative;
 	visibility: hidden;
 	overflow: auto;
 	z-index: 99999;
@@ -72,7 +44,7 @@ $right-pane-width: 500px;
 	max-width: $left-pane-width + $right-pane-width;
 	max-height: 650px;
 	min-width: 850px;
-	z-index: 110;
+	z-index: 1;
 	color: #333;
 	font-family: sans-serif;
 	font-size: 15px;
@@ -196,7 +168,7 @@ $right-pane-width: 500px;
 				}
 			}
 
-			.shadow-root.health-ok & {
+			.dialog-root.health-ok & {
 				&.health-ok {
 					display: inline-block;
 				}
@@ -204,7 +176,7 @@ $right-pane-width: 500px;
 					display: none;
 				}
 			}
-			.shadow-root:not(.health-ok) & {
+			.dialog-root:not(.health-ok) & {
 				&.health-ok {
 					display: none;
 				}
@@ -322,6 +294,7 @@ $right-pane-width: 500px;
 
 			.meta-bar {
 				font-size: 13px;
+				user-select: none;
 			}
 		}
 	}
@@ -387,7 +360,7 @@ $right-pane-width: 500px;
 						width: 20px;
 					}
 				}
-				.shadow-root.health-ok & {
+				.dialog-root.health-ok & {
 					.health-ok {
 						display: inline-block;
 					}
@@ -395,7 +368,7 @@ $right-pane-width: 500px;
 						display: none;
 					}
 				}
-				.shadow-root:not(.health-ok) & {
+				.dialog-root:not(.health-ok) & {
 					.health-ok {
 						display: none;
 					}

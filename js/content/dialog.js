@@ -2,7 +2,7 @@ window.terafm = window.terafm || {};
 
 (function() {
 
-	var dialog,
+	var shroot,
 		currentRevision = {};
 
 	window.terafm.dialog = {
@@ -19,8 +19,8 @@ window.terafm = window.terafm || {};
 	}
 
 	function setup(callback) {
-		if(!dialog) {
-			injectShadowRoot();
+		if(!shroot) {
+			shroot = terafm.getShadowRoot();
 			injectDialogHTML(function() {
 				setTimeout(function() {
 					setupEventListeners();
@@ -44,7 +44,7 @@ window.terafm = window.terafm || {};
 			// Delete if value is too short
 			for(editableId in sessions[sessKeys[skey]]) {
 				var editable = sessions[sessKeys[skey]][editableId],
-					cleanValue = terafm.helpers.encodeHTML(editable.value);
+					cleanValue = encodeHTML(editable.value);
 
 				if(cleanValue.length < 5) {
 					delete sessions[ sessKeys[skey] ][ editableId ];
@@ -77,12 +77,12 @@ window.terafm = window.terafm || {};
 			for(sid in sortedSessionIds) {
 
 				var sess = sortedSessionIds[sid],
-					prettyDate = terafm.helpers.prettyDateFromTimestamp(sess);
+					prettyDate = prettyDateFromTimestamp(sess);
 
 				html += '<ul data-pretty-date="'+ prettyDate +'">';
 				for(input in sessionData[sess]) {
 
-					var safeString = terafm.helpers.encodeHTML(sessionData[sess][input].value),
+					var safeString = encodeHTML(sessionData[sess][input].value),
 						excerpt = safeString.substring(0, 220),
 						excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt,
 						wordCount = (safeString + '').split(/\s/).length;
@@ -101,52 +101,41 @@ window.terafm = window.terafm || {};
 			html += '<p style="margin: 20px;">Nothing saved yet, buddy!</p>';
 		}
 
-		dialog.querySelector('.recovery-container').innerHTML = html;
+		shroot.querySelector('.recovery-container').innerHTML = html;
 	}
 
 	function openDialog() {
-		var shadowRoot = dialog.querySelector('.shadow-root');
+		var shadowRoot = shroot.querySelector('.dialog-root');
 
 		shadowRoot.classList.add('open');
 	}
 
 	function hideDialog() {
-		if(dialog) {
-			var shadowRoot = dialog.querySelector('.shadow-root');
+		if(shroot) {
+			var shadowRoot = shroot.querySelector('.dialog-root');
 
 			shadowRoot.classList.remove('open');
 		}
 	}
 
 	function injectDialogHTML(callback) {
-		var diagCSSPath = chrome.runtime.getURL('css/content.dialog.css'),
-			template = chrome.runtime.getURL('templates/dialog.tpl');
+		var template = chrome.runtime.getURL('templates/dialog.tpl');
 
 		var request = fetch(template).then(response => response.text());
 
 		request.then(function(text) {
-			text = text.replace('{{ cssPath }}', diagCSSPath);
 			text = text.replace('{{ hostname }}', window.location.hostname);
-			dialog.innerHTML = text;
+			shroot.querySelector('div').insertAdjacentHTML('beforeend', text);
 			callback();
 		});
-		
 	}
-
-	function injectShadowRoot() {
-		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-dialog"></div>');
-
-		var shadowRoot = document.getElementById('terafm-dialog').createShadowRoot({mode: 'open'});
-		dialog = shadowRoot;
-	}
-
 
 	function setupEventListeners() {
-		dialog.addEventListener('click', function(e) {
+		shroot.addEventListener('click', function(e) {
 
 			var target = e.path[0];
 
-			// Close dialog trigger
+			// Close shroot trigger
 			if(target.classList.contains('trigger-close-dialog')) {
 				hideDialog();
 
@@ -215,7 +204,7 @@ window.terafm = window.terafm || {};
 
 			// Recover single trigger
 			} else if(target.classList.contains('trigger-recover-single')) {
-				var target = document.querySelector(currentRevision.editablePath);
+				var target = $(currentRevision.editablePath);
 				if(target) {
 					terafm.editableManager.setEditableValue(target, currentRevision.editableValue);
 					terafm.editableManager.flashEditable(target);
@@ -258,7 +247,7 @@ window.terafm = window.terafm || {};
 				});
 
 				if(fails !== 0) {
-					alert(fails + ' out of '+ session.length +' fields could not be recovered because their original input elements does not exist anymore. You can still recover the data by selecting "recover to target" in the recovery dialog.');
+					alert(fails + ' out of '+ session.length +' fields could not be recovered because their original input elements does not exist anymore. You can still recover the data by selecting "recover to target" in the recovery shroot.');
 				}
 
 				hideDialog();
@@ -315,11 +304,11 @@ window.terafm = window.terafm || {};
 
 
 	function setPage(pageId) {
-		var currHeader = dialog.querySelector('.header .header-partial.partial-current'),
-			newHeader = dialog.querySelector('.header .header-partial.partial-' + pageId),
+		var currHeader = shroot.querySelector('.header .header-partial.partial-current'),
+			newHeader = shroot.querySelector('.header .header-partial.partial-' + pageId),
 
-			currContent = dialog.querySelector('.content .content-partial.partial-current'),
-			newContent = dialog.querySelector('.content .content-partial.partial-' + pageId);
+			currContent = shroot.querySelector('.content .content-partial.partial-current'),
+			newContent = shroot.querySelector('.content .content-partial.partial-' + pageId);
 
 		currHeader.classList.remove('partial-current');
 		currContent.classList.remove('partial-current');
@@ -331,15 +320,15 @@ window.terafm = window.terafm || {};
 	function setRevision(editableId, session) {
 
 		// These nodes will be updated
-		var fulltextNode = dialog.querySelector('.content .partial-recover .full-text .container'),
-			dateNode = dialog.querySelector('.content .partial-recover .meta .date'),
-			sizeNode = dialog.querySelector('.content .partial-recover .meta .size'),
-			pathNode = dialog.querySelector('.content .partial-recover .editable-path');
+		var fulltextNode = shroot.querySelector('.content .partial-recover .full-text .container'),
+			dateNode = shroot.querySelector('.content .partial-recover .meta .date'),
+			sizeNode = shroot.querySelector('.content .partial-recover .meta .size'),
+			pathNode = shroot.querySelector('.content .partial-recover .editable-path');
 
 
 		// Get revision data
 		var revision = terafm.db.getSingleRevisionByEditableAndSession(editableId, session),
-			revisionValue = terafm.helpers.encodeHTML(revision.value);
+			revisionValue = encodeHTML(revision.value);
 
 
 		// Used later when recovering
@@ -349,7 +338,7 @@ window.terafm = window.terafm || {};
 
 		
 		// Make data pretty before we update the dom
-		var prettyDate = terafm.helpers.prettyDateFromTimestamp(session),
+		var prettyDate = prettyDateFromTimestamp(session),
 			prettyDateFull = new Date(session*1000).toString(),
 			wordCount = revisionValue.split(/\s/).length + ' words',
 			healthStatus = terafm.editableManager.getEditableByPath(revision.path, revision.frame) ? true : false,
@@ -362,9 +351,9 @@ window.terafm = window.terafm || {};
 		pathNode.innerHTML = (revision.frame ? revision.frame + '<br/>' : '') + revision.path;
 
 		if(healthStatus) {
-			dialog.querySelector('.shadow-root').classList.add('health-ok');
+			shroot.querySelector('.dialog-root').classList.add('health-ok');
 		} else {
-			dialog.querySelector('.shadow-root').classList.remove('health-ok');
+			shroot.querySelector('.dialog-root').classList.remove('health-ok');
 		}
 
 	}
@@ -373,7 +362,9 @@ window.terafm = window.terafm || {};
 	function clickTargetToRestore(callback) {
 
 		terafm.editablePicker.pick(function(editable) {
-			callback(editable);
+			if(editable !== false) {
+				callback(editable);
+			}
 		});
 	}
 

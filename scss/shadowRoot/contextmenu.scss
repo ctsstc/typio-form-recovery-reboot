@@ -1,0 +1,98 @@
+
+
+#contextmenu {
+	position: absolute;
+	z-index: 99999999999;
+	box-shadow: 0 1px 4px rgba(0,0,0,.5), 0 1px 10px rgba(0,0,0,.2);
+	background: #FFF;
+	width: 250px;
+
+	&.hidden {
+		display: none;
+	}
+
+	.contextmenu-list {
+		margin: 0; padding: 0; // Reset, some websites fuck it up
+		display: block;
+		overflow: hidden;
+
+		.title-separator {
+			height: 5px;
+			border-bottom: 1px solid #BBB;
+			margin-bottom: 5px;
+			margin-top: 1px;
+			text-align: center;
+			font-size: 11px;
+			font-family: sans-serif;
+			text-transform: uppercase;
+			color: #999;
+
+			span {
+				background: #FFF;
+				padding: 0 6px;
+			}
+		}
+
+		li {
+			position: relative;
+			display: block;
+			margin: 0;
+			padding: 8px 10px 8px 10px;
+			cursor: default;
+			font-size: 13px;
+			line-height: 13px;
+			color: #444;
+			font-family: sans-serif;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			text-align: left; // Reset
+
+			&:last-child {
+				border-top: 1px solid #DDD;
+			}
+
+			&:hover {
+				background: #E8E8E8;
+				box-shadow: none;
+				// padding-right: 50px;
+
+				.tera-icon-right {
+					opacity: .6;
+				}
+			}
+
+			&.link {
+				color: #1e78b9;
+			}
+
+			.tera-icon-right {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				width: 30px;
+				display: block;
+				overflow: hidden;
+				background-color: inherit;
+				background-size: 20px;
+				background-position: center;
+				background-repeat: no-repeat;
+
+				cursor: pointer;
+				opacity: 0;
+				transition-duration: .1s;
+
+				&:hover {
+					opacity: 1;
+					transition-duration: .2s;
+				}
+
+				&.tera-icon-single {
+					background-image: url(data:image/svg+xml,%3Csvg%20version%3D%221.0%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%0A%20width%3D%22512.000000pt%22%20height%3D%22512.000000pt%22%20viewBox%3D%220%200%20512.000000%20512.000000%22%0A%20preserveAspectRatio%3D%22xMidYMid%20meet%22%3E%0A%3Cg%20transform%3D%22translate%280.000000%2C512.000000%29%20scale%280.100000%2C-0.100000%29%22%0Afill%3D%22%23000000%22%20stroke%3D%22none%22%3E%0A%3Cpath%20d%3D%22M2570%204470%20c-707%20-82%20-1307%20-535%20-1575%20-1189%20-79%20-194%20-125%20-405%0A-140%20-645%20l-7%20-109%20-134%20134%20-134%20134%20-151%20-151%20-150%20-151%20391%20-391%20c216%20-216%0A395%20-392%20398%20-392%204%200%20184%20177%20400%20393%20l392%20392%20-150%20150%20-150%20150%20-141%20-140%0A-141%20-140%205%20116%20c30%20607%20426%201137%20998%201337%20176%2062%20273%2077%20494%2077%20173%200%20214%20-3%0A304%20-23%20457%20-103%20822%20-385%201028%20-797%20213%20-424%20212%20-915%20-4%20-1338%20-90%20-177%0A-201%20-320%20-342%20-444%20-202%20-177%20-430%20-290%20-701%20-349%20-120%20-27%20-448%20-27%20-570%20-1%0A-262%2056%20-529%20189%20-706%20351%20l-59%2055%20-151%20-151%20-151%20-150%2061%20-57%20c130%20-120%20287%0A-227%20451%20-306%201175%20-569%202556%20170%202740%201466%2019%20134%2019%20367%200%20512%20-108%20826%0A-749%201492%20-1575%201638%20-130%2023%20-408%2033%20-530%2019z%22/%3E%0A%3Cpath%20d%3D%22M2562%202873%20l3%20-536%20530%20-208%20c292%20-114%20533%20-204%20537%20-201%203%204%2028%2061%0A56%20128%20l49%20120%20-426%20166%20-426%20165%20-3%20452%20-2%20451%20-160%200%20-160%200%202%20-537z%22/%3E%0A%3C/g%3E%0A%3C/svg%3E);
+					background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDQ4IDQ4IiB3aWR0aD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0OHY0OGgtNDh6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTM4IDZoLTI4Yy0yLjIxIDAtNCAxLjc5LTQgNHYyOGMwIDIuMjEgMS43OSA0IDQgNGgyOGMyLjIxIDAgNC0xLjc5IDQtNHYtMjhjMC0yLjIxLTEuNzktNC00LTR6bS0xMCAyOGgtNHYtMTZoLTR2LTRoOHYyMHoiLz48L3N2Zz4=);
+				}
+			}
+		}
+	}
+}

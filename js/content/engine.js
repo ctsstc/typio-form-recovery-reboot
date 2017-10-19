@@ -1,6 +1,8 @@
-window.terafm = window.terafm || {};
-
 (function() {
+
+	var terafm = window.terafm || {};
+
+	var shadowRoot;
 
 	var optionSanitizers = {
 		savePasswords: function(bool) {
@@ -15,48 +17,18 @@ window.terafm = window.terafm || {};
 		}
 	};
 
+	terafm.globalOptions = {
+		editableTypes: ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'],
+		textEditableTypes: ['text', 'email', 'search', 'password', 'url', 'tel'],
 
-	window.terafm.engine = {
-
-		options: {
-			allowedInputTypes: ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'],
-		
-			savePasswords: false,
-			storageTimeDays: 7,
-		},
-
-		// saveRevision: function(editable, editableValue) {
-
-		// 	if(!isEditable(editable)) {
-		// 		return false;
-		// 	}
-
-		// 	var editablePath = terafm.ui.generateDomPath(editable),
-		// 		editableId = terafm.helpers.generateEditableId(editablePath),
-
-		// 		safeEditableValue = terafm.helpers.encodeHTML(editableValue);
-
-
-		// 	// Min length of string to save (only if text editable)
-		// 	if(safeEditableValue.length < 1 && isEditableText(editable)) {
-		// 		terafm.db.deleteSingleRevisionByInput(editablePath);
-		// 		return false;
-		// 	}
-
-		// 	// Special care for radio inputs, have to delete siblings
-		// 	if(editable.type === 'radio') {
-		// 		deleteRadioSiblingsFromStorage(editable);
-		// 	}
-
-		// 	var data = {
-		// 		value: editableValue, // Not safe value
-		// 		path: editablePath
-		// 	}
-
-		// 	terafm.db.saveRevision(editableId, data);
-		// }
+		savePasswords: false,
+		storageTimeDays: 7,
 	}
 
+
+	terafm.getShadowRoot = function() {
+		return shadowRoot || createShadowRoot();
+	}
 
 	function init() {
 
@@ -82,8 +54,54 @@ window.terafm = window.terafm || {};
 
 		});
 
+		setupKeyboardShortcuts();
+
 		// Initiated because it listens for rightclicks (html only injected when contextmenu is triggered)
 		terafm.context.setup();
+	}
+
+	function setupKeyboardShortcuts() {
+
+		Mousetrap.bindGlobal('ctrl+del', function(e) {
+
+			var fields = terafm.db.getLatestSession(),
+				totalCount = Object.keys(fields).length,
+				fails = 0;
+
+			if(totalCount < 1) {
+				terafm.toast.create('Nothing to restore.')
+				return false;
+			}
+
+			for(var fieldId in fields) {
+				var editable = fields[fieldId];
+				var target = terafm.editableManager.getEditableByPath(editable.path, editable.frame);
+
+				if(target) {
+					terafm.editableManager.setEditableValue(target, editable.value);
+					terafm.editableManager.flashEditable(target);
+				} else {
+					fails++;
+				}
+			}
+
+			if(fails === 0) {
+				terafm.toast.create('Recovered previous session.');
+			} else {
+				terafm.toast.create(fails + ' previous entries could not be restored automatically. Open form recovery to restore fields manually.', 10*1000);
+			}
+
+		});
+	}
+
+	function createShadowRoot() {
+		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-shadow"></div>');
+
+		shadowRoot = document.getElementById('terafm-shadow').attachShadow({mode: 'open'});
+		shadowRoot.innerHTML = '<div>';
+		shadowRoot.querySelector('div').insertAdjacentHTML('beforeend', '<style> @import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '"; </style>');
+
+		return shadowRoot;
 	}
 
 	function loadExtensionOptions(callback) {
@@ -92,8 +110,8 @@ window.terafm = window.terafm || {};
 		chrome.storage.sync.get(null, function(options) {
 			if(options) {
 				for(var opt in options) {
-					if(opt in terafm.engine.options) {
-						terafm.engine.options[opt] = optionSanitizers[opt](options[opt]);
+					if(opt in terafm.globalOptions) {
+						terafm.globalOptions[opt] = optionSanitizers[opt](options[opt]);
 					}
 				}
 			}
@@ -107,7 +125,7 @@ window.terafm = window.terafm || {};
 
 		var editables = terafm.db.getAllRevisions(),
 			// Now - Seconds to store = past point in time when everything earlier is expired
-			expirePoint = terafm.db.sessionId() - (terafm.engine.options.storageTimeDays * 86400); // 86400 = 24h
+			expirePoint = terafm.db.sessionId() - (terafm.globalOptions.storageTimeDays * 86400); // 86400 = 24h
 
 		for (editableId in editables) {
 			for(session in editables[editableId]) {

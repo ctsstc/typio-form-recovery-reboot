@@ -82,7 +82,7 @@ window.terafm = window.terafm || {};
 		},
 
 		getAllRevisions: function() {
-			return terafm.helpers.cloneObject(db.storage);
+			return cloneObject(db.storage);
 		},
 
 		getAllRevisionsGroupedBySession: function() {
@@ -98,17 +98,34 @@ window.terafm = window.terafm || {};
 				}
 			}
 
-			return terafm.helpers.cloneObject(sessions);
+			return cloneObject(sessions);
 
 		},
 
+		getLatestSession: function() {
+			var sessions = terafm.db.getAllRevisionsGroupedBySession();
+
+			// Exclude current if it exists
+			delete sessions[db.sessionId];
+
+			var keys = Object.keys(sessions);
+
+			if(keys.length < 1) return false;
+
+			var last = keys.reduce(function(a, b) {
+				return Math.max(a, b);
+			});
+
+			return sessions[last];
+		},
+
 		getRevisionsByEditable: function(editableId) {
-			return terafm.helpers.cloneObject(db.storage[editableId] || {})
+			return cloneObject(db.storage[editableId] || {})
 		},
 
 		getSingleRevisionByEditableAndSession: function(editableId, session) {
 			if(db.storage[editableId]) {
-				return terafm.helpers.cloneObject(db.storage[editableId][session] || {});
+				return cloneObject(db.storage[editableId][session] || {});
 			}
 		},
 
@@ -121,7 +138,7 @@ window.terafm = window.terafm || {};
 				}
 			}
 
-			return terafm.helpers.cloneObject(revisions || {});
+			return cloneObject(revisions || {});
 		},
 
 		// Deletes everythinng except for current session
@@ -152,6 +169,60 @@ window.terafm = window.terafm || {};
 				}
 			}
 			sync();
+		},
+
+		getRecentRevisions: function(excludeId, max) {
+			var revisions = terafm.db.getAllRevisionsGroupedBySession(),
+				max = max || 10,
+				matches = {};
+
+			var revKeys = Object.keys(revisions).reverse();
+
+
+			for(revKey in revKeys) {
+				for(entryId in revisions[revKeys[revKey]]) {
+					if(max < 1) break;
+					if(entryId === excludeId) continue;
+
+					var entry = revisions[revKeys[revKey]][entryId];
+
+					if(entry.value.length > 4) {
+						matches[ revKeys[revKey] ] = entry;
+						max--;
+					}
+				}
+			}
+
+			return matches;
+		},
+
+
+		getEntriesByText: function(search, max) {
+			var search = '' + search;
+			search = search.trim();
+			search = escapeRegExp(search);
+			search = new RegExp(search, 'i');
+
+			var fields = terafm.db.getAllRevisions(),
+				matches = {},
+				max = max || 10;
+
+			for(fieldId in fields) {
+				for(entryId in fields[fieldId]) {
+					if(max < 1) break;
+
+					var entry = fields[fieldId][entryId];
+
+
+					if( search.test(entry.value) === true ) {
+						matches[entryId] = entry;
+						max--;
+					}
+				}
+			}
+
+			return matches;
+
 		}
 
 	};
