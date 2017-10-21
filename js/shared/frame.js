@@ -1,26 +1,66 @@
 
-// console.log('running');
+
+// Run once in top window
+
+if(window === window.top) {
+	// chrome.runtime.sendMessage('kacepnhocenciegcjpebnkmdbkihmnlb', 'from top');
+
+	window.top.addEventListener('message', function(msg) {
+		// console.log('ready to save', msg.data.data, terafm);
+		console.log(msg.data.data, $(msg.data.data.path));
+		// terafm.editableManager.saveEditable(editable, value);
+	})
+
+}
+
+
+
+// Run everywhere
 
 (function() {
 
 	// Todo: Fix path
 	var basepath = 'chrome-extension://kacepnhocenciegcjpebnkmdbkihmnlb/'; //chrome.extension.getURL('js/shared/frame.js');
 
+	var observeConf = { childList: true, subtree: true, characterData: false, attributes: false };
+	
 	setTimeout(function() {
 		var allNodes = document.body.querySelectorAll('*');
 		dig(allNodes);
-		console.log('start dig');
-	}, 2000);
+		// console.log('start dig');
+
+		var observer = createObserver();
+		observer.observe(document.body, observeConf);
+
+	}, 100);
+
+
+
+	function createObserver() {
+		return new MutationObserver(function(mutations) {
+			mutations.forEach(function(mutation) {
+				mutation.addedNodes.forEach(function(node) {
+					// console.log(mutation);
+					dig([node]);
+				});
+			});    
+		});
+	}
 
 	function dig(allNodes) {
 
 		for(var i=0; i < allNodes.length; ++i) {
 			if(allNodes[i].nodeName === 'IFRAME') {
+				// console.log('injecting', allNodes[i])
 				inject(allNodes[i]);
 			}
 
 			if(allNodes[i].shadowRoot && allNodes[i].shadowRoot.mode === 'open') {
 				var shroot = allNodes[i].shadowRoot;
+
+				var observer = createObserver();
+				observer.observe(shroot, observeConf);
+				// console.log('observing', shroot);
 
 				// Also dig into child elements
 				for(var ch=0; ch < shroot.children.length; ++ch) {
@@ -38,6 +78,10 @@
 		scriptEdMan.type = "text/javascript";
 		scriptEdMan.src = basepath + 'js/shared/editableManagerShared.js';
 
+		var scriptHelp = window.top.document.createElement("script");
+		scriptHelp.type = "text/javascript";
+		scriptHelp.src = basepath + 'js/shared/helpers.js';
+
 		var scriptFrame = window.top.document.createElement("script");
 		scriptFrame.type = "text/javascript";
 		scriptFrame.src = basepath + 'js/shared/frame.js';
@@ -53,6 +97,7 @@
 
 		try {
 			iframe.contentWindow.document.body.appendChild(scriptOpt);
+			iframe.contentWindow.document.body.appendChild(scriptHelp);
 			iframe.contentWindow.document.body.appendChild(scriptEdMan);
 			iframe.contentWindow.document.body.appendChild(scriptFrame);
 
@@ -70,25 +115,18 @@
 		}
 	}
 
+
 })();
 
 
-if(window === window.top) {
-	// chrome.runtime.sendMessage('kacepnhocenciegcjpebnkmdbkihmnlb', 'from top');
-
-	window.top.addEventListener('message', function(msg) {
-		console.log('ready to save', msg.data.data, terafm);
-		// terafm.editableManager.saveEditable(editable, value);
-	})
-
-}
+// Run only in frames
 
 (function() {
 
 	// Only run in frames
 	if(window.top !== window) {
 
-		console.log('injected!');
+		// console.log('injected!');
 
 		// window.top.postMessage('test message from iframe! :)', '*');
 
@@ -99,7 +137,6 @@ if(window === window.top) {
 		// Set rightclick target in context controller
 		document.addEventListener('contextmenu', function(e) {
 			console.log('broadcasting message');
-			chrome.runtime.sendMessage('kacepnhocenciegcjpebnkmdbkihmnlb', 'contextDetected');
 			// var editable = terafm.editableManager.getEditable(e.target);
 			var editable = terafm.editableManager.getEditable(e.path[0]);
 
@@ -133,14 +170,17 @@ if(window === window.top) {
 
 			if(editable) {
 				var edValue = terafm.editableManager.getEditableValue(editable),
-					edPath = terafm.editableManager.genPath(editable),
-					edId = terafm.editableManager.generateEditableId(edPath); // Can do later if need
+					edPath = terafm.editableManager.genPath(editable);
+					//edId = terafm.editableManager.generateEditableId(edPath); // Can do later if need
+
+				console.log('generated', edPath);
+				console.log('found', $(edPath));
 
 				window.top.postMessage({
 					action: 'save',
 					data: {
 						value: edValue,
-						path: edId,
+						path: edPath,
 						id: 1234, // New! Cannot depend on yet though
 						frame: ''// Deprecated
 					}

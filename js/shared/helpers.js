@@ -1,12 +1,5 @@
 
-function isInShadow(node) {
-	for (; node; node = node.parentNode) {
-		if (node.toString() === "[object ShadowRoot]") {
-			return true;
-		}
-	}
-	return false;
-}
+
 function hashStr(str) {
 	var hash = 0;
 	if (str.length == 0) return hash;
@@ -70,34 +63,78 @@ function prettyDate(time) {
 // querySelector with ::shadow support
 function $(selector) {
 
-	var hasShadow = selector.indexOf('::shadow') > -1 ? true : false;
 
-	if(!hasShadow) {
-		return document.querySelector(selector);
-	
-	} else {
+	// Todo: Fix this ungodly mess
+	function splitSelectorByEncapsulators(selector) {
+		var complete = [],
+			currI = 0,
+			shadowSplits = selector.split(/::shadow.*?\S/g);
 
-		var splitSelector = selector.split(/::shadow[\s>]+/),
-			currNode = window.top.document;
+		for(var i in shadowSplits) {
+			var splitSplit = shadowSplits[i].split(/[\s>]+/g);
 
-		for(var i = 0; i < splitSelector.length; ++i) {
-			currNode = currNode.querySelector( splitSelector[i] );
+			for(var single in splitSplit) {
 
-			// If node was not found, abort
-			if(!currNode) {
-				return false;
+				complete[currI] = complete[currI] || '';
+
+				if(splitSplit[single].search(/\S/) === -1) {
+					continue;
+				}
+				if(splitSplit[single].indexOf('iframe') === 0) {
+					currI++;
+					complete[currI] = (complete[currI] ? complete[currI] : '') + splitSplit[single];
+					currI++;
+				} else {
+					complete[currI] += splitSplit[single];
+
+					if(parseInt(single) !== splitSplit.length-1) {
+						complete[currI] += ' > ';
+					}
+				}
+
 			}
-
-			// If node is shadow host, go inside
-			if(currNode.shadowRoot) {
-				currNode = currNode.shadowRoot;
-			}
+			currI++;
 		}
 
-		return currNode;
-
+		for(var c in complete) {
+			if(complete[c].search(/\S/) === -1) {
+				complete.splice(c, 1);
+			}
+			complete[c] = complete[c].replace(/>\s$/, '');
+		}
+		return complete;
 	}
 
+
+	var splitSelector = splitSelectorByEncapsulators(selector),
+		currNode = window.top.document;
+
+	// console.log(splitSelector);
+
+	for(var i = 0; i < splitSelector.length; ++i) {
+		var currSel = splitSelector[i];
+
+		// console.log(currNode, currSel);
+
+		currNode = currNode.querySelector(currSel);
+
+		// If node was not found, abort
+		if(!currNode) {
+			console.log('failed', currSel)
+			return false;
+		}
+
+		// If node is shadow host, go inside
+		if(currNode.shadowRoot) {
+			currNode = currNode.shadowRoot;
+		}
+
+		if(currNode.nodeName === 'IFRAME') {
+			currNode = currNode.contentDocument;
+		}
+	}
+
+	return currNode;
 }
 
 

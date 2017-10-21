@@ -25,6 +25,26 @@ var randId = 'randomId-' + Math.round(Math.random()*100000),
 document.body.insertAdjacentHTML('beforeend', html)
 
 
+setTimeout(function() {
+
+	document.body.insertAdjacentHTML('afterbegin', '<div class="dyno"></div>')
+	var shadowElm = document.querySelector('.dyno'),
+		shroot = shadowElm.attachShadow({mode: 'open'});
+
+	shroot.innerHTML = '<input placeholder="Input dynamic shadow DOM" /><iframe></iframe>';
+
+	shroot.querySelector('iframe').contentWindow.document.body.innerHTML = '<input placeholder="placeholder dynamic" />';
+
+	setTimeout(function() {
+		shroot.querySelector('iframe').contentWindow.document.body.insertAdjacentHTML('afterbegin', '<input placeholder="new" />');
+
+		setTimeout(function() {
+			shroot.querySelector('iframe').contentWindow.document.body.insertAdjacentHTML('afterbegin', '<iframe height="40"></iframe>');
+			var iframe = shroot.querySelector('iframe').contentWindow.document.querySelector('iframe').contentWindow;
+			iframe.document.body.innerHTML = '<input type="new in iframe" />';
+		}, 1000);
+	}, 500);
+}, 500);
 
 
 // Generates shadow dom
@@ -35,12 +55,12 @@ var shadowElm = document.querySelector('#shadow'),
 shroot.innerHTML = '<input placeholder="Input in shadow DOM" /><div></div>';
 
 var shroot2 = shroot.querySelector('div').attachShadow({mode: 'open'});
-shroot2.innerHTML = '<input placeholder="2nd lvl input in shadow DOM" /><iframe></iframe>';
+shroot2.innerHTML = '<input placeholder="2nd lvl input in shadow DOM" /><iframe id="frameId"></iframe>';
 
 var iframe = shroot2.querySelector('iframe');
-iframe.contentWindow.document.body.innerHTML = '<input placeholder="input in nested shadow roots" /><div></div>';
+iframe.contentWindow.document.body.innerHTML = '<input placeholder="input in nested shadow roots" /><div></div><div class="sec"><p>Hello world!</p></div>';
 
-var shroot3 = iframe.contentWindow.document.querySelector('div').attachShadow({mode: 'open'});
+var shroot3 = iframe.contentWindow.document.querySelector('.sec').attachShadow({mode: 'open'});
 
 shroot3.innerHTML = '<input placeholder="Input nested shadow doms and iframe" /><div></div>';
 

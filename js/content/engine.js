@@ -31,7 +31,20 @@
 	}
 
 	function init() {
+/*
+		setTimeout(function() {
+			console.log('---------------------');
+			var t = document.querySelector('#shadow').shadowRoot.querySelector('div').shadowRoot.querySelector('iframe').contentWindow.document.querySelector('.sec').shadowRoot.querySelector('input');
+			var path = terafm.editableManager.genPath(t);
 
+			console.log('generated:', path);
+			var found = $(path);
+			console.log('found:', found);
+			return;
+			
+		}, 500);
+*/
+	return;
 		// Initiate DB, populate in-memory storage
 		terafm.db.init(function() {
 
