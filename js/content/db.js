@@ -53,6 +53,12 @@ window.terafm = window.terafm || {};
 	window.terafm.db = {
 
 		init: function(callback) {
+
+			if(db.initiated) {
+				callback();
+				return true;
+			}
+
 			// Initiate connected and load disk storage to in memory
 			terafm.indexedDB.init(function() {
 				convertLegacyStorage();

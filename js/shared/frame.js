@@ -5,10 +5,40 @@
 if(window === window.top) {
 	// chrome.runtime.sendMessage('kacepnhocenciegcjpebnkmdbkihmnlb', 'from top');
 
+
 	window.top.addEventListener('message', function(msg) {
-		// console.log('ready to save', msg.data.data, terafm);
-		console.log(msg.data.data, $(msg.data.data.path));
-		// terafm.editableManager.saveEditable(editable, value);
+		if(msg.data.action && msg.data.action === 'terafmSave') {
+			terafm.db.init(function() {
+				console.log('ready to save', msg.data.data, terafm);
+
+				var data = msg.data.data;
+
+				var edId = terafm.editableManager.generateEditableId(data.path)
+
+
+				// Min length of string to save
+				// Don't bother removing HTML here, it's too expensive
+				if(data.value.length < 1) {
+					terafm.db.deleteSingleRevisionByEditable(edId);
+					return false;
+				}
+
+				// Special care for radio inputs, have to delete siblings
+				// if(editable.type === 'radio') {
+				// 	deleteRadioSiblingsFromStorage(editable, framePath);
+				// }
+
+				var data = {
+					value: data.value,
+					path: data.path
+				}
+
+				// console.log('saving', edId, data);
+				terafm.toast.create('Saved entry');
+
+				terafm.db.saveRevision(edId, data);
+			});
+		}
 	})
 
 }
@@ -105,12 +135,13 @@ if(window === window.top) {
 				console.log('success on second try!')
 			}
 		} catch(e) {
-			console.log('fail', iframe)
 			if(!secondTry) {
-				console.log('retrying in 1 sec');
+				console.log('inject fail, retrying in 1 sec');
 				setTimeout(function() {
 					inject(iframe, true)
 				}, 1000);
+			} else {
+				console.log('ïnject failed second time');
 			}
 		}
 	}
@@ -173,16 +204,26 @@ if(window === window.top) {
 					edPath = terafm.editableManager.genPath(editable);
 					//edId = terafm.editableManager.generateEditableId(edPath); // Can do later if need
 
-				console.log('generated', edPath);
-				console.log('found', $(edPath));
+				if(!edPath) {
+					if(editable.dataset.terafmGlobId) {
+						edPath = editable.dataset.terafmGlobId;
+					} else {
+						editable.dataset.terafmGlobId = 'global:' + Math.round(Math.random()*10000000);
+						edPath = editable.dataset.terafmGlobId;
+					}
+					console.log('Could not generate input path, will save as:', edPath)
+				}
+
+				// console.log('generated', edPath);
+				// console.log('found', $(edPath));
 
 				window.top.postMessage({
-					action: 'save',
+					action: 'terafmSave',
 					data: {
 						value: edValue,
 						path: edPath,
-						id: 1234, // New! Cannot depend on yet though
-						frame: ''// Deprecated
+						//id: 1234, // New! Cannot depend on yet though
+						//frame: ''// Deprecated
 					}
 				}, '*');
 				// terafm.editableManager.saveEditable(editable, value);

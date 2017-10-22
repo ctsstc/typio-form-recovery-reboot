@@ -9,6 +9,11 @@ window.terafm = window.terafm || {};
 
 		save: function(data, callback) {
 
+			if(!init) {
+				throw new Error('Typio: Cannot save before IndexedDB has been initialized.');
+				return false;
+			}
+
 			var transaction = prepareTransaction(callback);
 
 			var objectStore = transaction.objectStore("storage"),
@@ -33,10 +38,16 @@ window.terafm = window.terafm || {};
 		},
 
 		init: function(callback) {
+			if(init) {
+				callback();
+				return true;
+			}
+
 			var request = window.indexedDB.open("terafmStorage", 1);
 
 			request.onsuccess = function(event) {
 				db = request.result;
+				init = true;
 				callback();
 			};
 

@@ -1,6 +1,5 @@
 (function() {
 
-	console.log(window.terafm, document)
 	window.terafm = window.terafm || {};
 	terafm.editableManager = terafm.editableManager || {};
 

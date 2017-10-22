@@ -44,7 +44,7 @@
 			
 		}, 500);
 */
-	return;
+
 		// Initiate DB, populate in-memory storage
 		terafm.db.init(function() {
 
