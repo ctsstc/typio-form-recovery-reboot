@@ -1,4 +1,5 @@
 (function() {
+	'use strict';
 	
 	// Used to check if script is already injected. Message is sent from background.js
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

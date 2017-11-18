@@ -1,19 +1,59 @@
-(function() {
+window.terafm = window.terafm || {};
+terafm.editableManager = terafm.editableManager || {};
 
-	window.terafm = window.terafm || {};
-	terafm.editableManager = terafm.editableManager || {};
+(function(editableManager, db, help) {
+	'use strict';
+
+	editableManager.createEntryObject = function(editable, value) {
+		var editablePath = terafm.editableManager.genPath(editable);
+
+		// Delete entry if value is too short
+		// Don't bother removing HTML here, it's too expensive
+		// Todo: Detect major change (e.g. automatic value reset by script) and save long value (new session?)
+		if(value.length < 1) {
+			var editableId = editableManager.generateEditableId(editablePath);
+			terafm.db.deleteSingleRevisionByEditable(editableId);
+			return false;
+		}
+
+		// Special care for radio inputs, have to delete siblings
+		if(editable.type === 'radio') {
+			editableManager.deleteRadioSiblingsFromStorage(editable);
+		}
+
+		var data = {
+			value: value,
+			path: editablePath
+		}
+		return data;
+	}
+	
+	// Radios require special attention, this is ugly but it'll do for now
+	editableManager.deleteRadioSiblingsFromStorage = function(input) {
+		if(input.type == 'radio' && input.name) {
+			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
+			siblingRadios.forEach(function(sib) {
+				if(sib !== input) {
+					var sibPath = editableManager.genPath(sib),
+						sibId = editableManager.generateEditableId(sibPath);
+					// Delete current sibling revision
+					db.deleteSingleRevisionByEditable(sibId);
+				}
+			});
+		}
+	}
 
 
 	// Check if element is editable
 	// In case of contenteditable it does NOT check if element is within
 	// a contenteditable field.
-	terafm.editableManager.isEditable = function(elem) {
+	editableManager.isEditable = function(elem) {
 
 		// Check if input with valid type
-		if(elem.nodeName == 'INPUT' && terafm.globalOptions.editableTypes.includes(elem.type)) {
+		if(elem.nodeName == 'INPUT' && terafm.options.get('editableTypes').includes(elem.type)) {
 
 			// Is it a password field?
-			if(elem.type == 'password' && terafm.globalOptions.savePasswords !== true) {
+			if(elem.type == 'password' && terafm.options.get('savePasswords') !== true) {
 				return false;
 			}
 
@@ -35,17 +75,17 @@
 		return false;
 	}
 
-	terafm.editableManager.isEditableText = function(elem) {
+	editableManager.isEditableText = function(elem) {
 
-		if( terafm.globalOptions.textEditableTypes.includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
+		if( terafm.options.get('textEditableTypes').includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
 			return true;
 		}
 		return false;
 	}
 	
 	// Check if element is editable OR is within a contenteditable parent
-	terafm.editableManager.getEditable = function(elem) {
-		if(terafm.editableManager.isEditable(elem)) return elem;
+	editableManager.getEditable = function(elem) {
+		if(editableManager.isEditable(elem)) return elem;
 
 		// Iterate every parent, return if parent is editable
 		//return parentElem(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' });
@@ -58,7 +98,7 @@
 	}
 
 
-	terafm.editableManager.getEditableValue = function(editable) {
+	editableManager.getEditableValue = function(editable) {
 		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
 
 			// Special care for checkable inputs
@@ -78,9 +118,8 @@
 
 
 	// Todo: Depr framepath
-	terafm.editableManager.generateEditableId = function(editablePath, framePath) {
-		if(!framePath) framePath = '';
-		var id = 'field' + hashStr(framePath + editablePath);
+	editableManager.generateEditableId = function(editablePath) {
+		var id = 'field' + help.hashStr(editablePath);
 		return id;
 	}
 
@@ -138,7 +177,7 @@
 
 		return stack;
 	}
-	terafm.editableManager.genPath = function(el) {
+	editableManager.genPath = function(el) {
 
 		var parentCapsule = getParentCapsule(el), // Will change as it breaks out
 			isEncapsulated = parentCapsule ? true : false;
@@ -276,4 +315,4 @@
 		}
 	}
 
-})();
+})(terafm.editableManager, terafm.db, terafm.help);

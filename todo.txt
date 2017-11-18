@@ -4,6 +4,7 @@ Fix: Deprecated multiple shadow roots in one parent. All injected html is now wi
 Fix: Improved error message if trigger context before page load etc
 
 Todo:
+- Replace toast with blinky thing in corner (with debounce)
 - Refactor everything
 - Escape should close clicky thingy
 - Concat all shadowroot css
