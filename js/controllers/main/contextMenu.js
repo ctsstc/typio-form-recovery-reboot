@@ -130,7 +130,7 @@
 			contextMenu.hide();
 			
 		} else if(target.dataset.browseAll !== undefined) {
-			terafm.dialog.open();
+			terafm.recoveryDialog.show();
 			contextMenu.hide();
 		}
 

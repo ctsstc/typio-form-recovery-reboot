@@ -6,7 +6,8 @@ terafm.recoveryDialog = {};
 
 	var shroot;
 
-	recoveryDialog.show = function() {
+	recoveryDialog.show = function(setDefault) {
+		if(setDefault === undefined) recoveryDialog.setPage('default');
 		var shadowRoot = shroot.querySelector('.dialog-root');
 		shadowRoot.classList.add('open');
 	}
