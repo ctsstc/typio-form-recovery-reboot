@@ -5,19 +5,36 @@ terafm.editableManager = terafm.editableManager || {};
 	'use strict';
 
 	editableManager.createEntryObject = function(editable, value) {
-		var editablePath = terafm.editableManager.genPath(editable);
+
+		var editablePath = editable.dataset.terafmPath;
+
+		// Not cached
+		if(!editablePath) {
+
+			editablePath = terafm.editableManager.genPath(editable);
+
+			// Cannot generate path, assign random id
+			if(!editablePath) {
+				editablePath = 'global:' + Math.round(Math.random()*10000000);
+			}
+
+			// Cache in dataset
+			editable.dataset.terafmPath = editablePath;
+		}
+
 
 		// Delete entry if value is too short
 		// Don't bother removing HTML here, it's too expensive
 		// Todo: Detect major change (e.g. automatic value reset by script) and save long value (new session?)
 		if(value.length < 1) {
-			var editableId = editableManager.generateEditableId(editablePath);
+			var editableId = editableManager.generateEditableId(editable);
 			terafm.db.deleteSingleRevisionByEditable(editableId);
 			return false;
 		}
 
 		// Special care for radio inputs, have to delete siblings
 		if(editable.type === 'radio') {
+			console.log('doing radio stuff');
 			editableManager.deleteRadioSiblingsFromStorage(editable);
 		}
 
@@ -35,7 +52,7 @@ terafm.editableManager = terafm.editableManager || {};
 			siblingRadios.forEach(function(sib) {
 				if(sib !== input) {
 					var sibPath = editableManager.genPath(sib),
-						sibId = editableManager.generateEditableId(sibPath);
+						sibId = editableManager.generateEditableId(input);
 					// Delete current sibling revision
 					db.deleteSingleRevisionByEditable(sibId);
 				}
@@ -117,10 +134,27 @@ terafm.editableManager = terafm.editableManager || {};
 
 
 
-	// Todo: Depr framepath
-	editableManager.generateEditableId = function(editablePath) {
-		var id = 'field' + help.hashStr(editablePath);
-		return id;
+	// Takes editablePath or editable dom node
+	editableManager.generateEditableId = function(editable) {
+
+		// If dom node
+		if(editable instanceof HTMLElement) {
+
+			// Return if cached
+			if('terafmId' in editable) return editable.terafmId;
+
+			let edId, edPath = editableManager.genPath(editable);
+
+			// Create id and cache it
+			edId = 'field' + terafm.help.hashStr(edPath);
+			editable.dataset.terafmId = edId;
+			return edId;
+
+		// It's a path, can't cache on that
+		} else {
+			console.warn('generateEditableId was called with a path, cannot be cached.', editable);
+			return 'field' + terafm.help.hashStr(editable);
+		}
 	}
 
 	// See here for possible improvements:
@@ -128,7 +162,8 @@ terafm.editableManager = terafm.editableManager || {};
 	// Careful cause changing this will result in editableID's changing
 	// which results in entries not being shown in context menu
 	// Todo: Break through iframes
-	function GET_PATH_BACKUP(el) {
+	//function GET_PATH_BACKUP(el) {
+	editableManager.genPathOLD = function(el) {
 
 		// Check easy way first, does elem have a valid id?
 		if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
@@ -216,8 +251,11 @@ terafm.editableManager = terafm.editableManager || {};
 			// If el has ID
 			if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
 
-				// If not encapsulated, return element
-				if(!isEncapsulated) return '#' + el.id;
+				// If not encapsulated, add to stack and stop
+				if(!isEncapsulated) {
+					stack.unshift('#' + el.id);
+					break;
+				}
 
 				// If encapsulated, add to stack and break out
 				else {
@@ -248,7 +286,7 @@ terafm.editableManager = terafm.editableManager || {};
 			var nodeName = el.nodeName.toLowerCase();
 
 			var sibIndex = getSiblingIndex(el);
-			if(sibIndex > 0) {
+			if(sibIndex !== false) {
 				nodeName += ':nth-of-type(' + (sibIndex) + ')';
 			}
 			if(el.shadowRoot) {
@@ -266,23 +304,39 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	function getSiblingIndex(el) {
-		if(el.parentNode && el.parentNode.childNodes.length > 0) {
-			var sibCount = 0;
-			var sibIndex = 0;
-			for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
-				var sib = el.parentNode.childNodes[i];
-				if ( sib.nodeName == el.nodeName ) {
-					if ( sib === el ) {
-						sibIndex = sibCount;
-					}
-					sibCount++;
+		var sibCount = 0;
+		var sibIndex = 0;
+		// get sibling indexes
+		for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
+			var sib = el.parentNode.childNodes[i];
+			if ( sib.nodeName == el.nodeName ) {
+				if ( sib === el ) {
+					sibIndex = sibCount;
 				}
+				sibCount++;
 			}
 		}
 
-		if(sibIndex) {
-			return sibCount;
-		}
+		return sibCount > 1 ? sibIndex+1 : false;
+
+		// Todo: ...
+		// if(el.parentNode && el.parentNode.childNodes.length > 0) {
+		// 	var sibCount = 0;
+		// 	var sibIndex = 0;
+		// 	for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
+		// 		var sib = el.parentNode.childNodes[i];
+		// 		if ( sib.nodeName == el.nodeName ) {
+		// 			if ( sib === el ) {
+		// 				sibIndex = sibCount;
+		// 			}
+		// 			sibCount++;
+		// 		}
+		// 	}
+		// }
+
+		// if(sibIndex) {
+		// 	return sibCount;
+		// }
 	}
 
 	function getParentCapsule(node) {

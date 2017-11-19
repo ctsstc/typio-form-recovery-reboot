@@ -31,7 +31,7 @@ setTimeout(function() {
 	var shadowElm = document.querySelector('.dyno'),
 		shroot = shadowElm.attachShadow({mode: 'open'});
 
-	shroot.innerHTML = '<input placeholder="Input dynamic shadow DOM" /><iframe></iframe>';
+	shroot.innerHTML = '<input placeholder="Input dynamic shadow DOM" /><input placeholder="Input2 dynamic shadow DOM" /><iframe></iframe>';
 
 	shroot.querySelector('iframe').contentWindow.document.body.innerHTML = '<input placeholder="placeholder dynamic" />';
 

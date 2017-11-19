@@ -4,11 +4,14 @@ terafm.editableManager = terafm.editableManager || {};
 (function(editableManager, help) {
 	'use strict';
 
+	let currentPlaceholderEditables = [];
+
 	// Todo: Fix! Has duplicates; one private and one public
 	editableManager.setEditableValue = function(editable, value, isPlaceholder) {
 		if(isPlaceholder) {
 			setPlaceholderClass(editable);
 			saveOriginalValue(editable);
+			currentPlaceholderEditables.push(editable);
 		} else {
 			removePlaceholderClass(editable);
 		}
@@ -45,7 +48,7 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	function resetPlaceholders(keepValue) {
-		var placeholders = help.deepQuerySelectorAll('.terafm-active-input');
+		var placeholders = currentPlaceholderEditables;
 
 		for(var i in placeholders) {
 			var editable = placeholders[i];
@@ -62,6 +65,8 @@ terafm.editableManager = terafm.editableManager || {};
 
 			delete editable.dataset.teraOrgValue;
 		}
+
+		currentPlaceholderEditables = [];
 	}
 
 	function setPlaceholderClass(editable) {

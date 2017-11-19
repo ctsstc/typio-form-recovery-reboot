@@ -35,7 +35,7 @@ terafm.help = (function() {
 	exp.prettyDateFromTimestamp = function(timestamp) {
 		var timezoneOffsetMs =  (new Date()).getTimezoneOffset() * 60000,
 			date =  new Date( (timestamp*1000) - timezoneOffsetMs ),
-			pretty = prettyDate(date.toISOString());
+			pretty = exp.prettyDate(date.toISOString());
 
 		if(!pretty) {
 			return date.toLocaleDateString('en-US', {
@@ -168,7 +168,8 @@ terafm.help = (function() {
 		return fn(parent) ? parent : parentElem(parent, cb);
 	}
 
-	exp.deepQuerySelectorAll = function(selector) {
+	// Deprecated
+/*	exp.deepQuerySelectorAll = function(selector) {
 		var frames = window.top.document.querySelectorAll('iframe'),
 			matches = [];
 
@@ -184,7 +185,7 @@ terafm.help = (function() {
 
 		return matches.length ? matches : false;
 	}
-
+*/
 	// https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
 	exp.getElemOffset = function( el ) {
 		var _x = 0;

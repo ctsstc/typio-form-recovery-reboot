@@ -30,8 +30,8 @@
 					<div class="header-partial partial-recover">
 						<button class="trigger-recover-session primary health-ok" title="Recover everything you typed that page load">Recover session</button>
 						<button class="trigger-recover-single health-ok" title="Recover just this entry">Recover only this</button>
-						<button class="trigger-recover-single-to-target health-ok icon-btn" title="Recover this entry into a specific target input">Pick target</button>
-						<button class="trigger-recover-single-to-target health-bad primary" title="Recover this entry into a new target (The original input field does not exist anymore or has been moved.)">Recover to target</button>
+						<button class="trigger-copy health-ok icon-btn" title="Copy text to clipboard">Copy</button>
+						<button class="trigger-copy health-bad primary" title="Copy text to clipboard (The original input field does not exist anymore or has been moved.)">Copy to clipboard</button>
 						&nbsp;<!-- Can't figure out why but without this a single button gets top-aligned on some sites.  -->
 					</div>
 
@@ -64,7 +64,7 @@
 							<svg version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path clip-rule="evenodd" d="M21.652,3.211c-0.293-0.295-0.77-0.295-1.061,0L9.41,14.34  c-0.293,0.297-0.771,0.297-1.062,0L3.449,9.351C3.304,9.203,3.114,9.13,2.923,9.129C2.73,9.128,2.534,9.201,2.387,9.351  l-2.165,1.946C0.078,11.445,0,11.63,0,11.823c0,0.194,0.078,0.397,0.223,0.544l4.94,5.184c0.292,0.296,0.771,0.776,1.062,1.07  l2.124,2.141c0.292,0.293,0.769,0.293,1.062,0l14.366-14.34c0.293-0.294,0.293-0.777,0-1.071L21.652,3.211z" fill-rule="evenodd"/></svg>
 							<span class="text">Target found</span>
 						</div>
-						<div class="health-bad stat-container" title="The original input field does not exist anymore. You will have to manually select where to restore the text into when you click recover.">
+						<div class="health-bad stat-container" title="The original input field does not exist anymore. Copy the text and paste it manually.">
 							<svg version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><title/><defs/><g fill="none" fill-rule="evenodd" id="Icons with numbers" stroke="none" stroke-width="1"><g fill="#dc9527" id="Group" transform="translate(-96.000000, -432.000000)"><path d="M103,443 L103,445 L105,445 L105,443 Z M104,448 C99.5817218,448 96,444.418278 96,440 C96,435.581722 99.5817218,432 104,432 C108.418278,432 112,435.581722 112,440 C112,444.418278 108.418278,448 104,448 Z M103,435 L103,442 L105,442 L105,435 Z M103,435" id="Oval 208 copy"/></g></g></svg>
 							<span class="text">Target not found</span>
 						</div>

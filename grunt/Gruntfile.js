@@ -21,7 +21,7 @@ module.exports = function(grunt) {
                         '../js/libs/mousetrap-global-bind.min.js',
 
                         // Modules
-                        '../js/shared/helpers.js', // Todo: Need to fix wtf public namespace big nono
+                        '../js/modules/helpers.js',
                         '../js/modules/indexedDBDriver.js',
                         '../js/modules/options.js',
                         '../js/modules/db.js',
@@ -29,9 +29,8 @@ module.exports = function(grunt) {
                         '../js/modules/editableManagerShared.js',
                         '../js/modules/editableManager.js',
                         '../js/modules/editablePicker.js',
-                        // '../js/modules/toast.js',
                         '../js/modules/dialog.js',
-                        '../js/modules/context.js',
+                        '../js/modules/contextMenu.js',
 
                         // Controllers
                         '../js/controllers/main.js',
@@ -44,7 +43,7 @@ module.exports = function(grunt) {
                     // Runs as content script
                     '../js/min/frame.min.js' : [
                         '../js/modules/editableManagerShared.js',
-                        '../js/shared/helpers.js', // Todo: Need to fix wtf public namespace big nono
+                        '../js/modules/helpers.js',
 
                         '../js/controllers/frame.js',
                             '../js/controllers/frame/topOnly.js',

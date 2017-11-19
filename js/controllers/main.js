@@ -48,9 +48,6 @@ var terafm = window.terafm;
 		if(request.action === 'ping') {
 			sendResponse(true);
 		
-		} else if(request.action === 'openRecoveryDialog') {
-			terafm.dialog.open();
-
 		} else if(request.action === 'clearData') {
 			terafm.db.deleteAllSessions();
 			terafm.dialog.close();

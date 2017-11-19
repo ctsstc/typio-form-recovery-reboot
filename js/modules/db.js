@@ -103,11 +103,11 @@ terafm.db = (function(options, help) {
 	}
 
 	exp.saveRevision = function(editableId, obj) {
+		console.log('saving:', editableId, obj);
 		if(!(editableId in container)) {
 			container[editableId] = {}
 		}
 		container[editableId][sessionId] = obj;
-		console.log('saved', obj);
 		sync();
 	}
 
@@ -188,6 +188,8 @@ terafm.db = (function(options, help) {
 	}
 
 	exp.deleteSingleRevisionByEditable = function(editableId, session) {
+
+		session = session || sessionId;
 
 		// Check if input exists in storage
 		if( container[editableId] ) {
