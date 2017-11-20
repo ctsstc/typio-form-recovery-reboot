@@ -1,4 +1,4 @@
-(function(editableManager, db) {
+(function(editableManager, db, saveIndicator) {
 	'use strict';
 
 	document.addEventListener('change', changeHandler);
@@ -18,8 +18,9 @@
 
 			if(entry) {
 				db.saveRevision(editableId, entry);
+				//saveIndicator.pulse();
 			}
 		}
 	}
 
-})(terafm.editableManager, terafm.db);
+})(terafm.editableManager, terafm.db, terafm.saveIndicator);

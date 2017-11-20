@@ -146,13 +146,13 @@ terafm.help = (function() {
 	// be triggered. The exp.will = function be called after it stops being called for
 	// N milliseconds. If `immediate` is passed, trigger the exp.on = function the
 	// leading edge, instead of the trailing.
-	exp.debounce = function(func, wait, immediate) {
+	exp.debounce = function(func, wait, immediate, after) {
 		var timeout;
 		return function() {
 			var context = this, args = arguments;
 			var later = function() {
 				timeout = null;
-				if (!immediate) func.apply(context, args);
+				if (!immediate || after) func.apply(context, args);
 			};
 			var callNow = immediate && !timeout;
 			clearTimeout(timeout);

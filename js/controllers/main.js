@@ -1,6 +1,6 @@
 var terafm = window.terafm;
 
-(function() {
+(function(db, options, saveIndicator, dialog) {
 	'use strict';
 
 	// Testing
@@ -24,27 +24,30 @@ var terafm = window.terafm;
 			// }
 	*/
 
-	setTimeout(function() {
-		console.log('sending msg');
-		// chrome.runtime.sendMessage({action: 'contextMenuRecover'});
-		chrome.runtime.sendMessage({action: 'openRecoveryDialog'});
-	}, 300);
-
 	// Todo: Make sure db is available when other modules load
 
 	// Initiate DB, populate in-memory storage
-	terafm.db.init(function() {
+	db.init(function() {
 
 		// // Load extension options into memory
-		terafm.options.loadFromChromeStorage(function() {
-			// console.log('options loaded');
+		options.loadFromChromeStorage(function() {
 
+			executeInitHandlers();
 		});
 
 	});
 
-	// // Initiated because it listens for rightclicks (html only injected when contextmenu is triggered)
-	// terafm.context.setup();
+
+	var initHandlers = [];
+	terafm.init = function(callback) {
+		initHandlers.push(callback);
+	}
+
+	function executeInitHandlers() {
+		initHandlers.forEach(function(func) {
+			func();
+		});
+	}
 
 
 
@@ -56,9 +59,9 @@ var terafm = window.terafm;
 			sendResponse(true);
 		
 		} else if(request.action === 'clearData') {
-			terafm.db.deleteAllSessions();
-			terafm.dialog.close();
+			db.deleteAllSessions();
+			dialog.close();
 		}
 	});
 
-})();
+})(terafm.db, terafm.options, terafm.saveIndicator, terafm.dialog);

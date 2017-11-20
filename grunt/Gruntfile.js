@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                         '../js/modules/editablePicker.js',
                         '../js/modules/recoveryDialog.js',
                         '../js/modules/contextMenu.js',
+                        '../js/modules/saveIndicator.js',
 
                         // Controllers
                         '../js/controllers/main.js',
@@ -38,6 +39,7 @@ module.exports = function(grunt) {
                             '../js/controllers/main/contextMenu.js',
                             '../js/controllers/main/inputSaver.js',
                             '../js/controllers/main/keyboardShortcuts.js',
+                            '../js/controllers/main/saveIndicator.js',
                     ],
 
                     // Runs as content script

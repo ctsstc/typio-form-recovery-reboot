@@ -5,8 +5,6 @@ Change: "Pick recovery target" replaced with Copy button.
 For devs: This update brings major improvements to the modularity of the code and should make it a lot easier to get a grasp on if you want to contribute.
 
 Todo:
-
-- Fix open dialog item in context menu
 - Better test pages
 - Replace toast with blinky thing in corner (with debounce)
 - Add master password
@@ -16,3 +14,7 @@ Todo:
 - Certain websites break ext on refresh (i think it resets document.body, e.g. turbolinks)
 - Remove bak files
 - Ignore credit card numbers
+- Check out shroot stuff
+- injectHTML could be moved
+- Capsulation injection check type and allowance
+- Use reflector class for db? To check if db has initiated in each method. Maybe.

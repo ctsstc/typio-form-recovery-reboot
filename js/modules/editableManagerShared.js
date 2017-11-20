@@ -26,17 +26,18 @@ terafm.editableManager = terafm.editableManager || {};
 		// Delete entry if value is too short
 		// Don't bother removing HTML here, it's too expensive
 		// Todo: Detect major change (e.g. automatic value reset by script) and save long value (new session?)
-		if(value.length < 1) {
-			var editableId = editableManager.generateEditableId(editable);
-			terafm.db.deleteSingleRevisionByEditable(editableId);
-			return false;
-		}
+		// Todo: Important! Below two blocks cannot run in encapsulated states due to lack of db, this should be moved into a better more descriptive place
+		// if(value.length < 1) {
+		// 	var editableId = editableManager.generateEditableId(editable);
+		// 	terafm.db.deleteSingleRevisionByEditable(editableId);
+		// 	return false;
+		// }
 
-		// Special care for radio inputs, have to delete siblings
-		if(editable.type === 'radio') {
-			console.log('doing radio stuff');
-			editableManager.deleteRadioSiblingsFromStorage(editable);
-		}
+		// // Special care for radio inputs, have to delete siblings
+		// if(editable.type === 'radio') {
+		// 	console.log('doing radio stuff');
+		// 	editableManager.deleteRadioSiblingsFromStorage(editable);
+		// }
 
 		var data = {
 			value: value,

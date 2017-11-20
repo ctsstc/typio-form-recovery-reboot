@@ -33,7 +33,7 @@ terafm.db = (function(options, help) {
 	function convertLegacyStorage() {
 		var found = false;
 
-		for(item in localStorage) {
+		for(let item in localStorage) {
 			if(item.indexOf('teraField') === 0) {
 				var inputId = item.replace('teraField', 'field');
 

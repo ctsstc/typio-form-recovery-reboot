@@ -10,6 +10,7 @@ window.terafm.options = (function() {
 		// Default values, can be overwritten and saved in chrome
 		savePasswords: false,
 		storageTimeDays: 7,
+		saveIndicator: 'cornertriag'
 	}
 
 	var hasLoadedFromStorage;
@@ -26,21 +27,24 @@ window.terafm.options = (function() {
 					(days > 365) ? 365 : 
 					(days < 1) ? 1 :
 					tera.options.storageTimeDays;
+		},
+		saveIndicator: function(value) {
+			return ['topline', 'cornertriag', 'disable'].includes(value) ? value : 'disable';
 		}
 	};
 
 
 	exp.get = function(opt) {
-		return hasLoadedFromStorage ==  undefined || globalOptions[opt];
+		if(!hasLoadedFromStorage) return 'ERROR';
+		return globalOptions[opt];
 	}
 
 	exp.getAll = function() {
-		return hasLoadedFromStorage ==  undefined || globalOptions;
+		if(!hasLoadedFromStorage) return 'ERROR';
+		return globalOptions;
 	}
 
 	exp.loadFromChromeStorage = function(callback) {
-		// Todo: Fix
-		// return;
 
 		// Override default options
 		chrome.storage.sync.get(null, function(options) {
@@ -53,7 +57,7 @@ window.terafm.options = (function() {
 			}
 
 			hasLoadedFromStorage = true;
-			callback();
+			if(callback) callback();
 		});
 
 	}

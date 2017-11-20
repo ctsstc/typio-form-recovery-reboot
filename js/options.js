@@ -71,8 +71,6 @@
 
 
 	var closeBtn = document.getElementById('saveAndClose');
-	closeBtn.onclick = function() {
-		window.close();
-	}
+	closeBtn.onclick = () => window.close();
 
 })();
