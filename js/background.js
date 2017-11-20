@@ -26,9 +26,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 			// Will only execute in iframes
 			chrome.tabs.executeScript(tabId, {file: 'js/min/frame.min.js', runAt: 'document_start', allFrames: true});
-
-			// CSS, all pages and iframes
-			chrome.tabs.insertCSS(tabId, {file: 'css/content.css', allFrames: true});
 		});
 	});
 });

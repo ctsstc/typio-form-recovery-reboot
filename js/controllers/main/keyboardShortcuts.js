@@ -20,7 +20,7 @@ terafm.keyboardShortcuts = {};
 
 		for(var fieldId in fields) {
 			var editable = fields[fieldId];
-			var target = editableManager.getEditableByPath(editable.path, editable.frame);
+			var target = editableManager.getEditableByPath(editable.path);
 
 			if(target) {
 				editableManager.setEditableValue(target, editable.value);
