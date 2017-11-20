@@ -9,11 +9,11 @@ terafm.editableManager = terafm.editableManager || {};
 	// Todo: Fix! Has duplicates; one private and one public
 	editableManager.setEditableValue = function(editable, value, isPlaceholder) {
 		if(isPlaceholder) {
-			setPlaceholderClass(editable);
+			setPlaceholderStyle(editable);
 			saveOriginalValue(editable);
 			currentPlaceholderEditables.push(editable);
 		} else {
-			removePlaceholderClass(editable);
+			removePlaceholderStyle(editable);
 		}
 
 		setEditableValue(editable, value);
@@ -34,13 +34,13 @@ terafm.editableManager = terafm.editableManager || {};
 
 	function flashEditable(editable) {
 			setTimeout(function() {
-				setPlaceholderClass(editable);
+				setPlaceholderStyle(editable);
 				setTimeout(function() {
-					removePlaceholderClass(editable);
+					removePlaceholderStyle(editable);
 					setTimeout(function() {
-						setPlaceholderClass(editable);
+						setPlaceholderStyle(editable);
 						setTimeout(function() {
-							removePlaceholderClass(editable);
+							removePlaceholderStyle(editable);
 						}, 150);
 					}, 150);
 				}, 150);
@@ -53,9 +53,7 @@ terafm.editableManager = terafm.editableManager || {};
 		for(var i in placeholders) {
 			var editable = placeholders[i];
 
-			// querySelectorAll returns an object of DOM nodes and a "length" value, we only wanna loop through the DOMs
-			// Switch to foreach to prevent?? There has to be a better way
-			if(!editable.nodeName) continue;
+			removePlaceholderStyle(editable);
 
 			editable.classList.remove('terafm-active-input');
 
@@ -69,11 +67,29 @@ terafm.editableManager = terafm.editableManager || {};
 		currentPlaceholderEditables = [];
 	}
 
-	function setPlaceholderClass(editable) {
-		editable.classList.add('terafm-active-input');
+	function setPlaceholderStyle(editable) {
+
+		// If not already set
+		if(editable.dataset.terafmOrgStyle === undefined) {
+			var attr = editable.getAttribute('style');
+			if(attr) {
+				editable.dataset.terafmOrgStyle = attr;
+			}
+			editable.style.background = 'rgb(255, 251, 153)';
+			editable.style.color = '#222';
+		}
 	}
-	function removePlaceholderClass(editable) {
-		editable.classList.remove('terafm-active-input');
+	function removePlaceholderStyle(editable) {
+
+		// If previous value is exists, restore it
+		if(editable.dataset.terafmOrgStyle !== undefined) {
+			editable.setAttribute('style', editable.dataset.terafmOrgStyle);
+			delete editable.dataset.terafmOrgStyle;
+
+		// Otherwise just clear the style
+		} else {
+			editable.removeAttribute('style');
+		}
 	}
 
 	// Saves editable value in dataset to be restored later
