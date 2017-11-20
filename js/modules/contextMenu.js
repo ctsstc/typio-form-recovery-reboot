@@ -67,10 +67,10 @@ terafm.contextMenu = {};
 
 	function generateListItemHtml(sessionId, revision, isOther) {
 		
-		var editableId = terafm.editableManager.generateEditableId(revision.path),
+		let editableId = terafm.editableManager.generateEditableId(revision.path),
 			safeString = help.encodeHTML(revision.value).substring(0,50);
 
-		var html = '';
+		let html = '';
 		html = `
 		<li data-session="`+ sessionId +`" data-editable="`+ editableId +`" ` + (isOther ? 'data-rec-other' : '') + `>
 			`+ (!isOther ? `match:<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover just this input"></span>` : '') + `
@@ -79,39 +79,6 @@ terafm.contextMenu = {};
 		`;
 		return html;
 	}
-/*
-	function positionContextMenu(target) {
-		var targetRect = target.getBoundingClientRect(),
-			bodyRect = document.body.getBoundingClientRect(),
-			UIWidth = 250, leftPos = 0, topPos = 0,
-			inputBodyOffset = targetRect.left - bodyRect.left;
-
-		// First try to align on right side of input
-		if((targetRect.left + targetRect.width + UIWidth) <= document.documentElement.clientWidth) {
-			leftPos = inputBodyOffset + targetRect.width;
-
-		// Otherwise align on left side of input
-		} else if((targetRect.left - UIWidth) > 0) {
-			leftPos = inputBodyOffset - UIWidth;
-
-		// Otherwise align right side of window
-		} else {
-			leftPos = document.documentElement.clientWidth - UIWidth;
-		}
-
-		topPos = targetRect.top + window.scrollY;
-		leftPos += window.scrollX;
-
-		// Todo: Make sure it positions correctly
-		// if(contextParentFrame) {
-		// 	var frameRect = contextParentFrame.getBoundingClientRect();
-		// 	topPos += frameRect.top;
-		// 	leftPos += frameRect.left;
-		// }
-
-		shroot.querySelector('#contextmenu').style = 'top: '+ topPos +'px; left: '+ leftPos +'px;';
-	}
-*/
 
 	function injectContextHTML(callback) {
 		var template = chrome.runtime.getURL('templates/contextmenu.tpl');
@@ -124,15 +91,4 @@ terafm.contextMenu = {};
 		});
 	}
 
-/*
-	function fetchContextStylesheet(callback) {
-		var stylePath = chrome.runtime.getURL('css/content.css'),
-			request = fetch(stylePath).then(response => response.text());
-
-		request.then(function(text) {
-			callback(text);
-		});
-	}
-
-*/
 })(terafm.contextMenu, terafm.ui, terafm.help);
