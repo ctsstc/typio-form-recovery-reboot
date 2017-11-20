@@ -73,7 +73,7 @@ terafm.recoveryDialog = {};
 		let prettyDate = help.prettyDateFromTimestamp(session),
 			prettyDateFull = new Date(session*1000).toString(),
 			wordCount = revisionValue.split(/\s/).length + ' words',
-			healthStatus = editableManager.getEditableByPath(revision.path, revision.frame) ? true : false;
+			healthStatus = editableManager.getEditableByPath(revision.path) ? true : false;
 		
 		revisionValue = revisionValue.replace(/[\r\n]/gm, '<br/>');
 
@@ -81,7 +81,7 @@ terafm.recoveryDialog = {};
 		dateNode.innerHTML = prettyDate;
 		dateNode.title = prettyDateFull;
 		sizeNode.innerHTML = wordCount;
-		pathNode.innerHTML = (revision.frame ? revision.frame + '<br/>' : '') + revision.path;
+		pathNode.innerHTML = revision.path;
 
 		if(healthStatus) {
 			shroot.querySelector('.dialog-root').classList.add('health-ok');

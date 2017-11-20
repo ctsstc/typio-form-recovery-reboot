@@ -24,13 +24,20 @@ var terafm = window.terafm;
 			// }
 	*/
 
+	setTimeout(function() {
+		console.log('sending msg');
+		// chrome.runtime.sendMessage({action: 'contextMenuRecover'});
+		chrome.runtime.sendMessage({action: 'openRecoveryDialog'});
+	}, 300);
+
+	// Todo: Make sure db is available when other modules load
 
 	// Initiate DB, populate in-memory storage
 	terafm.db.init(function() {
 
 		// // Load extension options into memory
 		terafm.options.loadFromChromeStorage(function() {
-			console.log('options loaded');
+			// console.log('options loaded');
 
 		});
 

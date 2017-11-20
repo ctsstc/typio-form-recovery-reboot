@@ -29,15 +29,15 @@ module.exports = function(grunt) {
                         '../js/modules/editableManagerShared.js',
                         '../js/modules/editableManager.js',
                         '../js/modules/editablePicker.js',
-                        '../js/modules/dialog.js',
+                        '../js/modules/recoveryDialog.js',
                         '../js/modules/contextMenu.js',
 
                         // Controllers
                         '../js/controllers/main.js',
+                            '../js/controllers/main/recoveryDialog.js',
                             '../js/controllers/main/contextMenu.js',
                             '../js/controllers/main/inputSaver.js',
                             '../js/controllers/main/keyboardShortcuts.js',
-                            '../js/controllers/main/recoveryDialog.js',
                     ],
 
                     // Runs as content script

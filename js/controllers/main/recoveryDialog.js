@@ -1,4 +1,8 @@
-(function(recoveryDialog, db, help) {
+window.terafm = window.terafm || {};
+
+terafm.recoveryDialogController = {};
+
+(function(recoveryDialogController, recoveryDialog, db, help) {
 	'use strict';
 	
 	let selectedRevision = {};
@@ -7,10 +11,11 @@
 
 	// Open call from context menu
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		if(request.action === 'openRecoveryDialog') open();
+		console.log('received')
+		if(request.action === 'openRecoveryDialog') recoveryDialogController.open();
 	});
 
-	function open() {
+	recoveryDialogController.open = function() {
 		setup(function() {
 			let revData = getRevisionData();
 
@@ -157,7 +162,7 @@
 					fails = 0;
 					
 				session.forEach(function(editable) {
-					var target = terafm.editableManager.getEditableByPath(editable.path, editable.frame);
+					var target = terafm.editableManager.getEditableByPath(editable.path);
 					if(target) {
 						terafm.editableManager.setEditableValue(target, editable.value);
 						terafm.editableManager.flashEditable(target);
@@ -218,4 +223,4 @@
 
 		});
 	}
-})(terafm.recoveryDialog, terafm.db, terafm.help);
+})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help);

@@ -1,4 +1,4 @@
-(function(contextMenu, editableManager, db) {
+(function(contextMenu, editableManager, db, recoveryDialogController) {
 
 	let contextTarget;
 	let contextPos = {};
@@ -128,8 +128,8 @@
 			contextMenu.hide();
 			
 		} else if(target.dataset.browseAll !== undefined) {
-			chrome.runtime.sendMessage({action: 'openRecoveryDialog'});
-			console.log('sent message');
+			console.log(terafm, recoveryDialogController);
+			recoveryDialogController.open();
 			contextMenu.hide();
 		}
 
@@ -186,4 +186,4 @@
 		}
 	}
 
-})(terafm.contextMenu, terafm.editableManager, terafm.db);
+})(terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController);
