@@ -27,8 +27,8 @@ terafm.editableManager = terafm.editableManager || {};
 		return flashEditable(editable);
 	}
 
-	editableManager.getEditableByPath = function(editablePath, framePath) {
-		return getEditableByPath(editablePath, framePath);
+	editableManager.getEditableByPath = function(editablePath) {
+		return help.$(editablePath);
 	}
 
 
@@ -158,25 +158,6 @@ terafm.editableManager = terafm.editableManager || {};
 
 		} else {
 			editable.innerHTML = val;
-		}
-	}
-
-	function getEditableByPath(editablePath, framePath) {
-
-		try {
-			if(framePath) {
-				var frame = document.querySelector(framePath);
-
-				if(frame) {
-					var editable = frame.contentDocument.querySelector(editablePath);
-					return editable;
-				}
-
-			} else {
-				return document.querySelector(editablePath);
-			}
-		} catch(e) {
-			return false; // Probably invalid selector
 		}
 	}
 

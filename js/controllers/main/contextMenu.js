@@ -37,11 +37,7 @@
 		}
 
 		deepSetup(function() {
-			var editablePath = editableManager.genPath(contextTarget),
-				editableId = editableManager.generateEditableId(editablePath),
-				data = getDataByEditable(editableId);
-
-			console.log(data, contextPos);
+			let data = getDataByEditable(contextTarget);
 
 			contextMenu.populate(data);
 			contextMenu.position(contextPos);
@@ -50,8 +46,10 @@
 	}
 
 	// Returns entries to populate context menu with
-	function getDataByEditable(editableId) {
-		let revs = db.getRevisionsByEditable(editableId),
+	// Returns an object with two arrays in "match" and "other"
+	function getDataByEditable(editable) {
+		let editableId = editableManager.generateEditableId(editable),
+			revs = db.getRevisionsByEditable(editableId),
 			revKeys = Object.keys(revs).reverse(),
 
 			currSessionId = db.sessionId();
@@ -130,7 +128,8 @@
 			contextMenu.hide();
 			
 		} else if(target.dataset.browseAll !== undefined) {
-			terafm.recoveryDialog.show();
+			chrome.runtime.sendMessage({action: 'openRecoveryDialog'});
+			console.log('sent message');
 			contextMenu.hide();
 		}
 
@@ -160,7 +159,7 @@
 		if(sid !== undefined && isRecOther == false) {
 			var session = terafm.db.getRevisionsBySession(sid);
 			for(var entry in session) {
-				var input = terafm.editableManager.getEditableByPath(session[entry].path, session[entry].frame);
+				var input = terafm.editableManager.getEditableByPath(session[entry].path);
 
 				if(input) {
 					terafm.editableManager.setEditableValue(input, session[entry].value, true);
