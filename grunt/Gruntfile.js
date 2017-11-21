@@ -26,12 +26,14 @@ module.exports = function(grunt) {
                         '../js/modules/options.js',
                         '../js/modules/db.js',
                         '../js/modules/ui.js',
+                        '../js/modules/editableManager.pathGen.js',
                         '../js/modules/editableManagerShared.js',
                         '../js/modules/editableManager.js',
                         '../js/modules/editablePicker.js',
                         '../js/modules/recoveryDialog.js',
                         '../js/modules/contextMenu.js',
                         '../js/modules/saveIndicator.js',
+                        '../js/modules/cache.js',
 
                         // Controllers
                         '../js/controllers/main.js',
@@ -45,7 +47,9 @@ module.exports = function(grunt) {
                     // Runs as content script
                     '../js/min/frame.min.js' : [
                         '../js/modules/editableManagerShared.js',
+                        '../js/modules/editableManager.pathGen.js',
                         '../js/modules/helpers.js',
+                        // '../js/modules/cache.js',
 
                         '../js/controllers/frame.js',
                             '../js/controllers/frame/topOnly.js',

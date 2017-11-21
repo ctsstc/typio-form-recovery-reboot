@@ -103,7 +103,7 @@ terafm.db = (function(options, help) {
 	}
 
 	exp.saveRevision = function(editableId, obj) {
-		console.log('saving:', editableId, obj);
+		// console.log('saving:', editableId, obj);
 		if(!(editableId in container)) {
 			container[editableId] = {}
 		}

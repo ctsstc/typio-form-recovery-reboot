@@ -15,6 +15,12 @@
 		window.terafm = window.terafm || {};
 
 
+		document.addEventListener('mousedown', (e) => {
+			var path = terafm.editableManager.genPath(e.path[0]);
+			console.log(path);
+		});
+
+
 		// Request options
 		requestAction('terafmRequestOptions');
 
