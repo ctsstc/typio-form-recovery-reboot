@@ -23,17 +23,18 @@
 			contextPos.x = e.pageX, contextPos.y = e.pageY;
 			let el = e.path[0], pos;
 
+			// If in frame, break out and grab coordinates for each frame
 			while(el.ownerDocument !== window.top.document) {
 				el = el.ownerDocument.defaultView.frameElement;
+
 				pos = el.getBoundingClientRect();
 				contextPos.x += pos.x;
 				contextPos.y += pos.y;
 			}
 
 			if(pos) {
-				contextPos.y += window.scrollY;
 				contextPos.x += window.scrollX;
-				
+				contextPos.y += window.scrollY;
 			}
 
 		}
@@ -176,8 +177,9 @@
 
 	// Todo: Clean up this mess
 	function contextmenuMouseoverHandler(e) {
-		var sid = e.target.dataset.session,
-			isRecOther = e.target.dataset.recOther !== undefined ? true : false;
+		let target = e.target,
+			sid = target.dataset.session,
+			isRecOther = target.dataset.recOther !== undefined ? true : false;
 
 		terafm.editableManager.resetPlaceholders();
 
@@ -195,12 +197,12 @@
 		// Is "other" entry (does not belong to editable)
 		} else if(sid !== undefined && isRecOther == true) {
 
-			var rev = terafm.db.getSingleRevisionByEditableAndSession(e.target.dataset.editable, sid);
+			var rev = terafm.db.getSingleRevisionByEditableAndSession(target.dataset.editable, target.dataset.session);
 			terafm.editableManager.setEditableValue(contextTarget, rev.value, true);
 
 		// Set single entry
-		} else if(e.target.dataset.setSingleEntry !== undefined) {
-			var listItem = e.target.closest('[data-session]');
+		} else if(target.dataset.setSingleEntry !== undefined) {
+			var listItem = target.closest('[data-session]');
 
 			if(listItem) {
 				sid = listItem.dataset.session;

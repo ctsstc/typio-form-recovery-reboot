@@ -69,4 +69,4 @@ shroot3.innerHTML = '<input placeholder="Input nested shadow doms and iframe" />
 var ifr = document.querySelector('#ifr');
 ifr.contentDocument.body.innerHTML = 'Hello says iframe! <iframe id="ifr2"></iframe>';
 var ifr2 = ifr.contentDocument.body.querySelector('#ifr2');
-ifr2.contentDocument.body.innerHTML = 'Hello from nested!';
+ifr2.contentDocument.body.innerHTML = 'Hello from nested! <input style="position: absolute; left: 120px;" type="text"/>';
