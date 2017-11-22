@@ -9,6 +9,11 @@ module.exports = function(grunt) {
                 preserveComments: true,
                 beautify: true,
                 verbose: true
+
+                // mangle: true,
+                // preserveComments: false,
+                // beautify: false,
+                // verbose: false
             },
             content: {
                 files: {
@@ -49,7 +54,7 @@ module.exports = function(grunt) {
                         '../js/modules/editableManagerShared.js',
                         '../js/modules/editableManager.pathGen.js',
                         '../js/modules/helpers.js',
-                        // '../js/modules/cache.js',
+                        '../js/modules/cache.js',
 
                         '../js/controllers/frame.js',
                             '../js/controllers/frame/topOnly.js',

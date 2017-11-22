@@ -1,7 +1,8 @@
 window.terafm = window.terafm || {};
 terafm.editableManager = terafm.editableManager || {};
 
-(function(editableManager, cache) {
+(function(editableManager) {
+	'use strict';
 
 	// See here for possible improvements:
 	// https://stackoverflow.com/questions/5728558/get-the-dom-path-of-the-clicked-a
@@ -61,7 +62,7 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.genPath = function(el) {
 
 		// Cache path as dom node
-		return cache(el, function() {
+		return terafm.cache(el, function() {
 
 			var parentCapsule = getParentCapsule(el), // Will change as it breaks out
 				isEncapsulated = parentCapsule ? true : false;
@@ -218,4 +219,4 @@ terafm.editableManager = terafm.editableManager || {};
 			return node.host;
 		}
 	}
-})(terafm.editableManager, terafm.cache);
+})(terafm.editableManager);

@@ -14,47 +14,51 @@ window.terafm = window.terafm || {};
 
 	function addEventListeners() {
 
-		document.addEventListener('focus', function(e){
+		terafm.registerHandler('focus', function(e) {
 			saveIndicator.build(function() {
 
 				let editable = editableManager.getEditable(e.path[0]);
 
 				if(!editable) return true;
 
+				// console.log('focus: show indicator')
 				saveIndicator.show()
 			});
-		}, true);
+		});
 
-		document.addEventListener('blur', function(){
+		terafm.registerHandler('blur', function() {
 			saveIndicator.build(function() {
+				// console.log('blur: hide indicator')
 				saveIndicator.hide()
 			});
-		}, true);
+		});
 
-		document.addEventListener('keyup', function(e){
 
+
+		terafm.registerHandler('keyup', function(e) {
 			let editable = editableManager.getEditable(e.path[0]);
 
 			if(!editable) return true;
 
 			saveIndicator.build(function() {
+				// console.log('keyup: show pulse')
 				saveIndicator.show();
 				saveIndicator.pulse();
 			});
 		});
 
-		// Todo: Do i need?
-		document.addEventListener('change', function(e){
-
+		terafm.registerHandler('change', function(e) {
 			let editable = editableManager.getEditable(e.path[0]);
 
 			if(!editable) return true;
 
 			saveIndicator.build(function() {
+				// console.log('change: show pulse')
 				saveIndicator.show();
 				saveIndicator.pulse();
 			});
 		});
+
 
 	}
 

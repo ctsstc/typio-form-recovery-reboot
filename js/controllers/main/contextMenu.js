@@ -11,12 +11,16 @@
 	// Chrome context item clicked
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'contextMenuRecover') {
+			// console.log('trig')
 			open();
 		}
 	});
 
 	// On rightclick on editable
-	document.addEventListener('contextmenu', (e) => {
+	// document.addEventListener('contextmenu', (e) => {
+	// });
+	terafm.registerHandler('contextmenu', function(e) {
+		// console.log('contextmenu handler')
 		contextTarget = editableManager.getEditable(e.path[0]);
 		if(contextTarget) contextPos.x = e.pageX, contextPos.y = e.pageY;
 	});
@@ -94,8 +98,15 @@
 	}
 
 	function setupDeepEventHandlers() {
-		document.addEventListener('mousedown', contextMenu.hide);
-		document.addEventListener('focus', contextMenu.hide, true);
+		terafm.registerHandler('mousedown', function() {
+			// console.log('mousedown close context');
+			contextMenu.hide();
+		}); // Add true
+		
+		terafm.registerHandler('focus', function() {
+			// console.log('focus close context');
+			contextMenu.hide();
+		}); // Add true
 		
 		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
 		contextMenuNode.addEventListener('click', contextmenuClickHandler);

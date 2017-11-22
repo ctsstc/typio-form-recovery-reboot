@@ -8,6 +8,7 @@ For devs: This update brings major improvements to the modularity of the code an
 
 
 Todo:
+- Contextmenu positioning in encapsulation
 - Cache things
 - Figure out how to bubble events from inside iframes
 	- No longer have to include editableManager and others in frame injection = win

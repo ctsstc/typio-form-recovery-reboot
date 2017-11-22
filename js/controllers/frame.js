@@ -3,22 +3,36 @@
 
 	// Run everywhere (top window and child iframe injections)
 
+	let basepath;
+
+	if(window !== window.top) {
+		window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
+	} else {
+		basepath = chrome.extension.getURL('');
+		init();
+	}
+
+	window.top.addEventListener('message', function(msg) {
+
+		if(!basepath && msg.data.action && msg.data.action === 'terafmReturnBasepath') {
+			basepath = msg.data.path;
+			init();
+		}
+	});
 
 
-	// Todo: Fix path
-	var basepath = 'chrome-extension://kacepnhocenciegcjpebnkmdbkihmnlb/'; //chrome.extension.getURL('js/shared/frame.js');
 
 	var observeConf = { childList: true, subtree: true, characterData: false, attributes: false };
-	
-	setTimeout(function() {
-		var allNodes = document.body.querySelectorAll('*');
-		dig(allNodes);
-		// console.log('start dig');
+	function init() {
+		setTimeout(function() {
+			var allNodes = document.body.querySelectorAll('*');
+			dig(allNodes);
 
-		var observer = createObserver();
-		observer.observe(document.body, observeConf);
+			var observer = createObserver();
+			observer.observe(document.body, observeConf);
 
-	}, 100);
+		}, 10);
+	}
 
 
 
@@ -26,7 +40,6 @@
 		return new MutationObserver(function(mutations) {
 			mutations.forEach(function(mutation) {
 				mutation.addedNodes.forEach(function(node) {
-					// console.log(mutation);
 					dig([node]);
 				});
 			});    
@@ -37,7 +50,6 @@
 
 		for(var i=0; i < allNodes.length; ++i) {
 			if(allNodes[i].nodeName === 'IFRAME') {
-				// console.log('injecting', allNodes[i])
 				inject(allNodes[i]);
 			}
 
@@ -46,7 +58,6 @@
 
 				var observer = createObserver();
 				observer.observe(shroot, observeConf);
-				// console.log('observing', shroot);
 
 				// Also dig into child elements
 				for(var ch=0; ch < shroot.children.length; ++ch) {
@@ -58,7 +69,6 @@
 	}
 
 	function inject(iframe, secondTry) {
-
 		var scriptFrame = window.top.document.createElement("script");
 		scriptFrame.type = "text/javascript";
 		scriptFrame.src = basepath + 'js/min/frame.min.js';

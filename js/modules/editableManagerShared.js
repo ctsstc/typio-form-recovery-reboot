@@ -149,9 +149,9 @@ terafm.editableManager = terafm.editableManager || {};
 
 	// Takes editablePath or editable dom node
 	editableManager.generateEditableId = function(editable) {
-		let edPath = editable instanceof HTMLElement ? editableManager.genPath(editable) : editablePath;
+		let edPath = editable instanceof HTMLElement ? editableManager.genPath(editable) : editable;
 
-		return cache(edPath, function() {
+		return terafm.cache(edPath, function() {
 			// console.log('caching ID', editable);
 			return 'field' + terafm.help.hashStr(edPath);
 		});

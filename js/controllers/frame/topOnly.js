@@ -1,4 +1,4 @@
-(function(db, options, contextMenu) {
+(function() {
 	'use strict';
 
 	// Run once in top window
@@ -6,25 +6,20 @@
 
 		window.top.addEventListener('message', function(msg) {
 
-			// Save request from child frame
-			if(msg.data.action && msg.data.action === 'terafmSave') {
-				msg = msg.data.data;
-				db.saveRevision(msg.editableId, msg.data);
+			if(msg.data.action && msg.data.action === 'terafmEventCatcher') {
+				msg = msg.data.event;
 
-			// Child frame requested options
-			} else if(msg.data.action && msg.data.action === 'terafmRequestOptions') {
-
+				msg.path[0] = terafm.help.$(msg.path[0]);
+				terafm.triggerEvent(msg.type, msg);
+				
+			} else if(msg.data.action && msg.data.action === 'terafmRequestBasepath') {
 				window.top.postMessage({
-					action: 'terafmReturnOptions',
-					data: options.getAll()
+					action: 'terafmReturnBasepath',
+					path: chrome.extension.getURL('')
 				}, '*');
-
-			// Child frame hide context menu
-			} else if(msg.data.action && msg.data.action === 'terafmHideContextMenu') {
-				contextMenu.hide();
 			}
 		})
 
 	}
 
-})(terafm.db, terafm.options, terafm.contextMenu);
+})();

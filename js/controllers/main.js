@@ -38,6 +38,41 @@ var terafm = window.terafm;
 	});
 
 
+
+
+
+
+	let handlers = {};
+	terafm.triggerEvent = function(type, event) {
+		let c = 0;
+		if(type in handlers) {
+			for(let h =0; h < handlers[type].length; ++h) {
+				handlers[type][h](event);
+				c++;
+			}
+		}
+		// console.log(type, c + ' handlers', event);
+	}
+
+	terafm.registerHandler = function(type, callback) {
+		if(!Array.isArray(handlers[type])) handlers[type] = [];
+
+		handlers[type].push(callback);
+	}
+
+
+	document.addEventListener('click', (e) => 		terafm.triggerEvent(e.type, e) );
+	document.addEventListener('mousedown', (e) => 	terafm.triggerEvent(e.type, e) );
+	document.addEventListener('focus', (e) =>		terafm.triggerEvent(e.type, e) , true);
+	document.addEventListener('blur', (e) =>		terafm.triggerEvent(e.type, e) , true);
+	document.addEventListener('keyup', (e) => 		terafm.triggerEvent(e.type, e) );
+	document.addEventListener('contextmenu', (e) => terafm.triggerEvent(e.type, e) );
+	document.addEventListener('change', (e) => 		terafm.triggerEvent(e.type, e) , true);
+
+
+
+
+
 	var initHandlers = [];
 	terafm.init = function(callback) {
 		initHandlers.push(callback);
