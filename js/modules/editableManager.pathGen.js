@@ -1,7 +1,7 @@
 window.terafm = window.terafm || {};
 terafm.editableManager = terafm.editableManager || {};
 
-(function(editableManager) {
+(function(editableManager, cache) {
 
 	// See here for possible improvements:
 	// https://stackoverflow.com/questions/5728558/get-the-dom-path-of-the-clicked-a
@@ -60,93 +60,97 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 	editableManager.genPath = function(el) {
 
-		var parentCapsule = getParentCapsule(el), // Will change as it breaks out
-			isEncapsulated = parentCapsule ? true : false;
+		// Cache path as dom node
+		return cache(el, function() {
 
-		var stack = [];
+			var parentCapsule = getParentCapsule(el), // Will change as it breaks out
+				isEncapsulated = parentCapsule ? true : false;
 
-		while(el) {
+			var stack = [];
 
-			// If top body, stop
-			if(el === window.top.document.body) {
-				stack.unshift('body');
-				break;
-			}
+			while(el) {
 
-
-			// If capsule
-			if(el === parentCapsule) {
-
-				// Shadow root. Add nothing to stack, break out
-				if(el.toString() === '[object ShadowRoot]') {
-					el = el.host;
-				}
-
-				// Iframe body. Add to stack, break out
-				else if(el.ownerDocument.defaultView.frameElement) {
-					el  = el.ownerDocument.defaultView.frameElement;
-				}
-
-				// Find next parent capsule
-				parentCapsule = getParentCapsule(el);
-
-				continue;
-			}
-
-
-			// If el has ID
-			if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
-
-				// If not encapsulated, add to stack and stop
-				if(!isEncapsulated) {
-					stack.unshift('#' + el.id);
+				// If top body, stop
+				if(el === window.top.document.body) {
+					stack.unshift('body');
 					break;
 				}
 
-				// If encapsulated, add to stack and break out
-				else {
-					var nodeName = '#' + el.id;
-					if(el.shadowRoot) {
-						nodeName += '::shadow';
-					}
-					if(el.nodeName === 'IFRAME') {
-						nodeName = 'iframe' + nodeName;
-					}
-					stack.unshift(nodeName);
 
-					if(parentCapsule) {
-						if(parentCapsule.toString() === '[object ShadowRoot]') {
-							el = parentCapsule.host;
-						} else {
-							el = parentCapsule.ownerDocument.defaultView.frameElement;
-						}
-						parentCapsule = getParentCapsule(el);
-					} else {
-						el = el.parentNode;
+				// If capsule
+				if(el === parentCapsule) {
+
+					// Shadow root. Add nothing to stack, break out
+					if(el.toString() === '[object ShadowRoot]') {
+						el = el.host;
 					}
+
+					// Iframe body. Add to stack, break out
+					else if(el.ownerDocument.defaultView.frameElement) {
+						el  = el.ownerDocument.defaultView.frameElement;
+					}
+
+					// Find next parent capsule
+					parentCapsule = getParentCapsule(el);
+
 					continue;
 				}
+
+
+				// If el has ID
+				if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
+
+					// If not encapsulated, add to stack and stop
+					if(!isEncapsulated) {
+						stack.unshift('#' + el.id);
+						break;
+					}
+
+					// If encapsulated, add to stack and break out
+					else {
+						var nodeName = '#' + el.id;
+						if(el.shadowRoot) {
+							nodeName += '::shadow';
+						}
+						if(el.nodeName === 'IFRAME') {
+							nodeName = 'iframe' + nodeName;
+						}
+						stack.unshift(nodeName);
+
+						if(parentCapsule) {
+							if(parentCapsule.toString() === '[object ShadowRoot]') {
+								el = parentCapsule.host;
+							} else {
+								el = parentCapsule.ownerDocument.defaultView.frameElement;
+							}
+							parentCapsule = getParentCapsule(el);
+						} else {
+							el = el.parentNode;
+						}
+						continue;
+					}
+				}
+
+
+				var nodeName = el.nodeName.toLowerCase();
+
+				var sibIndex = getSiblingIndex(el);
+				if(sibIndex !== false) {
+					nodeName += ':nth-of-type(' + (sibIndex) + ')';
+				}
+				if(el.shadowRoot) {
+					nodeName += '::shadow';
+				}
+
+				stack.unshift(nodeName);
+				el = el.parentNode;
 			}
 
 
-			var nodeName = el.nodeName.toLowerCase();
+			stack = stack.join(' > ');
 
-			var sibIndex = getSiblingIndex(el);
-			if(sibIndex !== false) {
-				nodeName += ':nth-of-type(' + (sibIndex) + ')';
-			}
-			if(el.shadowRoot) {
-				nodeName += '::shadow';
-			}
-
-			stack.unshift(nodeName);
-			el = el.parentNode;
-		}
-
-
-		stack = stack.join(' > ');
-
-		return stack;
+			return stack;
+		});
 	}
 
 	function getSiblingIndex(el) {
@@ -214,4 +218,4 @@ terafm.editableManager = terafm.editableManager || {};
 			return node.host;
 		}
 	}
-})(terafm.editableManager);
+})(terafm.editableManager, terafm.cache);

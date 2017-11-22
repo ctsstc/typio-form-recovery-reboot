@@ -7,11 +7,12 @@ terafm.editableManager = terafm.editableManager || {};
 
 	editableManager.createEntryObject = function(editable, value) {
 
-		let editablePath = cache({'path': editable}, function() {
-			return terafm.editableManager.genPath(editable) || 'global:' + Math.round(Math.random()*10000000);
-		});
+		// let editablePath = cache({'path': editable}, function() {
+		// 	return terafm.editableManager.genPath(editable) || 'global:' + Math.round(Math.random()*10000000);
+		// });
+		let editablePath = terafm.editableManager.genPath(editable);
 
-
+		// console.log('p', editablePath)
 		// Delete entry if value is too short
 		// Don't bother removing HTML here, it's too expensive
 		// Todo: Detect major change (e.g. automatic value reset by script) and save long value (new session?)
@@ -123,7 +124,7 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 
-
+	/*
 	// Takes editablePath or editable dom node
 	editableManager.generateEditableId = function(editable) {
 
@@ -144,7 +145,16 @@ terafm.editableManager = terafm.editableManager || {};
 		} else {
 			console.warn('generateEditableId was called with a path, cannot be cached.', editable);
 			return 'field' + terafm.help.hashStr(editable);
-		}
+	*/
+
+	// Takes editablePath or editable dom node
+	editableManager.generateEditableId = function(editable) {
+		let edPath = editable instanceof HTMLElement ? editableManager.genPath(editable) : editablePath;
+
+		return cache(edPath, function() {
+			// console.log('caching ID', editable);
+			return 'field' + terafm.help.hashStr(edPath);
+		});
 	}
 
 

@@ -1,14 +1,14 @@
 window.terafm = window.terafm || {};
 
 (function() {
+	'use strict';
 
 	let storageData = {},
 		storageKeys = [];
 
 	terafm.cache = function(key, cacheFunction) {
-		'use strict';
-
-		console.log(storageData, storageKeys);
+		// console.log(storageData, storageKeys);
+		// console.log('looking for', key, 'in', storageKeys)
 
 		// If key exists, return cached value
 		// If not cached, run cacheFunction and cache return value
