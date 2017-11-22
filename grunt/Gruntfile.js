@@ -9,7 +9,6 @@ module.exports = function(grunt) {
                 preserveComments: true,
                 beautify: true,
                 verbose: true
-
                 // mangle: true,
                 // preserveComments: false,
                 // beautify: false,
@@ -51,9 +50,7 @@ module.exports = function(grunt) {
 
                     // Runs as content script
                     '../js/min/frame.min.js' : [
-                        '../js/modules/editableManagerShared.js',
                         '../js/modules/editableManager.pathGen.js',
-                        '../js/modules/helpers.js',
                         '../js/modules/cache.js',
 
                         '../js/controllers/frame.js',
