@@ -11,7 +11,6 @@ terafm.recoveryDialogController = {};
 
 	// Open call from context menu
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		console.log('received')
 		if(request.action === 'openRecoveryDialog') recoveryDialogController.open();
 	});
 
@@ -98,7 +97,7 @@ terafm.recoveryDialogController = {};
 
 						// If last list item in last UL, re-populate the whole list (will result in "no entries" message)
 						if(ul.children.length === 0 && ul.parentElement.children.length === 1) {
-							populate();
+							recoveryDialog.populate(getRevisionData());
 
 						// Remove empty ul (timestamp)
 						} else {
@@ -191,7 +190,7 @@ terafm.recoveryDialogController = {};
 			// Delete all revisions trigger
 			} else if(target.classList.contains('trigger-delete-all')) {
 				db.deleteAllSessions();
-				populate();
+				recoveryDialog.populate(getRevisionData());
 
 
 			// Copy to clipboard trigger

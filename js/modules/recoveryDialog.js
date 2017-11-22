@@ -50,9 +50,15 @@ terafm.recoveryDialog = {};
 	recoveryDialog.populate = function(data) {
 		let html = '';
 
-		sortObjectByKey(data, function(k, v) {
-			html += generateListGroupHTML(k, v)
-		})
+		if(Object.keys(data).length > 0) {
+
+			sortObjectByKey(data, function(k, v) {
+				html += generateListGroupHTML(k, v)
+			})
+			
+		} else {
+			html += '<p style="margin: 20px;">Nothing saved yet, buddy!</p>';
+		}
 
 		shroot.querySelector('.recovery-container').innerHTML = html;
 	}
@@ -96,12 +102,8 @@ terafm.recoveryDialog = {};
 
 		html += '<ul data-pretty-date="'+ prettyDate +'">';
 
-			if(data) {
-				for(let editableId in data) {
-					html += generateListItemHTML(data[editableId], editableId, timestamp)
-				}
-			} else {
-				html += '<p style="margin: 20px;">Nothing saved yet, buddy!</p>';
+			for(let editableId in data) {
+				html += generateListItemHTML(data[editableId], editableId, timestamp)
 			}
 
 		html += '</ul>';
@@ -110,7 +112,6 @@ terafm.recoveryDialog = {};
 	}
 
 	function generateListItemHTML(item, editableId, sessionId) {
-		// console.log(item, editableId, sessionId);
 		let safeString = help.encodeHTML(item.value),
 			excerpt = safeString.substring(0, 220),
 			wordCount = (safeString + '').split(/\s/).length,
