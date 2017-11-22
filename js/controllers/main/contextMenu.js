@@ -16,13 +16,28 @@
 		}
 	});
 
-	// On rightclick on editable
-	// document.addEventListener('contextmenu', (e) => {
-	// });
 	terafm.registerHandler('contextmenu', function(e) {
-		// console.log('contextmenu handler')
 		contextTarget = editableManager.getEditable(e.path[0]);
-		if(contextTarget) contextPos.x = e.pageX, contextPos.y = e.pageY;
+
+		if(contextTarget) {
+			contextPos.x = e.pageX, contextPos.y = e.pageY;
+			let el = e.path[0], pos;
+
+			while(el.ownerDocument !== window.top.document) {
+				el = el.ownerDocument.defaultView.frameElement;
+				pos = el.getBoundingClientRect();
+				contextPos.x += pos.x;
+				contextPos.y += pos.y;
+			}
+
+			if(pos) {
+				contextPos.y += window.scrollY;
+				contextPos.x += window.scrollX;
+				
+			}
+
+		}
+
 	});
 
 
