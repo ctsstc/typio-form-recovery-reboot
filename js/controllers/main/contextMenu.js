@@ -190,7 +190,7 @@
 				var input = terafm.editableManager.resolvePath(session[entry].path);
 
 				if(input) {
-					terafm.editableManager.setEditableValue(input, session[entry].value, true);
+					editableManager.setPlaceholderValue(input, session[entry].value, true);
 				}
 			}
 
@@ -198,7 +198,7 @@
 		} else if(sid !== undefined && isRecOther == true) {
 
 			var rev = terafm.db.getSingleRevisionByEditableAndSession(target.dataset.editable, target.dataset.session);
-			terafm.editableManager.setEditableValue(contextTarget, rev.value, true);
+			editableManager.setPlaceholderValue(contextTarget, rev.value, true);
 
 		// Set single entry
 		} else if(target.dataset.setSingleEntry !== undefined) {
@@ -209,7 +209,7 @@
 				var editableId = listItem.dataset.editable,
 					revision = terafm.db.getSingleRevisionByEditableAndSession(editableId, sid);
 
-				terafm.editableManager.setEditableValue(contextTarget, revision.value, true);
+				editableManager.setPlaceholderValue(contextTarget, revision.value, true);
 			}
 		}
 	}

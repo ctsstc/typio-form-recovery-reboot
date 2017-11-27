@@ -16,7 +16,7 @@
 				entry = editableManager.createEntryObject(editable, value),
 				editableId = editableManager.generateEditableId(editable);
 
-			console.log('saving', editableId, editable);
+			// console.log('saving', editableId, editable);
 
 			if(entry) {
 				db.saveRevision(editableId, entry);

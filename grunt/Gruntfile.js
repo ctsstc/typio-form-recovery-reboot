@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                         '../js/modules/ui.js',
                         '../js/modules/editableManager.pathGenerator.js',
                         '../js/modules/editableManager.pathResolver.js',
-                        '../js/modules/editableManagerShared.js',
+                        '../js/modules/editableManager.placeholders.js',
                         '../js/modules/editableManager.js',
                         '../js/modules/editablePicker.js',
                         '../js/modules/recoveryDialog.js',

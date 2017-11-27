@@ -1,153 +1,190 @@
 window.terafm = window.terafm || {};
 terafm.editableManager = terafm.editableManager || {};
 
-(function(editableManager, help) {
+(function(editableManager, help, db, cache) {
 	'use strict';
 
-	let currentPlaceholderEditables = [];
+	/*
+	// Takes editablePath or editable dom node
+	editableManager.generateEditableId = function(editable) {
 
-	// Todo: Fix! Has duplicates; one private and one public
-	editableManager.setEditableValue = function(editable, value, isPlaceholder) {
-		if(isPlaceholder) {
-			setPlaceholderStyle(editable);
-			saveOriginalValue(editable);
-			currentPlaceholderEditables.push(editable);
+		// If dom node
+		if(editable instanceof HTMLElement) {
+
+			// Return if cached
+			if('terafmId' in editable) return editable.terafmId;
+
+			let edId, edPath = editableManager.genPath(editable);
+
+			// Create id and cache it
+			edId = 'field' + terafm.help.hashStr(edPath);
+			editable.dataset.terafmId = edId;
+			return edId;
+
+		// It's a path, can't cache on that
 		} else {
-			removePlaceholderStyle(editable);
+			console.warn('generateEditableId was called with a path, cannot be cached.', editable);
+			return 'field' + terafm.help.hashStr(editable);
+	*/
+	// Takes editablePath or editable dom node
+	editableManager.generateEditableId = function(editable) {
+		let edPath = editable.tagName ? editableManager.genPath(editable) : editable;
+
+		return terafm.cache(edPath, function() {
+			return 'field' + terafm.help.hashStr(edPath);
+		});
+	}
+
+
+
+
+	editableManager.createEntryObject = function(editable, value) {
+
+		// let editablePath = cache({'path': editable}, function() {
+		// 	return terafm.editableManager.genPath(editable) || 'global:' + Math.round(Math.random()*10000000);
+		// });
+		let editablePath = terafm.editableManager.genPath(editable);
+
+		// console.log('p', editablePath)
+		// Delete entry if value is too short
+		// Don't bother removing HTML here, it's too expensive
+		// Todo: Detect major change (e.g. automatic value reset by script) and save long value (new session?)
+		// Todo: Important! Below two blocks cannot run in encapsulated states due to lack of db, this should be moved into a better more descriptive place
+		// if(value.length < 1) {
+		// 	var editableId = editableManager.generateEditableId(editable);
+		// 	terafm.db.deleteSingleRevisionByEditable(editableId);
+		// 	return false;
+		// }
+
+		// // Special care for radio inputs, have to delete siblings
+		// if(editable.type === 'radio') {
+		// 	console.log('doing radio stuff');
+		// 	editableManager.deleteRadioSiblingsFromStorage(editable);
+		// }
+
+		var data = {
+			value: value,
+			path: editablePath
 		}
-
-		setEditableValue(editable, value);
+		return data;
 	}
-
-	editableManager.resetPlaceholders = function(keepvalues) {
-		return resetPlaceholders(keepvalues);
-	}
-
-	editableManager.flashEditable = function(editable) {
-		return flashEditable(editable);
-	}
-
-
-	function flashEditable(editable) {
-			setTimeout(function() {
-				setPlaceholderStyle(editable);
-				setTimeout(function() {
-					removePlaceholderStyle(editable);
-					setTimeout(function() {
-						setPlaceholderStyle(editable);
-						setTimeout(function() {
-							removePlaceholderStyle(editable);
-						}, 150);
-					}, 150);
-				}, 150);
-			}, 200);
-	}
-
-	function resetPlaceholders(keepValue) {
-		var placeholders = currentPlaceholderEditables;
-
-		for(var i in placeholders) {
-			var editable = placeholders[i];
-
-			removePlaceholderStyle(editable);
-
-			editable.classList.remove('terafm-active-input');
-
-			if(!keepValue) {
-				setEditableValue(editable, editable.dataset.teraOrgValue);
-			}
-
-			delete editable.dataset.teraOrgValue;
-		}
-
-		currentPlaceholderEditables = [];
-	}
-
-	function setPlaceholderStyle(editable) {
-
-		// If not already set
-		if(editable.dataset.terafmOrgStyle === undefined) {
-			var attr = editable.getAttribute('style');
-			if(attr) {
-				editable.dataset.terafmOrgStyle = attr;
-			}
-			editable.style.background = 'rgb(255, 251, 153)';
-			editable.style.color = '#222';
-		}
-	}
-	function removePlaceholderStyle(editable) {
-
-		// If previous value is exists, restore it
-		if(editable.dataset.terafmOrgStyle !== undefined) {
-			editable.setAttribute('style', editable.dataset.terafmOrgStyle);
-			delete editable.dataset.terafmOrgStyle;
-
-		// Otherwise just clear the style
-		} else {
-			editable.removeAttribute('style');
-		}
-	}
-
-	// Saves editable value in dataset to be restored later
-	function saveOriginalValue(editable) {
-
-		if(!editable.dataset.hasOwnProperty('teraOrgValue')) {
-			if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
-
-				if(editable.type === 'checkbox') {
-					editable.dataset.teraOrgValue = editable.checked ? 1 : 0;
-
-				} else if(editable.type === 'radio') {
-					var radioSiblings = document.querySelectorAll('input[type=radio][name="'+ editable.name +'"]');
-					radioSiblings.forEach(function(sib) {
-						if(sib.checked) {
-							var orgPath = terafm.editableManager.genPath(sib);
-							editable.dataset.teraOrgValue = orgPath;
-						}
-					});
-
-				// Probably text/password/email or something with a value property
-				} else {
-					editable.dataset.teraOrgValue = editable.value;
+	
+	// Radios require special attention, this is ugly but it'll do for now
+	// Todo: Fix
+	editableManager.deleteRadioSiblingsFromStorage = function(input) {
+		if(input.type == 'radio' && input.name) {
+			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
+			siblingRadios.forEach(function(sib) {
+				if(sib !== input) {
+					var sibPath = editableManager.genPath(sib),
+						sibId = editableManager.generateEditableId(input);
+					// Delete current sibling revision
+					db.deleteSingleRevisionByEditable(sibId);
 				}
-
-			} else if(editable.nodeName == 'SELECT') {
-				editable.dataset.teraOrgValue = editable.value;
-
-			// Contenteditable
-			} else {
-				editable.dataset.teraOrgValue = editable.innerHTML;
-			}
+			});
 		}
 	}
 
 
+	// Check if element is editable
+	// In case of contenteditable it does NOT check if element is within
+	// a contenteditable field.
+	editableManager.isEditable = function(elem) {
+		if(!elem) return false;
 
-	function setEditableValue(editable, val) {
+		// Check if input with valid type
+		if(elem.nodeName == 'INPUT' && terafm.options.get('editableTypes').includes(elem.type)) {
+
+			// Is it a password field?
+			if(elem.type == 'password' && terafm.options.get('savePasswords') !== true) {
+				return false;
+			}
+
+			return true;
+
+		// Check if textarea
+		} else if(elem.nodeName == 'TEXTAREA') {
+			return true;
+
+		} else if(elem.nodeName == 'SELECT') {
+			return true;
+
+		// Check if contenteditable
+		} else if(elem.getAttribute('contenteditable') == 'true') {
+			return true;
+		}
+
+		// Nah, fuck off mate-o
+		return false;
+	}
+
+	editableManager.isEditableText = function(elem) {
+
+		if( terafm.options.get('textEditableTypes').includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
+			return true;
+		}
+		return false;
+	}
+	
+	// Check if element is editable OR is within a contenteditable parent
+	editableManager.getEditable = function(elem) {
+		if(!elem) return false;
+		if(editableManager.isEditable(elem)) return elem;
+
+		// Iterate every parent, return if parent is editable
+		//return parentElem(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' });
+		var parent = elem.closest('[contenteditable]');
+		if(parent !== null) {
+			return parent;
+		}
+
+		return false;
+	}
+
+
+	editableManager.getEditableValue = function(editable) {
 		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
 
-				// Special care for checkable inputs
-				if(editable.type === 'checkbox') {
-					val = parseInt(val);
-					editable.checked = val ? true : false;
+			// Special care for checkable inputs
+			if(editable.type === 'checkbox' || editable.type === 'radio') {
+				return editable.checked ? 1 : 0;
 
-				} else if(editable.type === 'radio') {
+			} else {
+				return editable.value;
+			}
 
-					// Set by value
-					if(val == parseInt(val)) {
-						editable.checked = true;
+		} else if(editable.nodeName === 'SELECT') {
+			return editable.value;
+		}
+		return editable.innerHTML;
+	}
 
-					// Set by path
-					} else {
-						var orgRadio = document.querySelector(val);
-						if(orgRadio) {
-							orgRadio.checked = true;
-						}
-					}
 
+	editableManager.setEditableValue = function(editable, val) {
+		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
+
+			// Special care for checkable inputs
+			if(editable.type === 'checkbox') {
+				val = parseInt(val);
+				editable.checked = val ? true : false;
+
+			} else if(editable.type === 'radio') {
+
+				// Set by value
+				if(val == parseInt(val)) {
+					editable.checked = true;
+
+				// Set by path
 				} else {
-					editable.value = val;
+					var orgRadio = document.querySelector(val);
+					if(orgRadio) {
+						orgRadio.checked = true;
+					}
 				}
+
+			} else {
+				editable.value = val;
+			}
 
 		} else if(editable.nodeName == 'SELECT') {
 			editable.value = val;
@@ -157,4 +194,4 @@ terafm.editableManager = terafm.editableManager || {};
 		}
 	}
 
-})(terafm.editableManager, terafm.help);
+})(terafm.editableManager, terafm.help, terafm.db, terafm.cache);

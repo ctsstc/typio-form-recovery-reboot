@@ -147,7 +147,7 @@ terafm.recoveryDialogController = {};
 			} else if(target.classList.contains('trigger-recover-single')) {
 				var target = editableManager.resolvePath(selectedRevision.editablePath);
 				if(target) {
-					terafm.editableManager.setEditableValue(target, selectedRevision.editableValue);
+					editableManager.setEditableValue(target, selectedRevision.editableValue);
 					terafm.editableManager.flashEditable(target);
 					recoveryDialog.hide();
 				} else {
@@ -163,7 +163,7 @@ terafm.recoveryDialogController = {};
 				session.forEach(function(editable) {
 					var target = terafm.editableManager.resolvePath(editable.path);
 					if(target) {
-						terafm.editableManager.setEditableValue(target, editable.value);
+						editableManager.setEditableValue(target, editable.value);
 						terafm.editableManager.flashEditable(target);
 					} else {
 						fails += 1;
