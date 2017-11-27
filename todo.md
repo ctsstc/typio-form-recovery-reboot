@@ -8,16 +8,21 @@ For devs: This update brings major improvements to the modularity of the code an
 
 
 Todo:
-- Contextmenu positioning in encapsulation
-- Cache things
-- Figure out how to bubble events from inside iframes
-	- No longer have to include editableManager and others in frame injection = win
-	- Do not include entire frame script in frames, just the nessesary functions (inline script)
-		- Win because no load time = faster encapsulation injection = fuck yes!
+- Save input type
+- editableManagerShared should no longer exist, could be refactored to more approportieteie files
+- Only show indicator if input can acutally be saved (path can be resolved)
+- Iframe load support
+- Fix genPath & querySelector
+	- Make better test page with lots of iframes and shadows and siblings with it and without it and with ids and without ids
+	- Rewrite genPath
+	- Rewrite querySelector
+- Save on enter to fix fb/messenger bug
 - Break up editableManager into sub modules
 - Check out shroot stuff
 - injectHTML could be moved
 - Capsulation injection check type and allowance
+- Use 'input' event instead of change/keydown?
+	- Combine with 'change' for checkboxes/radios because no support
 
 - Better test pages
 - Add master password	

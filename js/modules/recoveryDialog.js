@@ -79,7 +79,7 @@ terafm.recoveryDialog = {};
 		let prettyDate = help.prettyDateFromTimestamp(session),
 			prettyDateFull = new Date(session*1000).toString(),
 			wordCount = revisionValue.split(/\s/).length + ' words',
-			healthStatus = editableManager.getEditableByPath(revision.path) ? true : false;
+			healthStatus = editableManager.resolvePath(revision.path) ? true : false;
 		
 		revisionValue = revisionValue.replace(/[\r\n]/gm, '<br/>');
 

@@ -9,7 +9,7 @@
 			if(msg.data.action && msg.data.action === 'terafmEventCatcher') {
 				msg = msg.data.event;
 
-				msg.path[0] = terafm.help.$(msg.path[0]);
+				msg.path[0] = terafm.editableManager.resolvePath(msg.path[0]);
 				terafm.triggerEvent(msg.type, msg);
 				
 			} else if(msg.data.action && msg.data.action === 'terafmRequestBasepath') {

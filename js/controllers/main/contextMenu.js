@@ -133,7 +133,7 @@
 	window.top.addEventListener('message', function(msg) {
 		if(msg.data.action && msg.data.action === 'terafmSetContextTarget') {
 			var path = msg.data.data.path,
-				target = terafm.help.$(path);
+				target = editableManager.resolvePath(path);
 
 			if(!target) {
 				alert('SHIT!'); // Todo: Remove
@@ -187,7 +187,7 @@
 		if(sid !== undefined && isRecOther == false) {
 			var session = terafm.db.getRevisionsBySession(sid);
 			for(var entry in session) {
-				var input = terafm.editableManager.getEditableByPath(session[entry].path);
+				var input = terafm.editableManager.resolvePath(session[entry].path);
 
 				if(input) {
 					terafm.editableManager.setEditableValue(input, session[entry].value, true);

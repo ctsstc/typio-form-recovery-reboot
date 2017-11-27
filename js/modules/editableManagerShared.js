@@ -4,7 +4,6 @@ terafm.editableManager = terafm.editableManager || {};
 (function(editableManager, db, help, cache) {
 	'use strict';
 
-
 	editableManager.createEntryObject = function(editable, value) {
 
 		// let editablePath = cache({'path': editable}, function() {
@@ -56,6 +55,7 @@ terafm.editableManager = terafm.editableManager || {};
 	// In case of contenteditable it does NOT check if element is within
 	// a contenteditable field.
 	editableManager.isEditable = function(elem) {
+		if(!elem) return false;
 
 		// Check if input with valid type
 		if(elem.nodeName == 'INPUT' && terafm.options.get('editableTypes').includes(elem.type)) {
@@ -93,6 +93,7 @@ terafm.editableManager = terafm.editableManager || {};
 	
 	// Check if element is editable OR is within a contenteditable parent
 	editableManager.getEditable = function(elem) {
+		if(!elem) return false;
 		if(editableManager.isEditable(elem)) return elem;
 
 		// Iterate every parent, return if parent is editable

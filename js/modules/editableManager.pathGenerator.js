@@ -65,11 +65,15 @@ terafm.editableManager = terafm.editableManager || {};
 		return terafm.cache(el, function() {
 
 			var parentCapsule = getParentCapsule(el), // Will change as it breaks out
-				isEncapsulated = parentCapsule ? true : false;
+				isEncapsulated = parentCapsule ? true : false,
+				isShadow = false;
 
-			var stack = [];
+			var stack = [],
+				prevEl;
 
 			while(el) {
+
+				// console.log('curr el', el);
 
 				// If top body, stop
 				if(el === window.top.document.body) {
@@ -81,9 +85,12 @@ terafm.editableManager = terafm.editableManager || {};
 				// If capsule
 				if(el === parentCapsule) {
 
+					// console.log('reached capsule', el)
+
 					// Shadow root. Add nothing to stack, break out
 					if(el.toString() === '[object ShadowRoot]') {
 						el = el.host;
+						isShadow = true;
 					}
 
 					// Iframe body. Add to stack, break out
@@ -93,6 +100,7 @@ terafm.editableManager = terafm.editableManager || {};
 
 					// Find next parent capsule
 					parentCapsule = getParentCapsule(el);
+					// console.log('next parent capsule is', parentCapsule)
 
 					continue;
 				}
@@ -110,8 +118,9 @@ terafm.editableManager = terafm.editableManager || {};
 					// If encapsulated, add to stack and break out
 					else {
 						var nodeName = '#' + el.id;
-						if(el.shadowRoot) {
+						if(isShadow) {
 							nodeName += '::shadow';
+							isShadow = false;
 						}
 						if(el.nodeName === 'IFRAME') {
 							nodeName = 'iframe' + nodeName;
@@ -121,6 +130,7 @@ terafm.editableManager = terafm.editableManager || {};
 						if(parentCapsule) {
 							if(parentCapsule.toString() === '[object ShadowRoot]') {
 								el = parentCapsule.host;
+								isShadow = true;
 							} else {
 								el = parentCapsule.ownerDocument.defaultView.frameElement;
 							}
@@ -139,8 +149,9 @@ terafm.editableManager = terafm.editableManager || {};
 				if(sibIndex !== false) {
 					nodeName += ':nth-of-type(' + (sibIndex) + ')';
 				}
-				if(el.shadowRoot) {
+				if(isShadow) {
 					nodeName += '::shadow';
+					isShadow = false;
 				}
 
 				stack.unshift(nodeName);
@@ -149,6 +160,7 @@ terafm.editableManager = terafm.editableManager || {};
 
 
 			stack = stack.join(' > ');
+			// console.log('finished', stack);
 
 			return stack;
 		});
@@ -191,7 +203,9 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	function getParentCapsule(node) {
-		return getParentShadowHost(node) || getParentIframe(node) || false;
+		let caps = getParentShadowHost(node) || getParentIframe(node) || false;
+		// console.log('parent capsule', caps);
+		return caps;
 	}
 
 	function getParentShadowHost(node) {

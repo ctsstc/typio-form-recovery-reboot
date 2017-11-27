@@ -30,7 +30,8 @@ module.exports = function(grunt) {
                         '../js/modules/options.js',
                         '../js/modules/db.js',
                         '../js/modules/ui.js',
-                        '../js/modules/editableManager.pathGen.js',
+                        '../js/modules/editableManager.pathGenerator.js',
+                        '../js/modules/editableManager.pathResolver.js',
                         '../js/modules/editableManagerShared.js',
                         '../js/modules/editableManager.js',
                         '../js/modules/editablePicker.js',
@@ -50,7 +51,7 @@ module.exports = function(grunt) {
 
                     // Runs as content script
                     '../js/min/frame.min.js' : [
-                        '../js/modules/editableManager.pathGen.js',
+                        '../js/modules/editableManager.pathGenerator.js',
                         '../js/modules/cache.js',
 
                         '../js/controllers/frame.js',

@@ -77,7 +77,9 @@
 			iframe.contentWindow.document.body.appendChild(scriptFrame);
 
 			if(secondTry) {
-				console.log('success on second try!')
+				console.log('success on second try!', iframe.contentWindow.document.body)
+			} else {
+				console.log('Success on first try', );
 			}
 		} catch(e) {
 			if(!secondTry) {

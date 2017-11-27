@@ -24,6 +24,9 @@
 	if(window !== window.top) {
 		window.terafm = window.terafm || {};
 
+		document.addEventListener('input', function(e) {
+			// console.log('input', e, e.target.value);
+		});
 
 		// document.addEventListener('click', eventHandler);
 		document.addEventListener('keyup', eventHandler);

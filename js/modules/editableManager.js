@@ -27,10 +27,6 @@ terafm.editableManager = terafm.editableManager || {};
 		return flashEditable(editable);
 	}
 
-	editableManager.getEditableByPath = function(editablePath) {
-		return help.$(editablePath);
-	}
-
 
 	function flashEditable(editable) {
 			setTimeout(function() {

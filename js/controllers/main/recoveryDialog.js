@@ -2,7 +2,7 @@ window.terafm = window.terafm || {};
 
 terafm.recoveryDialogController = {};
 
-(function(recoveryDialogController, recoveryDialog, db, help) {
+(function(recoveryDialogController, recoveryDialog, db, help, editableManager) {
 	'use strict';
 	
 	let selectedRevision = {};
@@ -145,7 +145,7 @@ terafm.recoveryDialogController = {};
 
 			// Recover single trigger
 			} else if(target.classList.contains('trigger-recover-single')) {
-				var target = help.$(selectedRevision.editablePath);
+				var target = editableManager.resolvePath(selectedRevision.editablePath);
 				if(target) {
 					terafm.editableManager.setEditableValue(target, selectedRevision.editableValue);
 					terafm.editableManager.flashEditable(target);
@@ -161,7 +161,7 @@ terafm.recoveryDialogController = {};
 					fails = 0;
 					
 				session.forEach(function(editable) {
-					var target = terafm.editableManager.getEditableByPath(editable.path);
+					var target = terafm.editableManager.resolvePath(editable.path);
 					if(target) {
 						terafm.editableManager.setEditableValue(target, editable.value);
 						terafm.editableManager.flashEditable(target);
@@ -222,4 +222,4 @@ terafm.recoveryDialogController = {};
 
 		});
 	}
-})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help);
+})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager);
