@@ -39,6 +39,8 @@ module.exports = function(grunt) {
                         '../js/modules/contextMenu.js',
                         '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',
+                        '../js/modules/DOMEvents.js',
+                        '../js/modules/initHandler.js',
 
                         // Controllers
                         '../js/controllers/main.js',

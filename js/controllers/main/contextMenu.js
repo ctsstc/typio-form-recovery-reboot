@@ -1,4 +1,4 @@
-(function(contextMenu, editableManager, db, recoveryDialogController) {
+(function(contextMenu, editableManager, db, recoveryDialogController, DOMEvents) {
 
 	let contextTarget;
 	let contextPos = {};
@@ -16,7 +16,7 @@
 		}
 	});
 
-	terafm.registerHandler('contextmenu', function(e) {
+	DOMEvents.registerHandler('contextmenu', function(e) {
 		contextTarget = editableManager.getEditable(e.path[0]);
 
 		if(contextTarget) {
@@ -114,15 +114,13 @@
 	}
 
 	function setupDeepEventHandlers() {
-		terafm.registerHandler('mousedown', function() {
-			// console.log('mousedown close context');
+		DOMEvents.registerHandler('mousedown', function() {
 			contextMenu.hide();
-		}); // Add true
+		});
 		
-		terafm.registerHandler('focus', function() {
-			// console.log('focus close context');
+		DOMEvents.registerHandler('focus', function() {
 			contextMenu.hide();
-		}); // Add true
+		});
 		
 		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
 		contextMenuNode.addEventListener('click', contextmenuClickHandler);
@@ -214,4 +212,4 @@
 		}
 	}
 
-})(terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController);
+})(terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents);

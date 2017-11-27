@@ -12,7 +12,7 @@
 				msg.path[0] = terafm.editableManager.resolvePath(msg.path[0]);
 
 				if(msg.path[0]) {
-					terafm.triggerEvent(msg.type, msg);
+					terafm.DOMEvents.trigger(msg.type, msg);
 				} else {
 					console.warn('Typio encapsulated event did not propagate because the path could not be resolved.');
 				}

@@ -1,8 +1,8 @@
-(function(editableManager, db, saveIndicator) {
+(function(editableManager, db, saveIndicator, DOMEvents) {
 	'use strict';
 
-	terafm.registerHandler('input', changeHandler);
-	terafm.registerHandler('change', changeHandler);
+	DOMEvents.registerHandler('input', changeHandler);
+	DOMEvents.registerHandler('change', changeHandler);
 
 	// Don't wanna debounce this beacause it'd prevent saving search
 	// fields and similar if you submit before the timout ends
@@ -16,7 +16,7 @@
 				entry = editableManager.createEntryObject(editable, value),
 				editableId = editableManager.generateEditableId(editable);
 
-			console.log('saving', editableId, editable);
+			// console.log('saving', editableId, editable);
 
 			if(entry) {
 				let edSessId = editableManager.getEditableSessionId(editable);
@@ -25,4 +25,4 @@
 		}
 	}
 
-})(terafm.editableManager, terafm.db, terafm.saveIndicator);
+})(terafm.editableManager, terafm.db, terafm.saveIndicator, terafm.DOMEvents);

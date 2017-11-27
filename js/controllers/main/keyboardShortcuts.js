@@ -1,10 +1,10 @@
 window.terafm = window.terafm || {};
 terafm.keyboardShortcuts = {};
 
-(function(keyboardShortcuts, db, editableManager) {
+(function(keyboardShortcuts, db, editableManager, initHandler) {
 	'use strict';
 
-	terafm.init(function() {
+	initHandler.onInit(function() {
 
 		Mousetrap.bindGlobal('ctrl+del', function(e) {
 			console.log('restoring');
@@ -39,4 +39,4 @@ terafm.keyboardShortcuts = {};
 		});
 	})
 
-})(terafm.keyboardShortcuts, terafm.db, terafm.editableManager);
+})(terafm.keyboardShortcuts, terafm.db, terafm.editableManager, terafm.initHandler);

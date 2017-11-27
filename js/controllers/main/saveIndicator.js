@@ -1,8 +1,8 @@
 window.terafm = window.terafm || {};
 
-(function(options, saveIndicator, editableManager) {
+(function(options, saveIndicator, editableManager, DOMEvents, initHandler) {
 
-	terafm.init(function() {
+	initHandler.onInit(function() {
 		let isEnabled = options.get('saveIndicator') !== 'disable';
 
 		if(isEnabled) {
@@ -14,7 +14,7 @@ window.terafm = window.terafm || {};
 
 	function addEventListeners() {
 
-		terafm.registerHandler('focus', function(e) {
+		DOMEvents.registerHandler('focus', function(e) {
 			saveIndicator.build(function() {
 
 				let editable = editableManager.getEditable(e.path[0]);
@@ -26,7 +26,7 @@ window.terafm = window.terafm || {};
 			});
 		});
 
-		terafm.registerHandler('blur', function() {
+		DOMEvents.registerHandler('blur', function() {
 			saveIndicator.build(function() {
 				// console.log('blur: hide indicator')
 				saveIndicator.hide()
@@ -35,7 +35,7 @@ window.terafm = window.terafm || {};
 
 
 
-		terafm.registerHandler('input', function(e) {
+		DOMEvents.registerHandler('input', function(e) {
 			let editable = editableManager.getEditable(e.path[0]);
 
 			if(!editable) return true;
@@ -47,7 +47,7 @@ window.terafm = window.terafm || {};
 			});
 		});
 
-		terafm.registerHandler('change', function(e) {
+		DOMEvents.registerHandler('change', function(e) {
 			let editable = editableManager.getEditable(e.path[0]);
 
 			if(!editable) return true;
@@ -62,4 +62,4 @@ window.terafm = window.terafm || {};
 
 	}
 
-})(terafm.options, terafm.saveIndicator, terafm.editableManager);
+})(terafm.options, terafm.saveIndicator, terafm.editableManager, terafm.DOMEvents, terafm.initHandler);
