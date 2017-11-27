@@ -152,8 +152,8 @@ terafm.editableManager = terafm.editableManager || {};
 		if(!elem) return false;
 		if(editableManager.isEditable(elem)) return elem;
 
+		// Should never happen because input event returns parent contenteditable, but keep just in case
 		// Iterate every parent, return if parent is editable
-		//return parentElem(elem, function(elem) { return elem.getAttribute('contenteditable') == 'true' });
 		var parent = elem.closest('[contenteditable]');
 		if(parent !== null) {
 			return parent;
