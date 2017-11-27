@@ -19,7 +19,8 @@
 			// console.log('saving', editableId, editable);
 
 			if(entry) {
-				db.saveRevision(editableId, entry);
+				let edSessId = editableManager.getEditableSessionId(editable);
+				db.saveRevision(editableId, entry, edSessId);
 			}
 		}
 	}

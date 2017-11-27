@@ -1,13 +1,21 @@
 window.terafm = window.terafm || {};
+terafm.db = {};
 
-terafm.db = (function(options, help) {
+(function(db, options, help) {
 	'use strict';
 
-	var container = {};
-	var sessionId = Math.round(new Date().getTime()/1000);
-	var initiated = false;
+	let container = {};
+	let initiated = false;
 
-	var exp = {};
+	let globalSessionId;
+
+	globalSessionId = generateSessionId();
+
+
+
+	function generateSessionId() {
+		return Math.round(new Date().getTime()/1000);
+	}
 
 
 	// Writes in memory storage to disk (IndexedDB or localStorage)
@@ -55,8 +63,8 @@ terafm.db = (function(options, help) {
 		console.log(options);
 
 		var editables = terafm.db.getAllRevisions(),
-			// Now - Seconds to store = past point in time when everything earlier is expired
-			expirePoint = terafm.db.sessionId() - (options.get('storageTimeDays') * 86400); // 86400 = 24h
+			//                    Now           -           Seconds to store                 = past point in time when everything earlier is expired
+			expirePoint = terafm.db.globalSessionId() - (options.get('storageTimeDays') * 86400); // 86400 = 24h
 
 		for (editableId in editables) {
 			for(session in editables[editableId]) {
@@ -72,7 +80,7 @@ terafm.db = (function(options, help) {
 
 	// Public facing methods
 
-	exp.init = function(callback) {
+	db.init = function(callback) {
 
 		if(initiated) {
 			callback();
@@ -90,41 +98,42 @@ terafm.db = (function(options, help) {
 		});
 	}
 
-	exp.initiated = function() {
+	db.initiated = function() {
 		return initiated ? true : false;
 	}
 
-	exp.sessionId = function() {
-		return sessionId;
+	db.sessionId = function() {
+		return globalSessionId;
 	}
 
-	exp.sync = function(){
+	db.sync = function(){
 		sync();
 	}
 
-	exp.saveRevision = function(editableId, obj) {
-		// console.log('saving:', editableId, obj);
+	db.generateSessionId = () => generateSessionId();
+
+	db.saveRevision = function(editableId, obj, editableSessId) {
 		if(!(editableId in container)) {
 			container[editableId] = {}
 		}
-		container[editableId][sessionId] = obj;
+		container[editableId][editableSessId] = obj;
 		sync();
 	}
 
-	exp.getAllRevisions = function() {
+	db.getAllRevisions = function() {
 		return help.cloneObject(container);
 	}
 
-	exp.getAllRevisionsGroupedBySession = function() {
+	db.getAllRevisionsGroupedBySession = function() {
 
 		var sessions = {};
 
 		for(var editableId in container) {
-			for(var sessionId in container[editableId]) {
-				if(sessions[sessionId] === undefined) {
-					sessions[sessionId] = {};
+			for(var globalSessionId in container[editableId]) {
+				if(sessions[globalSessionId] === undefined) {
+					sessions[globalSessionId] = {};
 				}
-				sessions[sessionId][editableId] = container[editableId][sessionId];
+				sessions[globalSessionId][editableId] = container[editableId][globalSessionId];
 			}
 		}
 
@@ -132,11 +141,11 @@ terafm.db = (function(options, help) {
 
 	}
 
-	exp.getLatestSession = function() {
+	db.getLatestSession = function() {
 		var sessions = terafm.db.getAllRevisionsGroupedBySession();
 
 		// Exclude current if it exists
-		delete sessions[sessionId];
+		delete sessions[globalSessionId];
 
 		var keys = Object.keys(sessions);
 
@@ -149,17 +158,17 @@ terafm.db = (function(options, help) {
 		return sessions[last];
 	}
 
-	exp.getRevisionsByEditable = function(editableId) {
+	db.getRevisionsByEditable = function(editableId) {
 		return help.cloneObject(container[editableId] || {})
 	}
 
-	exp.getSingleRevisionByEditableAndSession = function(editableId, session) {
+	db.getSingleRevisionByEditableAndSession = function(editableId, session) {
 		if(container[editableId]) {
 			return help.cloneObject(container[editableId][session] || {});
 		}
 	}
 
-	exp.getRevisionsBySession = function(session) {
+	db.getRevisionsBySession = function(session) {
 		var revisions = [];
 
 		for(var editable in container) {
@@ -172,24 +181,24 @@ terafm.db = (function(options, help) {
 	}
 
 	// Deletes everythinng except for current session
-	exp.deleteAllSessions = function() {
+	db.deleteAllSessions = function() {
 		for(var editable in container) {
-			var curr = container[editable][sessionId];
+			var curr = container[editable][globalSessionId];
 
 			delete container[editable];
 
 			if(curr) {
 				container[editable] = {};
-				container[editable][sessionId] = curr;
+				container[editable][globalSessionId] = curr;
 			}
 		}
 
 		sync();
 	}
 
-	exp.deleteSingleRevisionByEditable = function(editableId, session) {
+	db.deleteSingleRevisionByEditable = function(editableId, session) {
 
-		session = session || sessionId;
+		session = session || globalSessionId;
 
 		// Check if input exists in storage
 		if( container[editableId] ) {
@@ -203,7 +212,7 @@ terafm.db = (function(options, help) {
 		sync();
 	}
 
-	exp.getRecentRevisions = function(excludeId, max) {
+	db.getRecentRevisions = function(excludeId, max) {
 		var revisions = terafm.db.getAllRevisionsGroupedBySession(),
 			max = max || 10,
 			matches = {};
@@ -229,7 +238,7 @@ terafm.db = (function(options, help) {
 	}
 
 
-	exp.getEntriesByText = function(search, max) {
+	db.getEntriesByText = function(search, max) {
 		var search = '' + search;
 		search = search.trim();
 		search = escapeRegExp(search);
@@ -257,7 +266,5 @@ terafm.db = (function(options, help) {
 
 	}
 
-	return exp;
 
-
-})(terafm.options, terafm.help);
+})(terafm.db, terafm.options, terafm.help);

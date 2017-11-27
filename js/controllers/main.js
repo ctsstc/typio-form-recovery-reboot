@@ -38,9 +38,9 @@ var terafm = window.terafm;
 	});
 
 
-	document.addEventListener('input', function(e) {
-		console.log('input for', e.path[0], e);
-	})
+	// document.addEventListener('input', function(e) {
+	// 	console.log('input for', e.path[0], e);
+	// })
 
 
 

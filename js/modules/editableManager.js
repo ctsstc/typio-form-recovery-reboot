@@ -68,6 +68,27 @@ terafm.editableManager = terafm.editableManager || {};
 		}
 		return data;
 	}
+
+	editableManager.getEditableSessionId = function(editable) {
+		if(editableManager.isEditableText(editable)) {
+			let currLen = editableManager.getEditableValue(editable, true).length,
+				oldLen = editable.terafmLength;
+
+			// Set length property
+			if(currLen > 0) {
+				editable.terafmLength = currLen;
+			}
+
+			// If input was cleared, set new ID
+			if(oldLen > 1 && currLen === 0) {
+				editable.terafmSessId = db.generateSessionId();
+			}
+
+			// Default to global sess id
+			// console.log(editable.terafmSessId || db.sessionId())
+			return editable.terafmSessId || db.sessionId();
+		}
+	}
 	
 	// Radios require special attention, this is ugly but it'll do for now
 	// Todo: Fix
@@ -141,22 +162,34 @@ terafm.editableManager = terafm.editableManager || {};
 		return false;
 	}
 
+	editableManager.getEditableValue = function(editable, trim) {
+		let value;
 
-	editableManager.getEditableValue = function(editable) {
-		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
+		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA' || editable.nodeName === 'SELECT') {
 
 			// Special care for checkable inputs
 			if(editable.type === 'checkbox' || editable.type === 'radio') {
-				return editable.checked ? 1 : 0;
+				value = editable.checked ? 1 : 0;
 
 			} else {
-				return editable.value;
+				value = editable.value;
 			}
 
-		} else if(editable.nodeName === 'SELECT') {
-			return editable.value;
+		// Contenteditable
+		} else {
+			if(trim) {
+				value = editable.textContent;
+			} else {
+				value = editable.innerHTML;
+			}
 		}
-		return editable.innerHTML;
+
+
+		if(trim) {
+			return value.trim();
+		}
+
+		return value;
 	}
 
 
