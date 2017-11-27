@@ -38,14 +38,6 @@ var terafm = window.terafm;
 	});
 
 
-	// document.addEventListener('input', function(e) {
-	// 	console.log('input for', e.path[0], e);
-	// })
-
-
-
-
-
 	let handlers = {};
 	terafm.triggerEvent = function(type, event) {
 		let c = 0;
@@ -69,6 +61,7 @@ var terafm = window.terafm;
 	document.addEventListener('mousedown', (e) => 	terafm.triggerEvent(e.type, e) );
 	document.addEventListener('focus', (e) =>		terafm.triggerEvent(e.type, e) , true);
 	document.addEventListener('blur', (e) =>		terafm.triggerEvent(e.type, e) , true);
+	document.addEventListener('input', (e) => 		terafm.triggerEvent(e.type, e) );
 	document.addEventListener('keyup', (e) => 		terafm.triggerEvent(e.type, e) );
 	document.addEventListener('contextmenu', (e) => terafm.triggerEvent(e.type, e) );
 	document.addEventListener('change', (e) => 		terafm.triggerEvent(e.type, e) , true);

@@ -1,13 +1,13 @@
 (function(editableManager, db, saveIndicator) {
 	'use strict';
 
+	terafm.registerHandler('input', changeHandler);
 	terafm.registerHandler('change', changeHandler);
-	terafm.registerHandler('keyup', changeHandler);
 
 	// Don't wanna debounce this beacause it'd prevent saving search
 	// fields and similar if you submit before the timout ends
+	// Also for chat apps
 	function changeHandler(e) {
-		// console.log('changeHandler', e);
 
 		let editable = editableManager.getEditable(e.path[0]);
 

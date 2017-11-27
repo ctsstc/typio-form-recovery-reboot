@@ -35,13 +35,13 @@ window.terafm = window.terafm || {};
 
 
 
-		terafm.registerHandler('keyup', function(e) {
+		terafm.registerHandler('input', function(e) {
 			let editable = editableManager.getEditable(e.path[0]);
 
 			if(!editable) return true;
 
 			saveIndicator.build(function() {
-				// console.log('keyup: show pulse')
+				// console.log('input: show pulse')
 				saveIndicator.show();
 				saveIndicator.pulse();
 			});

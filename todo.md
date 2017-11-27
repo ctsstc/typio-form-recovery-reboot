@@ -3,6 +3,7 @@ Fix: All injected html is now within one parent shadowdom (used multiple before 
 Fix: Improved error message if trigger context before page load etc
 Fix: Support for nested shadow dom and iframes
 Fix: Concat all shadowroot css
+Fix: Support for inputs that are dynamically cleared (support for chat apps like fb messenger)
 Change: "Pick recovery target" replaced with Copy button.
 For devs: This update brings major improvements to the modularity of the code and should make it a lot easier to get a grasp on if you want to contribute.
 
@@ -11,13 +12,14 @@ Todo:
 - Save input type
 - Only show indicator if input can acutally be saved (path can be resolved)
 - Iframe load support
-- Save on enter to fix fb/messenger bug
 - Check out shroot stuff
 - injectHTML could be moved
 - Capsulation injection check type and allowance
 - Use 'input' event instead of change/keydown?
 	- Combine with 'change' for checkboxes/radios because no support
+- Cache more things
 
+- Throttle input event? Useful for range inputs and probably others
 - Better test pages
 - Add master password	
 	- With timestamp when pass reset
