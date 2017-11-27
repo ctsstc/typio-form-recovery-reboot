@@ -40,13 +40,16 @@
 		return new MutationObserver(function(mutations) {
 			mutations.forEach(function(mutation) {
 				mutation.addedNodes.forEach(function(node) {
-					dig([node]);
+
+					// If issues with not finding iframes or shadows
+					// Do a querySelectorAll('*') on this instead
+					dig([node], true);
 				});
 			});    
 		});
 	}
 
-	function dig(allNodes) {
+	function dig(allNodes, mutated) {
 
 		for(var i=0; i < allNodes.length; ++i) {
 			if(allNodes[i].nodeName === 'IFRAME') {
@@ -63,6 +66,12 @@
 				for(var ch=0; ch < shroot.children.length; ++ch) {
 					dig([shroot.children[ch]], 1);
 				}
+			}
+
+			// If mutated, find iframes inside and dig
+			if(mutated && allNodes[i].nodeType !== 3) {
+				let fr = allNodes[i].querySelectorAll('iframe');
+				if(fr.length) dig(fr);
 			}
 
 		}
