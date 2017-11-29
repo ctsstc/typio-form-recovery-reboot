@@ -6,7 +6,7 @@ terafm.ui = {};
 
 	var shadowRootNode;
 
-	ui.inject = function(data, replace, callback) {
+	ui.inject = function(data, replaceObj, callback) {
 
 		// Make sure shadow root has been created
 		if(!shadowRootNode) {
@@ -27,6 +27,7 @@ terafm.ui = {};
 			var request = fetch(data.path).then(response => response.text());
 
 			request.then(function(text) {
+				if(replaceObj) text = replacePlaceholders(text, replaceObj);
 				let retnode = addToShadowRoot(text, data.returnNode);
 				callback(retnode);
 			});
@@ -34,10 +35,18 @@ terafm.ui = {};
 
 		// Html was passed, insert
 		} else if(data.html) {
+			if(replaceObj) data.html = replacePlaceholders(data.html, replaceObj);
 			let retnode = addToShadowRoot(data.html, data.returnNode);
 			callback(retnode);
 		}
 
+	}
+
+	function replacePlaceholders(htmlStr, replObj) {
+		Object.keys(replObj).map((key) => {
+			htmlStr = htmlStr.replace(key, replObj[key]);
+		})
+		return htmlStr;
 	}
 	
 

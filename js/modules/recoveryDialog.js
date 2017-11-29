@@ -4,20 +4,19 @@ terafm.recoveryDialog = {};
 (function(recoveryDialog, db, editableManager, ui, help) {
 	'use strict';
 
-	var shroot;
+	var dialogNode; // New
 
 	recoveryDialog.show = function(setDefault) {
 		if(setDefault === undefined) recoveryDialog.setPage('default');
-		var shadowRoot = shroot.querySelector('.dialog-root');
-		shadowRoot.classList.add('open');
+		dialogNode.classList.add('open');
 	}
 
 	recoveryDialog.setPage = function(pageId) {
-		var currHeader = shroot.querySelector('.header .header-partial.partial-current'),
-			newHeader = shroot.querySelector('.header .header-partial.partial-' + pageId),
+		var currHeader = dialogNode.querySelector('.header .header-partial.partial-current'),
+			newHeader = dialogNode.querySelector('.header .header-partial.partial-' + pageId),
 
-			currContent = shroot.querySelector('.content .content-partial.partial-current'),
-			newContent = shroot.querySelector('.content .content-partial.partial-' + pageId);
+			currContent = dialogNode.querySelector('.content .content-partial.partial-current'),
+			newContent = dialogNode.querySelector('.content .content-partial.partial-' + pageId);
 
 		currHeader.classList.remove('partial-current');
 		currContent.classList.remove('partial-current');
@@ -27,23 +26,24 @@ terafm.recoveryDialog = {};
 	}
 
 	recoveryDialog.hide = function() {
-		if(shroot) {
-			var shadowRoot = shroot.querySelector('.dialog-root');
-
-			shadowRoot.classList.remove('open');
+		if(dialogNode) {
+			dialogNode.classList.remove('open');
 		}
 	}
 
 	recoveryDialog.build = function(callback) {
-		if(!shroot) {
-			shroot = ui.getShadowRoot();
-			injectDialogHTML(function() {
-				setTimeout(function() {
-					callback(shroot);
-				}, 50);
+		if(!dialogNode) {
+			ui.inject({
+				path: 'templates/dialog.tpl',
+				returnNode: '.dialog-root'
+			}, {
+				'{{ hostname }}' : window.location.hostname
+			}, function(retnode) {
+				dialogNode = retnode;
+				requestAnimationFrame(() => callback(retnode));
 			});
 		} else {
-			callback(shroot);
+			callback(dialogNode);
 		}
 	}
 
@@ -60,16 +60,16 @@ terafm.recoveryDialog = {};
 			html += '<p style="margin: 20px;">Nothing saved yet, buddy!</p>';
 		}
 
-		shroot.querySelector('.recovery-container').innerHTML = html;
+		dialogNode.querySelector('.recovery-container').innerHTML = html;
 	}
 
 	recoveryDialog.setRevision = function(revision, editableId, session) {
 
 		// These nodes will be updated
-		let fulltextNode = shroot.querySelector('.content .partial-recover .full-text .container'),
-			dateNode = shroot.querySelector('.content .partial-recover .meta .date'),
-			sizeNode = shroot.querySelector('.content .partial-recover .meta .size'),
-			pathNode = shroot.querySelector('.content .partial-recover .editable-path');
+		let fulltextNode = dialogNode.querySelector('.content .partial-recover .full-text .container'),
+			dateNode = dialogNode.querySelector('.content .partial-recover .meta .date'),
+			sizeNode = dialogNode.querySelector('.content .partial-recover .meta .size'),
+			pathNode = dialogNode.querySelector('.content .partial-recover .editable-path');
 
 
 		// Get revision data
@@ -90,9 +90,9 @@ terafm.recoveryDialog = {};
 		pathNode.innerHTML = revision.path;
 
 		if(healthStatus) {
-			shroot.querySelector('.dialog-root').classList.add('health-ok');
+			dialogNode.classList.add('health-ok');
 		} else {
-			shroot.querySelector('.dialog-root').classList.remove('health-ok');
+			dialogNode.classList.remove('health-ok');
 		}
 	}
 
@@ -135,19 +135,6 @@ terafm.recoveryDialog = {};
 
 		keys.forEach(function(key) {
 			callback(key, data[key]);
-		});
-	}
-
-
-	function injectDialogHTML(callback) {
-		var template = chrome.runtime.getURL('templates/dialog.tpl');
-
-		var request = fetch(template).then(response => response.text());
-
-		request.then(function(text) {
-			text = text.replace('{{ hostname }}', window.location.hostname);
-			shroot.querySelector('div').insertAdjacentHTML('beforeend', text);
-			callback();
 		});
 	}
 

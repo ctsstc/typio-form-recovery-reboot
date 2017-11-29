@@ -7,7 +7,7 @@ terafm.recoveryDialogController = {};
 	
 	let selectedRevision = {};
 
-	let shroot;
+	let dialogNode;
 
 	// Open call from context menu
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -58,19 +58,19 @@ terafm.recoveryDialogController = {};
 	}
 
 	function setup(callback) {
-		if(shroot) callback();
+		if(dialogNode) callback();
 		recoveryDialog.build(function(node) {
-			shroot = node;
+			dialogNode = node;
 			setupEventListeners();
 			callback();
 		});
 	}
 
 	function setupEventListeners() {
-		shroot.addEventListener('click', function(e) {
+		dialogNode.addEventListener('click', function(e) {
 			var target = e.path[0];
 
-			// Close shroot trigger
+			// Close dialogNode trigger
 			if(target.classList.contains('trigger-close-dialog')) {
 				recoveryDialog.hide();
 
