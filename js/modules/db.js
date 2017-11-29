@@ -116,7 +116,7 @@ terafm.db = {};
 		if(!(editableId in container)) {
 			container[editableId] = {}
 		}
-		container[editableId][editableSessId] = obj;
+		container[editableId][editableSessId || globalSessionId] = obj;
 		sync();
 	}
 
