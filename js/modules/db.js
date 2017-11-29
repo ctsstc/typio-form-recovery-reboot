@@ -198,11 +198,10 @@ terafm.db = {};
 
 	db.deleteSingleRevisionByEditable = function(editableId, session) {
 
-		session = session || globalSessionId;
-
 		// Check if input exists in storage
 		if( container[editableId] ) {
-			delete container[editableId][session];
+			console.log('del', container[editableId][session || globalSessionId])
+			delete container[editableId][session || globalSessionId];
 
 			// If this was the only revision, just delete the whole storage item
 			if( Object.keys(container[editableId]).length < 1 ) {

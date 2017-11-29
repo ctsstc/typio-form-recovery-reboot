@@ -19,8 +19,14 @@
 			// console.log('saving', editableId, editable);
 
 			if(entry) {
-				let edSessId = editableManager.getEditableSessionId(editable);
-				db.saveRevision(editableId, entry, edSessId);
+				let newSessId = editableManager.getEditableSessionId(editable);
+
+				// If empty value, remove
+				if(editableManager.getEditableValue(editable, true).length < 1) {
+					db.deleteSingleRevisionByEditable(editableId, newSessId);
+				} else {
+					db.saveRevision(editableId, entry, newSessId);
+				}
 			}
 		}
 	}

@@ -88,7 +88,7 @@ terafm.editableManager = terafm.editableManager || {};
 
 			// Default to global sess id
 			// console.log(editable.terafmSessId || db.sessionId())
-			return editable.terafmSessId || db.sessionId();
+			return editable.terafmSessId;
 		}
 	}
 	
