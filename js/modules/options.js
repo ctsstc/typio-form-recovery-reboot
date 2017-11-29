@@ -1,5 +1,7 @@
 window.terafm = window.terafm || {};
-window.terafm.options = (function() {
+window.terafm.options = {};
+
+(function(options) {
 	'use strict';
 
 	var globalOptions = {
@@ -10,15 +12,17 @@ window.terafm.options = (function() {
 		// Default values, can be overwritten and saved in chrome
 		savePasswords: false,
 		storageTimeDays: 7,
-		saveIndicator: 'cornertriag'
+		saveIndicator: 'cornertriag',
+		hideSmallEntries: true
 	}
 
 	var hasLoadedFromStorage;
 
-	var exp = {};
-
 	var optionSanitizers = {
 		savePasswords: function(bool) {
+			return bool == true ? true : false;
+		},
+		hideSmallEntries: function(bool) {
 			return bool == true ? true : false;
 		},
 		storageTimeDays: function(days) {
@@ -34,17 +38,28 @@ window.terafm.options = (function() {
 	};
 
 
-	exp.get = function(opt) {
+	options.set = function(opt, val) {
+		let obj = {};
+		obj[opt] = val;
+		chrome.storage.sync.set(obj);
+
+		val = optionSanitizers[opt](val);
+		globalOptions[opt] = val;
+	}
+
+	// Todo: Fix error thingy
+	options.get = function(opt) {
 		if(!hasLoadedFromStorage) return 'ERROR';
+		// console.log('getting', opt, globalOptions[opt])
 		return globalOptions[opt];
 	}
 
-	exp.getAll = function() {
+	options.getAll = function() {
 		if(!hasLoadedFromStorage) return 'ERROR';
 		return globalOptions;
 	}
 
-	exp.loadFromChromeStorage = function(callback) {
+	options.loadFromChromeStorage = function(callback) {
 
 		// Override default options
 		chrome.storage.sync.get(null, function(options) {
@@ -62,6 +77,4 @@ window.terafm.options = (function() {
 
 	}
 
-	return exp;
-
-})();
+})(terafm.options);

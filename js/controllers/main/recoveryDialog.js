@@ -2,7 +2,7 @@ window.terafm = window.terafm || {};
 
 terafm.recoveryDialogController = {};
 
-(function(recoveryDialogController, recoveryDialog, db, help, editableManager) {
+(function(recoveryDialogController, recoveryDialog, db, help, editableManager, options) {
 	'use strict';
 	
 	let selectedRevision = {};
@@ -24,31 +24,38 @@ terafm.recoveryDialogController = {};
 		});
 	}
 
+	function repopulate() {
+		recoveryDialog.populate(getRevisionData());
+	}
+
 	function getRevisionData() {
 		let sessions = db.getAllRevisionsGroupedBySession(),
 			sessKeys = Object.keys(sessions),
-			currentSessionId = db.sessionId();
+			currentSessionId = db.sessionId(),
+			hideSmallEntries = options.get('hideSmallEntries');
 
 		delete sessions[currentSessionId];
 
-		for(let skey in sessKeys) {
+		if(hideSmallEntries === true) {
+			for(let skey in sessKeys) {
 
-			// Delete if value is too short
-			for(let editableId in sessions[sessKeys[skey]]) {
-				var editable = sessions[sessKeys[skey]][editableId],
-					cleanValue = help.encodeHTML(editable.value);
+				// Delete if value is too short
+				for(let editableId in sessions[sessKeys[skey]]) {
+					var editable = sessions[sessKeys[skey]][editableId],
+						cleanValue = help.encodeHTML(editable.value);
 
-				if(cleanValue.length < 5) {
-					delete sessions[ sessKeys[skey] ][ editableId ];
+					if(cleanValue.length < 5) {
+						delete sessions[ sessKeys[skey] ][ editableId ];
 
-					// If last item in session, delete session from list to prevent empty <ul> tag
-					if(Object.keys(sessions[ sessKeys[skey] ]).length === 0) {
-						delete sessions[ sessKeys[skey] ];
-					}
+						// If last item in session, delete session from list to prevent empty <ul> tag
+						if(Object.keys(sessions[ sessKeys[skey] ]).length === 0) {
+							delete sessions[ sessKeys[skey] ];
+						}
 
-					// If empty, delete from database
-					if(cleanValue.length < 1) {
-						db.deleteSingleRevisionByEditable(editableId, sessKeys[skey]);
+						// If empty, delete from database
+						if(cleanValue.length < 1) {
+							db.deleteSingleRevisionByEditable(editableId, sessKeys[skey]);
+						}
 					}
 				}
 			}
@@ -218,8 +225,12 @@ terafm.recoveryDialogController = {};
 					target.parentElement.removeChild(target);
 
 				});
+			} else if(target.classList.contains('toggleHideSmallEntries')) {
+				let value = target.checked === true ? 1 : 0;
+				options.set('hideSmallEntries', value);
+				repopulate();
 			}
 
 		});
 	}
-})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager);
+})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager, terafm.options);
