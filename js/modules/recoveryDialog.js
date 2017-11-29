@@ -1,7 +1,7 @@
 window.terafm = window.terafm || {};
 terafm.recoveryDialog = {};
 
-(function(recoveryDialog, db, editableManager, ui, help) {
+(function(recoveryDialog, db, editableManager, ui, help, options) {
 	'use strict';
 
 	var dialogNode; // New
@@ -40,6 +40,7 @@ terafm.recoveryDialog = {};
 				'{{ hostname }}' : window.location.hostname
 			}, function(retnode) {
 				dialogNode = retnode;
+				dialogNode.querySelector('#hideSmallEntries').checked = options.get('hideSmallEntries');
 				requestAnimationFrame(() => callback(retnode));
 			});
 		} else {
@@ -141,4 +142,4 @@ terafm.recoveryDialog = {};
 
 
 
-})(terafm.recoveryDialog, terafm.db, terafm.editableManager, terafm.ui, terafm.help);
+})(terafm.recoveryDialog, terafm.db, terafm.editableManager, terafm.ui, terafm.help, terafm.options);
