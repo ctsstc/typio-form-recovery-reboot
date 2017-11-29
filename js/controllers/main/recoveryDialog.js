@@ -74,7 +74,9 @@ terafm.recoveryDialogController = {};
 	}
 
 	function setupEventListeners() {
+
 		dialogNode.addEventListener('click', function(e) {
+
 			var target = e.path[0];
 
 			// Close dialogNode trigger

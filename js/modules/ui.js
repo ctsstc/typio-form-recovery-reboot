@@ -4,7 +4,7 @@ terafm.ui = {};
 (function(ui) {
 	'use strict';
 
-	var shadowRootNode;
+	let shadowRootNode;
 
 	ui.inject = function(dataObj, replaceObj, callback) {
 
@@ -42,6 +42,10 @@ terafm.ui = {};
 
 	}
 
+	ui.getShadowRootNode = function() {
+		return shadowRootNode || false;
+	}
+
 	function replacePlaceholders(htmlStr, replObj) {
 		Object.keys(replObj).map((key) => {
 			htmlStr = htmlStr.replace(key, replObj[key]);
@@ -66,4 +70,5 @@ terafm.ui = {};
 
 		return shadowRootNode;
 	}
+
 })(terafm.ui);

@@ -27,6 +27,7 @@ module.exports = function(grunt) {
                         '../js/libs/mousetrap-global-bind.min.js',
 
                         // Modules
+                        '../js/modules/initHandler.js',
                         '../js/modules/helpers.js',
                         '../js/modules/indexedDBDriver.js',
                         '../js/modules/options.js',
@@ -42,7 +43,6 @@ module.exports = function(grunt) {
                         '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',
                         '../js/modules/DOMEvents.js',
-                        '../js/modules/initHandler.js',
 
                         // Controllers
                         '../js/controllers/main.js',

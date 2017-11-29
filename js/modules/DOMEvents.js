@@ -1,18 +1,27 @@
 window.terafm = window.terafm || {};
 terafm.DOMEvents = {};
 
-(function(DOMEvents) {
+(function(DOMEvents, ui) {
 	'use strict';
 
 
-	let handlers = {};
+	let handlers = {},
+		shadowRootNode;
 
 	DOMEvents.trigger = function(type, event) {
-		let c = 0;
+
+		// If event is from within extension shadowroot, do not trigger handlers
+		shadowRootNode = ui.getShadowRootNode();
+		if(shadowRootNode && shadowRootNode.contains(event.path[0])) {
+			return;
+		}
+
+		// Loop through handlers and call
+		// let c = 0;
 		if(type in handlers) {
 			for(let h =0; h < handlers[type].length; ++h) {
 				handlers[type][h](event);
-				c++;
+				// c++;
 			}
 		}
 		// console.log(type, c + ' handlers', event);
@@ -27,13 +36,11 @@ terafm.DOMEvents = {};
 
 	
 
-	document.addEventListener('click', (e) => 		DOMEvents.trigger(e.type, e) );
-	document.addEventListener('mousedown', (e) => 	DOMEvents.trigger(e.type, e) );
-	document.addEventListener('focus', (e) =>		DOMEvents.trigger(e.type, e) , true);
-	document.addEventListener('blur', (e) =>		DOMEvents.trigger(e.type, e) , true);
 	document.addEventListener('input', (e) => 		DOMEvents.trigger(e.type, e) );
-	document.addEventListener('keyup', (e) => 		DOMEvents.trigger(e.type, e) ); // Todo: Needed?
 	document.addEventListener('contextmenu', (e) => DOMEvents.trigger(e.type, e) );
-	document.addEventListener('change', (e) => 		DOMEvents.trigger(e.type, e) , true);
+	document.addEventListener('mousedown', (e) => 	DOMEvents.trigger(e.type, e) );
+	document.addEventListener('focus', (e) =>		DOMEvents.trigger(e.type, e), true);
+	document.addEventListener('blur', (e) =>		DOMEvents.trigger(e.type, e), true);
+	document.addEventListener('change', (e) => 		DOMEvents.trigger(e.type, e), true);
 
-})(terafm.DOMEvents);
+})(terafm.DOMEvents, terafm.ui);
