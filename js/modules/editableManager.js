@@ -70,6 +70,8 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	editableManager.getEditableSessionId = function(editable) {
+
+		// Text inputs can get a new session if inputs are cleared
 		if(editableManager.isEditableText(editable)) {
 			let currLen = editableManager.getEditableValue(editable, true).length,
 				oldLen = editable.terafmLength;
@@ -111,7 +113,9 @@ terafm.editableManager = terafm.editableManager || {};
 	// In case of contenteditable it does NOT check if element is within
 	// a contenteditable field.
 	editableManager.isEditable = function(elem) {
-		if(!elem) return false;
+
+		// Elem must be a valid html element
+		if(!elem || !(elem instanceof HTMLElement)) return false;
 
 		// Check if input with valid type
 		if(elem.nodeName == 'INPUT' && terafm.options.get('editableTypes').includes(elem.type)) {
@@ -140,6 +144,7 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	editableManager.isEditableText = function(elem) {
+		if(!elem || !(elem instanceof HTMLElement)) return false;
 
 		if( terafm.options.get('textEditableTypes').includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
 			return true;
@@ -149,7 +154,8 @@ terafm.editableManager = terafm.editableManager || {};
 	
 	// Check if element is editable OR is within a contenteditable parent
 	editableManager.getEditable = function(elem) {
-		if(!elem) return false;
+		if(!elem || !(elem instanceof HTMLElement)) return false;
+
 		if(editableManager.isEditable(elem)) return elem;
 
 		// Should never happen because input event returns parent contenteditable, but keep just in case
