@@ -8,11 +8,13 @@ module.exports = function(grunt) {
                 mangle: false,
                 preserveComments: true,
                 beautify: true,
-                verbose: true
+                verbose: true,
+                sourceMap: true,
                 // mangle: true,
                 // preserveComments: false,
                 // beautify: false,
-                // verbose: false
+                // verbose: false,
+                // sourceMap: false,
             },
             content: {
                 files: {
