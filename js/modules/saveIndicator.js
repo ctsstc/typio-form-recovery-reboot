@@ -3,7 +3,7 @@ terafm.saveIndicator = {};
 
 (function(saveIndicator, ui, options, debounce) {
 
-	let shroot, indicatorNode, animatorNode, indicatorStyle,
+	let indicatorNode, animatorNode, indicatorStyle,
 		isVisible = false;
 
 	saveIndicator.pulse = debounce(function() {
@@ -31,28 +31,23 @@ terafm.saveIndicator = {};
 
 	saveIndicator.build = function(callback) {
 		if(!indicatorNode) {
-			shroot = ui.getShadowRoot();
-			injectHTML(function() {
-				indicatorNode = shroot.querySelector('#save-indicator');
+
+			ui.inject({
+				path: 'templates/saveIndicator.tpl',
+				returnNode: '#save-indicator'
+			}, function(retnode) {
+				indicatorNode = retnode;
 				animatorNode = indicatorNode.querySelector('.animator');
+
 				indicatorStyle = options.get('saveIndicator');
 				indicatorNode.classList.add(indicatorStyle);
-				if(callback) callback();
-			});
+
+				if(callback) callback(retnode);
+			})
+			
 		} else {
-			if(callback) callback();
+			if(callback) callback(indicatorNode);
 		}
 	};
-
-	function injectHTML(callback) {
-		var template = chrome.runtime.getURL('templates/saveIndicator.tpl');
-
-		var request = fetch(template).then(response => response.text());
-
-		request.then(function(text) {
-			shroot.querySelector('div').insertAdjacentHTML('beforeend', text);
-			callback();
-		});
-	}
 
 })(terafm.saveIndicator, terafm.ui, terafm.options, terafm.help.debounce);
