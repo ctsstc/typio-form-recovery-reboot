@@ -88,7 +88,7 @@
 			if(secondTry) {
 				console.log('success on second try!', iframe.contentWindow.document.body)
 			} else {
-				console.log('Success on first try', );
+				// console.log('Success on first try', );
 			}
 		} catch(e) {
 			if(!secondTry) {

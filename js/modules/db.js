@@ -200,7 +200,6 @@ terafm.db = {};
 
 		// Check if input exists in storage
 		if( container[editableId] ) {
-			console.log('del', container[editableId][session || globalSessionId])
 			delete container[editableId][session || globalSessionId];
 
 			// If this was the only revision, just delete the whole storage item

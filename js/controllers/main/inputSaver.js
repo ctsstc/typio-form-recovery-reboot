@@ -3,6 +3,11 @@
 
 	DOMEvents.registerHandler('input', changeHandler);
 	DOMEvents.registerHandler('change', changeHandler);
+	DOMEvents.registerHandler('click', function(e) {
+		if(!editableManager.isEditableText(e.path[0])) {
+			changeHandler(e);
+		}
+	});
 
 	// Don't wanna debounce this beacause it'd prevent saving search
 	// fields and similar if you submit before the timout ends
@@ -21,11 +26,18 @@
 			if(entry) {
 				let newSessId = editableManager.getEditableSessionId(editable);
 
+
+				// // Special care for radio inputs, have to delete siblings
+				if(editable.type === 'radio') {
+					editableManager.deleteRadioSiblingsFromStorage(editable);
+				}
+
 				// If empty value, remove
 				if(editableManager.getEditableValue(editable, true).length < 1) {
 					db.deleteSingleRevisionByEditable(editableId, newSessId);
 				} else {
 					db.saveRevision(editableId, entry, newSessId);
+					console.log('saving', editableId);
 				}
 			}
 		}

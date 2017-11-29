@@ -4,28 +4,7 @@ terafm.editableManager = terafm.editableManager || {};
 (function(editableManager, help, db, cache) {
 	'use strict';
 
-	/*
-	// Takes editablePath or editable dom node
-	editableManager.generateEditableId = function(editable) {
-
-		// If dom node
-		if(editable instanceof HTMLElement) {
-
-			// Return if cached
-			if('terafmId' in editable) return editable.terafmId;
-
-			let edId, edPath = editableManager.genPath(editable);
-
-			// Create id and cache it
-			edId = 'field' + terafm.help.hashStr(edPath);
-			editable.dataset.terafmId = edId;
-			return edId;
-
-		// It's a path, can't cache on that
-		} else {
-			console.warn('generateEditableId was called with a path, cannot be cached.', editable);
-			return 'field' + terafm.help.hashStr(editable);
-	*/
+	
 	// Takes editablePath or editable dom node
 	editableManager.generateEditableId = function(editable) {
 		let edPath = editable.tagName ? editableManager.genPath(editable) : editable;
@@ -35,32 +14,9 @@ terafm.editableManager = terafm.editableManager || {};
 		});
 	}
 
-
-
-
 	editableManager.createEntryObject = function(editable, value) {
 
-		// let editablePath = cache({'path': editable}, function() {
-		// 	return terafm.editableManager.genPath(editable) || 'global:' + Math.round(Math.random()*10000000);
-		// });
 		let editablePath = terafm.editableManager.genPath(editable);
-
-		// console.log('p', editablePath)
-		// Delete entry if value is too short
-		// Don't bother removing HTML here, it's too expensive
-		// Todo: Detect major change (e.g. automatic value reset by script) and save long value (new session?)
-		// Todo: Important! Below two blocks cannot run in encapsulated states due to lack of db, this should be moved into a better more descriptive place
-		// if(value.length < 1) {
-		// 	var editableId = editableManager.generateEditableId(editable);
-		// 	terafm.db.deleteSingleRevisionByEditable(editableId);
-		// 	return false;
-		// }
-
-		// // Special care for radio inputs, have to delete siblings
-		// if(editable.type === 'radio') {
-		// 	console.log('doing radio stuff');
-		// 	editableManager.deleteRadioSiblingsFromStorage(editable);
-		// }
 
 		var data = {
 			value: value,
@@ -96,13 +52,16 @@ terafm.editableManager = terafm.editableManager || {};
 	// Todo: Fix
 	editableManager.deleteRadioSiblingsFromStorage = function(input) {
 		if(input.type == 'radio' && input.name) {
-			var siblingRadios = document.querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
+			
+			var siblingRadios = input.getRootNode().querySelectorAll('input[type="radio"][name="'+ input.name +'"]');
+			
 			siblingRadios.forEach(function(sib) {
 				if(sib !== input) {
-					var sibPath = editableManager.genPath(sib),
-						sibId = editableManager.generateEditableId(input);
+					var sibId = editableManager.generateEditableId(sib);
+
 					// Delete current sibling revision
 					db.deleteSingleRevisionByEditable(sibId);
+					console.log('deleting sibling', sibId);
 				}
 			});
 		}
@@ -191,7 +150,7 @@ terafm.editableManager = terafm.editableManager || {};
 		}
 
 
-		if(trim) {
+		if(typeof value === 'string') {
 			return value.trim();
 		}
 

@@ -11,7 +11,6 @@
 	// Chrome context item clicked
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'contextMenuRecover') {
-			// console.log('trig')
 			open();
 		}
 	});
@@ -116,6 +115,7 @@
 	function setupDeepEventHandlers() {
 		DOMEvents.registerHandler('mousedown', function() {
 			contextMenu.hide();
+			console.log('mousedown from contextmenu')
 		});
 		
 		DOMEvents.registerHandler('focus', function() {
