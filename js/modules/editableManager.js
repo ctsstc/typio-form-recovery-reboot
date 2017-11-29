@@ -1,10 +1,10 @@
 window.terafm = window.terafm || {};
 terafm.editableManager = terafm.editableManager || {};
 
-(function(editableManager, help, db, cache) {
+(function(editableManager, help, db, cache, options) {
 	'use strict';
 
-	
+
 	// Takes editablePath or editable dom node
 	editableManager.generateEditableId = function(editable) {
 		let edPath = editable.tagName ? editableManager.genPath(editable) : editable;
@@ -16,13 +16,41 @@ terafm.editableManager = terafm.editableManager || {};
 
 	editableManager.createEntryObject = function(editable, value) {
 
-		let editablePath = terafm.editableManager.genPath(editable);
+		let editablePath = editableManager.genPath(editable),
+			typeData = getEditableType(editable),
+			data = {};
 
-		var data = {
+		data = {
 			value: value,
-			path: editablePath
+			path: editablePath,
+			...typeData // Append values
 		}
+
 		return data;
+	}
+
+	function getEditableType(editable) {
+
+		// Is input(various text types) or textarea or contenteditable
+		if(editableManager.isEditableText(editable)) {
+			return {
+				type: editable.type ? editable.type : 'text'
+			};
+
+		// Checkbox or radio
+		} else if(editable.type && ['checkbox', 'radio'].includes(editable.type) ) {
+			return {
+				type: editable.type,
+				meta: editable.name + ': ' + editable.value,
+			};
+
+		// All other input types (select, range, color, date etc)
+		} else if(editable.type) {
+			return {
+				type: editable.type,
+				meta: editable.name
+			};
+		}
 	}
 
 	editableManager.getEditableSessionId = function(editable) {
@@ -61,7 +89,6 @@ terafm.editableManager = terafm.editableManager || {};
 
 					// Delete current sibling revision
 					db.deleteSingleRevisionByEditable(sibId);
-					console.log('deleting sibling', sibId);
 				}
 			});
 		}
@@ -105,7 +132,7 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.isEditableText = function(elem) {
 		if(!elem || !(elem instanceof elem.ownerDocument.defaultView.HTMLElement)) return false;
 
-		if( terafm.options.get('textEditableTypes').includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
+		if( options.get('textEditableTypes').includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
 			return true;
 		}
 		return false;
@@ -192,4 +219,4 @@ terafm.editableManager = terafm.editableManager || {};
 		}
 	}
 
-})(terafm.editableManager, terafm.help, terafm.db, terafm.cache);
+})(terafm.editableManager, terafm.help, terafm.db, terafm.cache, terafm.options);

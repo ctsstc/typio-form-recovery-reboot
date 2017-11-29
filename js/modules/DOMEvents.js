@@ -17,14 +17,14 @@ terafm.DOMEvents = {};
 		}
 
 		// Loop through handlers and call
-		let c = 0;
+		// let c = 0;
 		if(type in handlers) {
 			for(let h =0; h < handlers[type].length; ++h) {
 				handlers[type][h](event);
-				c++;
+				// c++;
 			}
 		}
-		console.log(type, c + ' handlers', event);
+		// console.log(type, c + ' handlers', event);
 	}
 
 

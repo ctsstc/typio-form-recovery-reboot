@@ -71,6 +71,7 @@ window.terafm.options = {};
 				}
 			}
 
+			console.log('loaded from storage');
 			hasLoadedFromStorage = true;
 			if(callback) callback();
 		});

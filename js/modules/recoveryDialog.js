@@ -115,15 +115,24 @@ terafm.recoveryDialog = {};
 	function generateListItemHTML(item, editableId, sessionId) {
 		let safeString = help.encodeHTML(item.value),
 			excerpt = safeString.substring(0, 220),
-			wordCount = (safeString + '').split(/\s/).length,
 			html = '';
+
+		if(item.type && item.meta && item.type === 'checkbox') {
+			excerpt = '<input type=checkbox disabled '+ (item.value ? 'checked':'') +' /> ' + item.meta;
+
+		} else if(item.type && item.meta && item.type === 'radio') {
+			excerpt = '<input type=radio disabled '+ (item.value ? 'checked':'') +' /> ' + item.meta;
+
+		} else if(item.type && item.meta) {
+			excerpt = '(' + item.type + ') '+ item.meta + ': ' + item.value;
+		}
 
 		excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt;
 
 		html += '<li data-set-current data-editable="'+ editableId +'" data-session="'+ sessionId +'">';
 			html += '<p class="excerpt">' + excerpt + '</p>';
 			html += '<div class="meta-bar">';
-				html += wordCount + ' words | <a>Details</a> |  <a class="del-link" data-delete-single data-editable="'+ editableId +'" data-session="'+ sessionId +'">Delete entry</a>';
+				html += (item.type ? item.type + ' | ' : '') + '<a>Details</a> |  <a class="del-link" data-delete-single data-editable="'+ editableId +'" data-session="'+ sessionId +'">Delete entry</a>';
 			html += '</div>';
 		html += '</li>';
 

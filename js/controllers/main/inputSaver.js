@@ -37,7 +37,7 @@
 					db.deleteSingleRevisionByEditable(editableId, newSessId);
 				} else {
 					db.saveRevision(editableId, entry, newSessId);
-					console.log('saving', editableId);
+					console.log('saving', entry);
 				}
 			}
 		}
