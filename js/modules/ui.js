@@ -48,12 +48,6 @@ terafm.ui = {};
 		})
 		return htmlStr;
 	}
-	
-
-	// Todo: Deprecate
-	ui.getShadowRoot = function() {
-		return shadowRootNode || createShadowRoot();
-	}
 
 	function addToShadowRoot(html, returnNode) {
 		shadowRootNode.querySelector('div').insertAdjacentHTML('beforeend', html);
