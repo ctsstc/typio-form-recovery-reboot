@@ -29,14 +29,16 @@ module.exports = function(grunt) {
                         // Modules
                         '../js/modules/initHandler.js',
                         '../js/modules/helpers.js',
-                        '../js/modules/indexedDBDriver.js',
                         '../js/modules/options.js',
-                        '../js/modules/db.js',
+                        '../js/modules/db/db.js',
+                        '../js/modules/db/db.maintenance.js',
+                        '../js/modules/db/db.convertLegacy.js',
+                        '../js/modules/db/indexedDBDriver.js',
+                        '../js/modules/editableManager/editableManager.pathGenerator.js',
+                        '../js/modules/editableManager/editableManager.pathResolver.js',
+                        '../js/modules/editableManager/editableManager.placeholders.js',
+                        '../js/modules/editableManager/editableManager.js',
                         '../js/modules/ui.js',
-                        '../js/modules/editableManager.pathGenerator.js',
-                        '../js/modules/editableManager.pathResolver.js',
-                        '../js/modules/editableManager.placeholders.js',
-                        '../js/modules/editableManager.js',
                         '../js/modules/editablePicker.js',
                         '../js/modules/recoveryDialog.js',
                         '../js/modules/contextMenu.js',
@@ -55,7 +57,7 @@ module.exports = function(grunt) {
 
                     // Runs as content script
                     '../js/min/frame.min.js' : [
-                        '../js/modules/editableManager.pathGenerator.js',
+                        '../js/modules/editableManager/editableManager.pathGenerator.js',
                         '../js/modules/cache.js',
 
                         '../js/controllers/frame.js',

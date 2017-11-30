@@ -1,21 +1,19 @@
 window.terafm = window.terafm || {};
-terafm.db = {};
+terafm.db = terafm.db || {};
 
 (function(db, options, help) {
 	'use strict';
+
+	db.version = 2;
+
 
 	let container = {};
 	let initiated = false;
 
 	let globalSessionId;
 
-	globalSessionId = generateSessionId();
 
 
-
-	function generateSessionId() {
-		return Math.round(new Date().getTime()/1000);
-	}
 
 
 	// Writes in memory storage to disk (IndexedDB or localStorage)
@@ -35,48 +33,6 @@ terafm.db = {};
 	}
 
 
-	// This should only run once per domain, after the extension has been updated
-	// Copies localStorage to in memory, then writes to IndexedDB.
-	// Todo: Also convert old frame path into new concat format
-	function convertLegacyStorage() {
-		var found = false;
-
-		for(let item in localStorage) {
-			if(item.indexOf('teraField') === 0) {
-				var inputId = item.replace('teraField', 'field');
-
-				container[inputId] = JSON.parse(localStorage.getItem(item));
-				localStorage.removeItem(item);
-				found = true;
-			}
-		}
-
-		if(found) {
-			sync();
-		}
-	}
-
-	function deleteExpiredSessions() {
-		// Todo: Fix
-		return;
-
-		console.log(options);
-
-		var editables = terafm.db.getAllRevisions(),
-			//                    Now           -           Seconds to store                 = past point in time when everything earlier is expired
-			expirePoint = terafm.db.globalSessionId() - (options.get('storageTimeDays') * 86400); // 86400 = 24h
-
-		for (editableId in editables) {
-			for(session in editables[editableId]) {
-
-				// Expired
-				if(session < expirePoint) {
-					terafm.db.deleteSingleRevisionByEditable(editableId, session);
-				}
-			}
-		}
-	}
-
 
 	// Public facing methods
 
@@ -87,11 +43,21 @@ terafm.db = {};
 			return true;
 		}
 
+		globalSessionId = db.generateSessionId();
+
 		// Initiate connected and load disk storage to in memory
 		terafm.indexedDB.init(function() {
-			convertLegacyStorage();
+
 			loadStorageFromDisk(function() {
-				deleteExpiredSessions();
+
+				console.log(terafm);
+
+				// Convert old storage to new
+				db.legacy.convert();
+
+				// Remove old entries
+				db.maintenance.run();
+
 				callback();
 				initiated = true;
 			});
@@ -110,7 +76,9 @@ terafm.db = {};
 		sync();
 	}
 
-	db.generateSessionId = () => generateSessionId();
+	db.generateSessionId = function() {
+		return Math.round(Date.now()/1000);
+	}
 
 	db.saveRevision = function(editableId, obj, editableSessId) {
 		if(!(editableId in container)) {
@@ -118,6 +86,10 @@ terafm.db = {};
 		}
 		container[editableId][editableSessId || globalSessionId] = obj;
 		sync();
+	}
+
+	db.getContainer = function() {
+		return container;
 	}
 
 	db.getAllRevisions = function() {

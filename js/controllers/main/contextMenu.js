@@ -173,7 +173,6 @@
 		}
 	}
 
-	// Todo: Clean up this mess
 	function contextmenuMouseoverHandler(e) {
 		let target = e.target,
 			sid = target.dataset.session,

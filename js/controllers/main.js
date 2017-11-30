@@ -4,11 +4,11 @@ var terafm = window.terafm;
 	'use strict';
 
 
-	// Initiate DB, populate in-memory storage
-	db.init(function() {
-
-		// Load extension options into memory
-		options.loadFromChromeStorage(function() {
+	// Load extension options into memory
+	options.loadFromChromeStorage(function() {
+		
+		// Initiate DB, populate in-memory storage
+		db.init(function() {
 
 			// Run init handlers
 			initHandler.executeInitHandlers();
