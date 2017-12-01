@@ -132,7 +132,7 @@ terafm.recoveryDialog = {};
 		html += '<li data-set-current data-editable="'+ editableId +'" data-session="'+ sessionId +'">';
 			html += '<p class="excerpt">' + excerpt + '</p>';
 			html += '<div class="meta-bar">';
-				html += (item.type ? item.type + ' | ' : '') + '<a>Details</a> |  <a class="del-link" data-delete-single data-editable="'+ editableId +'" data-session="'+ sessionId +'">Delete entry</a>';
+				html += (item.type ? 'Type: ' + item.type + ' | ' : '') + '<a>Details</a> |  <a class="del-link" data-delete-single data-editable="'+ editableId +'" data-session="'+ sessionId +'">Delete entry</a>';
 			html += '</div>';
 		html += '</li>';
 
