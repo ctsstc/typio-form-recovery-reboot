@@ -50,8 +50,6 @@ terafm.db = terafm.db || {};
 
 			loadStorageFromDisk(function() {
 
-				console.log(terafm);
-
 				// Convert old storage to new
 				db.legacy.convert();
 

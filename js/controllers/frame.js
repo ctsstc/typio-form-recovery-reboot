@@ -1,3 +1,5 @@
+window.terafmInjected = true;
+
 (function() {
 	'use strict';
 
@@ -25,7 +27,7 @@
 	var observeConf = { childList: true, subtree: true, characterData: false, attributes: false };
 	function init() {
 		setTimeout(function() {
-			var allNodes = document.body.querySelectorAll('*');
+			var allNodes = document.getElementsByTagName('*');
 			dig(allNodes);
 
 			var observer = createObserver();
@@ -43,41 +45,48 @@
 
 					// If issues with not finding iframes or shadows
 					// Do a querySelectorAll('*') on this instead
-					dig([node], true);
+					dig([node]);
 				});
 			});    
 		});
 	}
 
-	function dig(allNodes, mutated) {
+	function dig(allNodes) {
 
 		for(var i=0; i < allNodes.length; ++i) {
+
+			// Skip f not element node
+			if(allNodes[i].nodeType !== 1) continue;
+
+			// Found iframe
 			if(allNodes[i].nodeName === 'IFRAME') {
 				inject(allNodes[i]);
 			}
 
+			// Found shadowroot
 			if(allNodes[i].shadowRoot && allNodes[i].shadowRoot.mode === 'open') {
 				var shroot = allNodes[i].shadowRoot;
 
 				var observer = createObserver();
 				observer.observe(shroot, observeConf);
 
-				// Also dig into child elements
-				for(var ch=0; ch < shroot.children.length; ++ch) {
-					dig([shroot.children[ch]], 1);
-				}
+				// Find all nodes inside root, dig through
+				// Cannot use getElementsByTagName here even though it's faster
+				dig(shroot.querySelectorAll('*'))
 			}
-
-			// If mutated, find iframes inside and dig
-			if(mutated && allNodes[i].nodeType !== 3) {
-				let fr = allNodes[i].querySelectorAll('iframe');
-				if(fr.length) dig(fr);
-			}
-
 		}
 	}
 
 	function inject(iframe, secondTry) {
+
+		if(iframe.contentWindow.terafmInjected) {console.log('abort!', iframe); return;}
+
+		// Try to inject immediately, but if 
+		iframe.addEventListener('load', function() {
+			inject(iframe);
+		});
+
+
 		var scriptFrame = window.top.document.createElement("script");
 		scriptFrame.type = "text/javascript";
 		scriptFrame.src = basepath + 'js/min/frame.min.js';
@@ -88,17 +97,17 @@
 			if(secondTry) {
 				console.log('success on second try!', iframe.contentWindow.document.body)
 			} else {
-				// console.log('Success on first try', );
+				// console.log('Success on first try', iframe.contentWindow.document.body);
 			}
 		} catch(e) {
-			if(!secondTry) {
-				console.log('inject fail, retrying in 1 sec');
-				setTimeout(function() {
-					inject(iframe, true)
-				}, 1000);
-			} else {
-				console.log('ïnject failed second time');
-			}
+			// if(!secondTry) {
+			// 	console.log('inject fail, retrying in 1 sec');
+			// 	setTimeout(function() {
+			// 		inject(iframe, true)
+			// 	}, 1000);
+			// } else {
+			// 	console.log('ïnject failed second time');
+			// }
 		}
 	}
 
