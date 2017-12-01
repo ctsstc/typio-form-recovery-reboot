@@ -5,6 +5,20 @@ terafm.editableManager = terafm.editableManager || {};
 	'use strict';
 
 
+	function isElement(elem) {
+		// Check if element has parent document and window
+		if(elem.ownerDocument && elem.ownerDocument.defaultView) {
+
+			// Check if it's of type HTMLElement from parent window
+			if(elem instanceof elem.ownerDocument.defaultView.HTMLElement) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
 	// Takes editablePath or editable dom node
 	editableManager.generateEditableId = function(editable) {
 		let edPath = editable.tagName ? editableManager.genPath(editable) : editable;
@@ -101,7 +115,7 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.isEditable = function(elem) {
 
 		// Elem must be a valid html element
-		if(!elem || !(elem instanceof elem.ownerDocument.defaultView.HTMLElement)) return false;
+		if(!isElement(elem)) return false;
 
 		// Check if input with valid type
 		if(elem.nodeName == 'INPUT' && terafm.options.get('editableTypes').includes(elem.type)) {
@@ -130,7 +144,7 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	editableManager.isEditableText = function(elem) {
-		if(!elem || !(elem instanceof elem.ownerDocument.defaultView.HTMLElement)) return false;
+		if(!isElement(elem)) return false;
 
 		if( options.get('textEditableTypes').includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
 			return true;
@@ -140,7 +154,7 @@ terafm.editableManager = terafm.editableManager || {};
 	
 	// Check if element is editable OR is within a contenteditable parent
 	editableManager.getEditable = function(elem) {
-		if(!elem || !(elem instanceof elem.ownerDocument.defaultView.HTMLElement)) return false;
+		if(!isElement(elem)) return false;
 
 		if(editableManager.isEditable(elem)) return elem;
 
