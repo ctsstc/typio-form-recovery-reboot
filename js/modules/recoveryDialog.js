@@ -41,7 +41,9 @@ terafm.recoveryDialog = {};
 			}, function(retnode) {
 				dialogNode = retnode;
 				dialogNode.querySelector('#hideSmallEntries').checked = options.get('hideSmallEntries');
-				requestAnimationFrame(() => callback(retnode));
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => callback(retnode));
+				});
 			});
 		} else {
 			callback(dialogNode);
