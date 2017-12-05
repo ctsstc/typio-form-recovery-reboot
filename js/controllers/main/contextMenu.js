@@ -125,19 +125,7 @@
 		contextMenuNode.addEventListener('mouseover', e => contextmenuEventHandler(e, e.type));
 		contextMenuNode.addEventListener('mouseout', contextmenuMouseleaveHandler);
 	}
-
-	window.top.addEventListener('message', function(msg) {
-		if(msg.data.action && msg.data.action === 'terafmSetContextTarget') {
-			var path = msg.data.data.path,
-				target = editableManager.resolvePath(path);
-
-			if(!target) {
-				alert('SHIT!'); // Todo: Remove
-			}
-			contextTarget = target;
-			contextPos = msg.data.data.pos;
-		}
-	});
+	
 
 	function contextmenuClickHandler(e) {
 		var target = e.target;
