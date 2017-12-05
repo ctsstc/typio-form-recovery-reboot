@@ -147,7 +147,7 @@ terafm.db = terafm.db || {};
 			}
 		}
 
-		return help.cloneObject(revisions || {});
+		return revisions;
 	}
 
 	// Deletes everythinng except for current session
