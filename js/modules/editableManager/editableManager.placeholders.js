@@ -89,11 +89,10 @@ terafm.editableManager = terafm.editableManager || {};
 	function setPlaceholderStyle(editable) {
 
 		// If not already set
-		if(editable.dataset.terafmOrgStyle === undefined) {
-			var attr = editable.getAttribute('style');
-			if(attr) {
-				editable.dataset.terafmOrgStyle = attr;
-			}
+		if(editable.terafmOrgStyle === undefined) {
+			var attr = editable.getAttribute('style') || '';
+			editable.terafmOrgStyle = attr;
+			
 			editable.style.background = 'rgb(255, 251, 153)';
 			editable.style.color = '#222';
 		}
@@ -101,13 +100,9 @@ terafm.editableManager = terafm.editableManager || {};
 	function removePlaceholderStyle(editable) {
 
 		// If previous value is exists, restore it
-		if(editable.dataset.terafmOrgStyle !== undefined) {
-			editable.setAttribute('style', editable.dataset.terafmOrgStyle);
-			delete editable.dataset.terafmOrgStyle;
-
-		// Otherwise just clear the style
-		} else {
-			editable.removeAttribute('style');
+		if(editable.terafmOrgStyle !== undefined) {
+			editable.setAttribute('style', editable.terafmOrgStyle);
+			delete editable.terafmOrgStyle;
 		}
 	}
 
