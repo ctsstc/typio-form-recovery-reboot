@@ -1,10 +1,15 @@
 window.terafm = window.terafm || {};
 terafm.keyboardShortcuts = {};
 
-(function(db, editableManager, recoveryDialog, recoveryDialogController, initHandler) {
+(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, initHandler) {
 	'use strict';
 
 	initHandler.onInit(function() {
+
+		Mousetrap.bindGlobal('esc', function(e) {
+			recoveryDialog.hide();
+			contextMenu.hide();
+		});
 
 		Mousetrap.bindGlobal('ctrl+del', function(e) {
 
@@ -42,4 +47,4 @@ terafm.keyboardShortcuts = {};
 		});
 	})
 
-})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.initHandler);
+})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.initHandler);
