@@ -29,7 +29,8 @@ terafm.help = (function() {
 	}
 
 	exp.cloneObject = function(orgObj) {
-		return JSON.parse(JSON.stringify(orgObj));
+		// return JSON.parse(JSON.stringify(orgObj));
+		return Object.assign({}, orgObj);
 	}
 
 	exp.prettyDateFromTimestamp = function(timestamp) {
