@@ -18,7 +18,6 @@ terafm.contextMenu = {};
 		var html = '';
 
 		if(!data.empty) {
-
 			Object.keys(data.match).reverse().map(sid => {
 				html += generateListItemHtml(sid, data.match[sid], false);
 			})

@@ -93,8 +93,10 @@
 		// If less than 10 entries in field, get other recent entries to fill gap up to 10
 		if(itemsLeft > 0) {
 			let extraEntries = db.getRecentRevisions( editableId, itemsLeft );
-			data.other = extraEntries;
-			data.empty = false;
+			if(Object.keys(extraEntries).length) {
+				data.other = extraEntries;
+				data.empty = false;
+			}
 		}
 
 		return data;
