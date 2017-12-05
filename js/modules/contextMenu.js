@@ -73,7 +73,7 @@ terafm.contextMenu = {};
 
 		html = `
 		<li data-session="`+ sessionId +`" data-editable="`+ editableId +`" ` + (isOther ? 'data-rec-other' : '') + `>
-			`+ (!isOther ? `match:<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover just this input"></span>` : '') + `
+			`+ (!isOther ? `<span data-set-single-entry class="tera-icon-right tera-icon-single" title="Recover just this input"></span>` : '') + `
 			`+ safeString +`
 		</li>
 		`;
