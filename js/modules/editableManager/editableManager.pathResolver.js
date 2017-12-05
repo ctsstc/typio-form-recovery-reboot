@@ -17,7 +17,6 @@ terafm.editableManager = terafm.editableManager || {};
 
 			// If node was not found, abort
 			if(!currNode) {
-				console.warn('Typio could not resolve xpath for input target.', currNode, currSel);
 				return false;
 			} else {
 				// console.log('success:', currNode, currSel);
@@ -26,11 +25,13 @@ terafm.editableManager = terafm.editableManager || {};
 
 			if(pathData.instructions[pathIndex] === 'iframe') {
 				currNode = currNode.contentDocument;
+				if(!currNode) return false;
 			}
 
 			// If node is shadow host, go inside
 			else if(pathData.instructions[pathIndex] === 'shadow') {
 				currNode = currNode.shadowRoot;
+				if(!currNode) return false;
 			}
 		}
 
