@@ -108,14 +108,16 @@ terafm.editableManager = terafm.editableManager || {};
 				// If el has ID
 				if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
 
+					var idCount = el.ownerDocument.querySelectorAll('#' + el.id);
+
 					// If not encapsulated, add to stack and stop
-					if(!isEncapsulated) {
+					if(!isEncapsulated && idCount.length === 1) {
 						stack.unshift('#' + el.id);
 						break;
 					}
 
 					// If encapsulated, add to stack and break out
-					else {
+					else if(idCount.length === 1) {
 						var nodeName = '#' + el.id;
 						if(isShadow) {
 							nodeName += '::shadow';
