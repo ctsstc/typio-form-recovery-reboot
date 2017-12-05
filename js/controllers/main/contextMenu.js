@@ -122,7 +122,7 @@
 		
 		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
 		contextMenuNode.addEventListener('click', contextmenuClickHandler);
-		contextMenuNode.addEventListener('mouseover', contextmenuMouseoverHandler);
+		contextMenuNode.addEventListener('mouseover', e => contextmenuEventHandler(e, e.type));
 		contextMenuNode.addEventListener('mouseout', contextmenuMouseleaveHandler);
 	}
 
@@ -143,15 +143,14 @@
 		var target = e.target;
 
 		if(target.dataset.session !== undefined) {
-			editableManager.resetPlaceholders(true);
+			contextmenuEventHandler(e, e.type);
 			contextMenu.hide();
 			
 		} else if(target.dataset.setSingleEntry !== undefined) {
-			editableManager.resetPlaceholders(true);
+			contextmenuEventHandler(e, e.type);
 			contextMenu.hide();
 			
 		} else if(target.dataset.browseAll !== undefined) {
-			console.log(terafm, recoveryDialogController);
 			recoveryDialogController.open();
 			contextMenu.hide();
 		}
@@ -161,7 +160,6 @@
 
 	// I think this works because it's encapsulated within a shadowdom
 	// and html is not accessible as an ancestor. Maybe.
-	//(e) => e.relatedTarget && e.relatedTarget.closest('html') && terafm.editableManager.resetPlaceholders();
 	function contextmenuMouseleaveHandler(e) {
 
 		var target = e.relatedTarget;
@@ -171,41 +169,67 @@
 		}
 	}
 
-	function contextmenuMouseoverHandler(e) {
+	function contextmenuEventHandler(e, action) {
 		let target = e.target,
 			sid = target.dataset.session,
-			isRecOther = target.dataset.recOther !== undefined ? true : false;
+			eid = target.dataset.editable,
+			belongsToTarget = target.dataset.recOther !== undefined ? false : true,
+			isFinal = action === 'click' ? true : false;
 
-		terafm.editableManager.resetPlaceholders();
+		editableManager.resetPlaceholders();
 
 		// Entry belongs to editable
-		if(sid !== undefined && isRecOther == false) {
-			var session = terafm.db.getRevisionsBySession(sid);
-			for(var entry in session) {
-				var input = terafm.editableManager.resolvePath(session[entry].path);
+		if(sid && belongsToTarget) {
+			setPlaceholdersBy(isFinal, sid);
 
-				if(input) {
-					editableManager.setPlaceholderValue(input, session[entry].value, true);
-				}
-			}
 
-		// Is "other" entry (does not belong to editable)
-		} else if(sid !== undefined && isRecOther == true) {
-
-			var rev = terafm.db.getSingleRevisionByEditableAndSession(target.dataset.editable, target.dataset.session);
-			editableManager.setPlaceholderValue(contextTarget, rev.value, true);
-
-		// Set single entry
+		// Entry belongs to editable AND set single entry was clicked
 		} else if(target.dataset.setSingleEntry !== undefined) {
+			
 			var listItem = target.closest('[data-session]');
 
 			if(listItem) {
 				sid = listItem.dataset.session;
-				var editableId = listItem.dataset.editable,
-					revision = terafm.db.getSingleRevisionByEditableAndSession(editableId, sid);
+				eid = listItem.dataset.editable;
 
-				editableManager.setPlaceholderValue(contextTarget, revision.value, true);
+				setPlaceholdersBy(isFinal, sid, eid, contextTarget);
 			}
+
+
+		// Entry is from "recents" (does not belong to editable)
+		} else if(sid && eid && !belongsToTarget) {
+			setPlaceholdersBy(isFinal, sid, eid, contextTarget);
+		}
+
+	}
+
+	function setPlaceholdersBy(isFinal, sessionId, editableId, target) {
+
+		// By session only
+		if(sessionId && !editableId) {
+
+			let session = db.getRevisionsBySession(sessionId);
+
+			for(editableId in session) {
+				let input = editableManager.resolvePath(session[editableId].path);
+
+				if(input) {
+					editableManager.setPlaceholderValue(input, session[editableId], !isFinal);
+				}
+			}
+
+
+		// By session and editableId (single)
+		} else if(sessionId && editableId) {
+
+			// Target is only neccesary if entry is from recents list (does not belong)
+			if(!target) {
+				target = contextTarget;
+			}
+
+			let rev = db.getSingleRevisionByEditableAndSession(editableId, sessionId);
+
+			editableManager.setPlaceholderValue(target, rev, !isFinal);
 		}
 	}
 

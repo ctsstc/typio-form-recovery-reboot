@@ -8,9 +8,8 @@ terafm.editableManager = terafm.editableManager || {};
 	let currentPlaceholderEditables = [];
 
 
-	// Todo: Fix! Has duplicates; one private and one public
-	// Should called setEditablePlaceholder
-	editableManager.setPlaceholderValue = function(editable, value, isPlaceholder) {
+	// Todo: Do i need isPlaceholder param?
+	editableManager.setPlaceholderValue = function(editable, entry, isPlaceholder) {
 		if(isPlaceholder) {
 			setPlaceholderStyle(editable);
 			saveOriginalValue(editable);
@@ -19,8 +18,30 @@ terafm.editableManager = terafm.editableManager || {};
 			removePlaceholderStyle(editable);
 		}
 
+		let value = isPlaceholder ? truncateValue(editable, entry) : entry.value;
+
 		editableManager.setEditableValue(editable, value);
 	}
+
+
+	function truncateValue(editable, entry) {
+
+		// If small value, don't truncate
+		if((""+entry.value).length < 500) {
+			return entry.value;
+		}
+
+		// HTML into contentEditable field
+		else if(editableManager.isContentEditable(editable) && entry.type === 'contenteditable') {
+			return entry.value;
+
+		// Anything into anywhere
+		} else {
+			return ("" + entry.value).trim().substring(0, 500) + '... (truncated)';
+		}
+	}
+
+
 
 	editableManager.resetPlaceholders = function(keepvalues) {
 		return resetPlaceholders(keepvalues);

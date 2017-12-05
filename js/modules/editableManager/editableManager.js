@@ -48,7 +48,7 @@ terafm.editableManager = terafm.editableManager || {};
 		// Is input(various text types) or textarea or contenteditable
 		if(editableManager.isEditableText(editable)) {
 			return {
-				type: editable.type ? editable.type : 'text'
+				type: editable.type ? editable.type : 'contenteditable'
 			};
 
 		// Checkbox or radio
@@ -150,6 +150,10 @@ terafm.editableManager = terafm.editableManager || {};
 			return true;
 		}
 		return false;
+	}
+
+	editableManager.isContentEditable = function(elem) {
+		return elem.contentEditable === 'true';
 	}
 	
 	// Check if element is editable OR is within a contenteditable parent
