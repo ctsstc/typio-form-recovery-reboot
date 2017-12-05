@@ -17,9 +17,9 @@ window.terafm = window.terafm || {};
 		DOMEvents.registerHandler('focus', function(e) {
 			saveIndicator.build(function() {
 
-				let editable = editableManager.getEditable(e.path[0]);
+				let isEditable = editableManager.isEditableText(e.path[0]);
 
-				if(!editable) return true;
+				if(!isEditable) return true;
 
 				// console.log('focus: show indicator')
 				saveIndicator.show()
@@ -36,24 +36,12 @@ window.terafm = window.terafm || {};
 
 
 		DOMEvents.registerHandler('input', function(e) {
-			let editable = editableManager.getEditable(e.path[0]);
+			let isEditable = editableManager.isEditableText(e.path[0]);
 
-			if(!editable) return true;
+			if(!isEditable) return true;
 
 			saveIndicator.build(function() {
 				// console.log('input: show pulse')
-				saveIndicator.show();
-				saveIndicator.pulse();
-			});
-		});
-
-		DOMEvents.registerHandler('change', function(e) {
-			let editable = editableManager.getEditable(e.path[0]);
-
-			if(!editable) return true;
-
-			saveIndicator.build(function() {
-				// console.log('change: show pulse')
 				saveIndicator.show();
 				saveIndicator.pulse();
 			});
