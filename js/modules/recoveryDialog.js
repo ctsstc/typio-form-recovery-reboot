@@ -11,6 +11,10 @@ terafm.recoveryDialog = {};
 		dialogNode.classList.add('open');
 	}
 
+	recoveryDialog.isShowing = function() {
+		return dialogNode && dialogNode.classList.contains('open');
+	}
+
 	recoveryDialog.setPage = function(pageId) {
 		var currHeader = dialogNode.querySelector('.header .header-partial.partial-current'),
 			newHeader = dialogNode.querySelector('.header .header-partial.partial-' + pageId),

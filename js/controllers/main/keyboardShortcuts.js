@@ -1,42 +1,45 @@
 window.terafm = window.terafm || {};
 terafm.keyboardShortcuts = {};
 
-(function(keyboardShortcuts, db, editableManager, initHandler) {
+(function(db, editableManager, recoveryDialog, recoveryDialogController, initHandler) {
 	'use strict';
 
 	initHandler.onInit(function() {
 
 		Mousetrap.bindGlobal('ctrl+del', function(e) {
-			console.log('restoring');
 
-			var fields = db.getLatestSession(),
-				totalCount = Object.keys(fields).length,
-				fails = 0;
+			// Open dialog
+			if(!recoveryDialog.isShowing()) {
+				recoveryDialogController.open();
+				
 
-			if(totalCount < 1) {
-				//terafm.toast.create('Nothing to restore.')
-				return false;
-			}
-
-			for(var fieldId in fields) {
-				var editable = fields[fieldId];
-				var target = editableManager.resolvePath(editable.path);
-
-				if(target) {
-					editableManager.setEditableValue(target, editable.value);
-					editableManager.flashEditable(target);
-				} else {
-					fails++;
-				}
-			}
-
-			if(fails === 0) {
-				//terafm.toast.create('Recovered previous session.');
+			// Restore latest sess
 			} else {
-				//terafm.toast.create(fails + ' previous entries could not be restored automatically. Open form recovery to restore fields manually.', 10*1000);
+
+				var fields = db.getLatestSession(),
+					totalCount = Object.keys(fields).length,
+					fails = 0;
+
+				if(totalCount < 1) {
+					return false;
+				}
+
+				for(var fieldId in fields) {
+					var editable = fields[fieldId];
+					var target = editableManager.resolvePath(editable.path);
+
+					if(target) {
+						editableManager.setEditableValue(target, editable.value);
+						editableManager.flashEditable(target);
+					} else {
+						fails++;
+					}
+				}
+
+				recoveryDialog.hide();
 			}
 
 		});
 	})
 
-})(terafm.keyboardShortcuts, terafm.db, terafm.editableManager, terafm.initHandler);
+})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.initHandler);
