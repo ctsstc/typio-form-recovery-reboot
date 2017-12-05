@@ -7,20 +7,24 @@ window.terafmInjected = true;
 
 	let basepath;
 
-	if(window !== window.top) {
-		window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
-	} else {
-		basepath = chrome.extension.getURL('');
-		init();
-	}
-
-	window.top.addEventListener('message', function(msg) {
-
-		if(!basepath && msg.data.action && msg.data.action === 'terafmReturnBasepath') {
-			basepath = msg.data.path;
+	try {
+		
+		if(window !== window.top) {
+				window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
+		} else {
+			basepath = chrome.extension.getURL('');
 			init();
 		}
-	});
+
+		window.top.addEventListener('message', function(msg) {
+
+			if(!basepath && msg.data.action && msg.data.action === 'terafmReturnBasepath') {
+				basepath = msg.data.path;
+				init();
+			}
+		});
+
+	} catch(e) {}
 
 
 
