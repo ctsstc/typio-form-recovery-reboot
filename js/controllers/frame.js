@@ -24,20 +24,22 @@ window.terafmInjected = true;
 			}
 		});
 
-	} catch(e) {}
+	} catch(e) {
+		console.log('fail', e);
+		return;
+	}
 
 
 
-	var observeConf = { childList: true, subtree: true, characterData: false, attributes: false };
 	function init() {
-		setTimeout(function() {
-			var allNodes = document.getElementsByTagName('*');
+		// setTimeout(function() {
+			let allNodes = document.getElementsByTagName('*');
 			dig(allNodes);
 
-			var observer = createObserver();
-			observer.observe(document.body, observeConf);
+			let observer = createObserver();
+			observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
 
-		}, 10);
+		// }, 10);
 	}
 
 
@@ -72,7 +74,7 @@ window.terafmInjected = true;
 				var shroot = allNodes[i].shadowRoot;
 
 				var observer = createObserver();
-				observer.observe(shroot, observeConf);
+				observer.observe(shroot, { childList: true, subtree: true, characterData: false, attributes: false });
 
 				// Find all nodes inside root, dig through
 				// Cannot use getElementsByTagName here even though it's faster
