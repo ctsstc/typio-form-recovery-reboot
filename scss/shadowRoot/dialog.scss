@@ -326,6 +326,8 @@ $right-pane-width: 500px;
 
 			.content-partial {
 				display: none;
+				flex: auto;
+				overflow: hidden;
 
 				&.partial-current {
 					display: flex; // Or block, whatev
@@ -445,11 +447,11 @@ $right-pane-width: 500px;
 		}
 
 		.partial-default {
+			align-items: center;
+			justify-content: center;
+
 			.centered {
-				width: 250px;
-				margin-left: 50%;
-				transform: translateX(-50%);
-				margin-top: 100px;
+				width: 300px;
 				text-align: center;
 				color: #666;
 
@@ -459,8 +461,20 @@ $right-pane-width: 500px;
 					margin-bottom: 20px;
 				}
 
+				.hint {
+
+				}
+
+				.key {
+					border: 1px solid #888;
+					padding: 3px;
+					font-size: 13px;
+					line-height: 15px;
+					display: inline-block;
+					border-radius: 4px;
+				}
+
 				p {
-					margin: 0;
 					line-height: 30px;
 					font-size: 16px;
 				}
