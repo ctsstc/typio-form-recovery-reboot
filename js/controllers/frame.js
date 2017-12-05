@@ -79,7 +79,17 @@ window.terafmInjected = true;
 
 	function inject(iframe, secondTry) {
 
-		if(iframe.contentWindow.terafmInjected) {console.log('abort!', iframe); return;}
+		try {
+			// Already injected into this frame, bail
+			if(iframe.contentWindow.terafmInjected) {
+				return;
+			}
+
+		} catch(e) {
+			// No access, bail
+			return;
+		}
+
 
 		// Try to inject immediately, but if 
 		iframe.addEventListener('load', function() {
