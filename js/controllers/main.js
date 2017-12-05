@@ -1,6 +1,6 @@
 var terafm = window.terafm;
 
-(function(db, options, dialog, initHandler) {
+(function(db, options, recoveryDialog, initHandler) {
 	'use strict';
 
 
@@ -26,9 +26,9 @@ var terafm = window.terafm;
 		
 		} else if(request.action === 'clearData') {
 			db.deleteAllSessions();
-			dialog.close();
+			recoveryDialog.hide();
 		}
 	});
 	
 
-})(terafm.db, terafm.options, terafm.dialog, terafm.initHandler);
+})(terafm.db, terafm.options, terafm.recoveryDialog, terafm.initHandler);
