@@ -8,7 +8,6 @@ terafm.editableManager = terafm.editableManager || {};
 	// https://stackoverflow.com/questions/5728558/get-the-dom-path-of-the-clicked-a
 	// Careful cause changing this will result in editableID's changing
 	// which results in entries not being shown in context menu
-	// Todo: Break through iframes
 	//function GET_PATH_BACKUP(el) {
 	editableManager.genPathOLD = function(el) {
 
@@ -181,25 +180,6 @@ terafm.editableManager = terafm.editableManager || {};
 		}
 
 		return sibCount > 1 ? sibIndex+1 : false;
-
-		// Todo: ...
-		// if(el.parentNode && el.parentNode.childNodes.length > 0) {
-		// 	var sibCount = 0;
-		// 	var sibIndex = 0;
-		// 	for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
-		// 		var sib = el.parentNode.childNodes[i];
-		// 		if ( sib.nodeName == el.nodeName ) {
-		// 			if ( sib === el ) {
-		// 				sibIndex = sibCount;
-		// 			}
-		// 			sibCount++;
-		// 		}
-		// 	}
-		// }
-
-		// if(sibIndex) {
-		// 	return sibCount;
-		// }
 	}
 
 	function getParentCapsule(node) {

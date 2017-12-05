@@ -91,7 +91,6 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 	
 	// Radios require special attention, this is ugly but it'll do for now
-	// Todo: Fix
 	editableManager.deleteRadioSiblingsFromStorage = function(input) {
 		if(input.type == 'radio' && input.name) {
 			

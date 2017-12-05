@@ -47,15 +47,13 @@ window.terafm.options = {};
 		globalOptions[opt] = val;
 	}
 
-	// Todo: Fix error thingy
 	options.get = function(opt) {
-		if(!hasLoadedFromStorage) throw Error('Cannot return option before loading from storage')
-		// console.log('getting', opt, globalOptions[opt])
+		if(!hasLoadedFromStorage) throw Error('Cannot return option before loading from storage');
 		return globalOptions[opt];
 	}
 
 	options.getAll = function() {
-		if(!hasLoadedFromStorage) throw Error('Cannot return option before loading from storage')
+		if(!hasLoadedFromStorage) throw Error('Cannot return option before loading from storage');
 		return globalOptions;
 	}
 

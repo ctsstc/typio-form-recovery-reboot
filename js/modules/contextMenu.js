@@ -19,8 +19,6 @@ terafm.contextMenu = {};
 
 		if(!data.empty) {
 
-			// Future todo: reverse() is a hack to display in correct order, figure out a better way
-
 			Object.keys(data.match).reverse().map(sid => {
 				html += generateListItemHtml(sid, data.match[sid], false);
 			})

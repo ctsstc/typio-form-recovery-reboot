@@ -7,8 +7,6 @@ terafm.editableManager = terafm.editableManager || {};
 
 	let currentPlaceholderEditables = [];
 
-
-	// Todo: Do i need isPlaceholder param?
 	editableManager.setPlaceholderValue = function(editable, entry, isPlaceholder) {
 		if(isPlaceholder) {
 			setPlaceholderStyle(editable);
