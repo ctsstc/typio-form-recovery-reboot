@@ -17,17 +17,26 @@ terafm.contextMenu = {};
 	contextMenu.populate = function(data) {
 		var html = '';
 
-		Object.keys(data.match).map(sid => {
-			html += generateListItemHtml(sid, data.match[sid], false);
-		})
+		if(!data.empty) {
 
-		Object.keys(data.other).map(sid => {
-			html += generateListItemHtml(sid, data.other[sid], true);
-		})
+			// Future todo: reverse() is a hack to display in correct order, figure out a better way
 
-		if(data.length === 0) {
+			Object.keys(data.match).reverse().map(sid => {
+				html += generateListItemHtml(sid, data.match[sid], false);
+			})
+
+			Object.keys(data.other).reverse().map(sid => {
+				Object.keys(data.other[sid]).map(eid => {
+					html += generateListItemHtml(sid, data.other[sid][eid], true);
+				})
+
+			})
+
+		} else {
 			html += '<li>No entries found for this input field</li>'
 		}
+
+
 		html += '<li class="link" data-browse-all>Browse all saved data</li>';
 
 		menuNode.querySelector('ul').innerHTML = html;

@@ -75,7 +75,7 @@
 
 		let itemsLeft = 10;
 
-		let data = {match:[], other: []};
+		let data = {match:{}, other: {}, empty: true};
 
 		for(let revKey in revKeys) {
 
@@ -83,20 +83,19 @@
 			if(revKeys[revKey] == (currSessionId+"")) continue;
 			if(itemsLeft < 1) break; itemsLeft--;
 
-			data.match[revKeys[revKey]] = revs[revKeys[revKey]];
+			let sessId = revKeys[revKey],
+				entry = revs[sessId];
+
+			data.match[sessId] = entry;
+			data.empty = false;
 		}
 
 		// If less than 10 entries in field, get other recent entries to fill gap up to 10
 		if(itemsLeft > 0) {
 			let extraEntries = db.getRecentRevisions( editableId, itemsLeft );
-
-			for(let sessionId in extraEntries) {
-				data.other[sessionId] = extraEntries[sessionId];
-				itemsLeft--;
-			}
+			data.other = extraEntries;
+			data.empty = false;
 		}
-
-		data.length = 10 - itemsLeft;
 
 		return data;
 	}
@@ -115,7 +114,6 @@
 	function setupDeepEventHandlers() {
 		DOMEvents.registerHandler('mousedown', function() {
 			contextMenu.hide();
-			console.log('mousedown from contextmenu')
 		});
 		
 		DOMEvents.registerHandler('focus', function() {

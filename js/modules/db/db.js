@@ -187,16 +187,25 @@ terafm.db = terafm.db || {};
 
 		var revKeys = Object.keys(revisions).reverse();
 
-
+		// Loop through sessions
 		for(var revKey in revKeys) {
+
+			// Loop through entries
 			for(var entryId in revisions[revKeys[revKey]]) {
 				if(max < 1) break;
 				if(entryId === excludeId) continue;
 
-				var entry = revisions[revKeys[revKey]][entryId];
+				var entry = revisions[revKeys[revKey]][entryId],
+					sessId = revKeys[revKey];
 
 				if(entry.value.length > 4) {
-					matches[ revKeys[revKey] ] = entry;
+					// matches[entryId] = matches[entryId] || {};
+					// matches[entryId][revKeys[revKey]] = entry;
+
+					if(!matches[sessId]) matches[sessId] = {};
+					matches[sessId][entryId] = entry;
+
+
 					max--;
 				}
 			}
