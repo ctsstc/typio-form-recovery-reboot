@@ -10,12 +10,6 @@ terafm.DOMEvents = {};
 
 	DOMEvents.trigger = function(type, event) {
 
-		// If event is from within extension shadowroot, do not trigger handlers
-		shadowRootNode = ui.getShadowRootNode();
-		if(shadowRootNode && shadowRootNode.contains(event.path[0])) {
-			return;
-		}
-
 		// Loop through handlers and call
 		// let c = 0;
 		if(type in handlers) {
