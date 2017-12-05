@@ -19,7 +19,7 @@ $right-pane-width: 500px;
 	position: relative;
 	visibility: hidden;
 	overflow: auto;
-	z-index: 99999;
+	z-index: 99999999;
 
 	&.open {
 		visibility: visible;
@@ -51,7 +51,7 @@ $right-pane-width: 500px;
 	line-height: 20px;
 	transform: scale(.95);
 	transition-duration: .3s;
-	transition-property: transform opacity;
+	transition-property: transform, opacity;
 	opacity: 0;
 	display: flex;
 	flex-flow: row;
