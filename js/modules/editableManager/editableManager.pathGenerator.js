@@ -161,7 +161,6 @@ terafm.editableManager = terafm.editableManager || {};
 
 
 			stack = stack.join(' > ');
-			// console.log('finished', stack);
 
 			return stack;
 		});
@@ -203,7 +202,8 @@ terafm.editableManager = terafm.editableManager || {};
 	function getParentIframe(node) {
 
 		// Is in iframe?
-		if(node.ownerDocument.defaultView.frameElement) {
+		// console.dir(node);
+		if(node.ownerDocument && node.ownerDocument.defaultView.frameElement) {
 			return node.ownerDocument.documentElement;
 		}
 	}
