@@ -22,10 +22,6 @@ module.exports = function(grunt) {
                     // Runs isolated on every page (not in iframes)
                     '../js/min/content.min.js' : [
 
-                        // Libraries
-                        '../js/libs/mousetrap.min.js',
-                        '../js/libs/mousetrap-global-bind.min.js',
-
                         // Modules
                         '../js/modules/initHandler.js',
                         '../js/modules/helpers.js',

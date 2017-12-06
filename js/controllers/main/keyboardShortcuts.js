@@ -1,50 +1,53 @@
 window.terafm = window.terafm || {};
 terafm.keyboardShortcuts = {};
 
-(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, initHandler) {
+(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, initHandler, DOMEvents) {
 	'use strict';
 
 	initHandler.onInit(function() {
 
-		Mousetrap.bindGlobal('esc', function(e) {
-			recoveryDialog.hide();
-			contextMenu.hide();
-		});
+		DOMEvents.registerHandler('keydown', function(e) {
 
-		Mousetrap.bindGlobal('ctrl+del', function(e) {
 
-			// Open dialog
-			if(!recoveryDialog.isShowing()) {
-				recoveryDialogController.open();
-				
+			if(e.key === 'Delete' && e.ctrlKey === true) {
 
-			// Restore latest sess
-			} else {
+				// Open dialog
+				if(!recoveryDialog.isShowing()) {
+					recoveryDialogController.open();
+					
 
-				var fields = db.getLatestSession(),
-					totalCount = Object.keys(fields).length,
-					fails = 0;
+				// Restore latest sess
+				} else {
 
-				if(totalCount < 1) {
-					return false;
-				}
+					var fields = db.getLatestSession(),
+						totalCount = Object.keys(fields).length,
+						fails = 0;
 
-				for(var fieldId in fields) {
-					var editable = fields[fieldId];
-					var target = editableManager.resolvePath(editable.path);
-
-					if(target) {
-						editableManager.setEditableValue(target, editable.value);
-						editableManager.flashEditable(target);
-					} else {
-						fails++;
+					if(totalCount < 1) {
+						return false;
 					}
+
+					for(var fieldId in fields) {
+						var editable = fields[fieldId];
+						var target = editableManager.resolvePath(editable.path);
+
+						if(target) {
+							editableManager.setEditableValue(target, editable.value);
+							editableManager.flashEditable(target);
+						} else {
+							fails++;
+						}
+					}
+
+					recoveryDialog.hide();
 				}
 
-				recoveryDialog.hide();
-			}
 
-		});
+			} else if(e.key === 'Escape') {
+				recoveryDialog.hide();
+				contextMenu.hide();
+			}
+		})
 	})
 
-})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.initHandler);
+})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.initHandler, terafm.DOMEvents);

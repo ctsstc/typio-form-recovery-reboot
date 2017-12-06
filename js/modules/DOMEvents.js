@@ -37,5 +37,6 @@ terafm.DOMEvents = {};
 	document.addEventListener('focus', (e) =>		DOMEvents.trigger(e.type, e), true);
 	document.addEventListener('blur', (e) =>		DOMEvents.trigger(e.type, e), true);
 	document.addEventListener('change', (e) => 		DOMEvents.trigger(e.type, e), true);
+	document.addEventListener('keydown', (e) => 	DOMEvents.trigger(e.type, e), true);
 
 })(terafm.DOMEvents, terafm.ui);

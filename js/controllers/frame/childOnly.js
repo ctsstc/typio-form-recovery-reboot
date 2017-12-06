@@ -14,6 +14,9 @@
 		if(e.type === 'contextmenu') {
 			msg.event.pageX = e.pageX;
 			msg.event.pageY = e.pageY;
+		} else if(e.type === 'keydown') {
+			msg.event.key = e.key;
+			msg.event.ctrlKey = e.ctrlKey;
 		}
 
 		window.top.postMessage(msg, '*');
@@ -31,6 +34,7 @@
 		document.addEventListener('focus', eventHandler, true);
 		document.addEventListener('blur', eventHandler, true);
 		document.addEventListener('change', eventHandler, true);
+		document.addEventListener('keydown', eventHandler, true);
 
 	}
 
