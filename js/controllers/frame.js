@@ -3,32 +3,32 @@ window.terafmInjected = true;
 (function() {
 	'use strict';
 
+	try {
+		window.top.document;
+	} catch(e) {return;}
+
+
+
+
 	// Run everywhere (top window and child iframe injections)
 
 	let basepath;
 
-	try {
-		
-		if(window !== window.top) {
-				window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
-		} else {
-			basepath = chrome.extension.getURL('');
-			init();
-		}
-
-		window.top.addEventListener('message', function(msg) {
-
-			if(!basepath && msg.data.action && msg.data.action === 'terafmReturnBasepath') {
-				basepath = msg.data.path;
-				init();
-			}
-		});
-
-	} catch(e) {
-		console.log('fail', e);
-		return;
+	
+	if(window !== window.top) {
+			window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
+	} else {
+		basepath = chrome.extension.getURL('');
+		init();
 	}
 
+	window.top.addEventListener('message', function(msg) {
+
+		if(!basepath && msg.data.action && msg.data.action === 'terafmReturnBasepath') {
+			basepath = msg.data.path;
+			init();
+		}
+	});
 
 
 	function init() {
@@ -36,13 +36,15 @@ window.terafmInjected = true;
 		dig(allNodes);
 
 		let observer = createObserver();
-		observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
+		if(observer) {
+			observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
+		}
 	}
 
 
 
 	function createObserver() {
-		return new MutationObserver(function(mutations) {
+		let obsFunc = function(mutations) {
 			mutations.forEach(function(mutation) {
 				mutation.addedNodes.forEach(function(node) {
 
@@ -50,8 +52,14 @@ window.terafmInjected = true;
 					// Do a querySelectorAll('*') on this instead
 					dig([node]);
 				});
-			});    
-		});
+			});
+		}
+
+		try {
+			return new MutationObserver(obsFunc);
+		} catch(e) {
+			console.error('error:', e);
+		}
 	}
 
 	function dig(allNodes) {

@@ -1,6 +1,11 @@
 (function() {
 	'use strict';
 
+	try {
+		window.top.document;
+	} catch(e) {return;}
+	
+
 	// Run once in top window
 	if(window === window.top) {
 

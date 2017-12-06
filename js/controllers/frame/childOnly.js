@@ -1,6 +1,10 @@
 (function() {
 	'use strict';
 
+	try {
+		window.top.document;
+	} catch(e) {return;}
+
 	function eventHandler(e) {
 		let msg = {
 			action: 'terafmEventCatcher',
