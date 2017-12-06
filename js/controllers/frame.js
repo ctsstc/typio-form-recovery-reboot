@@ -32,14 +32,11 @@ window.terafmInjected = true;
 
 
 	function init() {
-		// setTimeout(function() {
-			let allNodes = document.getElementsByTagName('*');
-			dig(allNodes);
+		let allNodes = document.getElementsByTagName('*');
+		dig(allNodes);
 
-			let observer = createObserver();
-			observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
-
-		// }, 10);
+		let observer = createObserver();
+		observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
 	}
 
 

@@ -48,12 +48,12 @@ window.terafm.options = {};
 	}
 
 	options.get = function(opt) {
-		if(!hasLoadedFromStorage) throw Error('Cannot return option before loading from storage');
+		if(!hasLoadedFromStorage) return false;
 		return globalOptions[opt];
 	}
 
 	options.getAll = function() {
-		if(!hasLoadedFromStorage) throw Error('Cannot return option before loading from storage');
+		if(!hasLoadedFromStorage) return false;
 		return globalOptions;
 	}
 

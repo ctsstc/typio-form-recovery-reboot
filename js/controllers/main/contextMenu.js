@@ -18,6 +18,8 @@
 	DOMEvents.registerHandler('contextmenu', function(e) {
 		contextTarget = editableManager.getEditable(e.path[0]);
 
+		console.log('setting contextTarget', contextTarget, e.path[0]);
+
 		if(contextTarget) {
 			contextPos.x = e.pageX, contextPos.y = e.pageY;
 			let el = e.path[0], pos;

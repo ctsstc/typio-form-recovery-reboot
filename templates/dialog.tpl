@@ -96,7 +96,7 @@
 						<p></p>
 
 						<br/><hr>
-						<p>Leave feedback or feature requests on our <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open">bitbucket page</a>. Are you a developer? Typio Form Recovery is open sourced, feel free to contribute!</p>
+						<p>Leave feedback or feature requests on our <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open">bitbucket page</a>. Are you a developer? Typio Form Recovery is open source, feel free to contribute!</p>
 					</div>
 				</div>
 				<div class="content-partial partial-default partial-current">
