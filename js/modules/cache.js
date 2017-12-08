@@ -13,7 +13,7 @@ window.terafm = window.terafm || {};
 		// If key exists, return cached value
 		// If not cached, run cacheFunction and cache return value
 
-		return cacheFunction(); // Disable caching
+		// return cacheFunction(); // Disable caching
 
 		let keyId = storageKeys.indexOf(key);
 		if(keyId !== -1) {
