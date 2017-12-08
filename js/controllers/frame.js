@@ -3,27 +3,25 @@ window.terafmInjected = true;
 (function() {
 	'use strict';
 
+	// No support for cross domain frames
 	try {
 		window.top.document;
 	} catch(e) {return;}
 
 
-
-
-	// Run everywhere (top window and child iframe injections)
-
 	let basepath;
 
-	
-	if(window !== window.top) {
-			window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
-	} else {
+	// If top frame
+	if(window === window.top) {
 		basepath = chrome.extension.getURL('');
 		init();
+
+	// Iframe
+	} else {
+		window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
 	}
 
 	window.top.addEventListener('message', function(msg) {
-
 		if(!basepath && msg.data.action && msg.data.action === 'terafmReturnBasepath') {
 			basepath = msg.data.path;
 			init();
@@ -88,18 +86,17 @@ window.terafmInjected = true;
 		}
 	}
 
-	function inject(iframe, secondTry) {
+	function inject(iframe) {
 
 		try {
+
 			// Already injected into this frame, bail
 			if(iframe.contentWindow.terafmInjected) {
 				return;
 			}
 
-		} catch(e) {
-			// No access, bail
-			return;
-		}
+		// No access
+		} catch(e) {return;}
 
 
 		// Try to inject immediately, but if 
@@ -112,24 +109,9 @@ window.terafmInjected = true;
 		scriptFrame.type = "text/javascript";
 		scriptFrame.src = basepath + 'js/min/frame.min.js';
 
-		try {
+		// try {
 			iframe.contentWindow.document.body.appendChild(scriptFrame);
-
-			if(secondTry) {
-				console.log('success on second try!', iframe.contentWindow.document.body)
-			} else {
-				// console.log('Success on first try', iframe.contentWindow.document.body);
-			}
-		} catch(e) {
-			// if(!secondTry) {
-			// 	console.log('inject fail, retrying in 1 sec');
-			// 	setTimeout(function() {
-			// 		inject(iframe, true)
-			// 	}, 1000);
-			// } else {
-			// 	console.log('ïnject failed second time');
-			// }
-		}
+		// } catch(e) {}
 	}
 
 
