@@ -9,6 +9,7 @@ terafm.editableManager = terafm.editableManager || {};
 	// Careful cause changing this will result in editableID's changing
 	// which results in entries not being shown in context menu
 	//function GET_PATH_BACKUP(el) {
+/*
 	editableManager.genPathOLD = function(el) {
 
 		// Check easy way first, does elem have a valid id?
@@ -58,10 +59,16 @@ terafm.editableManager = terafm.editableManager || {};
 
 		return stack;
 	}
+*/
 	editableManager.genPath = function(el) {
 
 		// Cache path as dom node
 		return terafm.cache(el, function() {
+
+			// Cannot break out of capsules, return fake path
+			try{window.top.document} catch(e) {
+				return generateFakePath();
+			}
 
 			var parentCapsule = getParentCapsule(el), // Will change as it breaks out
 				isEncapsulated = parentCapsule ? true : false,
@@ -164,6 +171,10 @@ terafm.editableManager = terafm.editableManager || {};
 
 			return stack;
 		});
+	}
+
+	function generateFakePath() {
+		return '#unidentified-' + Math.round(Math.random()*10000000);
 	}
 
 	function getSiblingIndex(el) {
