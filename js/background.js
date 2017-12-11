@@ -1,3 +1,8 @@
+
+
+let splashVersion = 2; // starts at 2
+
+
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 	// If not complete or invalid URL
@@ -60,8 +65,6 @@ chrome.contextMenus.onClicked.addListener(function(data) {
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
-	console.log(request);
-
 	if(request.action === 'blockDomain') {
 		chrome.storage.sync.get('domainBlacklist', function(blacklisted) {
 			var blacklisted = blacklisted.domainBlacklist;
@@ -80,6 +83,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	}
 
 });
+
+getOption('version', function(opt) {
+	if(opt !== splashVersion) {
+		let url = chrome.extension.getURL('html/splash.html');
+		chrome.tabs.create({
+			url: url
+		})
+	}
+
+})
 
 
 function getOption(option, callback) {
