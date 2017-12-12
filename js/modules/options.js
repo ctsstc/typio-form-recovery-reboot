@@ -8,7 +8,7 @@ window.terafm.options = {};
 	var globalOptions = {
 		savePasswords: false,
 		storageTimeDays: 7,
-		saveIndicator: 'cornertriag',
+		saveIndicator: 'topline',
 		hideSmallEntries: true
 	}
 
