@@ -2,6 +2,12 @@
 	'use strict';
 
 	DOMEvents.registerHandler('input', changeHandler);
+	DOMEvents.registerHandler('keyup', function(e) {
+		if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host) && (e.keyCode == 8 || e.keyCode == 46 || e.keyCode === 13) ) {
+			console.log('facebook shim keyCode:', e.keyCode);
+			changeHandler(e);
+		}
+	});
 	DOMEvents.registerHandler('change', changeHandler);
 	DOMEvents.registerHandler('click', function(e) {
 		if(!editableManager.isEditableText(e.path[0])) {

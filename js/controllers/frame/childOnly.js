@@ -30,6 +30,8 @@
 		} else if(e.type === 'keydown') {
 			msg.event.key = e.key;
 			msg.event.ctrlKey = e.ctrlKey;
+		} else if(e.type === 'keyup') {
+			msg.event.keyCode = e.keyCode;
 		}
 
 		// console.log(msg);
@@ -38,6 +40,7 @@
 
 
 	document.addEventListener('input', eventHandler);
+	document.addEventListener('keyup', eventHandler, true);
 	document.addEventListener('contextmenu', eventHandler);
 	document.addEventListener('mousedown', eventHandler);
 	document.addEventListener('click', eventHandler);

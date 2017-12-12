@@ -31,6 +31,7 @@ terafm.DOMEvents = {};
 	
 
 	document.addEventListener('input', (e) => 		DOMEvents.trigger(e.type, e) );
+	document.addEventListener('keyup', (e) => 		DOMEvents.trigger(e.type, e), true );
 	document.addEventListener('contextmenu', (e) => DOMEvents.trigger(e.type, e) );
 	document.addEventListener('mousedown', (e) => 	DOMEvents.trigger(e.type, e) );
 	document.addEventListener('click', (e) => 		DOMEvents.trigger(e.type, e) );
