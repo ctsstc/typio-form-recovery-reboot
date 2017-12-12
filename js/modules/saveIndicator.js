@@ -7,7 +7,6 @@ terafm.saveIndicator = {};
 		isVisible = false;
 
 	saveIndicator.pulse = debounce(function() {
-		console.log('debounced animate');
 		animate();
 	}, 800)
 
