@@ -121,7 +121,7 @@
 		
 		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
 		contextMenuNode.addEventListener('click', contextmenuClickHandler);
-		contextMenuNode.addEventListener('mouseover', e => contextmenuEventHandler(e, e.type));
+		contextMenuNode.addEventListener('mouseover', e => contextmenuEventHandler(e));
 		contextMenuNode.addEventListener('mouseout', contextmenuMouseleaveHandler);
 	}
 	
@@ -216,7 +216,10 @@
 
 			let rev = db.getSingleRevisionByEditableAndSession(editableId, sessionId);
 
-			editableManager.setPlaceholderValue(target, rev, !isFinal);
+			if(rev) {
+				editableManager.setPlaceholderValue(target, rev, !isFinal);
+			}
+
 		}
 	}
 
