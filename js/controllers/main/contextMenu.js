@@ -52,11 +52,6 @@
 			return false;
 		}
 
-		if(!terafm.db.initiated()) {
-			alert('Typio Form Recovery is having issues with the database.');
-			return false;
-		}
-
 		deepSetup(function() {
 			let data = getDataByEditable(contextTarget);
 
