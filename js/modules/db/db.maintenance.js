@@ -47,7 +47,7 @@ terafm.db.maintenance = {};
 				// Expired
 				if(sessionId < expirePoint) {
 					terafm.db.deleteSingleRevisionByEditable(editableId, sessionId);
-					// console.log(sessionId, ' < ', expirePoint, 'expired')
+					// console.log(sessionId, ' < ', expirePoint, 'expired and deleted')
 				} else {
 					// console.log(sessionId-expirePoint, 'seconds left')
 				}
