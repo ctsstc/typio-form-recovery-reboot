@@ -92,6 +92,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
 		})
 	}
 })
+chrome.storage.sync.set({version: 2}); // In case i need it for future stuff
 
 
 function getOption(option, callback) {
