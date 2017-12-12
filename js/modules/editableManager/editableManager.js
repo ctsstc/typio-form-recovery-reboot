@@ -147,9 +147,21 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.isEditableText = function(elem) {
 		if(!isElement(elem)) return false;
 
-		if(editableManager.textEditableTypes.includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
+		if(editableManager.textEditableTypes.includes(elem.type)) {
+
+			if(elem.type == 'password' && terafm.options.get('savePasswords') !== true) {
+				return false;
+			}
+			
+			return true;
+
+		} else if(elem.getAttribute('contenteditable') == 'true') {
+			return true;
+
+		} else if(elem.nodeName == 'TEXTAREA') {
 			return true;
 		}
+
 		return false;
 	}
 
