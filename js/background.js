@@ -18,7 +18,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 			// Page is blacklisted!
 			if(isBlacklisted) {
-				chrome.tabs.executeScript(tabId, {file: 'js/content.blacklisted.js', runAt: 'document_start', allFrames: true});
+				chrome.tabs.executeScript(tabId, {file: 'js/min/blacklisted.min.js', runAt: 'document_start', allFrames: true});
 				return false;
 			}
 			

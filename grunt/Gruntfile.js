@@ -59,6 +59,10 @@ module.exports = function(grunt) {
                         '../js/controllers/frame.js',
                             '../js/controllers/frame/topOnly.js',
                             '../js/controllers/frame/childOnly.js',
+                    ],
+
+                    '../js/min/blacklisted.min.js' : [
+                        '../js/controllers/blacklisted.js',
                     ]
                 }
             }

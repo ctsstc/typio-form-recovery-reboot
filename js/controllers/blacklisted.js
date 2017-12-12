@@ -18,6 +18,6 @@
 	});
 
 	function showError() {
-		alert('You have disabled Typio on this domain. Please open the settings and remove ' + window.location.hostname + ' from the blacklist.');
+		alert('You have disabled Typio on this website. Please open the settings and remove ' + window.location.hostname + ' from the blacklist.');
 	}
 })();
