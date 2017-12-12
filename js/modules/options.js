@@ -4,12 +4,8 @@ window.terafm.options = {};
 (function(options) {
 	'use strict';
 
+	// Default values, can be overwritten and saved in chrome
 	var globalOptions = {
-		// Not saved in chrome
-		editableTypes: ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'],
-		textEditableTypes: ['text', 'email', 'search', 'password', 'url', 'tel'],
-
-		// Default values, can be overwritten and saved in chrome
 		savePasswords: false,
 		storageTimeDays: 7,
 		saveIndicator: 'cornertriag',

@@ -4,6 +4,9 @@ terafm.editableManager = terafm.editableManager || {};
 (function(editableManager, help, db, cache, options) {
 	'use strict';
 
+	editableManager.editableTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
+	editableManager.textEditableTypes = ['text', 'email', 'search', 'password', 'url', 'tel'];
+
 
 	function isElement(elem) {
 		// Check if element has parent document and window
@@ -74,15 +77,14 @@ terafm.editableManager = terafm.editableManager || {};
 			let currLen = editableManager.getEditableValue(editable, true).length,
 				oldLen = editable.terafmLength;
 
-			// Set length property
-			if(currLen > 0) {
-				editable.terafmLength = currLen;
-			}
-
 			// If input was cleared, set new ID
 			if(oldLen > 1 && currLen === 0) {
+				console.log('new id')
 				editable.terafmSessId = db.generateSessionId();
 			}
+
+			// Set length property
+			editable.terafmLength = currLen;
 
 			// Default to global sess id
 			// console.log(editable.terafmSessId || db.sessionId())
@@ -117,7 +119,7 @@ terafm.editableManager = terafm.editableManager || {};
 		if(!isElement(elem)) return false;
 
 		// Check if input with valid type
-		if(elem.nodeName == 'INPUT' && terafm.options.get('editableTypes').includes(elem.type)) {
+		if(elem.nodeName == 'INPUT' && editableManager.editableTypes.includes(elem.type)) {
 
 			// Is it a password field?
 			if(elem.type == 'password' && terafm.options.get('savePasswords') !== true) {
@@ -145,7 +147,7 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.isEditableText = function(elem) {
 		if(!isElement(elem)) return false;
 
-		if( options.get('textEditableTypes').includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
+		if(editableManager.textEditableTypes.includes(elem.type) || elem.getAttribute('contenteditable') == 'true' || elem.nodeName == 'TEXTAREA' ) {
 			return true;
 		}
 		return false;
