@@ -1,8 +1,4 @@
 
-
-let splashVersion = 2; // starts at 2
-
-
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 	// If not complete or invalid URL
@@ -84,14 +80,15 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 });
 
-getOption('version', function(opt) {
-	if(opt !== splashVersion) {
+
+// Show splash after update
+chrome.runtime.onInstalled.addListener(function(details) {
+	if(details.reason === 'update') {
 		let url = chrome.extension.getURL('html/splash.html');
 		chrome.tabs.create({
 			url: url
 		})
 	}
-
 })
 
 
