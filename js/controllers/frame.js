@@ -35,7 +35,9 @@ window.terafmInjected = true;
 
 		let observer = createObserver();
 		if(observer) {
-			observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
+			try {
+				observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
+			} catch(e) {}
 		}
 	}
 
