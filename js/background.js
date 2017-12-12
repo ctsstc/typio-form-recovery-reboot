@@ -31,17 +31,19 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 	});
 });
 
-chrome.contextMenus.create({
-	id: 'recoverEditable',
-	title : 'Recover this field',
-	contexts : ['editable']
-});
+try {
+	chrome.contextMenus.create({
+		id: 'recoverEditable',
+		title : 'Recover this field',
+		contexts : ['editable']
+	});
 
-chrome.contextMenus.create({
-	id: 'openRecoveryDialog',
-	title : 'Open form recovery',
-	contexts : ['all']
-});
+	chrome.contextMenus.create({
+		id: 'openRecoveryDialog',
+		title : 'Open form recovery',
+		contexts : ['all']
+	});
+} catch(e) {}
 
 chrome.contextMenus.onClicked.addListener(function(data) {
 
