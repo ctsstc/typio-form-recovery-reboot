@@ -63,12 +63,12 @@
 							<span class="date"></span>
 						</div>
 
-						<div class="stat-container">
-							<svg version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="info"/><g id="icons"><g id="statistics"><path d="M5,12H3c-1.1,0-2,0.9-2,2v6c0,1.1,0.9,2,2,2h2c1.1,0,2-0.9,2-2v-6C7,12.9,6.1,12,5,12z"/><path d="M13,2h-2C9.9,2,9,2.9,9,4v16c0,1.1,0.9,2,2,2h2c1.1,0,2-0.9,2-2V4C15,2.9,14.1,2,13,2z"/><path d="M21,8h-2c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h2c1.1,0,2-0.9,2-2V10C23,8.9,22.1,8,21,8z"/></g></g></svg>
-							<span class="size"></span>
+						<div class="stat-container" title="Name of the field type">
+							<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDY0IDY0IiBoZWlnaHQ9IjY0cHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0cHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxwYXRoIGQ9Ik0yMi41MjcsNDYuOTE2TDAsMzUuMTkzdi01LjEyOWwyMi41MjctMTEuNzcxdjYuNjM2TDYuNzczLDMyLjcwN2wxNS43NTQsNy41NjhWNDYuOTE2eiBNMzkuNjEzLDEybC05LjU1OSw0MmgtNS41NzggIGw5LjU1OS00MkgzOS42MTN6IE01Ny4yMjksMzIuNzA3TDQxLjQ3MywyNC45M3YtNi42MzZMNjQsMzAuMDY0djUuMTI5TDQxLjQ3Myw0Ni45MTZ2LTYuNjQxTDU3LjIyOSwzMi43MDd6Ii8+PC9zdmc+" alt="HTML icon" />
+							<span class="type"></span>
 						</div>
 
-						<div class="health-ok stat-container">
+						<div class="health-ok stat-container" title="Target input field was found. This means you can automatically restore the text if you wish.">
 							<svg version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path clip-rule="evenodd" d="M21.652,3.211c-0.293-0.295-0.77-0.295-1.061,0L9.41,14.34  c-0.293,0.297-0.771,0.297-1.062,0L3.449,9.351C3.304,9.203,3.114,9.13,2.923,9.129C2.73,9.128,2.534,9.201,2.387,9.351  l-2.165,1.946C0.078,11.445,0,11.63,0,11.823c0,0.194,0.078,0.397,0.223,0.544l4.94,5.184c0.292,0.296,0.771,0.776,1.062,1.07  l2.124,2.141c0.292,0.293,0.769,0.293,1.062,0l14.366-14.34c0.293-0.294,0.293-0.777,0-1.071L21.652,3.211z" fill-rule="evenodd"/></svg>
 							<span class="text">Target found</span>
 						</div>

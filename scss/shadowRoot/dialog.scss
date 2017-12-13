@@ -367,7 +367,11 @@ $right-pane-width: 500px;
 					margin-right: 15px;
 					color: #444;
 
-					svg {
+					span {
+						text-transform: capitalize;
+					}
+
+					svg, img {
 						fill: currentColor;
 						position: relative;
 						top: 4px;

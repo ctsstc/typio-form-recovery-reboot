@@ -75,25 +75,19 @@ terafm.recoveryDialog = {};
 		// These nodes will be updated
 		let fulltextNode = dialogNode.querySelector('.content .partial-recover .full-text .container'),
 			dateNode = dialogNode.querySelector('.content .partial-recover .meta .date'),
-			sizeNode = dialogNode.querySelector('.content .partial-recover .meta .size'),
+			typeNode = dialogNode.querySelector('.content .partial-recover .meta .type'),
 			pathNode = dialogNode.querySelector('.content .partial-recover .editable-path');
-
-
-		// Get revision data
-		let revisionValue = help.encodeHTML(revision.value);
 		
 		// Make data pretty before we update the dom
 		let prettyDate = help.prettyDateFromTimestamp(session),
 			prettyDateFull = new Date(session*1000).toString(),
-			wordCount = revisionValue.split(/\s/).length + ' words',
-			healthStatus = editableManager.resolvePath(revision.path) ? true : false;
-		
-		revisionValue = revisionValue.replace(/[\r\n]/gm, '<br/>');
+			healthStatus = editableManager.resolvePath(revision.path) ? true : false,
+			revisionValue = generateEntryValue(revision).replace(/[\r\n]/gm, '<br/>');
 
 		fulltextNode.innerHTML = revisionValue;
 		dateNode.innerHTML = prettyDate;
 		dateNode.title = prettyDateFull;
-		sizeNode.innerHTML = wordCount;
+		typeNode.innerHTML = revision.type;
 		pathNode.innerHTML = revision.path;
 
 		if(healthStatus) {
@@ -119,21 +113,9 @@ terafm.recoveryDialog = {};
 	}
 
 	function generateListItemHTML(item, editableId, sessionId) {
-		let safeString = help.encodeHTML(item.value),
-			excerpt = safeString.substring(0, 220),
+
+		let excerpt = generateEntryValue(item, 220),
 			html = '';
-
-		if(item.type && item.meta && item.type === 'checkbox') {
-			excerpt = '<input type=checkbox disabled '+ (item.value ? 'checked':'') +' /> ' + item.meta;
-
-		} else if(item.type && item.meta && item.type === 'radio') {
-			excerpt = '<input type=radio disabled '+ (item.value ? 'checked':'') +' /> ' + item.meta;
-
-		} else if(item.type && item.meta) {
-			excerpt = '(' + item.type + ') '+ item.meta + ': ' + item.value;
-		}
-
-		excerpt = excerpt.length < safeString.length ? excerpt + '...' : excerpt;
 
 		html += '<li data-set-current data-editable="'+ editableId +'" data-session="'+ sessionId +'">';
 			html += '<p class="excerpt">' + excerpt + '</p>';
@@ -143,6 +125,34 @@ terafm.recoveryDialog = {};
 		html += '</li>';
 
 		return html;
+	}
+
+	function generateEntryValue(entry, truncate) {
+		let value = '';
+
+		if(entry.type === 'radio' && entry.meta) {
+			// Meta contains name:value, we don't care about the value here (its always 1 because its selected)
+			value += entry.meta; 
+
+		} else if(entry.type === 'checkbox' && entry.meta) {
+			value += entry.meta + (entry.value == '1' ? ' (checked)' : ' (unchecked)');
+
+		} else if(entry.meta) {
+			value += entry.meta + ': ' + help.encodeHTML(entry.value);
+
+		} else {
+			value += help.encodeHTML(entry.value);
+		}
+
+		if(typeof truncate === 'number') {
+			value = value.substring(0, truncate);
+
+			if(value.length > truncate) {
+				value += '...';
+			}
+		}
+
+		return value;
 	}
 
 	function sortObjectByKey(data, callback) {
