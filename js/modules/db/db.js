@@ -4,6 +4,7 @@ terafm.db = terafm.db || {};
 (function(db, options, help) {
 	'use strict';
 
+	// Change of this will trigger convertLegacy
 	db.version = 2;
 
 

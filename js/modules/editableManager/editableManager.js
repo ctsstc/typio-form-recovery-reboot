@@ -79,7 +79,7 @@ terafm.editableManager = terafm.editableManager || {};
 
 			// If input was cleared, set new ID
 			if(oldLen > 1 && currLen === 0) {
-				console.log('new id')
+				// console.log('new id')
 				editable.terafmSessId = db.generateSessionId();
 			}
 
