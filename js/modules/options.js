@@ -10,6 +10,7 @@ window.terafm.options = {};
 		saveCreditCards: false,
 		storageTimeDays: 7,
 		saveIndicator: 'topline',
+		saveIndicatorColor: '#3CB720',
 		hideSmallEntries: true
 	}
 
@@ -30,10 +31,13 @@ window.terafm.options = {};
 			return	(days > 0 && days < 366) ? days :
 					(days > 365) ? 365 : 
 					(days < 1) ? 1 :
-					tera.options.storageTimeDays;
+					globalOptions.storageTimeDays;
 		},
 		saveIndicator: function(value) {
-			return ['topline', 'cornertriag', 'disable'].includes(value) ? value : 'disable';
+			return ['topline', 'cornertriag', 'disable'].includes(value) ? value : globalOptions.saveIndicator;
+		},
+		saveIndicatorColor: function(value) {
+			return /^(#[0-9a-f]{6}|[0-9a-f]{3})$/i.test(value) ? value : globalOptions.saveIndicatorColor;
 		}
 	};
 

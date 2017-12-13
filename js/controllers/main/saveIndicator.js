@@ -7,9 +7,7 @@ window.terafm = window.terafm || {};
 
 		if(isEnabled) {
 			addEventListeners();
-
 		}
-
 	});
 
 

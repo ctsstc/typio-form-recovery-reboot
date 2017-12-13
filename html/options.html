@@ -13,18 +13,15 @@
 			<option value="cornertriag">Corner triangle</option>
 			<option value="disable">Disable</option>
 		</select>
+		<input class="autosave" type="color" data-option="saveIndicatorColor" value="#3CB720">
 	</p>
 	<p>
-		Save password fields: &nbsp;
-		<input class="autosave" data-option="savePasswords" id="radioSavePassYes" type="radio" name="savePasswords" value=1><label for="radioSavePassYes"> Yes</label>
-		&nbsp;
-		<input checked class="autosave" data-option="savePasswords" id="radioSavePassNo" type="radio" name="savePasswords" value=0><label for="radioSavePassNo"> No</label>
+		<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
+		<label for="checkboxSavePasswords">Save password fields</label>
 	</p>
 	<p>
-		Save credit card numbers: &nbsp;
-		<input class="autosave" data-option="saveCreditCards" id="saveCreditCardsYes" type="radio" name="saveCreditCards" value=1><label for="saveCreditCardsYes"> Yes</label>
-		&nbsp;
-		<input checked class="autosave" data-option="saveCreditCards" id="saveCreditCardsNo" type="radio" name="saveCreditCards" value=0><label for="saveCreditCardsNo"> No</label>
+		<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
+		<label for="checkboxSaveCreditCards">Save credit card numbers</label>
 	</p>
 	<p>
 		Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text" value="7">&nbsp; days

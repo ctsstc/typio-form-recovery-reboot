@@ -41,6 +41,9 @@ terafm.saveIndicator = {};
 				indicatorStyle = options.get('saveIndicator');
 				indicatorNode.classList.add(indicatorStyle);
 
+				indicatorColor = options.get('saveIndicatorColor');
+				indicatorNode.style.background = indicatorColor;
+
 				if(callback) callback(retnode);
 			})
 			

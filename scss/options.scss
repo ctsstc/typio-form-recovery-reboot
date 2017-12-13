@@ -31,6 +31,12 @@ textarea, input[type=text], input[type=number] {
 	padding: 4px;
 }
 
+input[type='color'] {
+	position: relative;
+	top: 2px;
+	height: 30px;
+}
+
 .smallinput {
 	width: 50px;
 }

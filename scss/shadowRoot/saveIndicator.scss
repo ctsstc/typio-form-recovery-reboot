@@ -1,15 +1,17 @@
-#save-indicator.topline {
-	$color: #3CB720;
-	$lightColor: lighten($color, 50);
 
+#save-indicator {
+	background: #3CB720; // Default color
+
+	// Shared between all styles
 	position: fixed;
 	z-index: 9999999999999;
-	// pointer-events: none;
+}
+
+#save-indicator.topline {
 	top: 0;
 	left: 0;
 	right: 0;
 	height: 3px;
-	background: $color;
 	text-align: center;
 	transform: translateY(-100%);
 	transition-duration: .2s;
@@ -24,7 +26,7 @@
 		left: 0;
 		bottom: 0;
 		width: 100%;
-		background: $lightColor;
+		background: rgba(255,255,255,.6);
 		transform: scaleX(0);
 		opacity: 1;
 
@@ -48,16 +50,11 @@
 
 
 #save-indicator.cornertriag {
-	position: fixed;
-	z-index: 9999999999999;
-	// pointer-events: none;
 	top: 0;
 	right: 0;
 	height: 30px;
 	width: 30px;
-	background: #3CB720;
 	transform: rotate(45deg) translateY(-35px) translateX(0px);
-	// transform: rotate(45deg) translateY(-20px) translateX(0);
 	transition-duration: .2s;
 
 	&.visible {
@@ -70,7 +67,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background: #3CB720;
+		background: inherit;
 		transform: none;
 
 		animation-name: cornertriag;
@@ -78,8 +75,6 @@
 		animation-direction: alternate;
 		animation-iteration-count: 2;
 		animation-timing-function: cubic-bezier(0.770, 0.000, 0.175, 1.000); /* easeInOutQuart */
-		// animation-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000); /* easeOutQuart */
-		// animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275); /* easeOutBack */
 	}
 	@keyframes cornertriag {
 		from {

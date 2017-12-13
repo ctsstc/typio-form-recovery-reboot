@@ -21,31 +21,24 @@
 				// If we have a stored value of this option, update form elem
 				if((stored[optionName] !== undefined)) {
 
-					// If checkbox/radio, compare value before setting "checked" attribute
-					if(opt.type === 'checkbox' || opt.type === 'radio') {
-						if(opt.value == stored[optionName]) {
-							opt.checked = true;
-						} else {
-							opt.checked = false;
-						}
+					// Checkboxes
+					if(opt.type === 'checkbox') {
+						opt.checked = stored[optionName];
 
-					// Not checkbox, just set value
+					// Sanitazion for storageTimeDays
+					} else if(opt.dataset.option === 'storageTimeDays') {
+
+						var days = parseInt(stored[optionName]),
+							san =	(days > 0 && days < 366) ? days :
+									(days > 365) ? 365 : 
+									(days < 1) ? 1 :
+									7;
+
+						opt.value = san;
+
+					// Any other input
 					} else {
-
-						// Special case sanitazion
-						if(opt.dataset.option === 'storageTimeDays') {
-							var days = parseInt(stored[optionName]),
-								san =	(days > 0 && days < 366) ? days :
-										(days > 365) ? 365 : 
-										(days < 1) ? 1 :
-										7;
-
-							opt.value = san;
-						
-						} else {
-							opt.value = stored[optionName];
-						}
-
+						opt.value = stored[optionName];
 					}
 				}
 
@@ -61,6 +54,10 @@
 		var value = this.value,
 			optionName = this.getAttribute('data-option'),
 			data = {};
+
+		if(this.type === 'checkbox') {
+			value = this.checked;
+		}
 
 		data[optionName] = value;
 
