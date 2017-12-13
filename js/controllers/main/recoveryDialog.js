@@ -150,7 +150,7 @@ terafm.recoveryDialogController = {};
 
 				recoveryDialog.setRevision(revision, listItem.dataset.editable, listItem.dataset.session);
 				recoveryDialog.setPage('recover');
-				recoveryDialog.animateContentPanel();
+				recoveryDialog.animateContentPartial();
 
 
 			// Recover single trigger

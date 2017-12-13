@@ -54,7 +54,7 @@ terafm.recoveryDialog = {};
 		}
 	}
 
-	recoveryDialog.animateContentPanel = function() {
+	recoveryDialog.animateContentPartial = function() {
 		let currPartial = dialogNode.querySelector('.content .content-partial.partial-current');
 		currPartial.style.animation = 'none';
 		currPartial.offsetHeight; // Trigger reflow
