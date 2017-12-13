@@ -194,14 +194,27 @@ $right-pane-width: 500px;
 		display: flex;
 		flex-flow: column;
 		background: #ececec;
+		position: relative;
 
-		.recovery-container {
+		.filter {
+			position: sticky;
+			z-index: 2;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: #ececec;
+			padding: 10px 20px;
+			border-bottom: 1px solid #cecece;
+		}
+
+		.content {
 			flex: 1 1 auto;
 			overflow-y: scroll;
 			position: relative;
 			margin-right: 5px;
 			margin-top: 5px;
 			margin-bottom: 5px;
+			position: relative;
 
 			&::-webkit-scrollbar {
 				width: 8px;

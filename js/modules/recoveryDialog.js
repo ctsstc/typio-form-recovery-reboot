@@ -67,7 +67,7 @@ terafm.recoveryDialog = {};
 			html += '<p style="margin: 20px;">Nothing saved yet, buddy!</p>';
 		}
 
-		dialogNode.querySelector('.recovery-container').innerHTML = html;
+		dialogNode.querySelector('.left-pane .content .recovery-container').innerHTML = html;
 	}
 
 	recoveryDialog.setRevision = function(revision, editableId, session) {
