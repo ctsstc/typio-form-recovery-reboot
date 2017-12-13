@@ -4,3 +4,5 @@
 /js/min/*
 /grunt/node_modules/*
 /grunt/.sass-cache
+/.sublime-project.sublime-workspace
+/todo.*
