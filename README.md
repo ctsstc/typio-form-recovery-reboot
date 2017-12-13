@@ -3,9 +3,27 @@
 This is the repository for the Typio Form Recovery app found here:
 https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa
 
-Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open), or if you're up for the challenge, add/fix it yourself and send me a pull request. :)
+Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open).
+
+Pull requests are welcome if you'd like to contribute.
 
 # Changelog
+
+### Version 1.4 (Dec 13th 2017)
+This update has been in the works for quite a while and brings lots of exciting changes. Under the hood it has undergone a full re-write to optimize the code base and make it easier to work with, but it brings plenty of visible changes as well:
+
+- New: Save indicator to reassure you your text is being saved as you type. Has various styles to choose from and can be disabled in settings.
+- New: Support for chat apps (dynamically cleared inputs)
+- New: Keyboard shortcuts! Press Ctrl + Delete once to open recovery dialog, press twice to restore previous session.
+- New: Context menu now also shows recent entries from other fields
+- New: Added option for showing/hiding small values in recovery dialog
+- New: Support for nested iframes/shadow dom (better support for modern sites)
+- New: Input field type is now stored and displayed in Recovery Dialog
+- Fix: Better performance in context menu when big entries are previewed (added truncation)
+- Fix: Code is now concatenated to reduce http requests (both js and css)
+- Fix: Improved error messages
+- Fix: All Typio injected code is now placed within one parent shadowRoot (used to be separate)
+- Change: "Pick recovery target" has been deprecated in favor of Copy button (it had issues with iframes and shadow dom)
 
 ### Version 1.3 (Aug 24 2017):
 *Important!* This update will cause certain input fields to not display old entries in the context menu, but the old entries can still be found in the recovery dialog (right click > open form recovery) and can be recovered by manually selecting a target. The reason for this is due to a change in how every input field is assigned a unique ID to so that the extension can remember which text belongs to what field. The ID algorithm needed certain improvements, partly to add support for certain text editors (WYSIWYG in iframes).
