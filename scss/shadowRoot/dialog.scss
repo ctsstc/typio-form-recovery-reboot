@@ -342,6 +342,14 @@ $right-pane-width: 500px;
 				flex: auto;
 				overflow: hidden;
 
+				animation-name: bounce;
+				animation-duration: .2s;
+				@keyframes bounce {
+					50% {
+						transform: scale(.99);
+					}
+				}
+
 				&.partial-current {
 					display: flex; // Or block, whatev
 				}
