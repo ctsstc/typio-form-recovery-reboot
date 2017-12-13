@@ -14,7 +14,7 @@ window.terafm = window.terafm || {};
 	function addEventListeners() {
 		
 		// Check if an input is autofocused
-		if(editableManager.isEditableText(document.activeElement)) {
+		if(editableManager.isEditableText(document.activeElement) && editableManager.checkRules(document.activeElement)) {
 			saveIndicator.build(function() {
 				saveIndicator.show();
 			});
@@ -23,7 +23,7 @@ window.terafm = window.terafm || {};
 		DOMEvents.registerHandler('focus', function(e) {
 			saveIndicator.build(function() {
 
-				let isEditable = editableManager.isEditableText(e.path[0]);
+				let isEditable = editableManager.isEditableText(e.path[0]) && editableManager.checkRules(e.path[0]);
 
 				if(!isEditable) return true;
 
@@ -43,14 +43,16 @@ window.terafm = window.terafm || {};
 
 
 		DOMEvents.registerHandler('input', function(e) {
-			let isEditable = editableManager.isEditableText(e.path[0]);
-
-			if(!isEditable) return true;
+			let isEditable = editableManager.isEditableText(e.path[0]) && editableManager.checkRules(e.path[0]);
 
 			saveIndicator.build(function() {
-				// console.log('input: show pulse')
-				saveIndicator.show();
-				saveIndicator.pulse();
+
+				if(!isEditable) {
+					saveIndicator.hide();
+				} else {
+					saveIndicator.show();
+					saveIndicator.pulse();
+				}
 			});
 		});
 

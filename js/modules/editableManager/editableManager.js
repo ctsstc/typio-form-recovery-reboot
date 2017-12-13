@@ -5,7 +5,7 @@ terafm.editableManager = terafm.editableManager || {};
 	'use strict';
 
 	editableManager.editableTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
-	editableManager.textEditableTypes = ['text', 'email', 'search', 'password', 'url'];
+	editableManager.textEditableTypes = ['text', 'email', 'search', 'password', 'url', 'tel', 'number'];
 
 
 	function isElement(elem) {
