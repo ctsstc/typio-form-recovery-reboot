@@ -29,6 +29,7 @@ window.terafm = window.terafm || {};
 
 				// console.log('focus: show indicator')
 				saveIndicator.show()
+				saveIndicator.animate();
 			});
 		});
 

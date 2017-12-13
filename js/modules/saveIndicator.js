@@ -3,11 +3,11 @@ terafm.saveIndicator = {};
 
 (function(saveIndicator, ui, options, debounce) {
 
-	let indicatorNode, animatorNode, indicatorStyle,
+	let indicatorNode, animatorNode,
 		isVisible = false;
 
 	saveIndicator.pulse = debounce(function() {
-		animate();
+		saveIndicator.animate();
 	}, 800)
 
 	saveIndicator.show = function() {
@@ -21,7 +21,7 @@ terafm.saveIndicator = {};
 		isVisible = false;
 	}
 
-	function animate() {
+	saveIndicator.animate = function() {
 		animatorNode.style.animation = 'none';
 		animatorNode.offsetHeight; // Trigger reflow
 		animatorNode.style.animation = null;
@@ -38,10 +38,10 @@ terafm.saveIndicator = {};
 				indicatorNode = retnode;
 				animatorNode = indicatorNode.querySelector('.animator');
 
-				indicatorStyle = options.get('saveIndicator');
+				let indicatorStyle = options.get('saveIndicator');
 				indicatorNode.classList.add(indicatorStyle);
 
-				indicatorColor = options.get('saveIndicatorColor');
+				let indicatorColor = options.get('saveIndicatorColor');
 				indicatorNode.style.background = indicatorColor;
 
 				if(callback) callback(retnode);
