@@ -20,20 +20,18 @@
 	// Also for chat apps
 	function changeHandler(e) {
 
-		let editable = editableManager.getEditable(e.path[0]);
+		let editable = editableManager.getEditable(e.path[0]),
+			passRules = editable ? editableManager.checkRules(editable) : false;
 
-		if(editable) {
+		if(editable && passRules) {
 			let value = editableManager.getEditableValue(editable),
 				entry = editableManager.createEntryObject(editable, value),
 				editableId = editableManager.generateEditableId(editable);
 
-			// console.log('saving', editableId, editable);
-
 			if(entry) {
 				let newSessId = editableManager.getEditableSessionId(editable);
 
-
-				// // Special care for radio inputs, have to delete siblings
+				// Special care for radio inputs, have to delete siblings
 				if(editable.type === 'radio') {
 					editableManager.deleteRadioSiblingsFromStorage(editable);
 				}
@@ -46,6 +44,13 @@
 					// console.log('saving', entry);
 				}
 			}
+
+		// Valid editable but did not pass rules
+		} else if(editable && !passRules) {
+			let editableId = editableManager.generateEditableId(editable),
+				sessId = editableManager.getEditableSessionId(editable);
+
+		 	db.deleteSingleRevisionByEditable(editableId, sessId);
 		}
 	}
 

@@ -5,7 +5,7 @@ terafm.editableManager = terafm.editableManager || {};
 	'use strict';
 
 	editableManager.editableTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
-	editableManager.textEditableTypes = ['text', 'email', 'search', 'password', 'url', 'tel'];
+	editableManager.textEditableTypes = ['text', 'email', 'search', 'password', 'url'];
 
 
 	function isElement(elem) {
@@ -120,12 +120,6 @@ terafm.editableManager = terafm.editableManager || {};
 
 		// Check if input with valid type
 		if(elem.nodeName == 'INPUT' && editableManager.editableTypes.includes(elem.type)) {
-
-			// Is it a password field?
-			if(elem.type == 'password' && terafm.options.get('savePasswords') !== true) {
-				return false;
-			}
-
 			return true;
 
 		// Check if textarea
@@ -147,12 +141,7 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.isEditableText = function(elem) {
 		if(!isElement(elem)) return false;
 
-		if(editableManager.textEditableTypes.includes(elem.type)) {
-
-			if(elem.type == 'password' && terafm.options.get('savePasswords') !== true) {
-				return false;
-			}
-			
+		if(elem.nodeName == 'INPUT' && editableManager.textEditableTypes.includes(elem.type)) {
 			return true;
 
 		} else if(elem.getAttribute('contenteditable') == 'true') {

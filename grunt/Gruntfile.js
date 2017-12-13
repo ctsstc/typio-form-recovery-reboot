@@ -33,6 +33,7 @@ module.exports = function(grunt) {
                         '../js/modules/editableManager/editableManager.pathGenerator.js',
                         '../js/modules/editableManager/editableManager.pathResolver.js',
                         '../js/modules/editableManager/editableManager.placeholders.js',
+                        '../js/modules/editableManager/editableManager.rules.js',
                         '../js/modules/editableManager/editableManager.js',
                         '../js/modules/ui.js',
                         '../js/modules/editablePicker.js',

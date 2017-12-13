@@ -7,6 +7,7 @@ window.terafm.options = {};
 	// Default values, can be overwritten and saved in chrome
 	var globalOptions = {
 		savePasswords: false,
+		saveCreditCards: false,
 		storageTimeDays: 7,
 		saveIndicator: 'topline',
 		hideSmallEntries: true
@@ -16,6 +17,9 @@ window.terafm.options = {};
 
 	var optionSanitizers = {
 		savePasswords: function(bool) {
+			return bool == true ? true : false;
+		},
+		saveCreditCards: function(bool) {
 			return bool == true ? true : false;
 		},
 		hideSmallEntries: function(bool) {
