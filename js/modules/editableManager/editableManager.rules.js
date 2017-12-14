@@ -6,8 +6,9 @@ terafm.editableManager = terafm.editableManager || {};
 
 	editableManager.checkRules = function(editable) {
 
-		if(!passwordCheck(editable)) 	return false;
-		if(!creditCardCheck(editable)) 	return false;
+		if(!passwordCheck(editable)) 		return false;
+		if(!creditCardCheck(editable)) 		return false;
+		if(!isIgnoredFieldCheck(editable)) 	return false;
 
 		return true;
 	}
@@ -20,6 +21,7 @@ terafm.editableManager = terafm.editableManager || {};
 		}
 		return true;
 	}
+
 	function creditCardCheck(elem) {
 		if(editableManager.isEditableText(elem)) {
 			let value = editableManager.getEditableValue(elem),
@@ -32,6 +34,11 @@ terafm.editableManager = terafm.editableManager || {};
 		}
 
 		return true;
+	}
+
+	function isIgnoredFieldCheck(elem) {
+		console.log('checking ignore status', elem.classList.contains('typioIgnoreField'))
+		return !elem.classList.contains('typioIgnoreField');
 	}
 
 

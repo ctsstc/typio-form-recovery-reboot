@@ -18,7 +18,7 @@
 			<div class="content">
 				<div class="filter">
 					Filter:
-					<input type="checkbox" id="hideSmallEntries" class="toggleHideSmallEntries">
+					<input type="checkbox" id="hideSmallEntries" class="toggleHideSmallEntries typioIgnoreField">
 					<label for="hideSmallEntries">Hide small entries</label>
 				</div>
 
