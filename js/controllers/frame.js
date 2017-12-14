@@ -30,15 +30,20 @@ window.terafmInjected = true;
 
 
 	function init() {
-		let allNodes = document.getElementsByTagName('*');
-		dig(allNodes);
+		setTimeout(function() {
 
-		let observer = createObserver();
-		if(observer) {
-			try {
-				observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
-			} catch(e) {}
-		}
+			// console.log('frame scipt injected');
+			let allNodes = document.getElementsByTagName('*');
+			dig(allNodes);
+
+			let observer = createObserver();
+			if(observer) {
+				try {
+					observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
+				} catch(e) {}
+			}
+			
+		}, 500)
 	}
 
 
@@ -57,9 +62,7 @@ window.terafmInjected = true;
 
 		try {
 			return new MutationObserver(obsFunc);
-		} catch(e) {
-			console.error('error:', e);
-		}
+		} catch(e) {}
 	}
 
 	function dig(allNodes) {
@@ -111,9 +114,9 @@ window.terafmInjected = true;
 		scriptFrame.type = "text/javascript";
 		scriptFrame.src = basepath + 'js/min/frame.min.js';
 
-		// try {
+		try {
 			iframe.contentWindow.document.body.appendChild(scriptFrame);
-		// } catch(e) {}
+		} catch(e) {}
 	}
 
 

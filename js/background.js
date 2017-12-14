@@ -22,11 +22,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 				return false;
 			}
 			
-			// Will execute on every page (not iframes)
 			chrome.tabs.executeScript(tabId, {file: 'js/min/content.min.js', runAt: 'document_start'});
-
-			// Will only execute in iframes
-			chrome.tabs.executeScript(tabId, {file: 'js/min/frame.min.js', runAt: 'document_start', allFrames: true});
+			chrome.tabs.executeScript(tabId, {file: 'js/min/frame.min.js', runAt: 'document_idle', allFrames: true});
 		});
 	});
 });
