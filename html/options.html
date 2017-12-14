@@ -6,30 +6,43 @@
 	<link rel="stylesheet" href="../css/options.css">
 </head>
 <body>
-	<p>
-		Save indicator:
+
+	<div class="opt-group">
+		<p class="opt-title">Save indicator</p>
+
+		<p class="description">The save indicator will appear when Typio recognizes a field that can be saved, and will animate upon save.</p>
 		<select class="autosave" data-option="saveIndicator">
 			<option value="topline">Top line</option>
 			<option value="cornertriag">Corner triangle</option>
 			<option value="disable">Disable</option>
 		</select>
 		<input class="autosave" type="color" data-option="saveIndicatorColor" value="#3CB720">
-	</p>
-	<p>
-		<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
-		<label for="checkboxSavePasswords">Save password fields</label>
-	</p>
-	<p>
-		<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
-		<label for="checkboxSaveCreditCards">Save credit card numbers</label>
-	</p>
-	<p>
-		Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text" value="7">&nbsp; days
-	</p>
-	<p>
-		Do not save input on these domains:<br/>
+	</div>
+
+	<div class="opt-group">
+		<p class="opt-title">Saving rules</p>
+
+		<p>
+			Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text" value="7">&nbsp; days
+		</p>
+		<p>
+			<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
+			<label for="checkboxSavePasswords">Save password fields</label>
+		</p>
+		<p>
+			<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
+			<label for="checkboxSaveCreditCards">Save credit card numbers</label>
+		</p>
+
+		<p class="description">Note: Disabling these options will not delete any currently saved data.</p>
+	</div>
+
+	<div class="opt-group">
+		<p class="opt-title">Domain blacklist</p>
+
+		<p>Disable Typio on these domains:</p>
 		<textarea class="autosave" id="domainBlacklist" data-option="domainBlacklist" cols="40" rows="8" placeholder=' '></textarea>
-	</p>
+	</div>
 
 	<p><button id="saveAndClose">Save and close</button></p>
 	

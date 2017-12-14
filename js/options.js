@@ -17,6 +17,7 @@
 					continue;
 				}
 
+				console.log(optionName, stored[optionName], opt)
 
 				// If we have a stored value of this option, update form elem
 				if((stored[optionName] !== undefined)) {
@@ -24,6 +25,7 @@
 					// Checkboxes
 					if(opt.type === 'checkbox') {
 						opt.checked = stored[optionName];
+						console.log('restoring chk', optionName, stored[optionName])
 
 					// Sanitazion for storageTimeDays
 					} else if(opt.dataset.option === 'storageTimeDays') {
