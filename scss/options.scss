@@ -13,6 +13,15 @@ body {
 	box-sizing: border-box;
 }
 
+a {
+	color: #1f8abf;
+	text-decoration: underline;
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
 p {
 	margin: 0 0 10px 0;
 }
