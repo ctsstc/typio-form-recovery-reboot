@@ -32,9 +32,9 @@ a {
 }
 
 .header, .content {
-	width: 740px;
+	max-width: 780px;
 	margin: 0 auto;
-	padding: 40px 0;
+	padding: 40px 20px;
 }
 
 .header {
@@ -122,6 +122,9 @@ a {
 	}
 	span.change {
 		color: #2365ff;
+	}
+	span.critical {
+		color: #FA2442;
 	}
 	span.key {
 		background: #f3f3f3;
