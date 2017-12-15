@@ -36,8 +36,8 @@
 					</span>
 					
 					<div class="header-partial partial-recover">
-						<button class="trigger-recover-session primary health-ok" title="Recover everything you typed that page load">Recover session</button>
-						<button class="trigger-recover-single health-ok" title="Recover just this entry">Recover only this</button>
+						<button class="trigger-recover-session primary health-ok" title="Restore everything you typed that page load">Restore session</button>
+						<button class="trigger-recover-single health-ok" title="Restore just this entry">Restore just this</button>
 						<button class="trigger-copy health-ok icon-btn" title="Copy text to clipboard">Copy</button>
 						<button class="trigger-copy health-bad primary" title="Copy text to clipboard (The original input field does not exist anymore or has been moved.)">Copy to clipboard</button>
 						&nbsp;<!-- Can't figure out why but without this a single button gets top-aligned on some sites.  -->
