@@ -37,7 +37,6 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	function isIgnoredFieldCheck(elem) {
-		console.log('checking ignore status', elem.classList.contains('typioIgnoreField'))
 		return !elem.classList.contains('typioIgnoreField');
 	}
 

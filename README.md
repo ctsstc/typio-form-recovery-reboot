@@ -9,6 +9,25 @@ Pull requests are welcome if you'd like to contribute.
 
 # Changelog
 
+### Version 1.5 (Dec 15th 2017)
+Fixes some pesky bugs and introduces some new ones. New features, that is.
+
+- New: You can now pick your own color for the save indicator (see options)
+- New: Moved "hide small entries" option onto top of entry list for better access
+- New: Typio now attempts to ignore credit card numbers (see option in settings)
+- New: Redesigned options page
+- New: Better display of field type in Recovery Dialog (field name and type)
+- New: Added subtle bounce animation for switching pages in recovery dialog
+- New: Slightly delayed frame script injection to allow more time for DOM to finish loading dynamic content (like dynamically created frames)
+- Change: Removed word count in Recovery Dialog in favor of field type
+- Fix: Changed behaviour of saveIndicator to animate on focus (previously only animated first time an input was focused due to a bug)
+- Fix: Typio now ignores any inputs from within the recovery dialog ("hide small entries" checkbox is now ignored)
+- Fix: Fixed Recovery Dialog ghost effect on close and added close animation.
+- Fix: Critical bugfix for frame injection script that caused certain editors to believe the text had been changed
+	- Issue was due to Typio injecting a script tag into each frame. I found an alternative solution to this that doesn't inject any content but rather executes code directly in the frame. This is a much better approach.
+
+
+
 ### Version 1.4 (Dec 13th 2017)
 This update has been in the works for quite a while and brings lots of exciting changes. Under the hood it has undergone a full re-write to optimize the code base and make it easier to work with, but it brings plenty of visible changes as well:
 
