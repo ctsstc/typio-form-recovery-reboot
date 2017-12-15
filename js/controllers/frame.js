@@ -1,3 +1,4 @@
+
 window.terafmInjected = true;
 
 (function() {
@@ -9,60 +10,41 @@ window.terafmInjected = true;
 	} catch(e) {return;}
 
 
-	let basepath;
 
-	// If top frame
+	// If top frame, fetch frame script and cache it
 	if(window === window.top) {
-		basepath = chrome.extension.getURL('');
-		init();
+		window.top.terafmBaseURL = chrome.extension.getURL('');
 
-	// Iframe
+		fetch(window.top.terafmBaseURL + 'js/min/frame.min.js').then(function(response) {
+			response.text().then(function(scriptTxt) {
+
+				window.top.terafmFrameScript = scriptTxt;
+
+				init();
+
+			});
+		})
+
+	// Child script, init immediately
 	} else {
-		window.top.postMessage({action: 'terafmRequestBasepath'}, '*');
+		init();
 	}
-
-	window.top.addEventListener('message', function(msg) {
-		if(!basepath && msg.data.action && msg.data.action === 'terafmReturnBasepath') {
-			basepath = msg.data.path;
-			init();
-		}
-	});
 
 
 	function init() {
 		setTimeout(function() {
 
-			// console.log('frame scipt injected');
+			// Dig through dom nodes
 			let allNodes = document.getElementsByTagName('*');
 			dig(allNodes);
 
-			let observer = createObserver();
-			if(observer) {
-				try {
-					observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
-				} catch(e) {}
-			}
+			// Observe document.body and children
+			try {
+				let observer = createObserver();
+				observer.observe(document.body, { childList: true, subtree: true, characterData: false, attributes: false });
+			} catch(e) {}
 			
 		}, 500)
-	}
-
-
-
-	function createObserver() {
-		let obsFunc = function(mutations) {
-			mutations.forEach(function(mutation) {
-				mutation.addedNodes.forEach(function(node) {
-
-					// If issues with not finding iframes or shadows
-					// Do a querySelectorAll('*') on this instead
-					dig([node]);
-				});
-			});
-		}
-
-		try {
-			return new MutationObserver(obsFunc);
-		} catch(e) {}
 	}
 
 	function dig(allNodes) {
@@ -81,8 +63,12 @@ window.terafmInjected = true;
 			if(allNodes[i].shadowRoot && allNodes[i].shadowRoot.mode === 'open') {
 				var shroot = allNodes[i].shadowRoot;
 
-				var observer = createObserver();
-				observer.observe(shroot, { childList: true, subtree: true, characterData: false, attributes: false });
+				// If not already observed, attach observer
+				if(!shroot.terafmObserving) {
+					var observer = createObserver();
+					observer.observe(shroot, { childList: true, subtree: true, characterData: false, attributes: false });
+					shroot.terafmObserving = true;
+				}
 
 				// Find all nodes inside root, dig through
 				// Cannot use getElementsByTagName here even though it's faster
@@ -93,29 +79,44 @@ window.terafmInjected = true;
 
 	function inject(iframe) {
 
+		// Abort if already injected
 		try {
-
-			// Already injected into this frame, bail
 			if(iframe.contentWindow.terafmInjected) {
 				return;
 			}
 
-		// No access
-		} catch(e) {return;}
+		// No access, probably cross domain
+		} catch(e) { return; }
 
+		// Inject immediately
+		// console.log('injecting', iframe.contentWindow.document);
+		iframe.contentWindow.eval( window.top.terafmFrameScript );
 
-		// Try to inject immediately, but if 
+		// Also inject on window.load
 		iframe.addEventListener('load', function() {
 			inject(iframe);
 		});
 
+	}
 
-		var scriptFrame = window.top.document.createElement("script");
-		scriptFrame.type = "text/javascript";
-		scriptFrame.src = basepath + 'js/min/frame.min.js';
+
+
+	function createObserver() {
+		let obsFunc = function(mutations) {
+			mutations.forEach(function(mutation) {
+				mutation.addedNodes.forEach(function(node) {
+
+					dig([node]);
+
+					if(node.getElementsByTagName) {
+						dig(node.getElementsByTagName('*'));
+					}
+				});
+			});
+		}
 
 		try {
-			iframe.contentWindow.document.body.appendChild(scriptFrame);
+			return new MutationObserver(obsFunc);
 		} catch(e) {}
 	}
 

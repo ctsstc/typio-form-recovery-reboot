@@ -25,11 +25,6 @@
 				terafm.DOMEvents.trigger(msg.type, msg);
 			}
 			
-		} else if(msg.data.action && msg.data.action === 'terafmRequestBasepath') {
-			window.top.postMessage({
-				action: 'terafmReturnBasepath',
-				path: chrome.extension.getURL('')
-			}, '*');
 		}
 	})
 
