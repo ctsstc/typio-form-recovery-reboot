@@ -1,4 +1,19 @@
 
+let hostnamePlaceholders = document.querySelector('.js-hostname');
+
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+	let url = new URL(tabs[0].url);
+	hostnamePlaceholders.innerHTML = url.hostname;
+});
+
+let btn = document.querySelector('button.head-toggle');
+
+btn.addEventListener('mousedown', function(e) {
+	btn.classList.toggle('is-enabled');
+});
+
+
+/*
 
 var toggleBlackButton = document.getElementById('toggleBlacklist'),
 	clearDataButton = document.getElementById('clearDomainStorage'),
@@ -81,4 +96,4 @@ function _setBlockButtonState(blocked) {
 		toggleBlackButton.innerHTML = 'Disable Typio on this site';
 		toggleBlackButton.dataset.blocked = 0;
 	}
-}
+}*/

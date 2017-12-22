@@ -7,19 +7,25 @@
 </head>
 <body>
 
-	<p>Right click any input field to recover text or <a href="#" id="openDialogTrigger">open recovery dialog</a> to browse all saved data for this site.</p>
+	<button class="head-toggle is-enabled">
+		<div class="toggle"><span></span></div>
+		<div class="text">
+			<p class="if-enabled big">Typio is enabled for</p>
+			<p class="if-disabled big">Typio is disabled for</p>
+			<p class="js-hostname">www</p>
+		</div>
+	</button>
 
-	<div class="option">
-		<button id="toggleBlacklist"></button>
-	</div>
+	<p>Right click any input field to recover text or open the recovery dialog to browse all saved data for this site.</p>
 
-	<div class="option">
-		<button id="clearDomainStorage">Clear all saved data from this site</button>
-	</div>
-	
-	<div class="option">
-		<a href="#" id="moreOptionsLink">More options</a>
-	</div>
+	<p><a href="#">Open Recovery</a> <span>(Ctrl + Del)</span></p>
+	<p><a href="#">Restore last session</a> <span>(Ctrl + Del twice)</span></p>
+
+	<br>
+
+	<p><a href="#">Open options</a></p>
+	<p><a href="#">Delete all data for this domain</a></p>
+
 	
 	<script src="../js/popup.js"></script>
 </body>
