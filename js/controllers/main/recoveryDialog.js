@@ -34,7 +34,7 @@ terafm.recoveryDialogController = {};
 			currentSessionId = db.sessionId(),
 			hideSmallEntries = options.get('hideSmallEntries');
 
-		delete sessions[currentSessionId];
+		//sessions[currentSessionId];
 
 		if(hideSmallEntries === true) {
 			for(let skey in sessKeys) {
