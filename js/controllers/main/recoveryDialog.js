@@ -32,19 +32,22 @@ terafm.recoveryDialogController = {};
 		let sessions = db.getAllRevisionsGroupedBySession(),
 			sessKeys = Object.keys(sessions),
 			currentSessionId = db.sessionId(),
-			hideSmallEntries = options.get('hideSmallEntries');
+			hideSmallEntries = options.get('hideSmallEntries'),
+			skipCount = 0,
+			retObj = {};
 
-		//sessions[currentSessionId];
 
-		if(hideSmallEntries === true) {
-			for(let skey in sessKeys) {
+		for(let skey in sessKeys) {
 
-				// Delete if value is too short
-				for(let editableId in sessions[sessKeys[skey]]) {
-					var editable = sessions[sessKeys[skey]][editableId],
-						cleanValue = help.encodeHTML(editable.value);
+			// Delete if value is too short
+			for(let editableId in sessions[sessKeys[skey]]) {
+				var editable = sessions[sessKeys[skey]][editableId],
+					cleanValue = help.encodeHTML(editable.value);
 
-					if(cleanValue.length < 5) {
+				if(cleanValue.length < 5) {
+					skipCount++;
+
+					if(hideSmallEntries) {
 						delete sessions[ sessKeys[skey] ][ editableId ];
 
 						// If last item in session, delete session from list to prevent empty <ul> tag
@@ -61,7 +64,12 @@ terafm.recoveryDialogController = {};
 			}
 		}
 
-		return sessions;
+		retObj = {
+			sessions: sessions,
+			skipCount: skipCount
+		};
+
+		return retObj;
 	}
 
 	function setup(callback) {
@@ -106,7 +114,7 @@ terafm.recoveryDialogController = {};
 
 						// If last list item in last UL, re-populate the whole list (will result in "no entries" message)
 						if(ul.children.length === 0 && ul.parentElement.children.length === 1) {
-							recoveryDialog.populate(getRevisionData());
+							repopulate();
 
 						// Remove empty ul (timestamp)
 						} else {
@@ -200,7 +208,7 @@ terafm.recoveryDialogController = {};
 			// Delete all revisions trigger
 			} else if(target.classList.contains('trigger-delete-all')) {
 				db.deleteAllSessions();
-				recoveryDialog.populate(getRevisionData());
+				repopulate();
 
 
 			// Copy to clipboard trigger

@@ -64,9 +64,11 @@ terafm.recoveryDialog = {};
 	recoveryDialog.populate = function(data) {
 		let html = '';
 
-		if(Object.keys(data).length > 0) {
+		dialogNode.querySelector('.small-entries-filler').innerHTML = data.skipCount;
 
-			sortObjectByKey(data, function(k, v) {
+		if(Object.keys(data.sessions).length > 0) {
+
+			sortObjectByKey(data.sessions, function(k, v) {
 				html += generateListGroupHTML(k, v)
 			})
 			

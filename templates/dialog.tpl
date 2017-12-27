@@ -19,7 +19,7 @@
 				<div class="filter">
 					Filter:
 					<input type="checkbox" id="hideSmallEntries" class="toggleHideSmallEntries typioIgnoreField">
-					<label for="hideSmallEntries">Hide small entries</label>
+					<label for="hideSmallEntries">Hide small entries (<span class="small-entries-filler"></span>)</label>
 				</div>
 
 				<div class="recovery-container"></div>
