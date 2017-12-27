@@ -108,6 +108,10 @@ terafm.recoveryDialog = {};
 		let html = '',
 			prettyDate = help.prettyDateFromTimestamp(timestamp);
 
+		if(timestamp == db.sessionId()) {
+			prettyDate = 'Current session';
+		}
+
 		html += '<ul data-pretty-date="'+ prettyDate +'">';
 
 			for(let editableId in data) {
