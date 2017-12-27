@@ -6,7 +6,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 	hostnamePlaceholders.innerHTML = url.hostname;
 });
 
-let btn = document.querySelector('button.head-toggle');
+let btn = document.querySelector('.head-toggle');
 
 btn.addEventListener('mousedown', function(e) {
 	btn.classList.toggle('is-enabled');
