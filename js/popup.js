@@ -1,99 +1,112 @@
 
-let hostnamePlaceholders = document.querySelector('.js-hostname');
+let blacklist = {};
+(function() {
 
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-	let url = new URL(tabs[0].url);
-	hostnamePlaceholders.innerHTML = url.hostname;
-});
-
-let btn = document.querySelector('.head-toggle');
-
-btn.addEventListener('mousedown', function(e) {
-	btn.classList.toggle('is-enabled');
-});
-
-
-/*
-
-var toggleBlackButton = document.getElementById('toggleBlacklist'),
-	clearDataButton = document.getElementById('clearDomainStorage'),
-	moreOptionsLink = document.getElementById('moreOptionsLink'),
-	openDialogLink = document.getElementById('openDialogTrigger'),
-	tabId, url;
-
-chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
-	url = new URL(tabs[0].url).hostname;
-	tabId = tabs[0].id;
-
-	isBlocked(function(state) {
-		_setBlockButtonState(state);
-	});
-});
-
-moreOptionsLink.addEventListener('click', function() {
-	chrome.runtime.openOptionsPage();
-});
-
-clearDataButton.addEventListener('click', function() {
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {action: 'clearData'});
-	});
-	clearDataButton.innerHTML = 'Data deleted';
-	clearDataButton.disabled = true;
-});
-
-
-toggleBlackButton.addEventListener('click', function() {
-	if(toggleBlackButton.dataset.blocked == 1) {
-		unblock();
-		_setBlockButtonState(0);
-	} else {
-		block();
-		_setBlockButtonState(1);
+	blacklist.block = function(hostname) {
+		_getBlacklist(function(list) {
+			list += hostname + "\r\n";
+			chrome.storage.sync.set({domainBlacklist: list});
+		})
 	}
-});
 
-openDialogLink.addEventListener('click', function() {
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {action: 'openRecoveryDialog'});
-	});
+	blacklist.unblock = function(hostname) {
+		_getBlacklist(function(list) {
+			var regex = new RegExp('[\r\n]*.*' + (hostname.replace('.', '\.')) + '[\r\n]*.*', 'gi');
+
+			list = list.replace(regex, '');
+			chrome.storage.sync.set({domainBlacklist: list});
+		});
+	}
+
+	blacklist.isBlocked = function(hostname, callback) {
+		_getBlacklist(function(list) {
+			var regex = new RegExp('.*' + (hostname.replace('.', '\.')), 'gi'),
+				res = list.match(regex) !== null ? true : false;
+
+			callback(res);
+		});
+	}
+
+	function _getBlacklist(callback) {
+		chrome.storage.sync.get('domainBlacklist', function(stored) {
+			callback('domainBlacklist' in stored ? stored.domainBlacklist : '');
+		});
+	}
+
+})();
+
+
+
+
+let hostnamePlaceholder = document.querySelector('.js-hostname'),
+	blacklistToggleBtn = document.querySelector('.head-toggle'),
+	hostname;
+
+document.addEventListener('click', function(e) {
+	e.preventDefault();
+
+	let target = e.target;
+
+	// Open recovery link
+	if(target.classList.contains('open-recovery-link')) {
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {action: 'openRecoveryDialog'});
+		});
+
+	// Open options link
+	} else if(target.classList.contains('open-options-link')) {
+		chrome.runtime.openOptionsPage();
+
+	// Delete all link
+	} else if(target.classList.contains('delete-all-link')) {
+		if(target.classList.contains('confirm-click')) {
+			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+				chrome.tabs.sendMessage(tabs[0].id, {action: 'clearData'});
+
+				target.innerHTML = 'Data has been deleted';
+				target.classList.remove('confirm-click');
+				target.classList.add('green');
+				target.classList.remove('delete-all-link'); // Disable this action on link
+			});
+		} else {
+			target.classList.add('confirm-click');
+			target.innerHTML = 'Click again to confirm deletion of all data on ' + hostname + '. Deletion cannot be undone.';
+		}
+
+	}
 })
 
-function isBlocked(callback) {
-	_getBlocked(function(list) {
-		var regex = new RegExp('.*' + (url.replace('.', '\.')), 'gi'),
-			res = list.match(regex) !== null ? true : false;
 
-		callback(res);
-	});
-}
-function unblock() {
-	_getBlocked(function(list) {
-		var regex = new RegExp('[\r\n]*.*' + (url.replace('.', '\.')) + '[\r\n]*.*', 'gi');
 
-		list = list.replace(regex, '');
-		chrome.storage.sync.set({domainBlacklist: list});
-	});
-}
-function block() {
-	_getBlocked(function(list) {
-		list += url + "\r\n";
-		chrome.storage.sync.set({domainBlacklist: list});
-	});
-}
+// Get hostname for current tab
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+	let url = new URL(tabs[0].url);
 
-function _getBlocked(callback) {
-	chrome.storage.sync.get('domainBlacklist', function(stored) {
-		callback('domainBlacklist' in stored ? stored.domainBlacklist : '');
-	});
-}
+	hostname = url.hostname;
 
-function _setBlockButtonState(blocked) {
-	if(blocked) {
-		toggleBlackButton.innerHTML = 'Enable Typio on this site';
-		toggleBlackButton.dataset.blocked = 1;
+	hostnamePlaceholder.innerHTML = hostname;
+
+	blacklist.isBlocked(hostname, function(bool) {
+		if(bool) {
+			blacklistToggleBtn.classList.remove('is-enabled');
+		}
+	})
+});
+
+
+
+// Toggle blacklist button
+blacklistToggleBtn.addEventListener('mousedown', function(e) {
+	
+	// Remove from blacklist
+	if(blacklistToggleBtn.classList.contains('is-enabled')) {
+		blacklist.block(hostname);
+
+	// Add to blacklist
 	} else {
-		toggleBlackButton.innerHTML = 'Disable Typio on this site';
-		toggleBlackButton.dataset.blocked = 0;
+		blacklist.unblock(hostname);
+
 	}
-}*/
+
+	blacklistToggleBtn.classList.toggle('is-enabled');
+});
