@@ -1,7 +1,7 @@
 window.terafm = window.terafm || {};
 terafm.DOMEvents = {};
 
-(function(DOMEvents, ui) {
+(function(DOMEvents, ui, initHandler) {
 	'use strict';
 
 
@@ -30,14 +30,16 @@ terafm.DOMEvents = {};
 
 	
 
-	document.addEventListener('input', (e) => 		DOMEvents.trigger(e.type, e) );
-	document.addEventListener('keyup', (e) => 		DOMEvents.trigger(e.type, e), true );
-	document.addEventListener('contextmenu', (e) => DOMEvents.trigger(e.type, e) );
-	document.addEventListener('mousedown', (e) => 	DOMEvents.trigger(e.type, e) );
-	document.addEventListener('click', (e) => 		DOMEvents.trigger(e.type, e) );
-	document.addEventListener('focus', (e) =>		DOMEvents.trigger(e.type, e), true);
-	document.addEventListener('blur', (e) =>		DOMEvents.trigger(e.type, e), true);
-	document.addEventListener('change', (e) => 		DOMEvents.trigger(e.type, e), true);
-	document.addEventListener('keydown', (e) => 	DOMEvents.trigger(e.type, e), true);
+	initHandler.onInit(function() {
+		document.addEventListener('input', (e) => 		DOMEvents.trigger(e.type, e) );
+		document.addEventListener('keyup', (e) => 		DOMEvents.trigger(e.type, e), true );
+		document.addEventListener('contextmenu', (e) => DOMEvents.trigger(e.type, e) );
+		document.addEventListener('mousedown', (e) => 	DOMEvents.trigger(e.type, e) );
+		document.addEventListener('click', (e) => 		DOMEvents.trigger(e.type, e) );
+		document.addEventListener('focus', (e) =>		DOMEvents.trigger(e.type, e), true);
+		document.addEventListener('blur', (e) =>		DOMEvents.trigger(e.type, e), true);
+		document.addEventListener('change', (e) => 		DOMEvents.trigger(e.type, e), true);
+		document.addEventListener('keydown', (e) => 	DOMEvents.trigger(e.type, e), true);
+	})
 
-})(terafm.DOMEvents, terafm.ui);
+})(terafm.DOMEvents, terafm.ui, terafm.initHandler);
