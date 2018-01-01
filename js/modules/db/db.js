@@ -19,8 +19,13 @@ terafm.db = terafm.db || {};
 
 	// Writes in memory storage to disk (IndexedDB or localStorage)
 	function sync() {
+		console.log('sync to db');
 		terafm.indexedDB.save(JSON.stringify(container));
 	}
+
+	let debouncedSync = terafm.help.debounce(function() {
+		sync();
+	}, 3000);
 
 	// Loads disk storage to in-memory
 	function loadStorageFromDisk(callback) {
@@ -84,7 +89,7 @@ terafm.db = terafm.db || {};
 			container[editableId] = {}
 		}
 		container[editableId][editableSessId || globalSessionId] = obj;
-		sync();
+		debouncedSync();
 	}
 
 	db.getContainer = function() {
