@@ -70,7 +70,7 @@ $right-pane-width: 500px;
 		padding: 0 10px;
 		background: #224d6d;
 		color: #FFF;
-		font-size: 14px;
+		font-size: 13px;
 		overflow: hidden;
 
 		.close-btn {
@@ -143,17 +143,21 @@ $right-pane-width: 500px;
 
 			&:hover {
 				background: rgba(0,0,0,.3);
+			}
 
-				&:after, &:before {
-					display: block;
-				}
+			&:active {
+				background: rgba(0,0,0,.4);
 			}
 
 			&.primary {
 				background: #62a256;
+				text-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
 
 				&:hover {
-					background: #59904F;
+					background: #71B365;
+				}
+				&:active {
+					background: #5A974F;
 				}
 			}
 
