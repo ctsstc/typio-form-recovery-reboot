@@ -40,9 +40,20 @@
 	<div class="opt-group">
 		<p class="opt-title">Domain blacklist</p>
 
-		<p>Disable Typio on these domains:</p>
-		<textarea class="autosave" id="domainBlacklist" data-option="domainBlacklist" cols="40" rows="8" placeholder=' '></textarea>
+		<p>Typio will be completely disabled on these domains, autosave and restoration will not be available.</p>
+		<div class="blacklist-module">
+			<form id="blacklist-add-form" class="controls">
+				<input placeholder="Enter a domain name to block" type="text" name="domain">
+				<button>Add to blacklist</button>
+			</form>
+			<ul id="domainBlacklist"></ul>
+		</div>
 	</div>
+
+	<!-- <div class="opt-group">
+		<p class="opt-title">Privacy policy</p>
+		<p>Long story short, you are in control of your data and it never leaves your computer.</p>
+	</div> -->
 
 	<div class="opt-group">
 		<p class="opt-title">Feedback</p>
@@ -51,7 +62,9 @@
 	</div>
 
 	<p><button id="saveAndClose">Save and close</button></p>
-	
+
+
+	<script src="../js/modules/blacklist.js"></script>
 	<script src="../js/options.js"></script>
 </body>
 </html>

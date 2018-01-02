@@ -24,6 +24,7 @@ a {
 
 p {
 	margin: 0 0 10px 0;
+	line-height: 1.4em;
 }
 
 body > p:first-child {
@@ -72,10 +73,82 @@ input[type='color'] {
 .opt-title {
     font-size: 14px;
     font-weight: bold;
-    color: #666;
+    color: #555;
 }
 
 p.description {
 	font-size: 13px;
 	line-height: 20px;
+}
+
+.blacklist-module {
+	font-size: 13px;
+	margin-top: 20px;
+
+	.controls {
+		display: flex;
+		margin-bottom: 10px;
+
+		input {
+			flex: 1;
+			margin-right: 5px;
+		}
+	}
+
+	ul, ul li {
+		margin: 0; padding: 0;
+	}
+
+	ul {
+		border: 1px solid #bfbfbf;
+		max-height: 160px;
+		overflow-y: scroll;
+		min-height: 80px;
+		position: relative;
+		padding: 4px 0;
+
+		&:empty:after {
+			content: 'No domains are currently blocked.';
+			position: absolute;
+			top: 30px; left: 0; right: 0;
+			text-align: center;
+			opacity: .6;
+		}
+	}
+
+	ul li {
+		display: flex;
+		padding: 4px 10px;
+		overflow: hidden;
+
+		&:hover {
+			background: #f1f1f1;
+
+			.del {
+				opacity: 1;
+			}
+		}
+
+		span:not(.del) {
+			flex: 1 1;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.del {
+			flex: 0 1;
+			align-self: flex-end;
+			background: inherit;
+			cursor: default;
+			margin-right: 10px;
+			margin-left: 10px;
+			opacity: 0;
+
+			&:hover {
+				color: red;
+				opacity: 1;
+			}
+		}
+	}
 }

@@ -82,7 +82,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 // Show splash after update
 chrome.runtime.onInstalled.addListener(function(details) {
-	if(details.reason === 'update') {
+	if(details.reason === 'update' && false) {
 		let url = chrome.extension.getURL('html/splash.html');
 		chrome.tabs.create({
 			url: url
@@ -104,6 +104,9 @@ function getOption(option, callback) {
 
 
 function isBlacklisted(url, callback) {
+
+	callback(false);
+	return false; // TODO: FIX
 
 	// Grab current hostname with subdomain
 	var currDom = new URL(url).hostname;
