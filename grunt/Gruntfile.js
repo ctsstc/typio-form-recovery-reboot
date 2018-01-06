@@ -19,6 +19,16 @@ module.exports = function(grunt) {
             content: {
                 files: {
 
+                    // Runs isolated on every page (not in iframes)
+                    '../js/min/options.min.js' : [
+
+                        // Modules
+                        '../js/modules/blacklist.js',
+
+                        // Controllers
+                        '../js/controllers/options.js',
+                    ],
+
 
                     // Runs isolated on every page (not in iframes)
                     '../js/min/popup.min.js' : [
@@ -29,7 +39,6 @@ module.exports = function(grunt) {
 
                         // Controllers
                         '../js/controllers/popup.js',
-
                     ],
 
 
@@ -42,7 +51,6 @@ module.exports = function(grunt) {
 
                         // Controllers
                         '../js/controllers/background.js',
-
                     ],
 
                     // Runs isolated on every page (not in iframes)
