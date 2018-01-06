@@ -18,14 +18,16 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 				return false;
 			}
 
+			console.log('injecting', !isBlacklisted)
+
 			// Page is blacklisted!
 			if(isBlacklisted) {
-				chrome.tabs.executeScript(tabId, {file: 'js/min/blacklisted.min.js', runAt: 'document_start', allFrames: true});
+				chrome.tabs.executeScript(tabId, {file: 'js/content.blacklisted.js', runAt: 'document_start', allFrames: true});
 				return false;
 			}
 			
-			chrome.tabs.executeScript(tabId, {file: 'js/min/content.min.js', runAt: 'document_start'});
-			chrome.tabs.executeScript(tabId, {file: 'js/min/frame.min.js', runAt: 'document_idle', allFrames: true});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.js', runAt: 'document_start'});
+			chrome.tabs.executeScript(tabId, {file: 'js/content.frameInjector.js', runAt: 'document_end', allFrames: true});
 		});
 	});
 });
@@ -92,14 +94,3 @@ chrome.runtime.onInstalled.addListener(function(details) {
 	}
 })
 chrome.storage.sync.set({version: 2}); // In case i need it for future stuff
-
-
-function getOption(option, callback) {
-	chrome.storage.sync.get(option, function(obj) {
-		if(obj[option] !== undefined) {
-			callback(obj[option]);
-		} else {
-			callback(false);
-		}
-	});
-}

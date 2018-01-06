@@ -27,7 +27,7 @@
         "img/*",
         "css/*.css",
         "templates/*.tpl",
-        "js/content.frameInjector.js",
+        "js/frame.js",
         "js/*.js.map"
     ],
 

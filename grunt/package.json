@@ -6,6 +6,8 @@
   },
   "devDependencies": {
     "connect": "~2.8.5",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-htmlmin": "^2.4.0",
     "grunt-contrib-uglify": "file:grunt-contrib-uglify-harmony",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-sass": "^2.0.0",

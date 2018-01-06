@@ -3,9 +3,9 @@ var terafm = window.terafm;
 (function(db, options, recoveryDialog, initHandler) {
 	'use strict';
 
-
 	// Load extension options into memory
 	options.loadFromChromeStorage(function() {
+
 		
 		// Initiate DB, populate in-memory storage
 		db.init(function() {

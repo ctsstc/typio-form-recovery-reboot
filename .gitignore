@@ -1,7 +1,7 @@
 /.sass-cache/*
 *.DS_Store
 /css/*
-/js/min/*
+/publish/*
 /grunt/node_modules/*
 /grunt/.sass-cache
 /.sublime-project.sublime-workspace

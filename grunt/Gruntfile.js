@@ -3,6 +3,54 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
+        htmlmin: {
+            html: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: [{
+                    expand: true,
+                    src: ['../html/**/*.html'],
+                    dest: '../publish/html'
+                }]
+            },
+            templates: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: [{
+                    expand: true,
+                    src: ['../templates/**/*.tpl'],
+                    dest: '../publish/templates'
+                }]
+            }
+        },
+
+        copy: {
+            img: {
+                files: [{
+                    expand: true,
+                    src: [
+                        '../img/icon16.png',
+                        '../img/icon38.png',
+                        '../img/icon48.png',
+                        '../img/icon128.png'
+                    ],
+                    dest: '../publish/img'
+                }],
+            },
+            misc: {
+                files: [{
+                    expand: true,
+                    cwd: '../',
+                    src: ['manifest.json', 'license.txt'],
+                    dest: '../publish'
+                }]
+            }
+        },
+
         uglify: {
             options: {
                 mangle: false,
@@ -20,7 +68,7 @@ module.exports = function(grunt) {
                 files: {
 
                     // Runs isolated on every page (not in iframes)
-                    '../js/min/options.min.js' : [
+                    '../publish/js/options.js' : [
 
                         // Modules
                         '../js/modules/blacklist.js',
@@ -31,7 +79,7 @@ module.exports = function(grunt) {
 
 
                     // Runs isolated on every page (not in iframes)
-                    '../js/min/popup.min.js' : [
+                    '../publish/js/popup.js' : [
 
                         // Modules
                         '../js/modules/blacklist.js',
@@ -43,7 +91,7 @@ module.exports = function(grunt) {
 
 
                     // Runs isolated on every page (not in iframes)
-                    '../js/min/background.min.js' : [
+                    '../publish/js/background.js' : [
 
                         // Modules
                         '../js/modules/blacklist.js',
@@ -54,7 +102,7 @@ module.exports = function(grunt) {
                     ],
 
                     // Runs isolated on every page (not in iframes)
-                    '../js/min/content.min.js' : [
+                    '../publish/js/content.js' : [
 
                         // Modules
                         '../js/modules/initHandler.js',
@@ -78,26 +126,26 @@ module.exports = function(grunt) {
                         '../js/modules/DOMEvents.js',
 
                         // Controllers
-                        '../js/controllers/main.js',
-                            '../js/controllers/main/recoveryDialog.js',
-                            '../js/controllers/main/contextMenu.js',
-                            '../js/controllers/main/inputSaver.js',
-                            '../js/controllers/main/keyboardShortcuts.js',
-                            '../js/controllers/main/saveIndicator.js',
+                        '../js/controllers/content.js',
+                            '../js/controllers/content/recoveryDialog.js',
+                            '../js/controllers/content/contextMenu.js',
+                            '../js/controllers/content/inputSaver.js',
+                            '../js/controllers/content/keyboardShortcuts.js',
+                            '../js/controllers/content/saveIndicator.js',
                     ],
 
                     // Runs as content script
-                    '../js/min/frame.min.js' : [
+                    '../publish/js/content.frameInjector.js' : [
                         '../js/modules/editableManager/editableManager.pathGenerator.js',
                         '../js/modules/cache.js',
 
-                        '../js/controllers/frame.js',
-                            '../js/controllers/frame/topOnly.js',
-                            '../js/controllers/frame/childOnly.js',
+                        '../js/controllers/content.frameInjector.js',
+                            '../js/controllers/content.frameInjector/topOnly.js',
+                            '../js/controllers/content.frameInjector/childOnly.js',
                     ],
 
-                    '../js/min/blacklisted.min.js' : [
-                        '../js/controllers/blacklisted.js',
+                    '../publish/js/content.blacklisted.js' : [
+                        '../js/controllers/content.blacklisted.js',
                     ]
                 }
             }
@@ -109,7 +157,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: '../scss',
                     src: '*.scss',
-                    dest: '../css/',
+                    dest: '../publish/css/',
                     ext: '.css'
                 }]
             }
@@ -131,6 +179,30 @@ module.exports = function(grunt) {
                 options: {
                     spawn: false
                 }
+            },
+
+            html: {
+                files: ['../html/**/*.html', '../templates/**/*.tpl'],
+                tasks: ['htmlmin'],
+                options: {
+                    spawn: false
+                }
+            },
+
+            copyIMG: {
+                files: ['../img/**/*.*'],
+                tasks: ['copy:img'],
+                options: {
+                    spawn: false
+                }
+            },
+
+            copyMisc: {
+                files: ['../manifest.json', '../license.txt'],
+                tasks: ['copy:misc'],
+                options: {
+                    spawn: false
+                }
             }
         }
 
@@ -140,6 +212,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', ['watch']);
+
 }

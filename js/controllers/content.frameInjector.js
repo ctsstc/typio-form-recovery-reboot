@@ -1,4 +1,3 @@
-
 window.terafmInjected = true;
 
 (function() {
@@ -9,13 +8,11 @@ window.terafmInjected = true;
 		window.top.document;
 	} catch(e) {return;}
 
-
-
 	// If top frame, fetch frame script and cache it
 	if(window === window.top) {
 		window.top.terafmBaseURL = chrome.extension.getURL('');
 
-		fetch(window.top.terafmBaseURL + 'js/min/frame.min.js').then(function(response) {
+		fetch(window.top.terafmBaseURL + 'js/content.frameInjector.js').then(function(response) {
 			response.text().then(function(scriptTxt) {
 
 				window.top.terafmFrameScript = scriptTxt;

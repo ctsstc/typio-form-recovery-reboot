@@ -4,21 +4,23 @@
 	DOMEvents.registerHandler('input', changeHandler);
 	DOMEvents.registerHandler('keyup', function(e) {
 		if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host) && (e.keyCode == 8 || e.keyCode == 46 || e.keyCode === 13) ) {
-			// console.log('facebook shim keyCode:', e.keyCode);
 			changeHandler(e);
 		}
 	});
 	DOMEvents.registerHandler('change', changeHandler);
-	DOMEvents.registerHandler('click', function(e) {
+	/*DOMEvents.registerHandler('click', function(e) {
 		if(!editableManager.isEditableText(e.path[0])) {
+			console.log('click?');
 			changeHandler(e);
 		}
-	});
+	});*/
 
-	// Don't wanna debounce this beacause it'd prevent saving search
-	// fields and similar if you submit before the timout ends
-	// Also for chat apps
+	// Force save before window is closed
+	window.addEventListener('beforeunload', db.sync);
+
 	function changeHandler(e) {
+
+		console.log('save');
 
 		let editable = editableManager.getEditable(e.path[0]),
 			passRules = editable ? editableManager.checkRules(editable) : false;
