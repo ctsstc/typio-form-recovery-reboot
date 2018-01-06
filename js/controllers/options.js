@@ -61,14 +61,6 @@
 	})
 
 
-	function getBlacklist(callback) {
-		chrome.storage.sync.get('domainBlacklist', function(stored) {
-			domainList = convertLegacy(stored['domainBlacklist']);
-			callback(blacklist);
-		})
-	}
-
-
 	// Todo: sanitize
 	function genListItem(id, domain) {
 		return '<li data-id="'+ id +'"><span>' + domain + '</span><span class="del">Delete</span></li>';
