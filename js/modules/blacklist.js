@@ -59,7 +59,8 @@ terafm.blacklist = {};
 
 		// If string, convert to array
 		} else if(typeof blob === 'string') {
-			return (blob + "").split(/[\r|\n]+/g);
+			blob = (blob + "").split(/[\r|\n]+/g).filter(word => word.trim().length > 0);
+			return blob;
 
 		// Already array
 		} else {
