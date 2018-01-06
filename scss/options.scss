@@ -4,9 +4,10 @@ body {
 	color: #444;
 	line-height: 1.3em;
 	margin: 0;
-	padding: 25px;
-	width: 460px;
+	padding: 50px;
+	width: 700px;
 	background: #f7f7f7;
+	display: flex;
 }
 
 * {
@@ -68,17 +69,16 @@ input[type='color'] {
     border-radius: 3px;
     margin-bottom: 30px;
     padding: 20px;
+
+    p:last-child {
+    	margin-bottom: 0;
+    }
 }
 
 .opt-title {
     font-size: 14px;
     font-weight: bold;
     color: #555;
-}
-
-p.description {
-	font-size: 13px;
-	line-height: 20px;
 }
 
 .blacklist-module {
@@ -95,6 +95,17 @@ p.description {
 		}
 	}
 
+	.error {
+		background: #ffd0d0;
+		padding: 5px;
+		color: #222;
+		border-radius: 3px;
+
+		&.hidden {
+			display: none;
+		}
+	}
+
 	ul, ul li {
 		margin: 0; padding: 0;
 	}
@@ -105,7 +116,7 @@ p.description {
 		overflow-y: scroll;
 		min-height: 80px;
 		position: relative;
-		padding: 4px 0;
+		padding: 4px 0 20px;
 
 		&:empty:after {
 			content: 'No domains are currently blocked.';
@@ -126,6 +137,19 @@ p.description {
 
 			.del {
 				opacity: 1;
+			}
+		}
+
+		&.new-style {
+			animation: animateDomain 1s;
+		}
+
+		@keyframes animateDomain {
+			from {
+				background: #F8E83A;
+			}
+			to {
+				background: transparent;
 			}
 		}
 
@@ -151,4 +175,31 @@ p.description {
 			}
 		}
 	}
+}
+
+
+.menu-panel {
+    flex: 0 0 150px;
+
+    .fixed {
+    	position: fixed;
+    	margin-top: 10px;
+
+    	* {
+    		margin-bottom: 10px;
+    		display: block;
+    	}
+
+    	a {
+    		text-decoration: none;
+
+    		&:hover {
+    			text-decoration: underline;
+    		}
+    	}
+    }
+}
+
+.options-panel {
+	padding-bottom: 200px;
 }

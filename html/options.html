@@ -7,62 +7,76 @@
 </head>
 <body>
 
-	<div class="opt-group">
-		<p class="opt-title">Save indicator</p>
-
-		<p class="description">The save indicator will appear when Typio recognizes a field that can be saved, and will animate upon save.</p>
-		<select class="autosave" data-option="saveIndicator">
-			<option value="topline">Top line</option>
-			<option value="cornertriag">Corner triangle</option>
-			<option value="disable">Disable</option>
-		</select>
-		<input class="autosave" type="color" data-option="saveIndicatorColor" value="#3CB720">
-	</div>
-
-	<div class="opt-group">
-		<p class="opt-title">Saving rules</p>
-
-		<p>
-			Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text" value="7">&nbsp; days
-		</p>
-		<p>
-			<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
-			<label for="checkboxSavePasswords">Save password fields</label>
-		</p>
-		<p>
-			<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
-			<label for="checkboxSaveCreditCards">Save credit card numbers</label>
-		</p>
-
-		<p class="description">Note: Disabling these options will not delete any currently saved data.</p>
-	</div>
-
-	<div class="opt-group">
-		<p class="opt-title">Domain blacklist</p>
-
-		<p>Typio will be completely disabled on these domains, autosave and restoration will not be available.</p>
-		<div class="blacklist-module">
-			<form id="blacklist-add-form" class="controls">
-				<input placeholder="Enter a domain name to block" type="text" name="domain">
-				<button>Add to blacklist</button>
-			</form>
-			<ul id="domainBlacklist"></ul>
+	<div class="menu-panel">
+		<div class="fixed">
+			<p class="title">Menu</p>
+			<a href="#save-indicator-group">Save Indicator</a>
+			<a href="#saving-options-group">Save options</a>
+			<a href="#blacklist-group">Domain blacklist</a>
+			<a href="#feedback-group">Feedback</a>
 		</div>
 	</div>
 
-	<!-- <div class="opt-group">
-		<p class="opt-title">Privacy policy</p>
-		<p>Long story short, you are in control of your data and it never leaves your computer.</p>
-	</div> -->
+	<div class="options-panel">
 
-	<div class="opt-group">
-		<p class="opt-title">Feedback</p>
-		<p>You can submit feedback or bug reports on the <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new">bug tracker</a> or Tweet me at <a href="https://twitter.com/TypioRecovery">@TypioRecovery</a>.</p>
-		<p>If you're enjoying the experience with Typio, you can let others know by <a href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">leaving a review</a>.</p>
+		<div id="save-indicator-group" class="opt-group">
+			<p class="opt-title">Save indicator</p>
+
+			<p>The save indicator will appear when you focus on an input field that Typio recognizes, and will animate upon save.</p>
+			<select class="autosave" data-option="saveIndicator">
+				<option value="topline">Top line</option>
+				<option value="cornertriag">Corner triangle</option>
+				<option value="disable">Disable</option>
+			</select>
+			&nbsp;
+			<input class="autosave" type="color" data-option="saveIndicatorColor" value="#3CB720">
+		</div>
+
+		<div id="saving-options-group" class="opt-group">
+			<p class="opt-title">Save options</p>
+
+			<p>
+				Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text" value="7">&nbsp; days
+			</p>
+			<p>
+				<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
+				<label for="checkboxSavePasswords">&nbsp;Save password fields</label>
+			</p>
+			<p>
+				<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
+				<label for="checkboxSaveCreditCards">&nbsp;Save credit card numbers</label>
+			</p>
+
+			<p>Note: Disabling these options will not delete any currently saved data.</p>
+		</div>
+
+		<div id="blacklist-group" class="opt-group">
+			<p class="opt-title">Domain blacklist</p>
+
+			<p>Typio will be completely disabled on these domains, autosave and restoration will not be available.</p>
+			<div class="blacklist-module">
+				<form id="blacklist-add-form" class="controls">
+					<input placeholder="Enter a domain name to block" type="text" name="domain">
+					<button>Add to blacklist</button>
+				</form>
+				<p class="error hidden">That doesn't look like a valid domain name to me.</p>
+				<ul id="domainBlacklist"></ul>
+			</div>
+		</div>
+
+		<!-- <div class="opt-group">
+			<p class="opt-title">Privacy policy</p>
+			<p>Long story short, you are in control of your data and it never leaves your computer.</p>
+		</div> -->
+
+		<div id="feedback-group" class="opt-group">
+			<p class="opt-title">Feedback</p>
+			<p>You can submit feedback or bug reports on the <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new">bug tracker</a> or Tweet me at <a href="https://twitter.com/TypioRecovery">@TypioRecovery</a>.</p>
+			<p>If you're enjoying the experience with Typio, you can let others know by <a href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">leaving a review</a>.</p>
+		</div>
+
+		<p><button id="saveAndClose">Save and close</button></p>
 	</div>
-
-	<p><button id="saveAndClose">Save and close</button></p>
-
 
 	<script src="../js/options.js"></script>
 </body>

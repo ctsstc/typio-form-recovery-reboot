@@ -4,6 +4,7 @@
 
 	let listContainerNode = document.querySelector('#domainBlacklist'),
 		addForm = document.querySelector('#blacklist-add-form'),
+		errorMsgNode = document.querySelector('.blacklist-module .error'),
 
 		domainList = [];
 
@@ -23,17 +24,22 @@
 	addForm.addEventListener('submit', function(e) {
 		e.preventDefault();
 
-		let domain = new FormData(addForm).get('domain');
+		let domain = sanitizeHostname(new FormData(addForm).get('domain'));
 
-		if(!isValidDomain(domain)) {
-			alert("The domain name you entered is not a valid domain. Enter only the domain name without http:// in the beginning and no trailing forward slash /.\n\nExample of valid domains:\nwww.example.com\nhelloworld.com\nblog.mywebsite.com");
+		if(!domain) {
+			errorMsgNode.classList.remove('hidden');
 			return false;
+		} else {
+			errorMsgNode.classList.add('hidden');
 		}
 
 		let id = domainList.push(domain) -1,
-			html = genListItem(id, domain);
+			html = genListItem(id, domain, 'new-style');
+
+		removeAnimationStyling();
 
 		listContainerNode.innerHTML += html;
+		listContainerNode.scrollTop = listContainerNode.scrollHeight;
 		blacklist.block(domain);
 
 		addForm.querySelector('input').value = '';
@@ -62,12 +68,39 @@
 
 
 	// Todo: sanitize
-	function genListItem(id, domain) {
-		return '<li data-id="'+ id +'"><span>' + domain + '</span><span class="del">Delete</span></li>';
+	function genListItem(id, domain, classname) {
+		return '<li class="'+ classname +'" data-id="'+ id +'"><span>' + domain + '</span><span class="del">Delete</span></li>';
 	}
 
-	function isValidDomain(domain) {
-		return /^[\w\.]{3,}$/.test(domain);
+	function removeAnimationStyling() {
+		let newItems = listContainerNode.querySelectorAll('.new-style');
+
+		for(item of newItems) {
+			item.classList.remove('new-style');
+		}
+	}
+
+	function sanitizeHostname(domain, isSecondTry) {
+		domain = domain.trim();
+
+		try {
+			domain = new URL(domain);
+
+			if(domain.hostname.indexOf('%20') !== -1) {
+				return false;
+			}
+			return domain.hostname;
+
+		} catch(e) {
+
+			// If first try and no http in string, prepend http and try again
+			if(!isSecondTry && domain.indexOf('http') !== 0) {
+				return sanitizeHostname('http://' + domain, true)
+
+			} else {
+				return false;
+			}
+		}
 	}
 })(terafm.blacklist);
 
