@@ -24,7 +24,6 @@ terafm.blacklist = {};
 	}
 
 	blacklist.isBlocked = function(domain, callback) {
-		console.log('checking', domain);
 		getOptionData(function(list) {
 			if(list.includes(domain)) {
 				callback(true);
