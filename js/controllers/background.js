@@ -6,8 +6,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 		return false;
 	}
 
+	var hostname = new URL(tab.url).hostname;
+
 	// Check if blacklisted on this domain
-	isBlacklisted(tab.url, function(isBlacklisted) {
+	terafm.blacklist.isBlocked(hostname, function(isBlacklisted) {
 
 		chrome.tabs.sendMessage(tabId, {action: 'ping'}, function(response) {
 
@@ -99,35 +101,5 @@ function getOption(option, callback) {
 		} else {
 			callback(false);
 		}
-	});
-}
-
-
-function isBlacklisted(url, callback) {
-
-	callback(false);
-	return false; // TODO: FIX
-
-	// Grab current hostname with subdomain
-	var currDom = new URL(url).hostname;
-
-	getOption('domainBlacklist', function(stored) {
-		if(!stored) {
-			callback(false);
-			return false;
-		}
-		var domains = stored.split(/\r|\n/g);
-		
-		// Loop through all domains
-		if(domains.length > 0) {
-			for(var i=0; i < domains.length; ++i) {
-				var dom = domains[i];
-				if(dom.indexOf(currDom) !== -1) {
-					callback(true);
-					return true;
-				}
-			}
-		}
-		callback(false);
 	});
 }

@@ -19,7 +19,7 @@
     ],
 
     "background": {
-        "scripts": ["js/background.js"],
+        "scripts": ["js/min/background.min.js"],
         "persistent": false
     },
 

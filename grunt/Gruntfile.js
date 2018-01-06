@@ -19,6 +19,19 @@ module.exports = function(grunt) {
             content: {
                 files: {
 
+
+                    // Runs isolated on every page (not in iframes)
+                    '../js/min/background.min.js' : [
+
+                        // Modules
+                        '../js/modules/blacklist.js',
+
+
+                        // Controllers
+                        '../js/controllers/background.js',
+
+                    ],
+
                     // Runs isolated on every page (not in iframes)
                     '../js/min/content.min.js' : [
 
