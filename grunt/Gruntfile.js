@@ -21,6 +21,19 @@ module.exports = function(grunt) {
 
 
                     // Runs isolated on every page (not in iframes)
+                    '../js/min/popup.min.js' : [
+
+                        // Modules
+                        '../js/modules/blacklist.js',
+
+
+                        // Controllers
+                        '../js/controllers/popup.js',
+
+                    ],
+
+
+                    // Runs isolated on every page (not in iframes)
                     '../js/min/background.min.js' : [
 
                         // Modules
