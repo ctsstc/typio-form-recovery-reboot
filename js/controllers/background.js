@@ -1,4 +1,7 @@
 
+
+chrome.storage.sync.set({ keyboardOpenRecDiag : 'ctrl+del'})
+
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 	// If not complete or invalid URL
@@ -17,8 +20,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 			if(response === true) {
 				return false;
 			}
-
-			console.log('injecting', !isBlacklisted)
 
 			// Page is blacklisted!
 			if(isBlacklisted) {
