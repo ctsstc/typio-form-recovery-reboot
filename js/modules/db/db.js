@@ -19,7 +19,7 @@ terafm.db = terafm.db || {};
 
 	// Writes in memory storage to disk (IndexedDB or localStorage)
 	function sync() {
-		console.log('sync to db');
+		// console.log('sync to db');
 		terafm.indexedDB.save(JSON.stringify(container));
 	}
 

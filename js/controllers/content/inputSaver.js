@@ -8,7 +8,10 @@
 		}
 	});
 	DOMEvents.registerHandler('change', changeHandler);
-	/*DOMEvents.registerHandler('click', function(e) {
+	/*
+	// I don't remember why this was added and it doesn't seem to be needed.
+	// Works without, changes are captured with other events.
+	DOMEvents.registerHandler('click', function(e) {
 		if(!editableManager.isEditableText(e.path[0])) {
 			console.log('click?');
 			changeHandler(e);
@@ -20,7 +23,7 @@
 
 	function changeHandler(e) {
 
-		console.log('save');
+		// console.log('save');
 
 		let editable = editableManager.getEditable(e.path[0]),
 			passRules = editable ? editableManager.checkRules(editable) : false;
