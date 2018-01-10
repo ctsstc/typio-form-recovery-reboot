@@ -33,6 +33,7 @@
 		animation-name: topline;
 		animation-duration: 1s;
 		animation-timing-function: ease; //cubic-bezier(0.165, 0.840, 0.440, 1.000); /* easeOutQuart */
+		animation-delay: .1s;
 	}
 
 	@keyframes topline {
