@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Typio Form Recovery",
-    "description": "Autosave, everywhere. Typio automatically saves form input as you type and lets you recover it at any time.",
+    "description": "Autosave, everywhere. Recover lost form input with ease!",
     "version": "1.6.0",
     "icons": {
         "16": "img/icon16.png",

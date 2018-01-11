@@ -53,16 +53,16 @@ module.exports = function(grunt) {
 
         uglify: {
             options: {
-                mangle: false,
-                preserveComments: true,
-                beautify: true,
-                verbose: true,
-                sourceMap: true,
-                // mangle: true,
-                // preserveComments: false,
-                // beautify: false,
-                // verbose: false,
-                // sourceMap: false,
+                // mangle: false,
+                // preserveComments: true,
+                // beautify: true,
+                // verbose: true,
+                // sourceMap: true,
+                mangle: true,
+                preserveComments: false,
+                beautify: false,
+                verbose: false,
+                sourceMap: false,
             },
             content: {
                 files: {

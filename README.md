@@ -9,8 +9,18 @@ Pull requests are welcome if you'd like to contribute.
 
 # Changelog
 
+### Version 1.6 (Jan 11th 2018)
+Primarily a maintenance release. Improves performance and fixes a couple minor annoyances.
+
+- New: Added navigation to options page
+- New: Toolbar popup has been redesigned
+- New: Save to database is now delayed to prevent stress on storage and improve performance.
+- Fix: Fixed bug that sometimes caused multiple domains to be removed from blacklist when unblocking.
+- Fix: Minor improvement to save indicator animation to prevent stutter
+- Change: Current session data is now visible in recovery dialog to avoid confusion. It was previously hidden by design, because generally you will never need to recover data that is already present.
+
 ### Version 1.5 (Dec 15th 2017)
-Fixes some pesky bugs and introduces some new ones. New features, that is.
+Fixes some pesky bugs and introduces some new features.
 
 - New: You can now pick your own color for the save indicator (see options)
 - New: Moved "hide small entries" option onto top of entry list for better access
