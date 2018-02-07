@@ -2,13 +2,14 @@
   "name": "terafm-form-recovery",
   "version": "0.1.0",
   "dependencies": {
-    "grunt": "~0.4.5"
+    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony"
   },
   "devDependencies": {
+    "grunt": "~0.4.5",
     "connect": "~2.8.5",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-htmlmin": "^2.4.0",
-    "grunt-contrib-uglify": "file:grunt-contrib-uglify-harmony",
+    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-sass": "^2.0.0",
     "serve-static": "^1.13.1"
