@@ -9,7 +9,7 @@ terafm.keyboardShortcuts = {};
 		DOMEvents.registerHandler('keydown', function(e) {
 
 
-			if(e.key === 'Delete' && e.ctrlKey === true) {
+			if(e.key === 'Delete' && e.altKey === true) {
 
 				// Open dialog
 				if(!recoveryDialog.isShowing()) {
