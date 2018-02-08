@@ -29,8 +29,8 @@
 			msg.event.pageY = e.pageY;
 		} else if(e.type === 'keydown') {
 			msg.event.key = e.key;
-			msg.event.ctrlKey = e.ctrlKey;
-			msg.event.altKey = e.altKey;
+			// msg.event.ctrlKey = e.ctrlKey;
+			// msg.event.altKey = e.altKey;
 		} else if(e.type === 'keyup') {
 			msg.event.keyCode = e.keyCode;
 		}

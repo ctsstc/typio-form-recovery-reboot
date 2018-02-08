@@ -4,6 +4,9 @@ window.terafm.options = {};
 (function(options) {
 	'use strict';
 
+	var hasLoadedFromStorage;
+
+
 	// Default values, can be overwritten and saved in chrome
 	var globalOptions = {
 		savePasswords: false,
@@ -11,20 +14,21 @@ window.terafm.options = {};
 		storageTimeDays: 7,
 		saveIndicator: 'topline',
 		saveIndicatorColor: '#3CB720',
-		hideSmallEntries: true
+		hideSmallEntries: true,
+
+		keybindToggleRecDiag: '',
+		keybindRestorePreviousSession: ''
 	}
 
-	var hasLoadedFromStorage;
-
 	var optionSanitizers = {
-		savePasswords: function(bool) {
+		bool: function(bool) {
 			return bool == true ? true : false;
 		},
-		saveCreditCards: function(bool) {
-			return bool == true ? true : false;
+		keyBinding: function(value) {
+			return value.replace(/[^a-z+]/gi, '').split('+')
 		},
-		hideSmallEntries: function(bool) {
-			return bool == true ? true : false;
+		hexColor: function(value) {
+			return /^(#[0-9a-f]{6}|[0-9a-f]{3})$/i.test(value) ? value : globalOptions.saveIndicatorColor;
 		},
 		storageTimeDays: function(days) {
 			days = parseInt(days);
@@ -35,12 +39,19 @@ window.terafm.options = {};
 		},
 		saveIndicator: function(value) {
 			return ['topline', 'cornertriag', 'disable'].includes(value) ? value : globalOptions.saveIndicator;
-		},
-		saveIndicatorColor: function(value) {
-			return /^(#[0-9a-f]{6}|[0-9a-f]{3})$/i.test(value) ? value : globalOptions.saveIndicatorColor;
 		}
 	};
 
+
+	var optionSanitationPointers = {
+		savePasswords: optionSanitizers.bool,
+		saveCreditCards: optionSanitizers.bool,
+		hideSmallEntries: optionSanitizers.bool,
+		saveIndicatorColor: optionSanitizers.hexColor,
+
+		keybindToggleRecDiag: optionSanitizers.keyBinding,
+		keybindRestorePreviousSession: optionSanitizers.keyBinding
+	}
 
 	options.set = function(opt, val) {
 		let obj = {};
@@ -67,7 +78,16 @@ window.terafm.options = {};
 		chrome.storage.sync.get(null, function(options) {
 			if(options) {
 				for(var opt in options) {
-					if(opt in globalOptions) {
+
+
+					// console.log(opt, opt in optionSanitationPointers);continue
+
+					// Check if there is a shared sanitizer (like a bool or something)
+					if(opt in optionSanitationPointers) {
+						globalOptions[opt] = optionSanitationPointers[opt](options[opt])
+
+					// Otherwise assume there is a unique one. Will fail if nonexistent.
+					} else if(opt in globalOptions) {
 						globalOptions[opt] = optionSanitizers[opt](options[opt]);
 					}
 				}
