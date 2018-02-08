@@ -1,4 +1,44 @@
 
+var keyInpts = document.querySelectorAll('.set-shortcut')
+for(input of keyInpts) {
+	captureKeysForInput(input)
+}
+
+function captureKeysForInput(input) {
+	let shortcut = []
+
+
+	input.addEventListener('keydown', function(e) {
+
+		if(shortcut.indexOf(e.key) === -1) {
+			shortcut.push(e.key);
+
+			input.value = shortcut.join(' + ');
+		}
+
+		e.preventDefault();
+		e.stopPropagation()
+	}, true);
+
+	input.addEventListener('keyup', function(e) {
+
+		shortcut = []
+		
+		// for (var i in shortcut) {
+		// 	if(shortcut[i] === e.key) {
+		// 		shortcut = shortcut.splice(i, 0)
+		// 	}
+		// }
+
+		input.blur()
+	}, true);
+
+}
+
+
+
+
+
 // Handle blacklist module
 (function(blacklist) {
 

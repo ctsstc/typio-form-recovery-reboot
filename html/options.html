@@ -12,12 +12,31 @@
 			<p class="title">Menu</p>
 			<a href="#save-indicator-group">Save Indicator</a>
 			<a href="#saving-options-group">Save options</a>
+			<a href="#keycombo-group">Keyboard shortcuts</a>
 			<a href="#blacklist-group">Domain blacklist</a>
 			<a href="#feedback-group">Feedback</a>
 		</div>
 	</div>
 
-	<div class="options-panel">
+	<div id="keycombo-group" class="options-panel">
+
+		<div class="opt-group">
+			<p class="opt-title">Keyboard shortcuts</p>
+
+			<p>To change a key combination, click an existing one to highlight it and then press your desired combination. Be careful not to override existing system behaviour.</p>
+
+			<div class="key-combo-module">
+				<p class="key-combo-item">
+					Open/Close Recovery Dialog:
+					<input data-option="keybindToggleRecDiag" class="autosave set-shortcut" type="text">
+				</p>
+
+				<p class="key-combo-item">
+					Auto restore last session:
+					<input data-option="keybindRestorePreviousSession" class="autosave set-shortcut" type="text">
+				</p>
+			</div>
+		</div>
 
 		<div id="save-indicator-group" class="opt-group">
 			<p class="opt-title">Save indicator</p>
@@ -47,7 +66,7 @@
 				<label for="checkboxSaveCreditCards">&nbsp;Save credit card numbers</label>
 			</p>
 
-			<p style="font-style: italic; background: #f3e6d9; padding: 10px;">Note: Disabling these options will not delete any currently saved data.</p>
+			<p class="note">Note: Disabling these options will not delete any currently saved data.</p>
 		</div>
 
 		<div id="blacklist-group" class="opt-group">

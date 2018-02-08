@@ -53,16 +53,16 @@ module.exports = function(grunt) {
 
         uglify: {
             options: {
-                // mangle: false,
-                // preserveComments: true,
-                // beautify: true,
-                // verbose: true,
-                // sourceMap: true,
-                mangle: true,
-                preserveComments: false,
-                beautify: false,
-                verbose: false,
-                sourceMap: false,
+                mangle: false,
+                preserveComments: true,
+                beautify: true,
+                verbose: true,
+                sourceMap: true,
+                // mangle: true,
+                // preserveComments: false,
+                // beautify: false,
+                // verbose: false,
+                // sourceMap: false,
             },
             content: {
                 files: {
@@ -124,6 +124,7 @@ module.exports = function(grunt) {
                         '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',
                         '../js/modules/DOMEvents.js',
+                        '../js/modules/keyboardShortcuts.js',
 
                         // Controllers
                         '../js/controllers/content.js',

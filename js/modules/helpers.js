@@ -93,6 +93,16 @@ terafm.help = (function() {
 		return fn(parent) ? parent : parentElem(parent, cb);
 	}
 
+	exp.prettyKeys = function(keyarr) {
+
+		for(var ki in keyarr) {
+			keyarr[ki] = '<span class="key">' + keyarr[ki] + '</span> '
+		}
+
+		return keyarr.join(' + ')
+
+	}
+
 	return exp;
 })();
 
