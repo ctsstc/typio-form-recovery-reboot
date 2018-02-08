@@ -1,6 +1,7 @@
 
 
-chrome.storage.sync.set({ keyboardOpenRecDiag : 'ctrl+del'})
+// Todo: Unused, remove next version
+//chrome.storage.sync.set({ keyboardOpenRecDiag : 'ctrl+del'})
 
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
