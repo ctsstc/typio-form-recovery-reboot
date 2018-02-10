@@ -1,4 +1,6 @@
 
+// Todo: REMOVE THIS!!
+chrome.storage.sync.clear()
 
 // Todo: Unused, remove next version
 //chrome.storage.sync.set({ keyboardOpenRecDiag : 'ctrl+del'})
