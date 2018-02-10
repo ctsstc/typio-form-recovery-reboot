@@ -67,18 +67,17 @@ module.exports = function(grunt) {
             content: {
                 files: {
 
-                    // Runs isolated on every page (not in iframes)
                     '../publish/js/options.js' : [
 
                         // Modules
                         '../js/modules/blacklist.js',
+                        '../js/modules/defaultOptions.js',
 
                         // Controllers
                         '../js/controllers/options.js',
                     ],
 
 
-                    // Runs isolated on every page (not in iframes)
                     '../publish/js/popup.js' : [
 
                         // Modules
@@ -90,7 +89,6 @@ module.exports = function(grunt) {
                     ],
 
 
-                    // Runs isolated on every page (not in iframes)
                     '../publish/js/background.js' : [
 
                         // Modules
@@ -107,6 +105,7 @@ module.exports = function(grunt) {
                         // Modules
                         '../js/modules/initHandler.js',
                         '../js/modules/helpers.js',
+                        '../js/modules/defaultOptions.js',
                         '../js/modules/options.js',
                         '../js/modules/db/db.js',
                         '../js/modules/db/db.maintenance.js',

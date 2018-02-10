@@ -1,24 +1,14 @@
 window.terafm = window.terafm || {};
 window.terafm.options = {};
 
-(function(options) {
+(function(options, defaultOptions) {
 	'use strict';
 
 	var hasLoadedFromStorage;
 
 
 	// Default values, can be overwritten and saved in chrome
-	var globalOptions = {
-		savePasswords: false,
-		saveCreditCards: false,
-		storageTimeDays: 7,
-		saveIndicator: 'topline',
-		saveIndicatorColor: '#3CB720',
-		hideSmallEntries: true,
-
-		keybindToggleRecDiag: '',
-		keybindRestorePreviousSession: ''
-	}
+	var globalOptions = defaultOptions.getAll()
 
 	var optionSanitizers = {
 		bool: function(bool) {
@@ -50,7 +40,8 @@ window.terafm.options = {};
 		saveIndicatorColor: optionSanitizers.hexColor,
 
 		keybindToggleRecDiag: optionSanitizers.keyBinding,
-		keybindRestorePreviousSession: optionSanitizers.keyBinding
+		keybindRestorePreviousSession: optionSanitizers.keyBinding,
+		keybindEnabled: optionSanitizers.bool
 	}
 
 	options.set = function(opt, val) {
@@ -99,4 +90,4 @@ window.terafm.options = {};
 
 	}
 
-})(terafm.options);
+})(terafm.options, terafm.defaultOptions);

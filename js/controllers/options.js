@@ -1,40 +1,80 @@
+function keyCapture() {
+	var keyInpts = document.querySelectorAll('.set-shortcut'),
+		currInput = undefined,
 
-var keyInpts = document.querySelectorAll('.set-shortcut')
-for(input of keyInpts) {
-	captureKeysForInput(input)
+		captureOverlay = document.querySelector('#key-combo-capturer'),
+		capturePlaceholder = captureOverlay.querySelector('.placeholder');
+		disableBtn = captureOverlay.querySelector('[data-trigger-disable]'),
+		setDefaultBtn = captureOverlay.querySelector('[data-trigger-default]');
+
+	// Attach function to inputs
+	for(input of keyInpts) {
+		attachTo(input)
+	}
+
+	disableBtn.addEventListener('click', function() {
+		currInput.value = '';
+		saveInput()
+		closeCapture()
+	});
+
+	setDefaultBtn.addEventListener('click', function() {
+		currInput.value = currInput.defaultValue;
+		saveInput()
+		closeCapture()
+	});
+
+	function saveInput() {
+		var evt = new Event('change')
+		currInput.dispatchEvent(evt)
+	}
+
+	function closeCapture() {
+		captureOverlay.classList.add('hidden')
+	}
+
+	for(input of keyInpts) {
+		attachTo(input)
+	}
+
+	function attachTo(input) {
+		let shortcut = []
+
+		input.addEventListener('focus', function() {
+			currInput = input;
+			capturePlaceholder.innerHTML = 'Enter keyboard combination'
+			captureOverlay.classList.remove('hidden')
+			capturePlaceholder.classList.remove('accent')
+		})
+		input.addEventListener('blur', function() {
+			setTimeout(closeCapture, 400)
+		})
+
+
+		input.addEventListener('keydown', function(e) {
+			if(shortcut.indexOf(e.key) === -1) {
+				shortcut.push(e.key);
+				var txt = shortcut.join(' + ')
+
+				input.value = txt;
+				capturePlaceholder.innerHTML = txt;
+				capturePlaceholder.classList.add('accent')
+			}
+
+			e.preventDefault();
+			e.stopPropagation()
+		}, true);
+
+		input.addEventListener('keyup', function(e) {
+			shortcut = []
+			input.blur()
+		}, true);
+
+	}
+
 }
 
-function captureKeysForInput(input) {
-	let shortcut = []
-
-
-	input.addEventListener('keydown', function(e) {
-
-		if(shortcut.indexOf(e.key) === -1) {
-			shortcut.push(e.key);
-
-			input.value = shortcut.join(' + ');
-		}
-
-		e.preventDefault();
-		e.stopPropagation()
-	}, true);
-
-	input.addEventListener('keyup', function(e) {
-
-		shortcut = []
-		
-		// for (var i in shortcut) {
-		// 	if(shortcut[i] === e.key) {
-		// 		shortcut = shortcut.splice(i, 0)
-		// 	}
-		// }
-
-		input.blur()
-	}, true);
-
-}
-
+keyCapture();
 
 
 
@@ -151,8 +191,31 @@ function captureKeysForInput(input) {
 // Will also restore values on load
 ;(function() {
 
-	var options = document.getElementsByClassName('autosave');
+	var options = document.getElementsByClassName('autosave'),
+		defaultOptions = terafm.defaultOptions.getAll();
 
+	// Set default options first
+	(function() {
+		for(var def in defaultOptions) {
+			var el = document.querySelector('[data-option="'+ def +'"]')
+			if(el) {
+
+				// Set default value as data prop for key bindings (to be able to reset)
+				if(def.indexOf('keybind') !== -1 && Array.isArray(defaultOptions[def])) {
+					var joined = defaultOptions[def].join(' + ')
+					setOption(el, joined);
+					el.defaultValue = joined
+
+					console.log('extra treated', defaultOptions[def])
+				} else {
+					setOption(el, defaultOptions[def]);
+				}
+			}
+		}
+	})();
+
+
+	// Loop through saved options and override defaults
 	if(options.length) {
 
 		// Get all currently stored
@@ -171,13 +234,9 @@ function captureKeysForInput(input) {
 				// If we have a stored value of this option, update form elem
 				if((stored[optionName] !== undefined)) {
 
-					// Checkboxes
-					if(opt.type === 'checkbox') {
-						opt.checked = stored[optionName];
+					var san;
 
-					// Sanitazion for storageTimeDays
-					} else if(opt.dataset.option === 'storageTimeDays') {
-
+					if(opt.dataset.option === 'storageTimeDays') {
 						var days = parseInt(stored[optionName]),
 							san =	(days > 0 && days < 366) ? days :
 									(days > 365) ? 365 : 
@@ -185,12 +244,9 @@ function captureKeysForInput(input) {
 									7;
 
 						opt.value = san;
-
-
-					// Any other input
-					} else {
-						opt.value = stored[optionName];
 					}
+
+					setOption(opt, san || stored[optionName])
 				}
 
 				// Set event listener which updates stored value
@@ -199,6 +255,14 @@ function captureKeysForInput(input) {
 			}
 
 		});
+	}
+
+	function setOption(elem, value) {
+		if(elem.type === 'checkbox') {
+			elem.checked = value
+		} else {
+			elem.value = value
+		}
 	}
 
 

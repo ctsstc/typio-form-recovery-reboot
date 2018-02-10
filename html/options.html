@@ -7,6 +7,12 @@
 </head>
 <body>
 
+	<div id="key-combo-capturer" class="hidden">
+		<p class="placeholder"></p>
+		<p>or</p>
+		<p class="actions"><button>Cancel (keep current)</button> <button data-trigger-disable>Disable shortcut</button> <button data-trigger-default>Reset default</button></p>
+	</div>
+
 	<div class="menu-panel">
 		<div class="fixed">
 			<p class="title">Menu</p>
@@ -18,44 +24,26 @@
 		</div>
 	</div>
 
-	<div id="keycombo-group" class="options-panel">
-
-		<div class="opt-group">
-			<p class="opt-title">Keyboard shortcuts</p>
-
-			<p>To change a key combination, click an existing one to highlight it and then press your desired combination. Be careful not to override existing system behaviour.</p>
-
-			<div class="key-combo-module">
-				<p class="key-combo-item">
-					Open/Close Recovery Dialog:
-					<input data-option="keybindToggleRecDiag" class="autosave set-shortcut" type="text">
-				</p>
-
-				<p class="key-combo-item">
-					Auto restore last session:
-					<input data-option="keybindRestorePreviousSession" class="autosave set-shortcut" type="text">
-				</p>
-			</div>
-		</div>
+	<div id="save-indicator-group" class="options-panel">
 
 		<div id="save-indicator-group" class="opt-group">
 			<p class="opt-title">Save indicator</p>
 
-			<p>The save indicator will appear when you focus on an input field that Typio recognizes, and will animate upon save.</p>
+			<p>The save indicator will appear when you focus on an input field Typio recognizes, and will animate upon save.</p>
 			<select class="autosave" data-option="saveIndicator">
 				<option value="topline">Top line</option>
 				<option value="cornertriag">Corner triangle</option>
 				<option value="disable">Disable</option>
 			</select>
 			&nbsp;
-			<input class="autosave" type="color" data-option="saveIndicatorColor" value="#3CB720">
+			<input class="autosave" type="color" data-option="saveIndicatorColor">
 		</div>
 
 		<div id="saving-options-group" class="opt-group">
 			<p class="opt-title">Save options</p>
 
 			<p>
-				Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text" value="7">&nbsp; days
+				Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text">&nbsp; days
 			</p>
 			<p>
 				<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
@@ -67,6 +55,30 @@
 			</p>
 
 			<p class="note">Note: Disabling these options will not delete any currently saved data.</p>
+		</div>
+
+		<div id="keycombo-group" class="opt-group">
+			<p class="opt-title">Keyboard shortcuts</p>
+
+			<p>Keyboard shortcuts are a handy way to get things done quicker. Click a keyboard shortcut to change it's key combination or disable it.</p>
+
+			<div class="key-combo-module">
+
+				<p>
+					<input class="autosave" type="checkbox" data-option="keybindEnabled" id="checkboxKeybindEnabled">
+					<label for="checkboxKeybindEnabled">&nbsp;Enable keyboard shortcuts</label>
+				</p>
+
+				<p class="key-combo-item">
+					Open/Close Recovery Dialog:
+					<input data-option="keybindToggleRecDiag" class="autosave set-shortcut" placeholder="disabled" type="text">
+				</p>
+
+				<p class="key-combo-item">
+					Auto restore last session:
+					<input data-option="keybindRestorePreviousSession" class="autosave set-shortcut" placeholder="disabled" type="text">
+				</p>
+			</div>
 		</div>
 
 		<div id="blacklist-group" class="opt-group">
