@@ -46,12 +46,18 @@
 				Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text">&nbsp; days
 			</p>
 			<p>
-				<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
-				<label for="checkboxSavePasswords">&nbsp;Save password fields</label>
+				<div class="fancy-chk">
+					<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
+					<span class="chk"></span>
+				</div>
+				<label for="checkboxSavePasswords">Save password fields</label>
 			</p>
 			<p>
-				<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
-				<label for="checkboxSaveCreditCards">&nbsp;Save credit card numbers</label>
+				<div class="fancy-chk">
+					<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
+					<span class="chk"></span>
+				</div>
+				<label for="checkboxSaveCreditCards">Save credit card numbers</label>
 			</p>
 
 			<p class="note">Note: Disabling these options will not delete any currently saved data.</p>
@@ -61,14 +67,14 @@
 			<p class="opt-title">Keyboard shortcuts</p>
 
 			<p>Keyboard shortcuts are a handy way to get things done quicker. Click a keyboard shortcut to change it's key combination or disable it.</p>
+			
+			<div class="fancy-chk">
+				<input class="autosave" type="checkbox" data-option="keybindEnabled" id="checkboxKeybindEnabled">
+				<span class="chk"></span>
+			</div>
+			<label for="checkboxKeybindEnabled">Enable keyboard shortcuts</label>
 
 			<div class="key-combo-module">
-
-				<p>
-					<input class="autosave" type="checkbox" data-option="keybindEnabled" id="checkboxKeybindEnabled">
-					<label for="checkboxKeybindEnabled">&nbsp;Enable keyboard shortcuts</label>
-				</p>
-
 				<p class="key-combo-item">
 					Open/Close Recovery Dialog:
 					<input data-option="keybindToggleRecDiag" class="autosave set-shortcut" placeholder="disabled" type="text">
