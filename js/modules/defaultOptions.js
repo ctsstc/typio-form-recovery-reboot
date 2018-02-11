@@ -1,10 +1,10 @@
 window.terafm = window.terafm || {};
 window.terafm.defaultOptions = {};
 
+// Default options as stored in database. Needs to be sanitized (keybindigs especially).
 (function(defaultOptions, help) {
 	'use strict';
 
-	// Default values, can be overwritten and saved in chrome
 	var def = {}
 	
 	// Todo: Reset defaults
@@ -14,18 +14,17 @@ window.terafm.defaultOptions = {};
 	def.saveIndicator = 'topline';
 	def.saveIndicatorColor = '#3CB720';
 	def.hideSmallEntries = true;
-
 	def.keybindEnabled = true;
 
-	// Mac
+	// Mac specific
 	if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {
-		def.keybindToggleRecDiag = ['Control', 'Delete']
-		def.keybindRestorePreviousSession = ['Control', 'Alt', 'Delete']
+		def.keybindToggleRecDiag = 'Control + Delete';
+		def.keybindRestorePreviousSession = 'Control + Alt + Delete';
 
 	// Windows and everything else
 	} else {
-		def.keybindToggleRecDiag = ['Alt', 'Delete']
-		def.keybindRestorePreviousSession = ['Shift', 'Alt', 'Delete']
+		def.keybindToggleRecDiag = 'Alt + Delete';
+		def.keybindRestorePreviousSession = 'Shift + Alt + Delete';
 	}
 	
 

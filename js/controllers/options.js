@@ -199,16 +199,12 @@ keyCapture();
 		for(var def in defaultOptions) {
 			var el = document.querySelector('[data-option="'+ def +'"]')
 			if(el) {
+				setOption(el, defaultOptions[def]);
 
 				// Set default value as data prop for key bindings (to be able to reset)
-				if(def.indexOf('keybind') !== -1 && Array.isArray(defaultOptions[def])) {
-					var joined = defaultOptions[def].join(' + ')
-					setOption(el, joined);
-					el.defaultValue = joined
-
-					console.log('extra treated', defaultOptions[def])
-				} else {
-					setOption(el, defaultOptions[def]);
+				if(def.indexOf('keybind') !== -1) 	{
+					el.defaultValue = defaultOptions[def]
+					console.log('saved default for', def, defaultOptions[def])
 				}
 			}
 		}
