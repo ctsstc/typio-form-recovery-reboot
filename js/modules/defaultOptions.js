@@ -7,7 +7,6 @@ window.terafm.defaultOptions = {};
 
 	var def = {}
 	
-	// Todo: Reset defaults
 	def.savePasswords = false;
 	def.saveCreditCards = false;
 	def.storageTimeDays = 7;

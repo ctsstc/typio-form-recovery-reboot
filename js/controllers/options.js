@@ -204,7 +204,6 @@ keyCapture();
 				// Set default value as data prop for key bindings (to be able to reset)
 				if(def.indexOf('keybind') !== -1) 	{
 					el.defaultValue = defaultOptions[def]
-					console.log('saved default for', def, defaultOptions[def])
 				}
 			}
 		}

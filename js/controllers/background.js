@@ -1,10 +1,4 @@
 
-// Todo: REMOVE THIS!!
-chrome.storage.sync.clear()
-
-// Todo: Unused, remove next version
-//chrome.storage.sync.set({ keyboardOpenRecDiag : 'ctrl+del'})
-
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 	// If not complete or invalid URL
