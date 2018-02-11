@@ -91,7 +91,7 @@
 					<div class="inner-content">
 						<h2>Site settings</h2>
 						<p><a class="trigger-delete-all">Delete all</a> saved data for this site.</p>
-						<p><a class="trigger-blacklist">Disable Typio on this site (add to blacklist)</a></p>
+						<!-- <p><a class="trigger-blacklist">Disable Typio on this site (add to blacklist)</a></p> -->
 
 						<br/>
 

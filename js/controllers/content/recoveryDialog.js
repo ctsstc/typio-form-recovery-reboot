@@ -226,7 +226,7 @@ terafm.recoveryDialogController = {};
 
 			// Add site to blacklist trigger
 			} else if(target.classList.contains('trigger-blacklist')) {
-				chrome.storage.sync.get('domainBlacklist', function(res) {
+				/*chrome.storage.sync.get('domainBlacklist', function(res) {
 					var blacklist = res.domainBlacklist;
 					blacklist += window.location.hostname + "\r\n";
 					chrome.storage.sync.set({
@@ -235,7 +235,7 @@ terafm.recoveryDialogController = {};
 					target.parentElement.insertAdjacentHTML('afterbegin', 'Added to blacklist. Typio will not save any data on ' + window.location.hostname +' anymore. You can enable the extension for this site again by removing it from the blacklist in the extension settings.');
 					target.parentElement.removeChild(target);
 
-				});
+				});*/
 			} else if(target.classList.contains('toggleHideSmallEntries')) {
 				let value = target.checked === true ? 1 : 0;
 				options.set('hideSmallEntries', value);
