@@ -47,7 +47,7 @@ window.terafm.options = {};
 				}
 			}
 
-			console.log(globalOptions)
+			// console.log(globalOptions)
 
 			hasLoadedFromStorage = true;
 			if(callback) callback();

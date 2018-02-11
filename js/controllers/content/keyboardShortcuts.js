@@ -29,8 +29,6 @@ window.terafm = window.terafm || {};
 
 			if(keybindRestorePreviousSession.length) {
 				keyboardShortcuts.on(keybindRestorePreviousSession, function() {
-					console.log('yay!! restoring last session.')
-
 					var fields = db.getLatestSession(),
 						totalCount = Object.keys(fields).length,
 						fails = 0;
