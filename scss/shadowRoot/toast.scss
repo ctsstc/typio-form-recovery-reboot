@@ -1,0 +1,35 @@
+#toast-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+
+	.toast {
+		display: inline-block;
+		padding: 10px 16px;
+		background: rgba(0,0,0,.8);
+		color: #FFF;
+		font-size: 14px;
+		font-family: sans-serif;
+		border-radius: 3px;
+		animation: animateIn 3s;
+		animation-fill-mode: forwards;
+	}
+}
+
+@keyframes animateIn {
+	0% {
+		transform: translateY(-105%)
+	}
+
+	10% {
+		transform: translateY(30px)
+	}
+	90% {
+		transform: translateY(30px)
+	}
+	100% {
+		transform: translateY(-105%)
+	}
+}
