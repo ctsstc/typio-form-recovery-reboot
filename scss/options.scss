@@ -80,8 +80,7 @@ input[type='color'] {
 
 .opt-group {
     background: #FFF;
-    box-shadow: 0 0 3px rgba(0, 0, 0, .1), 0 2px 4px rgba(0, 0, 0, .2);
-    border-radius: 3px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 1px 10px rgba(0,0,0,.05);
     margin-bottom: 30px;
     padding: 20px;
 
@@ -159,12 +158,24 @@ input[type='color'] {
 			padding: 0;
 			font-size: 13px;
 
+			&.okAnim {
+				animation: okAnim .3s;
+			}
+
+			@keyframes okAnim {
+				50% {
+					// background: #33A851;
+					transform: scale(1.1);
+				}
+			}
+
 			&:placeholder-shown {
 				opacity: .5;
 			}
 
 			&:hover {
 				background: #E5E5E5;
+				opacity: 1;
 			}
 
 			// &:focus {
