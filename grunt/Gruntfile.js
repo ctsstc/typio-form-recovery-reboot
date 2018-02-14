@@ -126,6 +126,7 @@ module.exports = function(grunt) {
                         '../js/modules/cache.js',
                         '../js/modules/DOMEvents.js',
                         '../js/modules/keyboardShortcuts.js',
+                        '../js/modules/toast.js',
 
                         // Controllers
                         '../js/controllers/content.js',
