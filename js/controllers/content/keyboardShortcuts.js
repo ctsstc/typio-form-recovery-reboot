@@ -1,6 +1,6 @@
 window.terafm = window.terafm || {};
 
-(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, initHandler, options, keyboardShortcuts) {
+(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, initHandler, options, keyboardShortcuts, toast) {
 	'use strict';
 
 	initHandler.onInit(function() {
@@ -48,10 +48,12 @@ window.terafm = window.terafm || {};
 							fails++;
 						}
 					}
+
+					toast.create('Restoring previous session')
 				})
 			}
 
 		}
 	})
 
-})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.initHandler, terafm.options, terafm.keyboardShortcuts);
+})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);
