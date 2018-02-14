@@ -29,6 +29,9 @@ window.terafm = window.terafm || {};
 
 			if(keybindRestorePreviousSession.length) {
 				keyboardShortcuts.on(keybindRestorePreviousSession, function() {
+
+					toast.create('Restoring previous session')
+					
 					var fields = db.getLatestSession(),
 						totalCount = Object.keys(fields).length,
 						fails = 0;
@@ -48,8 +51,6 @@ window.terafm = window.terafm || {};
 							fails++;
 						}
 					}
-
-					toast.create('Restoring previous session')
 				})
 			}
 
