@@ -77,7 +77,7 @@
 		for(let revKey in revKeys) {
 
 			// Skip current session
-			if(revKeys[revKey] == (currSessionId+"")) continue;
+			//if(revKeys[revKey] == (currSessionId+"")) continue;
 			if(itemsLeft < 1) break; itemsLeft--;
 
 			let sessId = revKeys[revKey],
