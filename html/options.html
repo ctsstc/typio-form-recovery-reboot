@@ -10,7 +10,7 @@
 	<div id="key-combo-capturer" class="hidden">
 		<p class="placeholder"></p>
 		<p>or</p>
-		<p class="actions"><button>Cancel (keep current)</button> <button data-trigger-disable>Disable shortcut</button> <button data-trigger-default>Reset default</button></p>
+		<p class="actions"><button data-trigger-cancel>Cancel (keep current)</button> <button data-trigger-disable>Disable shortcut</button> <button data-trigger-default>Reset default</button></p>
 	</div>
 
 	<div class="menu-panel">
@@ -60,7 +60,7 @@
 				<label for="checkboxSaveCreditCards">Save credit card numbers</label>
 			</p>
 
-			<p class="note">Note: Disabling these options will not delete any currently saved data.</p>
+			<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
 		</div>
 
 		<div id="keycombo-group" class="opt-group">
@@ -83,6 +83,10 @@
 					Auto restore last session:
 					<input data-option="keybindRestorePreviousSession" class="autosave set-shortcut" placeholder="disabled" type="text">
 				</p>
+	
+				<div class="change-msg hidden">
+					<p class="note">Psst. You'll have to refresh currently open web pages for the keyboard changes to take effect.</p>
+				</div>
 			</div>
 		</div>
 

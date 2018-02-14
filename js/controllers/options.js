@@ -2,8 +2,13 @@ function keyCapture() {
 	var keyInpts = document.querySelectorAll('.set-shortcut'),
 		currInput = undefined,
 
+		changeMsg = document.querySelector('.key-combo-module .change-msg'),
+
 		captureOverlay = document.querySelector('#key-combo-capturer'),
-		capturePlaceholder = captureOverlay.querySelector('.placeholder');
+		capturePlaceholder = captureOverlay.querySelector('.placeholder'),
+
+
+		cancelBtn = captureOverlay.querySelector('[data-trigger-cancel]'),
 		disableBtn = captureOverlay.querySelector('[data-trigger-disable]'),
 		setDefaultBtn = captureOverlay.querySelector('[data-trigger-default]');
 
@@ -12,17 +17,27 @@ function keyCapture() {
 		attachTo(input)
 	}
 
+	cancelBtn.addEventListener('click', function() {
+		closeCapture()
+	})
+
 	disableBtn.addEventListener('click', function() {
 		currInput.value = '';
 		saveInput()
 		closeCapture()
+		showChangeMsg()
 	});
 
 	setDefaultBtn.addEventListener('click', function() {
 		currInput.value = currInput.defaultValue;
 		saveInput()
 		closeCapture()
+		showChangeMsg()
 	});
+
+	function showChangeMsg() {
+		changeMsg.classList.remove('hidden')
+	}
 
 	function saveInput() {
 		var evt = new Event('change')
@@ -68,6 +83,7 @@ function keyCapture() {
 		input.addEventListener('keyup', function(e) {
 			shortcut = []
 			input.blur()
+			showChangeMsg()
 		}, true);
 
 	}
@@ -77,6 +93,18 @@ function keyCapture() {
 keyCapture();
 
 
+
+(function() {
+
+	var saveOptsGrp = document.querySelector('#saving-options-group');
+
+	saveOptsGrp.addEventListener('change', function(e) {
+
+		if(e.target.type === 'checkbox' && e.target.checked !== true) {
+			saveOptsGrp.querySelector('.note').classList.remove('hidden')
+		}
+	});
+})();
 
 
 // Handle blacklist module
