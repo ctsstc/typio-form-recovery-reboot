@@ -46,6 +46,11 @@ function keyCapture() {
 
 	function closeCapture() {
 		captureOverlay.classList.add('hidden')
+		currInput.blur()
+		currInput.classList.remove('okAnim')
+		setTimeout(function() {
+			currInput.classList.add('okAnim')
+		}, 100)
 	}
 
 	for(input of keyInpts) {
@@ -60,9 +65,6 @@ function keyCapture() {
 			capturePlaceholder.innerHTML = 'Enter keyboard combination'
 			captureOverlay.classList.remove('hidden')
 			capturePlaceholder.classList.remove('accent')
-		})
-		input.addEventListener('blur', function() {
-			setTimeout(closeCapture, 400)
 		})
 
 
@@ -83,6 +85,7 @@ function keyCapture() {
 		input.addEventListener('keyup', function(e) {
 			shortcut = []
 			input.blur()
+			closeCapture();
 			showChangeMsg()
 		}, true);
 
