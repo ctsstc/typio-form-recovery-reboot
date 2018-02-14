@@ -17,13 +17,13 @@ window.terafm.defaultOptions = {};
 
 	// Mac specific
 	if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {
-		def.keybindToggleRecDiag = 'Control + Delete';
-		def.keybindRestorePreviousSession = 'Control + Alt + Delete';
+		def.keybindToggleRecDiag = 'Control + Backspace';
+		def.keybindRestorePreviousSession = 'Control + Alt + Backspace';
 
 	// Windows and everything else
 	} else {
-		def.keybindToggleRecDiag = 'Alt + Delete';
-		def.keybindRestorePreviousSession = 'Shift + Alt + Delete';
+		def.keybindToggleRecDiag = 'Alt + Backspace';
+		def.keybindRestorePreviousSession = 'Shift + Alt + Backspace';
 	}
 	
 
