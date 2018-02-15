@@ -3,8 +3,10 @@
 	top: 0;
 	left: 0;
 	right: 0;
+	height: 0;
 	text-align: center;
 	z-index: 9999999999999;
+	pointer-events: none;
 
 	.toast {
 		display: inline-block;
