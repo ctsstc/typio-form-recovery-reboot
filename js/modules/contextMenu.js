@@ -40,6 +40,18 @@ terafm.contextMenu = {};
 	};
 
 	contextMenu.position = function(coordinates) {
+		var padding = 20,
+			height = menuNode.clientHeight,
+			width = menuNode.clientWidth;
+
+		if(coordinates.y + height + padding > window.scrollY + window.innerHeight) {
+			coordinates.y -= height;
+		}
+
+		if(coordinates.x + width + padding > window.scrollX + window.innerWidth) {
+			coordinates.x -= width;
+		}
+
 		menuNode.style = 'top: '+ coordinates.y +'px; left: '+ coordinates.x +'px;';
 	}
 

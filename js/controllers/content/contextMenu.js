@@ -56,8 +56,10 @@
 			let data = getDataByEditable(contextTarget);
 
 			contextMenu.populate(data);
-			contextMenu.position(contextPos);
 			contextMenu.show();
+			requestAnimationFrame(function() {
+				contextMenu.position(contextPos);
+			})
 		});
 	}
 
