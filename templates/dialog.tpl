@@ -18,7 +18,7 @@
 			<div class="content">
 				<div class="filter">
 					Filter:
-					<input type="checkbox" id="hideSmallEntries" class="toggleHideSmallEntries typioIgnoreField">
+					<input type="checkbox" id="hideSmallEntries" class="toggleHideSmallEntries typioIgnoreField" />
 					<label for="hideSmallEntries">Hide small entries (<span class="small-entries-filler"></span>)</label>
 				</div>
 
@@ -40,7 +40,6 @@
 						<button class="trigger-recover-single health-ok" title="Restore just this entry">Restore just this</button>
 						<button class="trigger-copy health-ok icon-btn" title="Copy text to clipboard">Copy</button>
 						<button class="trigger-copy health-bad primary" title="Copy text to clipboard (The original input field does not exist anymore or has been moved.)">Copy to clipboard</button>
-						&nbsp;<!-- Can't figure out why but without this a single button gets top-aligned on some sites.  -->
 					</div>
 
 					<div class="header-partial partial-settings">
@@ -91,7 +90,6 @@
 					<div class="inner-content">
 						<h2>Site settings</h2>
 						<p><a class="trigger-delete-all">Delete all</a> saved data for this site.</p>
-						<!-- <p><a class="trigger-blacklist">Disable Typio on this site (add to blacklist)</a></p> -->
 
 						<br/>
 
@@ -99,8 +97,8 @@
 						<p><a class="trigger-open-extension-settings">Click here</a> to open extension settings.</p>
 						<p></p>
 
-						<br/><hr>
-						<p>Leave feedback or feature requests on our <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open">bitbucket page</a>. Are you a developer? Typio Form Recovery is open source, feel free to contribute!</p>
+						<br/><hr/>
+						<p>Leave feedback or feature requests on our <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new">bitbucket page</a>.</p>
 					</div>
 				</div>
 				<div class="content-partial partial-default partial-current">

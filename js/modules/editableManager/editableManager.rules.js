@@ -15,7 +15,7 @@ terafm.editableManager = terafm.editableManager || {};
 
 
 	function passwordCheck(elem) {
-		if(elem.nodeName === 'INPUT' && elem.type === 'password' && terafm.options.get('savePasswords') !== true) {
+		if(elem.nodeName.toLowerCase() === 'input' && elem.type === 'password' && terafm.options.get('savePasswords') !== true) {
 			// console.log('password rule check failed');
 			return false;
 		}

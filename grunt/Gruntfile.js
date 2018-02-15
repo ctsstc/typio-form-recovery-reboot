@@ -15,17 +15,6 @@ module.exports = function(grunt) {
                     dest: '../publish/html'
                 }]
             },
-            templates: {
-                options: {
-                    removeComments: true,
-                    collapseWhitespace: true
-                },
-                files: [{
-                    expand: true,
-                    src: ['../templates/**/*.tpl'],
-                    dest: '../publish/templates'
-                }]
-            }
         },
 
         copy: {
@@ -40,6 +29,14 @@ module.exports = function(grunt) {
                     ],
                     dest: '../publish/img'
                 }],
+            },
+            templates: {
+                files: [{
+                    expand: true,
+                    cwd: '../',
+                    src: 'templates/*.tpl',
+                    dest: '../publish/'
+                }]
             },
             misc: {
                 files: [{
@@ -185,7 +182,7 @@ module.exports = function(grunt) {
             },
 
             html: {
-                files: ['../html/**/*.html', '../templates/**/*.tpl'],
+                files: ['../html/**/*.html'],
                 tasks: ['htmlmin'],
                 options: {
                     spawn: false
@@ -203,6 +200,14 @@ module.exports = function(grunt) {
             copyMisc: {
                 files: ['../manifest.json', '../license.txt'],
                 tasks: ['copy:misc'],
+                options: {
+                    spawn: false
+                }
+            },
+
+            copyTemplates: {
+                files: ['../templates/**/*.tpl'],
+                tasks: ['copy:templates'],
                 options: {
                     spawn: false
                 }

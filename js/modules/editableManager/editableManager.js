@@ -21,6 +21,13 @@ terafm.editableManager = terafm.editableManager || {};
 		return false;
 	}
 
+	function isNode(elem, compare) {
+		if( (elem.nodeName + '').toLowerCase() === compare.toLowerCase() ) {
+			return true;
+		}
+		return false;
+	}
+
 
 	// Takes editablePath or editable dom node
 	editableManager.generateEditableId = function(editable) {
@@ -119,14 +126,14 @@ terafm.editableManager = terafm.editableManager || {};
 		if(!isElement(elem)) return false;
 
 		// Check if input with valid type
-		if(elem.nodeName == 'INPUT' && editableManager.editableTypes.includes(elem.type)) {
+		if(isNode(elem, 'INPUT') && editableManager.editableTypes.includes(elem.type)) {
 			return true;
 
 		// Check if textarea
-		} else if(elem.nodeName == 'TEXTAREA') {
+		} else if(isNode(elem, 'TEXTAREA')) {
 			return true;
 
-		} else if(elem.nodeName == 'SELECT') {
+		} else if(isNode(elem, 'SELECT')) {
 			return true;
 
 		// Check if contenteditable
@@ -141,13 +148,13 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.isEditableText = function(elem) {
 		if(!isElement(elem)) return false;
 
-		if(elem.nodeName == 'INPUT' && editableManager.textEditableTypes.includes(elem.type)) {
+		if(isNode(elem, 'INPUT') && editableManager.textEditableTypes.includes(elem.type)) {
 			return true;
 
 		} else if(elem.getAttribute('contenteditable') == 'true') {
 			return true;
 
-		} else if(elem.nodeName == 'TEXTAREA') {
+		} else if(isNode(elem, 'TEXTAREA')) {
 			return true;
 		}
 
@@ -177,7 +184,7 @@ terafm.editableManager = terafm.editableManager || {};
 	editableManager.getEditableValue = function(editable, trim) {
 		let value;
 
-		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA' || editable.nodeName === 'SELECT') {
+		if(isNode(editable, 'input') || isNode(editable, 'textarea') || isNode(editable, 'select')) {
 
 			// Special care for checkable inputs
 			if(editable.type === 'checkbox' || editable.type === 'radio') {
@@ -206,7 +213,7 @@ terafm.editableManager = terafm.editableManager || {};
 
 
 	editableManager.setEditableValue = function(editable, val) {
-		if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
+		if(isNode(editable, 'INPUT') || isNode(editable, 'TEXTAREA')) {
 
 			// Special care for checkable inputs
 			if(editable.type === 'checkbox') {
@@ -231,7 +238,7 @@ terafm.editableManager = terafm.editableManager || {};
 				editable.value = val;
 			}
 
-		} else if(editable.nodeName == 'SELECT') {
+		} else if(isNode(editable, 'SELECT')) {
 			editable.value = val;
 
 		} else {
