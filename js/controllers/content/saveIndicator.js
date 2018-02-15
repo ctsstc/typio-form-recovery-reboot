@@ -6,6 +6,7 @@ window.terafm = window.terafm || {};
 		let isEnabled = options.get('saveIndicator') !== 'disable';
 
 		if(isEnabled) {
+
 			addEventListeners();
 		}
 	});
@@ -25,9 +26,10 @@ window.terafm = window.terafm || {};
 
 				let isEditable = editableManager.isEditableText(e.path[0]) && editableManager.checkRules(e.path[0]);
 
-				if(!isEditable) return true;
+				if(!isEditable) {
+					return false;
+				}
 
-				// console.log('focus: show indicator')
 				saveIndicator.show()
 				saveIndicator.animate();
 			});
@@ -35,7 +37,6 @@ window.terafm = window.terafm || {};
 
 		DOMEvents.registerHandler('blur', function() {
 			saveIndicator.build(function() {
-				// console.log('blur: hide indicator')
 				saveIndicator.hide()
 			});
 		});

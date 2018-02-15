@@ -41,6 +41,8 @@
 					editableManager.deleteRadioSiblingsFromStorage(editable);
 				}
 
+				// console.log('saving')
+
 				// If empty value, remove
 				if(editableManager.getEditableValue(editable, true).length < 1) {
 					db.deleteSingleRevisionByEditable(editableId, newSessId);
