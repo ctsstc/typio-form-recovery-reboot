@@ -108,7 +108,7 @@ terafm.editableManager = terafm.editableManager || {};
 	function saveOriginalValue(editable) {
 
 		if(!editable.dataset.hasOwnProperty('teraOrgValue')) {
-			if(editable.nodeName == 'INPUT' || editable.nodeName == 'TEXTAREA') {
+			if(editable.nodeName.toLowerCase() == 'input' || editable.nodeName.toLowerCase() == 'textarea') {
 
 				if(editable.type === 'checkbox') {
 					editable.dataset.teraOrgValue = editable.checked ? 1 : 0;
@@ -127,7 +127,7 @@ terafm.editableManager = terafm.editableManager || {};
 					editable.dataset.teraOrgValue = editable.value;
 				}
 
-			} else if(editable.nodeName == 'SELECT') {
+			} else if(editable.nodeName.toLowerCase() == 'select') {
 				editable.dataset.teraOrgValue = editable.value;
 
 			// Contenteditable
