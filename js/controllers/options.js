@@ -225,6 +225,8 @@ keyCapture();
 	var options = document.getElementsByClassName('autosave'),
 		defaultOptions = terafm.defaultOptions.getAll();
 
+	console.log('default options', defaultOptions)
+
 	// Set default options first
 	(function() {
 		for(var def in defaultOptions) {
@@ -246,6 +248,8 @@ keyCapture();
 
 		// Get all currently stored
 		chrome.storage.sync.get(null, function(stored) {
+
+			console.log('stored options', stored);
 
 			// Loop through all options found on page
 			for(var optI=0; optI < options.length; ++optI) {
