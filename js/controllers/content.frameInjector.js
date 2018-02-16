@@ -52,7 +52,7 @@ window.terafmInjected = true;
 			if(allNodes[i].nodeType !== 1) continue;
 
 			// Found iframe
-			if(allNodes[i].nodeName === 'IFRAME') {
+			if(allNodes[i].nodeName.toLowerCase() === 'iframe') {
 				inject(allNodes[i]);
 			}
 
