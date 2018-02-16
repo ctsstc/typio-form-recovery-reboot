@@ -4,7 +4,7 @@
     "name": "Typio Form Recovery",
     "short_name": "Typio",
     "description": "Autosave, everywhere. Recover lost form input with ease!",
-    "version": "1.6.6",
+    "version": "1.7.0",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
