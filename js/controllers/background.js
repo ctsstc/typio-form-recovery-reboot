@@ -1,5 +1,3 @@
-// Todo: REMOVE!!
-chrome.storage.sync.clear();
 
 chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
