@@ -9,6 +9,20 @@ Pull requests are welcome if you'd like to contribute.
 
 # Changelog
 
+### Version 1.6.5 (16th Feb, 2018):
+- New: Added support for websites using XML content types (battle.net)
+- New: Added edge detection for positioning right-click popup menu.
+- New: Right-click popup menu no longer hides current session data.
+- New: Added ability to set your own keyboard shortcuts
+- Change: Changed default keyboard shortcuts to prevent issues on Mac OS
+
+
+### Version 1.6.2 (8th Feb, 2018):
+- Change: Changed keyboard shortcut hints to reflect changes from last version.
+
+### Version 1.6.1 (7th Feb, 2018):
+- Change: Remapped keyboard shortcut for opening recovery dialog from Ctrl+Del to Alt+Del to prevent unwanted behaviour (collision with existing behaviour).
+
 ### Version 1.6 (Jan 11th 2018)
 Primarily a maintenance release. Improves performance and fixes a couple minor annoyances.
 
