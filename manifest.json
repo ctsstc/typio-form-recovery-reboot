@@ -2,6 +2,7 @@
     "manifest_version": 2,
 
     "name": "Typio Form Recovery",
+    "short_name": "Typio",
     "description": "Autosave, everywhere. Recover lost form input with ease!",
     "version": "1.6.5",
     "icons": {
