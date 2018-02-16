@@ -225,8 +225,6 @@ keyCapture();
 	var options = document.getElementsByClassName('autosave'),
 		defaultOptions = terafm.defaultOptions.getAll();
 
-	console.log('default options', defaultOptions)
-
 	// Set default options first
 	(function() {
 		for(var def in defaultOptions) {
@@ -249,8 +247,6 @@ keyCapture();
 		// Get all currently stored
 		chrome.storage.sync.get(null, function(stored) {
 
-			console.log('stored options', stored);
-
 			// Loop through all options found on page
 			for(var optI=0; optI < options.length; ++optI) {
 				var opt = options[optI],
@@ -264,7 +260,7 @@ keyCapture();
 				// If we have a stored value of this option, update form elem
 				if((stored[optionName] !== undefined)) {
 
-					var san;
+					var san = undefined;
 
 					if(opt.dataset.option === 'storageTimeDays') {
 						var days = parseInt(stored[optionName]),
@@ -276,7 +272,7 @@ keyCapture();
 						opt.value = san;
 					}
 
-					setOption(opt, san || stored[optionName])
+					setOption(opt, san === undefined ? stored[optionName] : san)
 				}
 
 				// Set event listener which updates stored value
