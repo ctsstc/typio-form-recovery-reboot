@@ -23,7 +23,8 @@ window.terafm.optionSanitizer = {};
 
 		// Specific ones
 		keyBinding: function(value) {
-			return value.replace(/[^a-z+]/gi, '').split('+');
+			return value.replace(/\s/g, '').split('+');
+			// return value.replace(/[^a-z+]/gi, '').split('+');
 		},
 		saveIndicator: function(value) {
 			return ['topline', 'cornertriag', 'disable'].includes(value) ? value : undefined;
