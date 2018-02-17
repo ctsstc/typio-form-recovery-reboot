@@ -1,4 +1,7 @@
-(function(contextMenu, editableManager, db, recoveryDialogController, DOMEvents) {
+window.terafm = window.terafm || {};
+terafm.contextMenuController = {};
+
+(function(contextMenuController, contextMenu, editableManager, db, recoveryDialogController, DOMEvents) {
 
 	let contextTarget;
 	let contextPos = {};
@@ -6,6 +9,9 @@
 	let contextMenuNode;
 
 	let deepSetupComplete = false;
+
+	contextMenuController.open = () => { open() };
+	contextMenuController.setContext = (target, pos) => { contextTarget = target; contextPos = pos; }
 
 
 	// Chrome context item clicked
@@ -53,6 +59,7 @@
 		}
 
 		deepSetup(function() {
+
 			let data = getDataByEditable(contextTarget);
 
 			contextMenu.populate(data);
@@ -225,4 +232,4 @@
 		}
 	}
 
-})(terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents);
+})(terafm.contextMenuController, terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents);

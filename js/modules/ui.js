@@ -6,6 +6,7 @@ terafm.ui = {};
 
 	let shadowRootNode;
 
+	// Accepts dataObj.html or dataObj.path to template
 	ui.inject = function(dataObj, replaceObj, callback) {
 
 		// Make sure shadow root has been created

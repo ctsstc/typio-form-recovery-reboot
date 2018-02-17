@@ -6,8 +6,7 @@ terafm.contextMenu = {};
 
 	var menuNode,
 
-		contextmenuVisible = false,
-		contextTarget;
+		contextmenuVisible = false;
 
 	contextMenu.show = function() {
 		menuNode.classList.remove('hidden');
