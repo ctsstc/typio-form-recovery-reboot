@@ -132,6 +132,7 @@ module.exports = function(grunt) {
                             '../js/controllers/content/inputSaver.js',
                             '../js/controllers/content/keyboardShortcuts.js',
                             '../js/controllers/content/saveIndicator.js',
+                            '../js/controllers/content/popupTrigger.js',
                     ],
 
                     // Runs as content script
