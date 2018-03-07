@@ -31,8 +31,8 @@ window.terafm = window.terafm || {};
 
 				var rect = terafm.editableManager.getRect(editable)
 
-				node.style.top = rect.y + 4 + 'px';
-				node.style.left = rect.x + rect.width - 20 + 'px';
+				node.style.top = rect.y + 3 + 'px';
+				node.style.left = rect.x + rect.width - 22 + 'px';
 				
 				node.style.display = 'block';
 			}
@@ -47,7 +47,7 @@ window.terafm = window.terafm || {};
 	function makeThing() {
 		if(!node) {
 			ui.inject({
-				html: `<a id="popupTrigger" href="#" style="background: yellow; border-radius: 2px; opacity: .5; width: 16px; height: 16px; display: none;  position: absolute; top: 0; left: 0; z-index: 999999999;"></a>`,
+				html: `<a id="popupTrigger" class="terafm-quickAccessTrigger" href="#"></a>`,
 				returnNode: '#popupTrigger'
 			}, function(res) {
 				node = res;
