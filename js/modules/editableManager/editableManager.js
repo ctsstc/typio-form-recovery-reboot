@@ -29,30 +29,6 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 
-	// Takes editablePath or editable dom node
-	editableManager.generateEditableId = function(editable) {
-		let edPath = editable.tagName ? editableManager.genPath(editable) : editable;
-
-		return terafm.cache(edPath, function() {
-			return 'field' + terafm.help.hashStr(edPath);
-		});
-	}
-
-	editableManager.createEntryObject = function(editable, value) {
-
-		let editablePath = editableManager.genPath(editable),
-			typeData = getEditableType(editable),
-			data = {};
-
-		data = {
-			value: value,
-			path: editablePath,
-			...typeData // Append values
-		}
-
-		return data;
-	}
-
 	function getEditableType(editable) {
 
 		// Is input(various text types) or textarea or contenteditable
@@ -75,6 +51,64 @@ terafm.editableManager = terafm.editableManager || {};
 				meta: editable.name
 			};
 		}
+	}
+
+
+	editableManager.getRect = function(editable) {
+
+		var parent = editable,
+			size = editable.getBoundingClientRect(),
+			bodyRect = bodyRect = document.body.getBoundingClientRect(),
+			rect = {x: 0, y: 0, width: size.width, height: size.height};
+
+		while(parent) {
+			var prect = parent.getBoundingClientRect()
+			rect.x += prect.x;
+			rect.y += prect.y;
+
+			if(parent !== editable) {
+				rect.x += parent.clientLeft;
+				rect.y += parent.clientTop;
+			}
+			parent = parent.ownerDocument.defaultView.frameElement;
+		}
+
+		if(window.getComputedStyle(document.body)['position'] !== 'static') {
+
+			// Make position relative to body
+			rect.x -= bodyRect.x;
+			rect.y -= bodyRect.y;
+
+		} else {
+			rect.x += window.scrollX;
+			rect.y += window.scrollY;
+		}
+
+		return rect;
+	}
+
+	// Takes editablePath or editable dom node
+	editableManager.generateEditableId = function(editable) {
+		let edPath = editable.tagName ? editableManager.genPath(editable) : editable;
+
+		return terafm.cache(edPath, function() {
+			return 'field' + terafm.help.hashStr(edPath);
+		});
+	}
+
+	editableManager.createEntryObject = function(editable, value) {
+
+		let editablePath = editableManager.genPath(editable),
+			typeData = getEditableType(editable),
+			data = {};
+
+		data = {
+			value: value,
+			path: editablePath,
+			...typeData // Append values
+		}
+
+		return data;
 	}
 
 	editableManager.getEditableSessionId = function(editable) {
