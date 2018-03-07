@@ -30,7 +30,26 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 	});
 });
 
-try {
+// try {
+	chrome.storage.sync.get('hideContextItems', function(obj) {
+		if(obj.hideContextItems !== true) {
+			createContextMenus();
+		}
+	})
+
+// } catch(e) {}
+
+// React to changes 
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+	if(changes.hideContextItems && changes.hideContextItems.newValue === true) {
+		chrome.contextMenus.removeAll();
+
+	} else if(changes.hideContextItems && changes.hideContextItems.newValue === false) {
+		createContextMenus();
+	}
+})
+
+function createContextMenus() {
 	chrome.contextMenus.create({
 		id: 'recoverEditable',
 		title : 'Recover this field',
@@ -42,7 +61,7 @@ try {
 		title : 'Open form recovery',
 		contexts : ['all']
 	});
-} catch(e) {}
+}
 
 chrome.contextMenus.onClicked.addListener(function(data) {
 
