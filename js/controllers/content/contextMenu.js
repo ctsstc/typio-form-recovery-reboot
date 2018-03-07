@@ -10,7 +10,19 @@ terafm.contextMenuController = {};
 
 	let deepSetupComplete = false;
 
-	contextMenuController.open = () => { open() };
+	contextMenuController.open = (context) => {
+		if(context === 'current' && terafm.focusedEditable) {
+			contextTarget = terafm.focusedEditable;
+			var rect = editableManager.getRect(contextTarget);
+			contextPos.x = rect.x + rect.width;
+			contextPos.y = rect.y;
+
+		}
+
+		if(contextTarget) {
+			open()
+		}
+	};
 	contextMenuController.setContext = (target, pos) => { contextTarget = target; contextPos = pos; }
 
 
@@ -24,25 +36,25 @@ terafm.contextMenuController = {};
 	DOMEvents.registerHandler('contextmenu', function(e) {
 		contextTarget = editableManager.getEditable(e.path[0]);
 
-		// console.log('setting contextTarget', contextTarget, e.path[0]);
-
 		if(contextTarget) {
+			
 			contextPos.x = e.pageX, contextPos.y = e.pageY;
-			let el = e.path[0], pos;
 
-			// If in frame, break out and grab coordinates for each frame
-			while(el.ownerDocument !== window.top.document) {
-				el = el.ownerDocument.defaultView.frameElement;
+			// let el = e.path[0], pos;
 
-				pos = el.getBoundingClientRect();
-				contextPos.x += pos.x;
-				contextPos.y += pos.y;
-			}
+			// // If in frame, break out and grab coordinates for each frame
+			// while(el.ownerDocument !== window.top.document) {
+			// 	el = el.ownerDocument.defaultView.frameElement;
 
-			if(pos) {
-				contextPos.x += window.scrollX;
-				contextPos.y += window.scrollY;
-			}
+			// 	pos = el.getBoundingClientRect();
+			// 	contextPos.x += pos.x;
+			// 	contextPos.y += pos.y;
+			// }
+
+			// if(pos) {
+			// 	contextPos.x += window.scrollX;
+			// 	contextPos.y += window.scrollY;
+			// }
 
 		}
 
@@ -196,6 +208,10 @@ terafm.contextMenuController = {};
 		} else if(sid && eid && !belongsToTarget) {
 			setPlaceholdersBy(isFinal, sid, eid, contextTarget);
 		}
+
+		// if(action === 'click') {
+		// 	contextTarget.focus()
+		// }
 
 	}
 

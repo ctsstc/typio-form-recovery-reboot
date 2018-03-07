@@ -43,11 +43,11 @@ terafm.contextMenu = {};
 			height = menuNode.clientHeight,
 			width = menuNode.clientWidth;
 
-		if(coordinates.y + height + padding > window.scrollY + window.innerHeight) {
-			coordinates.y -= height;
+		if( (coordinates.y + height + padding) > Math.max(document.body.scrollHeight, document.body.offsetHeight) ) {
+			coordinates.y -= height + 20;
 		}
 
-		if(coordinates.x + width + padding > window.scrollX + window.innerWidth) {
+		if( (coordinates.x + width + padding) > Math.max(document.body.scrollWidth, document.body.offsetWidth) ) {
 			coordinates.x -= width;
 		}
 

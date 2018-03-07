@@ -1,6 +1,6 @@
 window.terafm = window.terafm || {};
 
-(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, initHandler, options, keyboardShortcuts, toast) {
+(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, contextMenuController, initHandler, options, keyboardShortcuts, toast) {
 	'use strict';
 
 	initHandler.onInit(function() {
@@ -16,6 +16,12 @@ window.terafm = window.terafm || {};
 
 			var keybindToggleRecDiag = options.get('keybindToggleRecDiag'),
 				keybindRestorePreviousSession = options.get('keybindRestorePreviousSession')
+
+			if(true) {
+				keyboardShortcuts.on(['Alt', 'r'], function() {
+					contextMenuController.open('current')
+				})
+			}
 
 			if(keybindToggleRecDiag.length) {
 				keyboardShortcuts.on(keybindToggleRecDiag, function() {
@@ -57,4 +63,4 @@ window.terafm = window.terafm || {};
 		}
 	})
 
-})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);
+})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.contextMenuController, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);
