@@ -31,7 +31,7 @@ setTimeout(function() {
 	var shadowElm = document.querySelector('.dyno'),
 		shroot = shadowElm.attachShadow({mode: 'open'});
 
-	shroot.innerHTML = '<input placeholder="Input dynamic shadow DOM" /><input placeholder="Input2 dynamic shadow DOM" /><iframe></iframe>';
+	shroot.innerHTML = '<input placeholder="Input dynamic shadow DOM" /><input placeholder="Input2 dynamic shadow DOM" /><iframe height="180"></iframe>';
 
 	shroot.querySelector('iframe').contentWindow.document.body.innerHTML = '<input placeholder="placeholder dynamic" />';
 
@@ -39,7 +39,7 @@ setTimeout(function() {
 		shroot.querySelector('iframe').contentWindow.document.body.insertAdjacentHTML('afterbegin', '<input placeholder="new" />');
 
 		setTimeout(function() {
-			shroot.querySelector('iframe').contentWindow.document.body.insertAdjacentHTML('afterbegin', '<iframe height="40"></iframe>');
+			shroot.querySelector('iframe').contentWindow.document.body.insertAdjacentHTML('afterbegin', '<iframe height="40"></iframe><textarea placeholder="dsf" rows=5 cols=20></textarea>');
 			var iframe = shroot.querySelector('iframe').contentWindow.document.querySelector('iframe').contentWindow;
 			iframe.document.body.innerHTML = '<input type="new in iframe" />';
 		}, 1000);
