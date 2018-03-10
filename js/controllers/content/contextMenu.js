@@ -166,13 +166,10 @@ terafm.contextMenuController = {};
 		e.stopPropagation();
 	}
 
-	// I think this works because it's encapsulated within a shadowdom
-	// and html is not accessible as an ancestor. Maybe.
 	function contextmenuMouseleaveHandler(e) {
-
 		var target = e.relatedTarget;
 
-		if( target && target.closest('html') ) {
+		if( target && !target.closest('div > #contextmenu') ) {
 			terafm.editableManager.resetPlaceholders();
 		}
 	}
