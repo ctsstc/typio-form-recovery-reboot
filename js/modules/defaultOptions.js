@@ -14,16 +14,20 @@ window.terafm.defaultOptions = {};
 	def.saveIndicatorColor = '#3CB720';
 	def.hideSmallEntries = true;
 	def.keybindEnabled = true;
+	def.quickAccessButtonEnabled = true;
+	def.quickAccessButtonTrigger = 'focus';
 
 	// Mac specific
 	if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {
 		def.keybindToggleRecDiag = 'Control + Backspace';
 		def.keybindRestorePreviousSession = 'Control + Alt + Backspace';
+		def.keybindOpenQuickAccess = 'Control + r';
 
 	// Windows and everything else
 	} else {
 		def.keybindToggleRecDiag = 'Alt + Backspace';
 		def.keybindRestorePreviousSession = 'Shift + Alt + Backspace';
+		def.keybindOpenQuickAccess = 'Alt + r';
 	}
 	
 

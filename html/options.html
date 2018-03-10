@@ -67,6 +67,21 @@
 			<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
 		</div>
 
+		<div id="quickAccess-group" class="opt-group">
+			<p class="opt-title">Quick Access Icon</p>
+
+			<div class="fancy-chk">
+				<input class="autosave" type="checkbox" data-option="quickAccessButtonEnabled" id="checkboxQuickAccessButtonEnabled">
+				<span class="chk"></span>
+			</div>
+			<label for="checkboxQuickAccessButtonEnabled">Enable Quick Access icon</label>
+			<br><br>
+			<select class="autosave" data-option="quickAccessButtonTrigger">
+				<option value="focus">Display on input focus</option>
+				<option value="doubleclick">Display on input double click</option>
+			</select>
+		</div>
+
 		<div id="keycombo-group" class="opt-group">
 			<p class="opt-title">Keyboard shortcuts</p>
 
@@ -77,14 +92,6 @@
 			</div>
 			<label for="checkboxKeybindEnabled">Enable keyboard shortcuts</label>
 
-			<br>
-			
-			<div class="fancy-chk">
-				<input class="autosave" type="checkbox" data-option="hideContextItems" id="checkboxHideContextItems">
-				<span class="chk"></span>
-			</div>
-			<label for="checkboxHideContextItems">Hide Typio from context menu</label>
-
 			<div class="key-combo-module">
 				<p class="key-combo-item">
 					Open/Close Recovery Dialog:
@@ -94,6 +101,11 @@
 				<p class="key-combo-item">
 					Auto restore last session:
 					<input data-option="keybindRestorePreviousSession" class="autosave set-shortcut" placeholder="disabled" type="text">
+				</p>
+
+				<p class="key-combo-item">
+					Open Quick Access for selected field:
+					<input data-option="keybindOpenQuickAccess" class="autosave set-shortcut" placeholder="disabled" type="text">
 				</p>
 	
 				<div class="change-msg hidden">
@@ -114,6 +126,16 @@
 				<p class="error hidden">That doesn't look like a valid domain name to me.</p>
 				<ul id="domainBlacklist"></ul>
 			</div>
+		</div>
+
+		<div id="contextmenu-group" class="opt-group">
+			<p class="opt-title">Context menu</p>
+
+			<div class="fancy-chk">
+				<input class="autosave" type="checkbox" data-option="hideContextItems" id="checkboxHideContextItems">
+				<span class="chk"></span>
+			</div>
+			<label for="checkboxHideContextItems">Hide Typio from context menu</label>
 		</div>
 
 		<!-- <div class="opt-group">

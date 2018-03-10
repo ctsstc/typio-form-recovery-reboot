@@ -11,14 +11,11 @@ terafm.DOMEvents = {};
 	DOMEvents.trigger = function(type, event) {
 
 		// Loop through handlers and call
-		// let c = 0;
 		if(type in handlers) {
 			for(let h =0; h < handlers[type].length; ++h) {
 				handlers[type][h](event);
-				// c++;
 			}
 		}
-		// console.log(type, c + ' handlers', event);
 	}
 
 
@@ -35,6 +32,7 @@ terafm.DOMEvents = {};
 		document.addEventListener('keyup', (e) => 		DOMEvents.trigger(e.type, e), true );
 		document.addEventListener('contextmenu', (e) => DOMEvents.trigger(e.type, e) );
 		document.addEventListener('mousedown', (e) => 	DOMEvents.trigger(e.type, e) );
+		document.addEventListener('dblclick', (e) => 	DOMEvents.trigger(e.type, e) );
 		document.addEventListener('click', (e) => 		DOMEvents.trigger(e.type, e) );
 		document.addEventListener('focus', (e) =>		DOMEvents.trigger(e.type, e), true);
 		document.addEventListener('blur', (e) =>		DOMEvents.trigger(e.type, e), true);

@@ -15,10 +15,11 @@ window.terafm = window.terafm || {};
 		if(enabled) {
 
 			var keybindToggleRecDiag = options.get('keybindToggleRecDiag'),
-				keybindRestorePreviousSession = options.get('keybindRestorePreviousSession')
+				keybindRestorePreviousSession = options.get('keybindRestorePreviousSession'),
+				keybindOpenQuickAccess = options.get('keybindOpenQuickAccess')
 
-			if(true) {
-				keyboardShortcuts.on(['Alt', 'r'], function() {
+			if(keybindOpenQuickAccess.length) {
+				keyboardShortcuts.on(keybindOpenQuickAccess, function() {
 					contextMenuController.open('current')
 				})
 			}

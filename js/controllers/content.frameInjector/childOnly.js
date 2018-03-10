@@ -45,6 +45,7 @@
 	document.addEventListener('contextmenu', eventHandler);
 	document.addEventListener('mousedown', eventHandler);
 	document.addEventListener('click', eventHandler);
+	document.addEventListener('dblclick', eventHandler);
 	document.addEventListener('focus', eventHandler, true);
 	document.addEventListener('blur', eventHandler, true);
 	document.addEventListener('change', eventHandler, true);

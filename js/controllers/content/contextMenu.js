@@ -1,7 +1,7 @@
 window.terafm = window.terafm || {};
 terafm.contextMenuController = {};
 
-(function(contextMenuController, contextMenu, editableManager, db, recoveryDialogController, DOMEvents) {
+(function(contextMenuController, contextMenu, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts) {
 
 	let contextTarget;
 	let contextPos = {};
@@ -37,25 +37,7 @@ terafm.contextMenuController = {};
 		contextTarget = editableManager.getEditable(e.path[0]);
 
 		if(contextTarget) {
-			
 			contextPos.x = e.pageX, contextPos.y = e.pageY;
-
-			// let el = e.path[0], pos;
-
-			// // If in frame, break out and grab coordinates for each frame
-			// while(el.ownerDocument !== window.top.document) {
-			// 	el = el.ownerDocument.defaultView.frameElement;
-
-			// 	pos = el.getBoundingClientRect();
-			// 	contextPos.x += pos.x;
-			// 	contextPos.y += pos.y;
-			// }
-
-			// if(pos) {
-			// 	contextPos.x += window.scrollX;
-			// 	contextPos.y += window.scrollY;
-			// }
-
 		}
 
 	});
@@ -134,6 +116,7 @@ terafm.contextMenuController = {};
 	function setupDeepEventHandlers() {
 		DOMEvents.registerHandler('mousedown', function() {
 			contextMenu.hide();
+			editableManager.resetPlaceholders();
 		});
 		
 		DOMEvents.registerHandler('focus', function() {
@@ -142,8 +125,69 @@ terafm.contextMenuController = {};
 		
 		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
 		contextMenuNode.addEventListener('click', contextmenuClickHandler);
-		contextMenuNode.addEventListener('mouseover', e => contextmenuEventHandler(e));
+		contextMenuNode.addEventListener('mouseover', e => contextmenuEventHandler(e.target));
 		contextMenuNode.addEventListener('mouseout', contextmenuMouseleaveHandler);
+
+
+		// Todo: Refactor
+		(function() {
+			var selected;
+
+			contextMenuNode.addEventListener('mouseover', function(e) {
+				var target = e.path[0],
+					li = target.matches('ul > li') ? target : target.closest('ul > li');
+
+				if(li) {
+					sel(li)
+				}
+			})
+
+			contextMenuNode.addEventListener('mouseout', remSel)
+
+			function sel(li) {
+				selected && selected.classList.remove('selected')
+				selected = li
+				selected.classList.add('selected')
+				contextmenuEventHandler(selected)
+			}
+
+			function remSel() {
+				selected.classList.remove('selected')
+				selected = null
+			}
+
+			function selNext() {
+				if(selected && selected.nextElementSibling) {
+					sel(selected.nextElementSibling)
+				} else {
+					sel(contextMenuNode.querySelector('ul > li'))
+				}
+			}
+			function selPrev() {
+				if(selected && selected.previousElementSibling) {
+					sel(selected.previousElementSibling)
+				} else {
+					sel(contextMenuNode.querySelector('ul > li:last-child'))
+				}
+			}
+
+			keyboardShortcuts.on(['ArrowDown'], function() {
+				if(contextMenu.isOpen()) {
+					selNext()
+				}
+			})
+			keyboardShortcuts.on(['ArrowUp'], function() {
+				if(contextMenu.isOpen()) {
+					selPrev()
+				}
+			})
+			keyboardShortcuts.on([' '], function() {
+				if(contextMenu.isOpen()) {
+					contextmenuEventHandler(selected, true)
+					contextMenu.hide()
+				}
+			})
+		})();
 	}
 	
 
@@ -151,11 +195,11 @@ terafm.contextMenuController = {};
 		var target = e.target;
 
 		if(target.dataset.session !== undefined) {
-			contextmenuEventHandler(e, e.type);
+			contextmenuEventHandler(e.target, true);
 			contextMenu.hide();
 			
 		} else if(target.dataset.setSingleEntry !== undefined) {
-			contextmenuEventHandler(e, e.type);
+			contextmenuEventHandler(e.target, true);
 			contextMenu.hide();
 			
 		} else if(target.dataset.browseAll !== undefined) {
@@ -174,12 +218,10 @@ terafm.contextMenuController = {};
 		}
 	}
 
-	function contextmenuEventHandler(e, action) {
-		let target = e.target,
-			sid = target.dataset.session,
+	function contextmenuEventHandler(target, isFinal) {
+		let sid = target.dataset.session,
 			eid = target.dataset.editable,
-			belongsToTarget = target.dataset.recOther !== undefined ? false : true,
-			isFinal = action === 'click' ? true : false;
+			belongsToTarget = target.dataset.recOther !== undefined ? false : true;
 
 		editableManager.resetPlaceholders();
 
@@ -205,10 +247,6 @@ terafm.contextMenuController = {};
 		} else if(sid && eid && !belongsToTarget) {
 			setPlaceholdersBy(isFinal, sid, eid, contextTarget);
 		}
-
-		// if(action === 'click') {
-		// 	contextTarget.focus()
-		// }
 
 	}
 
@@ -245,4 +283,4 @@ terafm.contextMenuController = {};
 		}
 	}
 
-})(terafm.contextMenuController, terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents);
+})(terafm.contextMenuController, terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents, terafm.keyboardShortcuts);

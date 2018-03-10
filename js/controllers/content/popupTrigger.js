@@ -1,11 +1,15 @@
 window.terafm = window.terafm || {};
 
-(function(DOMEvents, initHandler, ui, help, editableManager) {
+(function(DOMEvents, initHandler, ui, help, editableManager, options) {
 
-	var node;
+	let node,
+		trigger;
 
 	initHandler.onInit(function() {
-		addEventListeners();
+		if(options.get('quickAccessButtonEnabled')) {
+			trigger = options.get('quickAccessButtonTrigger');
+			addEventListeners();
+		}
 	});
 
 
@@ -22,9 +26,20 @@ window.terafm = window.terafm || {};
 		})
 
 		// On editable focus
-		DOMEvents.registerHandler('focus', function(e) {
-			var editable = e.path[0],
-				rect = editable.getBoundingClientRect();
+		if(trigger === 'focus') {
+			DOMEvents.registerHandler('focus', function(e) {
+				make(e.path[0])
+			});
+		} else if(trigger === 'doubleclick') {
+			DOMEvents.registerHandler('dblclick', function(e) {
+				if(editableManager.isEditable(e.path[0])) {
+					make(e.path[0])
+				}
+			})
+		}
+
+		function make(editable) {
+			var rect = editable.getBoundingClientRect();
 
 			if(editableManager.isEditableText(editable)) {
 				terafm.focusedEditable = editable
@@ -36,7 +51,7 @@ window.terafm = window.terafm || {};
 				
 				node.style.display = 'block';
 			}
-		});
+		}
 
 		DOMEvents.registerHandler('blur', function() {
 			node.style.display = 'none'
@@ -55,4 +70,4 @@ window.terafm = window.terafm || {};
 		}
 	}
 
-})(terafm.DOMEvents, terafm.initHandler, terafm.ui, terafm.helpers, terafm.editableManager);
+})(terafm.DOMEvents, terafm.initHandler, terafm.ui, terafm.helpers, terafm.editableManager, terafm.options);
