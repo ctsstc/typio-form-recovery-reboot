@@ -45,7 +45,7 @@ terafm.keyboardShortcuts = {};
 			pressed.push(e.key);
 		}
 
-		// console.log('pressed:', pressed)
+ 		// console.log('pressed:', pressed)
 
 		if(checkForCombo() && e.preventDefault) {
 			e.preventDefault()

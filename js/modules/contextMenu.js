@@ -13,6 +13,10 @@ terafm.contextMenu = {};
 		contextmenuVisible = true;
 	};
 
+	contextMenu.isOpen = function() {
+		return contextmenuVisible;
+	}
+
 	contextMenu.populate = function(data) {
 		var html = '';
 

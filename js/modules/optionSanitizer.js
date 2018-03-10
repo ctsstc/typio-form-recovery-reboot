@@ -28,6 +28,9 @@ window.terafm.optionSanitizer = {};
 		},
 		saveIndicator: function(value) {
 			return ['topline', 'cornertriag', 'disable'].includes(value) ? value : undefined;
+		},
+		quickAccessTrigger: function(value) {
+			return ['focus', 'doubleclick'].includes(value) ? value : undefined;
 		}
 	};
 
@@ -38,9 +41,12 @@ window.terafm.optionSanitizer = {};
 		hideSmallEntries: sanitizers.bool,
 		saveIndicatorColor: sanitizers.hexColor,
 		storageTimeDays: sanitizers.yearInDays,
+		quickAccessButtonEnabled: sanitizers.bool,
+		quickAccessButtonTrigger: sanitizers.quickAccessTrigger,
 
 		keybindToggleRecDiag: sanitizers.keyBinding,
 		keybindRestorePreviousSession: sanitizers.keyBinding,
+		keybindOpenQuickAccess: sanitizers.keyBinding,
 		keybindEnabled: sanitizers.bool
 	}
 
