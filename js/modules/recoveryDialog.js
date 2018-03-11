@@ -154,10 +154,10 @@ terafm.recoveryDialog = {};
 			value += entry.meta + (entry.value == '1' ? ' (checked)' : ' (unchecked)');
 
 		} else if(entry.meta) {
-			value += entry.meta + ': ' + help.encodeHTML(entry.value);
+			value += entry.meta + ': ' + help.encodeEntry(entry);
 
 		} else {
-			value += help.encodeHTML(entry.value);
+			value += help.encodeEntry(entry);
 		}
 
 		if(typeof truncate === 'number') {

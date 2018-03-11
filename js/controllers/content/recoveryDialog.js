@@ -42,7 +42,7 @@ terafm.recoveryDialogController = {};
 			// Delete if value is too short
 			for(let editableId in sessions[sessKeys[skey]]) {
 				var editable = sessions[sessKeys[skey]][editableId],
-					cleanValue = help.encodeHTML(editable.value);
+					cleanValue = help.encodeEntry(editable);
 
 				if(cleanValue.length < 5) {
 					skipCount++;

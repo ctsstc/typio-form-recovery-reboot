@@ -16,7 +16,18 @@ terafm.editableManager = terafm.editableManager || {};
 			removePlaceholderStyle(editable);
 		}
 
-		let value = isPlaceholder ? truncateValue(editable, entry) : entry.value;
+		// If restoring html into text field
+		if(!editableManager.isContentEditable(editable) && entry.type === 'contenteditable') {
+			entry.value = terafm.help.stripTags(entry.value);
+			entry.value = terafm.help.decodeHTMLEntities(entry.value);
+
+		// Restoring text into html field
+		} else if(editableManager.isContentEditable(editable) && entry.type !== 'contenteditable') {
+			entry.value = terafm.help.encodeHTMLEntities(entry.value);
+		}
+
+		// let value = isPlaceholder ? truncateValue(editable, entry) : entry.value;
+		var value = entry.value;
 
 		editableManager.setEditableValue(editable, value);
 	}
