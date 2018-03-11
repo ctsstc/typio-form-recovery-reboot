@@ -49,7 +49,17 @@ terafm.db = terafm.db || {};
 			return true;
 		}
 
+		// Generate initial session id
 		globalSessionId = db.generateSessionId();
+
+		// For pages that hijack history changes (like polymer),
+		// attempt to start new session between page "loads". It won't
+		// work when clicking links, only when using browser nav actions
+		// like back/forward etc.
+		// Also this doesn't take into account custom editable sess id's. Todo: Fix this!
+		window.addEventListener('popstate', function() {
+			globalSessionId = db.generateSessionId();
+		});
 
 		// Initiate connected and load disk storage to in memory
 		terafm.indexedDB.init(function() {
