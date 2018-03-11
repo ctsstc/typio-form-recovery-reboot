@@ -12,6 +12,7 @@ terafm.saveIndicator = {};
 
 	saveIndicator.show = function() {
 		if(isVisible) return;
+		ui.touch();
 		indicatorNode.classList.add('visible');
 		isVisible = true;
 	}

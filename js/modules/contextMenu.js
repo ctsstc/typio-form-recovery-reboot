@@ -9,6 +9,7 @@ terafm.contextMenu = {};
 		contextmenuVisible = false;
 
 	contextMenu.show = function() {
+		ui.touch();
 		menuNode.classList.remove('hidden');
 		contextmenuVisible = true;
 	};

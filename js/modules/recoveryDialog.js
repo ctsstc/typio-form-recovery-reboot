@@ -4,9 +4,10 @@ terafm.recoveryDialog = {};
 (function(recoveryDialog, db, editableManager, ui, help, options) {
 	'use strict';
 
-	var dialogNode; // New
+	var dialogNode;
 
 	recoveryDialog.show = function(setDefault) {
+		ui.touch();
 		if(setDefault === undefined) recoveryDialog.setPage('default');
 		dialogNode.classList.add('open');
 	}
