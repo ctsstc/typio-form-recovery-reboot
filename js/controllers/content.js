@@ -1,8 +1,7 @@
 var terafm = window.terafm;
 
-(function(db, options, recoveryDialog, initHandler) {
+(function(db, options, recoveryDialog, initHandler, DOMEvents, editableManager) {
 	'use strict';
-
 
 	// Load extension options into memory
 	options.loadFromChromeStorage(function() {
@@ -13,8 +12,16 @@ var terafm = window.terafm;
 
 			// Run init handlers
 			initHandler.executeInitHandlers();
+
+			// If something has autofocus, trigger fake focus event
+			setTimeout(function() {
+				if(editableManager.isEditableText(document.activeElement) && editableManager.checkRules(document.activeElement)) {
+					DOMEvents.trigger('focus', {path: [document.activeElement]});
+				}
+			}, 100)
 		});
 	});
+
 
 
 
@@ -32,4 +39,4 @@ var terafm = window.terafm;
 	});
 	
 
-})(terafm.db, terafm.options, terafm.recoveryDialog, terafm.initHandler);
+})(terafm.db, terafm.options, terafm.recoveryDialog, terafm.initHandler, terafm.DOMEvents, terafm.editableManager);
