@@ -9,7 +9,7 @@ terafm.DOMEvents = {};
 		shadowRootNode;
 
 	DOMEvents.trigger = function(type, event) {
-
+		// console.log(type, event)
 		// Loop through handlers and call
 		if(type in handlers) {
 			for(let h =0; h < handlers[type].length; ++h) {
