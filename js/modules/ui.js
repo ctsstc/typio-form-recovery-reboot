@@ -4,7 +4,19 @@ terafm.ui = {};
 (function(ui) {
 	'use strict';
 
-	let shadowRootNode;
+	let rootNode,
+		shadowRootNode;
+
+
+	// Some sites override the entire DOM sometimes, this will check if the rootNode
+	// exists in the real DOM and append it if not
+	ui.touch = function() {
+		if(shadowRootNode && !document.getElementById('terafm-shadow')) {
+			console.warn('touch needed')
+			document.body.appendChild(rootNode);
+		}
+	}
+	
 
 	// Accepts dataObj.html or dataObj.path to template
 	ui.inject = function(dataObj, replaceObj, callback) {
@@ -64,8 +76,9 @@ terafm.ui = {};
 
 	function createShadowRoot() {
 		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-shadow"></div>');
+		rootNode = document.getElementById('terafm-shadow');
 
-		shadowRootNode = document.getElementById('terafm-shadow').attachShadow({mode: 'open'});
+		shadowRootNode = rootNode.attachShadow({mode: 'open'});
 		shadowRootNode.innerHTML = '<div></div>';
 		shadowRootNode.querySelector('div').insertAdjacentHTML('beforeend', '<style> @import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '"; </style>');
 
