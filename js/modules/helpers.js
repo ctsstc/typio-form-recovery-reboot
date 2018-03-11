@@ -15,13 +15,41 @@ terafm.help = (function() {
 		return hash;
 	}
 
-	exp.encodeHTML = function(str) {
-		return (str + "").replace(/<\/?[^>]+(>|$)/g, "").replace(/[\"&'\/<>]/g, function (a) {
+
+	exp.stripTags = function(str) {
+		return (' ' + str).slice(1).replace(/<\/?[^>]+(>|$)/g, "").trim();
+	}
+	exp.encodeHTMLEntities = function(str) {
+		return (' ' + str).slice(1).replace(/[\"&'\/<>]/g, function (a) {
 			return {
 				'"': '&quot;', '&': '&amp;', "'": '&#39;',
 				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
 			}[a];
-		}).trim();
+		})
+	}
+	exp.decodeHTMLEntities = function(str) {
+		var parser = new DOMParser,
+			dom = parser.parseFromString('<!doctype html><body>' + str, 'text/html');
+
+		return dom.body.textContent.trim();
+	}
+
+
+	// For displaying in HTML
+	exp.encodeEntry = function(entry) {
+
+		var str = (' ' + entry.value).slice(1);
+
+		// Strip HTML tags, text is already encoded
+		if(entry.type === 'contenteditable') {
+			str = exp.stripTags(str);
+
+		// Everything is text, encode
+		} else {
+			str = exp.encodeHTMLEntities(str);
+		}
+
+		return str;
 	}
 
 	exp.escapeRegExp = function(str) {

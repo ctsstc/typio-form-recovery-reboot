@@ -82,9 +82,9 @@ terafm.contextMenu = {};
 
 
 	function generateListItemHtml(sessionId, revision, isOther) {
-		
+
 		let editableId = terafm.editableManager.generateEditableId(revision.path),
-			safeString = help.encodeHTML(revision.value).substring(0,50),
+			safeString = help.encodeEntry(revision).substring(0,50),
 			html = '';
 
 		html = `
