@@ -13,13 +13,6 @@ window.terafm = window.terafm || {};
 
 
 	function addEventListeners() {
-		
-		// Check if an input is autofocused
-		if(editableManager.isEditableText(document.activeElement) && editableManager.checkRules(document.activeElement)) {
-			saveIndicator.build(function() {
-				saveIndicator.show();
-			});
-		}
 
 		DOMEvents.registerHandler('focus', function(e) {
 			saveIndicator.build(function() {
