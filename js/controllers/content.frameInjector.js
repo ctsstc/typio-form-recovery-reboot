@@ -13,10 +13,10 @@ window.terafmInjected = true;
 		window.top.terafmBaseURL = chrome.extension.getURL('');
 
 		fetch(window.top.terafmBaseURL + 'js/content.frameInjector.js').then(function(response) {
-			response.text().then(function(scriptTxt) {
+			response.text().then(function(script) {
 
-				window.top.terafmFrameScript = scriptTxt;
-
+				window.top.terafmFrameScript = script;
+				// window.top.onpopstate = init
 				init();
 
 			});
@@ -74,25 +74,28 @@ window.terafmInjected = true;
 		}
 	}
 
-	function inject(iframe) {
+	function inject(iframe, onload) {
 
-		// Abort if already injected
 		try {
-			if(iframe.contentWindow.terafmInjected) {
+
+			// Abort if already injected
+			// Continue if already injected but onload is fired
+			if(!onload && iframe.contentWindow.terafmInjected) {
 				return;
 			}
+
+			// Inject immediately
+			iframe.contentWindow.eval( window.top.terafmFrameScript );
 
 		// No access, probably cross domain
 		} catch(e) { return; }
 
-		// Inject immediately
-		// console.log('injecting', iframe.contentWindow.document);
-		iframe.contentWindow.eval( window.top.terafmFrameScript );
-
 		// Also inject on window.load
-		iframe.addEventListener('load', function() {
-			inject(iframe);
-		});
+		if(!onload) {
+			iframe.addEventListener('load', function() {
+				inject(iframe, true); // inject with onload flag
+			});
+		}
 
 	}
 
