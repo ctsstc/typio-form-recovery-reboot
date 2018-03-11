@@ -25,10 +25,15 @@ window.terafm = window.terafm || {};
 			terafm.contextMenuController.open();
 		})
 
+		var tmt;
+
 		// On editable focus
 		if(trigger === 'focus') {
 			DOMEvents.registerHandler('focus', function(e) {
-				showThing(e.path[0])
+				// In timeout becuase some sites like to animate positioning/size on focus
+				tmt = setTimeout(function() {
+					showThing(e.path[0])
+				}, 50)
 			});
 
 		// On editable double click
@@ -73,6 +78,7 @@ window.terafm = window.terafm || {};
 
 		DOMEvents.registerHandler('blur', function() {
 			ui.touch();
+			clearTimeout(tmt);
 			node.style.display = 'none'
 		});
 
