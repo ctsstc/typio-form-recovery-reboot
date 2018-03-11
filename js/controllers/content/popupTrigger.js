@@ -28,32 +28,51 @@ window.terafm = window.terafm || {};
 		// On editable focus
 		if(trigger === 'focus') {
 			DOMEvents.registerHandler('focus', function(e) {
-				make(e.path[0])
+				showThing(e.path[0])
 			});
+
+		// On editable double click
 		} else if(trigger === 'doubleclick') {
 			DOMEvents.registerHandler('dblclick', function(e) {
-				if(editableManager.isEditable(e.path[0])) {
-					make(e.path[0])
-				}
+				showThing(e.path[0])
 			})
 		}
 
-		function make(editable) {
-			var rect = editable.getBoundingClientRect();
+		function showThing(editable) {
 
 			if(editableManager.isEditableText(editable)) {
-				terafm.focusedEditable = editable
+				ui.touch();
 
-				var rect = terafm.editableManager.getRect(editable)
+				var rect = terafm.editableManager.getRect(editable),
+					pos = {
+						x: rect.x + rect.width - 18,
+						y: rect.y
+					},
+					offset = 4;
 
-				node.style.top = rect.y + 3 + 'px';
-				node.style.left = rect.x + rect.width - 22 + 'px';
-				
+				// Calculate edge offset
+				if(rect.height < 50 && rect.width > 150) {
+					offset = (rect.height/2) - (18/2);
+				}
+
+				// Vertical scrollbar check
+				if(editable.scrollHeight > editable.clientHeight || ['search', 'number'].includes(editable.type)) {
+					pos.x -= 17;
+				}
+
+				pos.x -= offset;
+				pos.y += offset;
+
+				node.style.top = pos.y + 'px';
+				node.style.left = pos.x + 'px';
 				node.style.display = 'block';
+
+				terafm.focusedEditable = editable;
 			}
 		}
 
 		DOMEvents.registerHandler('blur', function() {
+			ui.touch();
 			node.style.display = 'none'
 		});
 
@@ -62,7 +81,7 @@ window.terafm = window.terafm || {};
 	function makeThing() {
 		if(!node) {
 			ui.inject({
-				html: `<a id="popupTrigger" class="terafm-quickAccessTrigger" href="#"></a>`,
+				html: '<a id="popupTrigger" class="terafm-quickAccessTrigger"></a>',
 				returnNode: '#popupTrigger'
 			}, function(res) {
 				node = res;
