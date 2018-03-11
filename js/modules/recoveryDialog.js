@@ -8,6 +8,7 @@ terafm.recoveryDialog = {};
 
 	recoveryDialog.show = function(setDefault) {
 		ui.touch();
+		document.activeElement.blur()
 		if(setDefault === undefined) recoveryDialog.setPage('default');
 		dialogNode.classList.add('open');
 	}
