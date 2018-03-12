@@ -16,12 +16,10 @@ terafm.ui = {};
 
 			if(!node) {
 				document.body.appendChild(rootNode);
-				console.log('node gone')
 
 			} else if(node && !node.shadowRoot) {
 				document.body.removeChild(node);
 				document.body.appendChild(rootNode);
-				console.warn('node exists, shadow gone.')
 			}
 		}
 	}
