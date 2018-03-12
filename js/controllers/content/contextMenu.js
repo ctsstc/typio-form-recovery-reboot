@@ -125,11 +125,8 @@ terafm.contextMenuController = {};
 	}
 
 	function setupDeepEventHandlers() {
-
-		keyboardShortcuts.on(['Escape'], function() {
-			contextMenu.hide();
-			editableManager.resetPlaceholders();
-		});
+		
+		let selected;
 
 		// Captures mousedown anywhere outside quickaccess popup.
 		// Mousedown events on quickaccess are stopped below.
@@ -137,105 +134,144 @@ terafm.contextMenuController = {};
 			contextMenu.hide();
 			editableManager.resetPlaceholders();
 		});
+		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
 		
 		DOMEvents.registerHandler('focus', function() {
 			contextMenu.hide();
 		});
 		
-		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
-		contextMenuNode.addEventListener('click', contextmenuClickHandler);
-		contextMenuNode.addEventListener('mouseover', e => contextmenuEventHandler(e.target));
-		contextMenuNode.addEventListener('mouseout', contextmenuMouseleaveHandler);
+		contextMenuNode.addEventListener('click', e => {
+			e.stopPropagation();
+			handleListItemAction(e.target, true);
+		});
+		
+		contextMenuNode.addEventListener('mouseover', function(e) {
+			var target = e.path[0],
+				li = target.matches('ul li') ? target : target.closest('ul li');
 
-
-		// Todo: Refactor
-		(function() {
-			var selected;
-
-			contextMenuNode.addEventListener('mouseover', function(e) {
-				var target = e.path[0],
-					li = target.matches('ul > li') ? target : target.closest('ul > li');
-
-				if(li) {
-					sel(li)
-				}
-			})
-
-			contextMenuNode.addEventListener('mouseout', remSel)
-
-			function sel(li) {
-				selected && selected.classList.remove('selected')
-				selected = li
-				selected.classList.add('selected')
-				contextmenuEventHandler(selected)
+			if(li) {
+				sel(li, target)
 			}
+		})
 
-			function remSel() {
+		contextMenuNode.addEventListener('mouseout', function(e) {
+			remSel()
+			contextmenuMouseleaveHandler(e)
+		});
+
+		function sel(li, target) {
+			selected && selected.classList.remove('selected')
+			selected = li
+			selected.classList.add('selected')
+			handleListItemAction(target || li)
+		}
+
+		function remSel() {
+			if(selected) {
 				selected.classList.remove('selected')
 				selected = null
 			}
+		}
 
-			function selNext() {
-				if(selected && selected.nextElementSibling) {
-					sel(selected.nextElementSibling)
-				} else {
-					sel(contextMenuNode.querySelector('ul > li'))
-				}
+		function selNext() {
+			var lis = Array.prototype.slice.call(contextMenuNode.querySelectorAll('li')),
+				currI = lis.indexOf(selected);
+
+			if(currI === -1 || currI === lis.length-1) {
+				sel(lis[0])
+			} else {
+				sel(lis[currI+1])
 			}
-			function selPrev() {
-				if(selected && selected.previousElementSibling) {
-					sel(selected.previousElementSibling)
-				} else {
-					sel(contextMenuNode.querySelector('ul > li:last-child'))
-				}
+		}
+		function selPrev() {
+			var lis = Array.prototype.slice.call(contextMenuNode.querySelectorAll('li')),
+				currI = lis.indexOf(selected);
+
+			if(currI < 1) {
+				sel(lis[lis.length-1])
+			} else {
+				sel(lis[currI-1])
 			}
+		}
 
-			keyboardShortcuts.on(['ArrowDown'], function(e) {
-				if(contextMenu.isOpen()) {
-					e.preventDefault && e.preventDefault();
-					selNext()
-				}
-			})
-			keyboardShortcuts.on(['ArrowUp'], function(e) {
-				if(contextMenu.isOpen()) {
-					e.preventDefault && e.preventDefault();
-					selPrev()
-				}
-			})
-			keyboardShortcuts.on([' '], function(e) {
-				if(contextMenu.isOpen()) {
-					e.preventDefault && e.preventDefault();
-					contextMenu.hide()
+		function keyNext(e) {
+			if(contextMenu.isOpen()) {
+				e.preventDefault && e.preventDefault();
+				selNext()
+			}
+		}
+		keyboardShortcuts.on(['ArrowDown'], keyNext);
+		keyboardShortcuts.on(['ArrowRight'], keyNext);
 
-					if(selected.dataset.browseAll !== undefined) {
-						recoveryDialogController.open();
-					} else {
-						// Minor timeout because space is added before
-						setTimeout(() => contextmenuEventHandler(selected, true))
-					}
-				}
-			})
-		})();
+		function keyPrev(e) {
+			if(contextMenu.isOpen()) {
+				e.preventDefault && e.preventDefault();
+				selPrev()
+			}
+		}
+		keyboardShortcuts.on(['ArrowUp'], keyPrev);
+		keyboardShortcuts.on(['ArrowLeft'], keyPrev);
+
+		keyboardShortcuts.on([' '], function(e) {
+			if(contextMenu.isOpen()) {
+				e.preventDefault && e.preventDefault();
+				handleListItemAction(selected, true);
+			}
+		})
+
+		keyboardShortcuts.on(['Escape'], function() {
+			contextMenu.hide();
+			editableManager.resetPlaceholders();
+		});
 	}
 	
 
-	function contextmenuClickHandler(e) {
-		var target = e.target;
+	function handleListItemAction(li, commit) {
 
-		if(target.dataset.session !== undefined) {
-			contextmenuEventHandler(e.target, true);
-			contextMenu.hide();
-			
-		} else if(target.dataset.setSingleEntry !== undefined) {
-			contextmenuEventHandler(e.target, true);
-			contextMenu.hide();
-			
-		} else if(target.dataset.browseAll !== undefined) {
-			recoveryDialogController.open();
-			contextMenu.hide();
+		editableManager.resetPlaceholders();
+
+		if(li.dataset.session !== undefined || li.dataset.setSingleEntry !== undefined) {
+
+			let sid = li.dataset.session,
+				eid = li.dataset.editable,
+				belongsToTarget = li.dataset.recOther !== undefined ? false : true;
+
+			// Entry belongs to editable
+			if(sid && belongsToTarget) {
+				setPlaceholdersBy(commit, sid);
+
+
+			// Entry belongs to editable AND set single entry was clicked
+			} else if(li.dataset.setSingleEntry !== undefined) {
+				var listItem = li.closest('[data-session]');
+
+				if(listItem) {
+					sid = listItem.dataset.session;
+					eid = listItem.dataset.editable;
+
+					setPlaceholdersBy(commit, sid, eid, contextTarget);
+				}
+
+
+			// Entry is from "recents" (does not belong to editable)
+			} else if(sid && eid && !belongsToTarget) {
+				setPlaceholdersBy(commit, sid, eid, contextTarget);
+			}
+
+			if(commit) contextMenu.hide();
+
+		} else if(commit) {
+			if(li.dataset.browseAll !== undefined) {
+				recoveryDialogController.open();
+				contextMenu.hide();
+
+			} else if(li.dataset.keyboardShortcuts !== undefined) {
+				console.log('display shortcuts')
+				// contextMenu.hide();
+			} else if(li.dataset.disableSite !== undefined) {
+				console.log('disable site')
+			}
 		}
-
-		e.stopPropagation();
 	}
 
 	function contextmenuMouseleaveHandler(e) {
@@ -246,39 +282,7 @@ terafm.contextMenuController = {};
 		}
 	}
 
-	function contextmenuEventHandler(target, isFinal) {
-		let sid = target.dataset.session,
-			eid = target.dataset.editable,
-			belongsToTarget = target.dataset.recOther !== undefined ? false : true;
-
-		editableManager.resetPlaceholders();
-
-		// Entry belongs to editable
-		if(sid && belongsToTarget) {
-			setPlaceholdersBy(isFinal, sid);
-
-
-		// Entry belongs to editable AND set single entry was clicked
-		} else if(target.dataset.setSingleEntry !== undefined) {
-			
-			var listItem = target.closest('[data-session]');
-
-			if(listItem) {
-				sid = listItem.dataset.session;
-				eid = listItem.dataset.editable;
-
-				setPlaceholdersBy(isFinal, sid, eid, contextTarget);
-			}
-
-
-		// Entry is from "recents" (does not belong to editable)
-		} else if(sid && eid && !belongsToTarget) {
-			setPlaceholdersBy(isFinal, sid, eid, contextTarget);
-		}
-
-	}
-
-	function setPlaceholdersBy(isFinal, sessionId, editableId, target) {
+	function setPlaceholdersBy(commit, sessionId, editableId, target) {
 
 		// By session only
 		if(sessionId && !editableId) {
@@ -289,7 +293,7 @@ terafm.contextMenuController = {};
 				let input = editableManager.resolvePath(session[editableId].path);
 
 				if(input) {
-					editableManager.setPlaceholderValue(input, session[editableId], !isFinal);
+					editableManager.setPlaceholderValue(input, session[editableId], !commit);
 				}
 			}
 
@@ -305,7 +309,7 @@ terafm.contextMenuController = {};
 			let rev = db.getSingleRevisionByEditableAndSession(editableId, sessionId);
 
 			if(rev) {
-				editableManager.setPlaceholderValue(target, rev, !isFinal);
+				editableManager.setPlaceholderValue(target, rev, !commit);
 			}
 
 		}

@@ -16,6 +16,9 @@ terafm.help = (function() {
 	}
 
 
+	exp.trim = function(str) {
+		return str.replace(/[\s\n\r]+/g, ' ').trim();
+	}
 	exp.stripTags = function(str) {
 		return (' ' + str).slice(1).replace(/<\/?[^>]+(>|$)/g, "").trim();
 	}
@@ -37,7 +40,6 @@ terafm.help = (function() {
 
 	// For displaying in HTML
 	exp.encodeEntry = function(entry) {
-
 		var str = (' ' + entry.value).slice(1);
 
 		// Strip HTML tags, text is already encoded
@@ -46,8 +48,10 @@ terafm.help = (function() {
 
 		// Everything is text, encode
 		} else {
-			str = exp.encodeHTMLEntities(str);
+			str = exp.encodeHTMLEntities(str).trim();
 		}
+
+		str = exp.trim(str);
 
 		return str;
 	}

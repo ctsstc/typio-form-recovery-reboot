@@ -37,8 +37,11 @@ terafm.contextMenu = {};
 			html += '<li>No entries found for this input field</li>'
 		}
 
-
-		html += '<li class="link" data-browse-all="">Browse all saved data</li>';
+		html += '<div class="flex">';
+		html += '<li data-browse-all="">Browse all entries</li>';
+		html += '<li class="icon icon-keyboard" data-keyboard-shortcuts="" data-tooltip="Show keyboard shortcuts"></li>';
+		html += '<li class="icon icon-blacklist" data-disable-site="" data-tooltip="Disable Typio on this site"></li>';
+		html += '</div>';
 
 		menuNode.querySelector('ul').innerHTML = html;
 	};
@@ -87,12 +90,14 @@ terafm.contextMenu = {};
 			safeString = help.encodeEntry(revision).substring(0,50),
 			html = '';
 
-		html = `
-		<li title="`+ (!isOther ? `Restore all entries from this session` : `Restore this entry`) +`" data-session="`+ sessionId +`" data-editable="`+ editableId +`" ` + (isOther ? 'data-rec-other=""' : '') + `>
-			`+ (!isOther ? `<span data-set-single-entry="" class="tera-icon-right tera-icon-single" title="Restore only this entry"></span>` : '') + `
-			`+ safeString +`
-		</li>
-		`;
+		if(!isOther) {
+			var count = terafm.db.getRevisionsBySession(sessionId).length;
+		}
+
+		html =	`<li title="`+ (!isOther ? `Restore all entries from this session` : `Restore this entry`) +`" data-session="`+ sessionId +`" data-editable="`+ editableId +`" ` + (isOther ? 'data-rec-other=""' : '') + `>` +
+					safeString +
+					(!isOther ? `<span data-set-single-entry="" class="icon-right" title="Restore only this entry">` + count + `</span>` : '') +
+				`</li>`;
 		return html;
 	}
 

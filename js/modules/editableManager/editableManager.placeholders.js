@@ -20,6 +20,7 @@ terafm.editableManager = terafm.editableManager || {};
 		if(!editableManager.isContentEditable(editable) && entry.type === 'contenteditable') {
 			entry.value = terafm.help.stripTags(entry.value);
 			entry.value = terafm.help.decodeHTMLEntities(entry.value);
+			entry.value = terafm.help.trim(entry.value);
 
 		// Restoring text into html field
 		} else if(editableManager.isContentEditable(editable) && entry.type !== 'contenteditable') {
