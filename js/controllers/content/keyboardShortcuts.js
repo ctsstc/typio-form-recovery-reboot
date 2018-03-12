@@ -4,57 +4,33 @@ window.terafm = window.terafm || {};
 	'use strict';
 
 	initHandler.onInit(function() {
+		if(options.get('keybindEnabled')) {
 
-		var enabled = options.get('keybindEnabled');
+			var keybindRestorePreviousSession = options.get('keybindRestorePreviousSession');
 
-		if(enabled) {
+			if(keybindRestorePreviousSession.length) keyboardShortcuts.on(keybindRestorePreviousSession, function() {
+				toast.create('Restoring previous session')
+				
+				var fields = db.getLatestSession(),
+					totalCount = Object.keys(fields).length,
+					fails = 0;
 
-			var keybindToggleRecDiag = options.get('keybindToggleRecDiag'),
-				keybindRestorePreviousSession = options.get('keybindRestorePreviousSession'),
-				keybindOpenQuickAccess = options.get('keybindOpenQuickAccess')
+				if(totalCount < 1) {
+					return false;
+				}
 
-			if(keybindOpenQuickAccess.length) {
-				keyboardShortcuts.on(keybindOpenQuickAccess, function() {
-					contextMenuController.open('current')
-				})
-			}
+				for(var fieldId in fields) {
+					var editable = fields[fieldId];
+					var target = editableManager.resolvePath(editable.path);
 
-			if(keybindToggleRecDiag.length) {
-				keyboardShortcuts.on(keybindToggleRecDiag, function() {
-					if(recoveryDialog.isShowing()) {
-						recoveryDialog.hide();
+					if(target) {
+						editableManager.setEditableValue(target, editable.value);
+						editableManager.flashEditable(target);
 					} else {
-						recoveryDialogController.open();
+						fails++;
 					}
-				})
-			}
-
-			if(keybindRestorePreviousSession.length) {
-				keyboardShortcuts.on(keybindRestorePreviousSession, function() {
-
-					toast.create('Restoring previous session')
-					
-					var fields = db.getLatestSession(),
-						totalCount = Object.keys(fields).length,
-						fails = 0;
-
-					if(totalCount < 1) {
-						return false;
-					}
-
-					for(var fieldId in fields) {
-						var editable = fields[fieldId];
-						var target = editableManager.resolvePath(editable.path);
-
-						if(target) {
-							editableManager.setEditableValue(target, editable.value);
-							editableManager.flashEditable(target);
-						} else {
-							fails++;
-						}
-					}
-				})
-			}
+				}
+			});
 
 		}
 	})
