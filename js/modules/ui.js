@@ -11,9 +11,18 @@ terafm.ui = {};
 	// Some sites override the entire DOM sometimes, this will check if the rootNode
 	// exists in the real DOM and append it if not
 	ui.touch = function() {
-		if(shadowRootNode && !document.getElementById('terafm-shadow')) {
-			console.warn('touch needed')
-			document.body.appendChild(rootNode);
+		if(shadowRootNode) {
+			var node = document.getElementById('terafm-shadow');
+
+			if(!node) {
+				document.body.appendChild(rootNode);
+				console.log('node gone')
+
+			} else if(node && !node.shadowRoot) {
+				document.body.removeChild(node);
+				document.body.appendChild(rootNode);
+				console.warn('node exists, shadow gone.')
+			}
 		}
 	}
 	
