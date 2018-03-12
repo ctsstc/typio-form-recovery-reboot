@@ -2,12 +2,11 @@ window.terafm = window.terafm || {};
 
 terafm.recoveryDialogController = {};
 
-(function(recoveryDialogController, recoveryDialog, db, help, editableManager, options) {
+(function(recoveryDialogController, recoveryDialog, db, help, editableManager, options, keyboardShortcuts) {
 	'use strict';
 	
-	let selectedRevision = {};
-
-	let dialogNode;
+	let selectedRevision = {},
+		dialogNode;
 
 	// Open call from context menu
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -73,7 +72,7 @@ terafm.recoveryDialogController = {};
 	}
 
 	function setup(callback) {
-		if(dialogNode) callback();
+		if(dialogNode) return callback();
 		recoveryDialog.build(function(node) {
 			dialogNode = node;
 			setupEventListeners();
@@ -82,6 +81,12 @@ terafm.recoveryDialogController = {};
 	}
 
 	function setupEventListeners() {
+
+		console.log('attaching escape listener rec diag')
+		keyboardShortcuts.on(['Escape'], function() {
+			console.log('rec diag escape event')
+			recoveryDialog.hide();
+		})
 
 		dialogNode.addEventListener('click', function(e) {
 
@@ -244,4 +249,4 @@ terafm.recoveryDialogController = {};
 
 		});
 	}
-})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager, terafm.options);
+})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager, terafm.options, terafm.keyboardShortcuts);

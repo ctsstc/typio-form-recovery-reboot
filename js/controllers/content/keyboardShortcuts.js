@@ -5,11 +5,6 @@ window.terafm = window.terafm || {};
 
 	initHandler.onInit(function() {
 
-		keyboardShortcuts.on(['Escape'], function() {
-			recoveryDialog.hide();
-			contextMenu.hide();
-		})
-
 		var enabled = options.get('keybindEnabled');
 
 		if(enabled) {
