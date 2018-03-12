@@ -26,16 +26,18 @@ terafm.keyboardShortcuts = {};
 				continue;
 			}
 
-			// Check if all keys match
+			// Abort if not all keys match
 			for(var key of combo.keys) {
 				if(!pressed.includes(key)) {
 					continue comboLoop;
 				}
 			}
 
-			// Success!
+			// It's a match!
 			combo.callback(event)
-			return true
+			
+			// Do not return; allow multiple identical combos (like Escape)
+			// return true
 		}
 	}
 

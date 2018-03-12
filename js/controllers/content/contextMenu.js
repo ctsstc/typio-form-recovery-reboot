@@ -8,8 +8,6 @@ terafm.contextMenuController = {};
 
 	let contextMenuNode;
 
-	let deepSetupComplete = false;
-
 	contextMenuController.open = (context) => {
 		if(context === 'current' && terafm.focusedEditable) {
 			contextTarget = terafm.focusedEditable;
@@ -104,7 +102,7 @@ terafm.contextMenuController = {};
 
 	// Injects HTML and attaches eventlisteners
 	function deepSetup(callback) {
-		if(deepSetupComplete) return callback();
+		if(contextMenuNode) return callback();
 
 		contextMenu.build((node) => {
 			contextMenuNode = node;
@@ -114,6 +112,11 @@ terafm.contextMenuController = {};
 	}
 
 	function setupDeepEventHandlers() {
+
+		keyboardShortcuts.on(['Escape'], function() {
+			contextMenu.hide();
+		});
+
 		DOMEvents.registerHandler('mousedown', function() {
 			contextMenu.hide();
 			editableManager.resetPlaceholders();
