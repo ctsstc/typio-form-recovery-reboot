@@ -42,7 +42,6 @@ terafm.keyboardShortcuts = {};
 	}
 
 	DOMEvents.registerHandler('keydown', function(e) {
-		
 		if(pressed.indexOf(e.key) === -1) {
 			pressed.push(e.key);
 		}

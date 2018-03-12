@@ -2,7 +2,7 @@ window.terafm = window.terafm || {};
 
 terafm.recoveryDialogController = {};
 
-(function(recoveryDialogController, recoveryDialog, db, help, editableManager, options, keyboardShortcuts) {
+(function(recoveryDialogController, recoveryDialog, db, help, editableManager, options, keyboardShortcuts, contextMenuController, initHandler) {
 	'use strict';
 	
 	let selectedRevision = {},
@@ -13,7 +13,23 @@ terafm.recoveryDialogController = {};
 		if(request.action === 'openRecoveryDialog') recoveryDialogController.open();
 	});
 
+
+	// Key comobo to open/close diag
+	initHandler.onInit(function() {
+		if(options.get('keybindEnabled')) {
+			keyboardShortcuts.on(options.get('keybindToggleRecDiag'), function() {
+				if(recoveryDialog.isShowing()) {
+					recoveryDialog.hide();
+				} else {
+					recoveryDialogController.open();
+				}
+			});
+		}
+	})
+
 	recoveryDialogController.open = function() {
+		terafm.contextMenuController.hide();
+
 		setup(function() {
 			let revData = getRevisionData();
 
@@ -249,4 +265,4 @@ terafm.recoveryDialogController = {};
 
 		});
 	}
-})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager, terafm.options, terafm.keyboardShortcuts);
+})(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager, terafm.options, terafm.keyboardShortcuts, terafm.contextMenuController, terafm.initHandler);

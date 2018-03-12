@@ -1,26 +1,30 @@
 window.terafm = window.terafm || {};
 terafm.contextMenuController = {};
 
-(function(contextMenuController, contextMenu, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts) {
+(function(contextMenuController, contextMenu, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts, options, initHandler) {
 
 	let contextTarget;
 	let contextPos = {};
 
 	let contextMenuNode;
 
-	contextMenuController.open = (context) => {
-		if(context === 'current' && terafm.focusedEditable) {
-			contextTarget = terafm.focusedEditable;
-			var rect = editableManager.getRect(contextTarget);
-			contextPos.x = rect.x + rect.width;
-			contextPos.y = rect.y;
+	// Key combo to open
+	initHandler.onInit(function() {
+		if(options.get('keybindEnabled')) {
+			keyboardShortcuts.on(options.get('keybindOpenQuickAccess'), function() {
+				open('current')
+			});
+		} 
+	});
 
-		}
-
+	contextMenuController.open = function() {
 		if(contextTarget) {
-			open()
+			open() 
 		}
 	};
+	contextMenuController.hide = function() {
+		console.log('hide called'); contextMenu.hide();
+	}
 	contextMenuController.setContext = (target, pos) => { contextTarget = target; contextPos = pos; }
 
 
@@ -41,12 +45,21 @@ terafm.contextMenuController = {};
 	});
 
 
-	function open() {
+	function open(context) {
+
+		// Open for currently focused?
+		if(context === 'current' && terafm.focusedEditable) {
+			contextTarget = terafm.focusedEditable;
+			var rect = editableManager.getRect(contextTarget);
+			contextPos.x = rect.x + rect.width;
+			contextPos.y = rect.y;
+
+		}
 
 		// Nothing (or nothing editable) was right clicked
 		// Can happen if page hasn't fully loaded at right click (eventhandlers haven't attached yet)
 		if(!contextTarget) {
-			alert("Typio cannot open due to one of the following reasons:\n\n1) Page has not fully loaded yet.\n\n2) The page is running in an inaccessible frame (cross domain).\n\n3) You're tring to recover an illegal field (e.g. password field if disabled).");
+			// alert("Typio cannot open due to one of the following reasons:\n\n1) Page has not fully loaded yet.\n\n2) The page is running in an inaccessible frame (cross domain).\n\n3) You're tring to recover an illegal field (e.g. password field if disabled).");
 			return false;
 		}
 
@@ -115,6 +128,7 @@ terafm.contextMenuController = {};
 
 		keyboardShortcuts.on(['Escape'], function() {
 			contextMenu.hide();
+			editableManager.resetPlaceholders();
 		});
 
 		DOMEvents.registerHandler('mousedown', function() {
@@ -295,4 +309,4 @@ terafm.contextMenuController = {};
 		}
 	}
 
-})(terafm.contextMenuController, terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents, terafm.keyboardShortcuts);
+})(terafm.contextMenuController, terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents, terafm.keyboardShortcuts, terafm.options, terafm.initHandler);
