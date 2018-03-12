@@ -171,18 +171,21 @@ terafm.contextMenuController = {};
 				}
 			}
 
-			keyboardShortcuts.on(['ArrowDown'], function() {
+			keyboardShortcuts.on(['ArrowDown'], function(e) {
 				if(contextMenu.isOpen()) {
+					e.preventDefault && e.preventDefault();
 					selNext()
 				}
 			})
-			keyboardShortcuts.on(['ArrowUp'], function() {
+			keyboardShortcuts.on(['ArrowUp'], function(e) {
 				if(contextMenu.isOpen()) {
+					e.preventDefault && e.preventDefault();
 					selPrev()
 				}
 			})
-			keyboardShortcuts.on([' '], function() {
+			keyboardShortcuts.on([' '], function(e) {
 				if(contextMenu.isOpen()) {
+					e.preventDefault && e.preventDefault();
 					contextMenu.hide()
 
 					if(selected.dataset.browseAll !== undefined) {
