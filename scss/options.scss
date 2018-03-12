@@ -6,8 +6,12 @@ body {
 	margin: 0;
 	padding: 50px;
 	width: 740px;
-	background: #f7f7f7;
 	display: flex;
+
+	background: #f0f3f6 linear-gradient(-23deg, #f7f7f7, #f0f3f6);
+	background-size: 100%;
+	background-repeat: repeat-x;
+	background-attachment: fixed;
 }
 
 * {
@@ -80,7 +84,7 @@ input[type='color'] {
 
 .opt-group {
     background: #FFF;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 1px 10px rgba(0,0,0,.05);
+    box-shadow: 0 1px 4px rgb(198, 214, 230), 0 1px 10px rgb(236, 237, 237);//0 1px 4px rgba(0, 0, 0, 0.15), 0 1px 10px rgba(0,0,0,.05);
     margin-bottom: 30px;
     padding: 20px;
 

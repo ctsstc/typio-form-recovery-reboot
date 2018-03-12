@@ -163,7 +163,7 @@ terafm.db = terafm.db || {};
 			}
 		}
 
-		return revisions;
+		return revisions; // Todo: Clone??
 	}
 
 	// Deletes everythinng except for current session
