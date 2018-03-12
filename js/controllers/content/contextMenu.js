@@ -23,7 +23,7 @@ terafm.contextMenuController = {};
 		}
 	};
 	contextMenuController.hide = function() {
-		console.log('hide called'); contextMenu.hide();
+		contextMenu.hide();
 	}
 	contextMenuController.setContext = (target, pos) => { contextTarget = target; contextPos = pos; }
 
@@ -131,6 +131,8 @@ terafm.contextMenuController = {};
 			editableManager.resetPlaceholders();
 		});
 
+		// Captures mousedown anywhere outside quickaccess popup.
+		// Mousedown events on quickaccess are stopped below.
 		DOMEvents.registerHandler('mousedown', function() {
 			contextMenu.hide();
 			editableManager.resetPlaceholders();
