@@ -15,7 +15,7 @@ terafm.keyboardShortcuts = {};
 	}
 
 
-	function checkForCombo() {
+	function checkForCombo(event) {
 
 		// Loop through all key combos
 		comboLoop:
@@ -34,7 +34,7 @@ terafm.keyboardShortcuts = {};
 			}
 
 			// Success!
-			combo.callback()
+			combo.callback(event)
 			return true
 		}
 	}
@@ -44,12 +44,8 @@ terafm.keyboardShortcuts = {};
 		if(pressed.indexOf(e.key) === -1) {
 			pressed.push(e.key);
 		}
-
- 		// console.log('pressed:', pressed)
-
-		if(checkForCombo() && e.preventDefault) {
-			e.preventDefault()
-		}
+		
+		checkForCombo(e);
 	})
 
 	DOMEvents.registerHandler('keyup', function(e) {
