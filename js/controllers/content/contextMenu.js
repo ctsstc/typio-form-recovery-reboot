@@ -183,8 +183,14 @@ terafm.contextMenuController = {};
 			})
 			keyboardShortcuts.on([' '], function() {
 				if(contextMenu.isOpen()) {
-					contextmenuEventHandler(selected, true)
 					contextMenu.hide()
+
+					if(selected.dataset.browseAll !== undefined) {
+						recoveryDialogController.open();
+					} else {
+						// Minor timeout because space is added before
+						setTimeout(() => contextmenuEventHandler(selected, true))
+					}
 				}
 			})
 		})();
