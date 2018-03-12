@@ -20,28 +20,18 @@
 	<div class="menu-panel">
 		<div class="fixed">
 			<p class="title">Menu</p>
-			<a href="#save-indicator-group">Save Indicator</a>
 			<a href="#saving-options-group">Save options</a>
+			<a href="#quickAccess-group">Quick Access Icon</a>
 			<a href="#keycombo-group">Keyboard shortcuts</a>
 			<a href="#blacklist-group">Domain blacklist</a>
+			<a href="#contextmenu-group">Context menu</a>
+			<br>
+			<a href="#privacypolicy-group">Privacy policy</a>
 			<a href="#feedback-group">Feedback</a>
 		</div>
 	</div>
 
 	<div id="save-indicator-group" class="options-panel">
-
-		<div id="save-indicator-group" class="opt-group">
-			<p class="opt-title">Save indicator</p>
-
-			<p>The save indicator will appear when you focus on an input field Typio recognizes, and will animate upon save.</p>
-			<select class="autosave" data-option="saveIndicator">
-				<option value="topline">Top line</option>
-				<option value="cornertriag">Corner triangle</option>
-				<option value="disable">Disable</option>
-			</select>
-			&nbsp;
-			<input class="autosave" type="color" data-option="saveIndicatorColor">
-		</div>
 
 		<div id="saving-options-group" class="opt-group">
 			<p class="opt-title">Save options</p>
@@ -65,10 +55,25 @@
 			</p>
 
 			<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
+		
+
+			<br>
+			<p class="opt-title">Save indicator</p>
+
+			<p>The save indicator will appear when you focus on an input field Typio recognizes.</p>
+			<select class="autosave" data-option="saveIndicator">
+				<option value="topline">Top line</option>
+				<option value="cornertriag">Corner triangle</option>
+				<option value="disable">Disable</option>
+			</select>
+			&nbsp;
+			<input class="autosave" type="color" data-option="saveIndicatorColor">
 		</div>
 
 		<div id="quickAccess-group" class="opt-group">
 			<p class="opt-title">Quick Access Icon</p>
+
+			<p class="opt-description">The Quick Access Icon appears in the top right corner of any input field that Typio recognizes. Clicking it will open the Quick Access popup for easy restoration.</p>
 
 			<div class="fancy-chk">
 				<input class="autosave" type="checkbox" data-option="quickAccessButtonEnabled" id="checkboxQuickAccessButtonEnabled">
@@ -85,7 +90,6 @@
 		<div id="keycombo-group" class="opt-group">
 			<p class="opt-title">Keyboard shortcuts</p>
 
-			
 			<div class="fancy-chk">
 				<input class="autosave" type="checkbox" data-option="keybindEnabled" id="checkboxKeybindEnabled">
 				<span class="chk"></span>
@@ -131,6 +135,8 @@
 		<div id="contextmenu-group" class="opt-group">
 			<p class="opt-title">Context menu</p>
 
+			<p class="opt-description">Typio can also be accessed with the keyboard shortcuts or using the browser toolbar icon.</p>
+
 			<div class="fancy-chk">
 				<input class="autosave" type="checkbox" data-option="hideContextItems" id="checkboxHideContextItems">
 				<span class="chk"></span>
@@ -138,10 +144,12 @@
 			<label for="checkboxHideContextItems">Hide Typio from context menu</label>
 		</div>
 
-		<!-- <div class="opt-group">
+		<div id="privacypolicy-group" class="opt-group">
 			<p class="opt-title">Privacy policy</p>
-			<p>Long story short, you are in control of your data and it never leaves your computer.</p>
-		</div> -->
+			<p>Any user input Typio collects is stored only for the purpose of restoration and is never uploaded to any servers. The data is stored on your computer with Google Chrome's built in database management (IndexedDB) on a per-site basis.</p>
+			<p><b>Typio never sends your data anywhere.</b></p>
+			<p>The source code for Typio is available to view on <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">Bitbucket</a>.</p>
+		</div>
 
 		<div id="feedback-group" class="opt-group">
 			<p class="opt-title">Feedback</p>
