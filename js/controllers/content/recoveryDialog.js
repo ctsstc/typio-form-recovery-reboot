@@ -28,7 +28,7 @@ terafm.recoveryDialogController = {};
 	})
 
 	recoveryDialogController.open = function() {
-		terafm.contextMenuController.hide();
+		terafm.quickAccessController.hide();
 
 		setup(function() {
 			let revData = getRevisionData();

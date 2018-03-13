@@ -21,8 +21,8 @@ window.terafm = window.terafm || {};
 			e.preventDefault();
 			e.stopPropagation();
 
-			terafm.contextMenuController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+15, y: parseFloat(node.style.top)+15})
-			terafm.contextMenuController.open();
+			terafm.quickAccessController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+15, y: parseFloat(node.style.top)+15})
+			terafm.quickAccessController.open();
 		})
 
 		var tmt;

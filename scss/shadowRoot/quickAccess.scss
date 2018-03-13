@@ -1,6 +1,4 @@
-
-
-#contextmenu {
+#quickAccess {
 	position: absolute;
 	z-index: 99999999999;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, .4), 0 0 6px rgba(0,0,0,.1);//0 1px 4px rgba(0,0,0,.5), 0 1px 10px rgba(0,0,0,.2);
@@ -11,7 +9,7 @@
 		display: none;
 	}
 
-	.contextmenu-list {
+	ul {
 		margin: 0; padding: 0; // Reset, some websites fuck it up
 		display: block;
 		overflow: hidden;

@@ -118,7 +118,7 @@ module.exports = function(grunt) {
                         '../js/modules/ui.js',
                         '../js/modules/editablePicker.js',
                         '../js/modules/recoveryDialog.js',
-                        '../js/modules/contextMenu.js',
+                        '../js/modules/quickAccess.js',
                         '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',
                         '../js/modules/DOMEvents.js',
@@ -129,7 +129,7 @@ module.exports = function(grunt) {
                         // Controllers
                         '../js/controllers/content.js',
                             '../js/controllers/content/recoveryDialog.js',
-                            '../js/controllers/content/contextMenu.js',
+                            '../js/controllers/content/quickAccessController.js',
                             '../js/controllers/content/inputSaver.js',
                             '../js/controllers/content/keyboardShortcuts.js',
                             '../js/controllers/content/saveIndicator.js',

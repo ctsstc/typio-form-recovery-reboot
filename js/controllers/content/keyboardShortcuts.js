@@ -1,6 +1,6 @@
 window.terafm = window.terafm || {};
 
-(function(db, editableManager, recoveryDialog, recoveryDialogController, contextMenu, contextMenuController, initHandler, options, keyboardShortcuts, toast) {
+(function(db, editableManager, initHandler, options, keyboardShortcuts, toast) {
 	'use strict';
 
 	initHandler.onInit(function() {
@@ -35,4 +35,4 @@ window.terafm = window.terafm || {};
 		}
 	})
 
-})(terafm.db, terafm.editableManager, terafm.recoveryDialog, terafm.recoveryDialogController, terafm.contextMenu, terafm.contextMenuController, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);
+})(terafm.db, terafm.editableManager, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);
