@@ -205,11 +205,14 @@ terafm.db = terafm.db || {};
 
 		// Loop through sessions
 		for(var revKey in revKeys) {
+			if(excludeId in revisions[revKeys[revKey]]) {
+				continue;
+			}
 
 			// Loop through entries
 			for(var entryId in revisions[revKeys[revKey]]) {
 				if(max < 1) break;
-				if(entryId === excludeId) continue;
+				// if(entryId === excludeId) continue;
 
 				var entry = revisions[revKeys[revKey]][entryId],
 					sessId = revKeys[revKey];
