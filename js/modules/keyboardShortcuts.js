@@ -8,15 +8,15 @@ terafm.keyboardShortcuts = {};
 		combos = []
 
 	keyboardShortcuts.on = function(keycombo, callback) {
+		var combo = JSON.parse(JSON.stringify(keycombo)).map(key => key.toLowerCase())
 		combos.push({
-			keys: JSON.parse(JSON.stringify(keycombo)),
+			keys: combo,
 			callback: callback
 		})
 	}
 
 
 	function checkForCombo(event) {
-
 		// Loop through all key combos
 		comboLoop:
 		for(var combo of combos) {
@@ -42,8 +42,10 @@ terafm.keyboardShortcuts = {};
 	}
 
 	DOMEvents.registerHandler('keydown', function(e) {
-		if(pressed.indexOf(e.key) === -1) {
-			pressed.push(e.key);
+		var lowcase = e.key.toLowerCase();
+
+		if(pressed.indexOf(lowcase) === -1) {
+			pressed.push(lowcase);
 		}
 		
 		checkForCombo(e);
