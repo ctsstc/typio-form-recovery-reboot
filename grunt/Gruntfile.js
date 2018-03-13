@@ -131,7 +131,7 @@ module.exports = function(grunt) {
                             '../js/controllers/content/recoveryDialog.js',
                             '../js/controllers/content/quickAccessController.js',
                             '../js/controllers/content/quickAccessIconController.js',
-                            '../js/controllers/content/inputSaver.js',
+                            '../js/controllers/content/inputSaverController.js',
                             '../js/controllers/content/keyboardShortcuts.js',
                             '../js/controllers/content/saveIndicator.js',
                     ],
