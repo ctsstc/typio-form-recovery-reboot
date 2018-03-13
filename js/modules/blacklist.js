@@ -9,8 +9,10 @@ terafm.blacklist = {};
 
 	blacklist.block = function(domain) {
 		getOptionData(function(list) {
-			list.push(domain);
-			saveList(list);
+			if(list.indexOf(domain) === -1) {
+				list.push(domain);
+				saveList(list);
+			}
 		});
 	}
 
