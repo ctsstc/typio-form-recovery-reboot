@@ -1,24 +1,24 @@
 window.terafm = window.terafm || {};
-terafm.contextMenu = {};
+terafm.quickAccess = {};
 
-(function(contextMenu, ui, help) {
+(function(quickAccess, ui, help) {
 	'use strict';
 
 	var menuNode,
 
-		contextmenuVisible = false;
+		quickAccessVisible = false;
 
-	contextMenu.show = function() {
+	quickAccess.show = function() {
 		ui.touch();
 		menuNode.classList.remove('hidden');
-		contextmenuVisible = true;
+		quickAccessVisible = true;
 	};
 
-	contextMenu.isOpen = function() {
-		return contextmenuVisible;
+	quickAccess.isOpen = function() {
+		return quickAccessVisible;
 	}
 
-	contextMenu.populate = function(data) {
+	quickAccess.populate = function(data) {
 		var html = '';
 
 		if(!data.empty) {
@@ -46,7 +46,7 @@ terafm.contextMenu = {};
 		menuNode.querySelector('ul').innerHTML = html;
 	};
 
-	contextMenu.position = function(edrect) {
+	quickAccess.position = function(edrect) {
 		var popupHeight = menuNode.clientHeight,
 			popupWidth = menuNode.clientWidth,
 			pos = {x: edrect.x, y: edrect.y}
@@ -64,18 +64,18 @@ terafm.contextMenu = {};
 		menuNode.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
 	}
 
-	contextMenu.hide = function() {
-		if(!contextmenuVisible) return;
+	quickAccess.hide = function() {
+		if(!quickAccessVisible) return;
 		menuNode.classList.add('hidden');
-		contextmenuVisible = false;
+		quickAccessVisible = false;
 	};
 
 	// Injects HTML
-	contextMenu.build = function(callback) {
+	quickAccess.build = function(callback) {
 		if(!menuNode) {
 			ui.inject({
-				path: 'templates/contextmenu.tpl',
-				returnNode: '#contextmenu'
+				path: 'templates/quickAccess.tpl',
+				returnNode: '#quickAccess'
 			}, function(resnode) {
 				menuNode = resnode;
 				callback(resnode);
@@ -108,4 +108,4 @@ terafm.contextMenu = {};
 		return html;
 	}
 
-})(terafm.contextMenu, terafm.ui, terafm.help);
+})(terafm.quickAccess, terafm.ui, terafm.help);

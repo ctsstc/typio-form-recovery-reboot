@@ -1,12 +1,12 @@
 window.terafm = window.terafm || {};
-terafm.contextMenuController = {};
+terafm.quickAccessController = {};
 
-(function(contextMenuController, contextMenu, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts, options, initHandler) {
+(function(quickAccessController, quickAccess, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts, options, initHandler) {
 
 	let contextTarget;
 	let contextTargetRect = {};
 
-	let contextMenuNode;
+	let quickAccessNode;
 
 	// Key combo to open
 	initHandler.onInit(function() {
@@ -17,20 +17,20 @@ terafm.contextMenuController = {};
 		} 
 	});
 
-	contextMenuController.open = function() {
+	quickAccessController.open = function() {
 		if(contextTarget) {
 			open() 
 		}
 	};
-	contextMenuController.hide = function() {
-		contextMenu.hide();
+	quickAccessController.hide = function() {
+		quickAccess.hide();
 	}
-	contextMenuController.setContext = (target, pos) => { contextTarget = target; contextTargetRect = pos; }
+	quickAccessController.setContext = (target, pos) => { contextTarget = target; contextTargetRect = pos; }
 
 
 	// Chrome context item clicked
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		if(request.action === 'contextMenuRecover') {
+		if(request.action === 'openQuickAccess') {
 			open();
 		}
 	});
@@ -64,12 +64,14 @@ terafm.contextMenuController = {};
 
 		deepSetup(function() {
 
+
+
 			let data = getDataByEditable(contextTarget);
 
-			contextMenu.populate(data);
-			contextMenu.show();
+			quickAccess.populate(data);
+			quickAccess.show();
 			requestAnimationFrame(function() {
-				contextMenu.position(contextTargetRect);
+				quickAccess.position(contextTargetRect);
 			})
 		});
 	}
@@ -114,10 +116,10 @@ terafm.contextMenuController = {};
 
 	// Injects HTML and attaches eventlisteners
 	function deepSetup(callback) {
-		if(contextMenuNode) return callback();
+		if(quickAccessNode) return callback();
 
-		contextMenu.build((node) => {
-			contextMenuNode = node;
+		quickAccess.build((node) => {
+			quickAccessNode = node;
 			setupDeepEventHandlers();
 			callback();
 		});
@@ -130,22 +132,22 @@ terafm.contextMenuController = {};
 		// Captures mousedown anywhere outside quickaccess popup.
 		// Mousedown events on quickaccess are stopped below.
 		DOMEvents.registerHandler('mousedown', function() {
-			contextMenu.hide();
+			quickAccess.hide();
 			editableManager.resetPlaceholders();
 		});
-		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
+		quickAccessNode.addEventListener('mousedown', e => e.stopPropagation());
 		
 		DOMEvents.registerHandler('focus', function() {
 			editableManager.resetPlaceholders();
-			contextMenu.hide();
+			quickAccess.hide();
 		});
 		
-		contextMenuNode.addEventListener('click', e => {
+		quickAccessNode.addEventListener('click', e => {
 			e.stopPropagation();
 			handleListAction(e.target, true);
 		});
 		
-		contextMenuNode.addEventListener('mouseover', function(e) {
+		quickAccessNode.addEventListener('mouseover', function(e) {
 			var target = e.path[0],
 				li = target.matches('li') ? target : target.closest('li');
 
@@ -154,11 +156,11 @@ terafm.contextMenuController = {};
 			}
 		})
 
-		contextMenuNode.addEventListener('mouseout', function(e) {
+		quickAccessNode.addEventListener('mouseout', function(e) {
 			remSel()
 
 			var target = e.relatedTarget;
-			if(contextMenu.isOpen() && target && !target.closest('#contextmenu') ) {
+			if(quickAccess.isOpen() && target && !target.closest('#quickAccess') ) {
 				editableManager.resetPlaceholders();
 			}
 		});
@@ -178,7 +180,7 @@ terafm.contextMenuController = {};
 		}
 
 		function selNext() {
-			var lis = Array.prototype.slice.call(contextMenuNode.querySelectorAll('li')),
+			var lis = Array.prototype.slice.call(quickAccessNode.querySelectorAll('li')),
 				currI = lis.indexOf(selected);
 
 			if(currI === -1 || currI === lis.length-1) {
@@ -188,7 +190,7 @@ terafm.contextMenuController = {};
 			}
 		}
 		function selPrev() {
-			var lis = Array.prototype.slice.call(contextMenuNode.querySelectorAll('li')),
+			var lis = Array.prototype.slice.call(quickAccessNode.querySelectorAll('li')),
 				currI = lis.indexOf(selected);
 
 			if(currI < 1) {
@@ -199,7 +201,7 @@ terafm.contextMenuController = {};
 		}
 
 		function keyNext(e) {
-			if(contextMenu.isOpen()) {
+			if(quickAccess.isOpen()) {
 				e.preventDefault && e.preventDefault();
 				selNext()
 			}
@@ -208,7 +210,7 @@ terafm.contextMenuController = {};
 		keyboardShortcuts.on(['ArrowRight'], keyNext);
 
 		function keyPrev(e) {
-			if(contextMenu.isOpen()) {
+			if(quickAccess.isOpen()) {
 				e.preventDefault && e.preventDefault();
 				selPrev()
 			}
@@ -217,14 +219,14 @@ terafm.contextMenuController = {};
 		keyboardShortcuts.on(['ArrowLeft'], keyPrev);
 
 		keyboardShortcuts.on([' '], function(e) {
-			if(contextMenu.isOpen()) {
+			if(quickAccess.isOpen()) {
 				e.preventDefault && e.preventDefault();
 				handleListAction(selected, true);
 			}
 		})
 
 		keyboardShortcuts.on(['Escape'], function() {
-			contextMenu.hide();
+			quickAccess.hide();
 			editableManager.resetPlaceholders();
 		});
 	}
@@ -250,7 +252,7 @@ terafm.contextMenuController = {};
 		// On click/select
 		if(commit) {
 
-			contextMenu.hide();
+			quickAccess.hide();
 
 			if(data.action === 'browse-all') {
 				recoveryDialogController.open();
@@ -268,4 +270,4 @@ terafm.contextMenuController = {};
 		}
 	}
 
-})(terafm.contextMenuController, terafm.contextMenu, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents, terafm.keyboardShortcuts, terafm.options, terafm.initHandler);
+})(terafm.quickAccessController, terafm.quickAccess, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents, terafm.keyboardShortcuts, terafm.options, terafm.initHandler);
