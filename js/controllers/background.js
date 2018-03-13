@@ -81,20 +81,7 @@ chrome.contextMenus.onClicked.addListener(function(data) {
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
-	if(request.action === 'blockDomain') {
-		chrome.storage.sync.get('domainBlacklist', function(blacklisted) {
-			var blacklisted = blacklisted.domainBlacklist;
-
-			if(blacklisted.indexOf(request.domain) === -1) {
-				if(blacklisted.length > 0) {
-					blacklisted += "\r\n"
-				}
-				blacklisted += request.domain;
-				chrome.storage.sync.set({domainBlacklist : blacklisted});
-			}
-		});
-	}
-	else if(request.action === 'openSettings') {
+	if(request.action === 'openSettings') {
 		chrome.runtime.openOptionsPage();
 	}
 
