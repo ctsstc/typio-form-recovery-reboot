@@ -15,11 +15,16 @@
 			showError();
 
 		} else if(request.action === 'clearData') {
-			alert('Your data cannot be deleted because Typio is disabled on this domain. Please click the toolbar button and enable Typio, then refresh the page.')
+			showError();
 		}
 	});
 
 	function showError() {
-		alert('You have disabled Typio on this domain. Please click the toolbar button and enable Typio, then refresh the page.');
+		var enable = confirm(`The action cannot be performed because you have disabled Typio on this domain.\n\nDo you want to enable Typio again? A page reload is required.`);
+		if(enable) {
+			terafm.blacklist.unblock(location.hostname, function() {
+				location.reload();
+			})
+		}
 	}
 })();
