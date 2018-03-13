@@ -72,7 +72,7 @@ module.exports = function(grunt) {
                         '../js/modules/defaultOptions.js',
 
                         // Controllers
-                        '../js/controllers/options.js',
+                        '../js/controllers/optionsController.js',
                     ],
 
 
@@ -83,7 +83,7 @@ module.exports = function(grunt) {
 
 
                         // Controllers
-                        '../js/controllers/popup.js',
+                        '../js/controllers/popupController.js',
                     ],
 
 
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 
 
                         // Controllers
-                        '../js/controllers/background.js',
+                        '../js/controllers/backgroundController.js',
                     ],
 
                     // Runs isolated on every page (not in iframes)
@@ -127,7 +127,7 @@ module.exports = function(grunt) {
                         '../js/modules/blacklist.js',
 
                         // Controllers
-                        '../js/controllers/content.js',
+                        '../js/controllers/content/contentController.js',
                             '../js/controllers/content/recoveryDialogController.js',
                             '../js/controllers/content/quickAccessController.js',
                             '../js/controllers/content/quickAccessIconController.js',
@@ -141,14 +141,14 @@ module.exports = function(grunt) {
                         '../js/modules/editableManager/editableManager.pathGenerator.js',
                         '../js/modules/cache.js',
 
-                        '../js/controllers/content.frameInjector.js',
-                            '../js/controllers/content.frameInjector/topOnly.js',
-                            '../js/controllers/content.frameInjector/childOnly.js',
+                        '../js/controllers/content.frameInjector/frameInjectorController.js',
+                            '../js/controllers/content.frameInjector/topOnlyController.js',
+                            '../js/controllers/content.frameInjector/childOnlyController.js',
                     ],
 
                     '../publish/js/content.blacklisted.js' : [
                         '../js/modules/blacklist.js',
-                        '../js/controllers/content.blacklisted.js',
+                        '../js/controllers/content.blacklisted/blacklistedController.js',
                     ]
                 }
             }
@@ -227,6 +227,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('compile', ['sass', 'uglify:content', 'htmlmin', 'copy:img', 'copy:misc'])
+    grunt.registerTask('compile', ['sass', 'uglify:content', 'htmlmin', 'copy:img', 'copy:misc', 'copy:templates'])
 
 }
