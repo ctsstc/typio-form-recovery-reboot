@@ -38,9 +38,9 @@ terafm.contextMenu = {};
 		}
 
 		html += '<div class="flex">';
-		html += '<li data-browse-all="">Browse all entries</li>';
-		html += '<li class="icon icon-keyboard" data-keyboard-shortcuts="" data-tooltip="Show keyboard shortcuts"></li>';
-		html += '<li class="icon icon-blacklist" data-disable-site="" data-tooltip="Disable Typio on this site"></li>';
+			html += '<li data-action="browse-all">Browse all entries</li>';
+			html += '<li data-action="keyboard-shortcuts" class="icon icon-keyboard" data-tooltip="Show keyboard shortcuts"></li>';
+			html += '<li data-action="disable-site" class="icon icon-blacklist" data-tooltip="Disable Typio on this site"></li>';
 		html += '</div>';
 
 		menuNode.querySelector('ul').innerHTML = html;
@@ -84,20 +84,25 @@ terafm.contextMenu = {};
 	}
 
 
-	function generateListItemHtml(sessionId, revision, isOther) {
+	function generateListItemHtml(sessionId, revision, isRelated) {
 
 		let editableId = terafm.editableManager.generateEditableId(revision.path),
 			safeString = help.encodeEntry(revision).substring(0,50),
 			html = '';
 
-		if(!isOther) {
+		if(!isRelated) {
 			var count = terafm.db.getRevisionsBySession(sessionId).length;
 		}
 
-		html =	`<li title="`+ (!isOther ? `Restore all entries from this session` : `Restore this entry`) +`" data-session="`+ sessionId +`" data-editable="`+ editableId +`" ` + (isOther ? 'data-rec-other=""' : '') + `>` +
-					safeString +
-					(!isOther ? `<span data-set-single-entry="" class="icon-right" title="Restore only this entry">` + count + `</span>` : '') +
-				`</li>`;
+		html += isRelated ? `<li data-action="rec-single-related" data-session="${sessionId}" data-editable="${editableId}" title="Restore this entry (this entry was typed in another field)">` :
+							 `<li data-action="rec-session" data-session="${sessionId}" title="Restore all ${count} entries from this session">`;
+
+			html += 			`<span class="entry-text">${safeString}</span>`;
+			html += isRelated ? `<span class="entry-icon icon-chevron" title="Restore this entry (this entry was typed in another field)"></span>` :
+								`<span data-action="rec-single" data-session="${sessionId}" data-editable="${editableId}" class="entry-icon icon-count" title="Restore only this entry">${count}</span>`;
+		
+		html += `</li>`;
+		
 		return html;
 	}
 

@@ -89,41 +89,53 @@
 		li {
 			position: relative;
 			margin: 0;
-			padding-left: 10px;
+			padding: 0;
 			cursor: default;
 			font-size: 13px;
 			line-height: 30px;
 			color: #444;
 			text-align: left; // Reset
 			font-family: sans-serif;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
 			display: flex;
 			justify-content: space-between;
 
 			&.selected {
 				background: #E8E8E8;
+
+				.entry-icon {
+					opacity: .6;
+
+					&:hover {
+						opacity: 1;
+					}
+				}
 			}
 
-			.icon-right {
+			.entry-text {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				flex: 1 0;
+				padding: 0 10px;
+			}
+
+			.entry-icon {
 				flex: 0 0 30px;
 				display: block;
-				opacity: .6;
+				opacity: 0;
 				transition-duration: .1s;
 
 				text-align: center;
 				color: #FFF;
 				font-size: 11px;
-				background-color: inherit;
+				background-color: transparent;
 				background-position: center;
 				background-repeat: no-repeat;
 				background-size: 20px;
 				background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+IDx0aXRsZS8+IDxnPiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+IDwvZz4gPGc+ICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+ICA8cGF0aCBzdHJva2U9Im51bGwiIHN0eWxlPSJ2ZWN0b3ItZWZmZWN0OiBub24tc2NhbGluZy1zdHJva2U7IiBpZD0iUmVjdGFuZ2xlIDE1MyIgZD0ibTIsMGMtMi4yMDcwNCwwIC0yLDEuNzg4ODMgLTIsMy45OTYybDAsMTAuMDAzOGMwLDIuMjA3MDQgMS43ODg4MywyIDMuOTk2MiwybDEwLjAwMzgsMGMyLjIwNzA0LDAgMiwtMS43ODg4MyAyLC0zLjk5NjJsMCwtOC4wMDc2YzAsLTIuMjA3MDQgMC4yMDczNywtMy45OTYyIC0yLC0zLjk5NjJsLTEyLDB6bTEuOTk2MiwwIi8+IDwvZz48L3N2Zz4=);
 				// background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+IDx0aXRsZS8+IDxnPiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+IDwvZz4gPGc+ICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+ICA8cGF0aCBzdHJva2U9Im51bGwiIGlkPSJSZWN0YW5nbGUgMTUzIiBkPSJtMiwwYy0yLjIwNzA0LDAgLTIsLTAuMjA3MzcgLTIsMmwwLDEyYzAsMi4yMDcwNCAtMC4yMDczNywyIDIsMmwxMiwwYzIuMjA3MDQsMCAyLDAuMjA3MzcgMiwtMmwwLC0xMmMwLC0yLjIwNzA0IDAuMjA3MzcsLTIgLTIsLTJsLTEyLDB6bTEuOTk2MiwwIi8+IDwvZz48L3N2Zz4=);
 
-				&:hover {
-					opacity: .8;
+				&:hover, &.icon-chevron {
 					transition-duration: .2s;
 					color: transparent;
 					background-size: 18px;
