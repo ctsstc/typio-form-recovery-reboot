@@ -1,5 +1,3 @@
-window.terafm = window.terafm || {};
-
 (function(db, editableManager, initHandler, options, keyboardShortcuts, toast) {
 	'use strict';
 

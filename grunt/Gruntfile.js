@@ -132,7 +132,7 @@ module.exports = function(grunt) {
                             '../js/controllers/content/quickAccessController.js',
                             '../js/controllers/content/quickAccessIconController.js',
                             '../js/controllers/content/inputSaverController.js',
-                            '../js/controllers/content/keyboardShortcuts.js',
+                            '../js/controllers/content/keyboardShortcutController.js',
                             '../js/controllers/content/saveIndicator.js',
                     ],
 
