@@ -1,5 +1,5 @@
 
-.terafm-quickAccessTrigger {
+#quickAccessIcon {
 	position: absolute;
 	z-index: 999999999;
 	width: 18px;
@@ -11,14 +11,14 @@
 	cursor: default;
 	opacity: .5;
 	transition-duration: .2s;
-	animation: quickAccessIn .3s;
+	animation: quickAccessIconIn .3s;
 
 	&:hover {
 		opacity: 1;
 	}
 }
 
-@keyframes quickAccessIn {
+@keyframes quickAccessIconIn {
 	from {
 		transform: translateY(5px);
 		opacity: 0;
