@@ -96,12 +96,12 @@ terafm.contextMenu = {};
 			var count = terafm.db.getRevisionsBySession(sessionId).length;
 		}
 
-		html += isRelated ? `<li data-action="rec-single-related" data-session="${sessionId}" data-editable="${editableId}" title="Restore this entry (this entry was typed in another field)">` :
-							 `<li data-action="rec-session" data-session="${sessionId}" title="Restore all ${count} entries from this session">`;
+		html += isRelated ? `<li data-action="rec-single-related" data-session="${sessionId}" data-editable="${editableId}">` :
+							 `<li data-action="rec-session" data-session="${sessionId}">`;
 
 			html += 			`<span class="entry-text">${safeString}</span>`;
 			html += isRelated ? `<span class="entry-icon icon-chevron" title="Restore this entry (this entry was typed in another field)"></span>` :
-								`<span data-action="rec-single" data-session="${sessionId}" data-editable="${editableId}" class="entry-icon icon-count" title="Restore only this entry">${count}</span>`;
+								`<span data-action="rec-single" data-session="${sessionId}" data-editable="${editableId}" class="entry-icon icon-count" title="Restore just this entry">${count}</span>`;
 		
 		html += `</li>`;
 		

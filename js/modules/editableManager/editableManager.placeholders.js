@@ -25,11 +25,6 @@ terafm.editableManager = terafm.editableManager || {};
 		// By session and editableId (single)
 		} else if(sessionId && editableId) {
 
-			// Target is only neccesary if entry is from recents list (does not belong)
-			if(!target) {
-				target = contextTarget;
-			}
-
 			let rev = terafm.db.getSingleRevisionByEditableAndSession(editableId, sessionId);
 
 			if(rev) {
@@ -40,6 +35,7 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 	editableManager.setPlaceholderValue = function(editable, entry, isPlaceholder) {
+
 		if(isPlaceholder) {
 			setPlaceholderStyle(editable);
 			saveOriginalValue(editable);
