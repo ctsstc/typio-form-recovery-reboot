@@ -68,8 +68,8 @@ module.exports = function(grunt) {
 
                         // Modules
                         '../js/modules/blacklist.js',
-                        '../js/modules/optionSanitizer.js',
-                        '../js/modules/defaultOptions.js',
+                        '../js/modules/options/optionSanitizer.js',
+                        '../js/modules/options/defaultOptions.js',
 
                         // Controllers
                         '../js/controllers/optionsController.js',
@@ -103,9 +103,9 @@ module.exports = function(grunt) {
                         // Modules
                         '../js/modules/initHandler.js',
                         '../js/modules/helpers.js',
-                        '../js/modules/optionSanitizer.js',
-                        '../js/modules/defaultOptions.js',
-                        '../js/modules/options.js',
+                        '../js/modules/options/optionSanitizer.js',
+                        '../js/modules/options/defaultOptions.js',
+                        '../js/modules/options/options.js',
                         '../js/modules/db/db.js',
                         '../js/modules/db/db.maintenance.js',
                         '../js/modules/db/db.convertLegacy.js',
