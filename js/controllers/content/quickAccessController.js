@@ -11,7 +11,8 @@ terafm.quickAccessController = {};
 	// Key combo to open
 	initHandler.onInit(function() {
 		if(options.get('keybindEnabled')) {
-			keyboardShortcuts.on(options.get('keybindOpenQuickAccess'), function() {
+			keyboardShortcuts.on(options.get('keybindOpenQuickAccess'), function(e) {
+				e.preventDefault && e.preventDefault();
 				open('current')
 			});
 		} 
