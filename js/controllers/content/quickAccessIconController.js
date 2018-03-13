@@ -87,8 +87,8 @@ window.terafm = window.terafm || {};
 	function makeThing() {
 		if(!node) {
 			ui.inject({
-				html: '<a id="popupTrigger" class="terafm-quickAccessTrigger"></a>',
-				returnNode: '#popupTrigger'
+				html: '<a id="quickAccessIcon"></a>',
+				returnNode: '#quickAccessIcon'
 			}, function(res) {
 				node = res;
 			})
