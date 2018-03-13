@@ -4,62 +4,9 @@ terafm.editableManager = terafm.editableManager || {};
 (function(editableManager) {
 	'use strict';
 
-	// See here for possible improvements:
-	// https://stackoverflow.com/questions/5728558/get-the-dom-path-of-the-clicked-a
+	// Heavily modified from: https://stackoverflow.com/a/16742828/290790
 	// Careful cause changing this will result in editableID's changing
 	// which results in entries not being shown in context menu
-	//function GET_PATH_BACKUP(el) {
-/*
-	editableManager.genPathOLD = function(el) {
-
-		// Check easy way first, does elem have a valid id?
-		if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
-			return '#' + el.id;
-		}
-
-		var parentWithId = el.closest('[id]'),
-			stack = [];
-
-		// Loop through parent elements and build path
-		while (el.parentNode != null) {
-
-			// If parent has ID, use that and stop building
-			if(el === parentWithId) {
-				stack.unshift('#' + parentWithId.id);
-				break;
-			}
-
-			// No need to go to html
-			if(el.nodeName === 'HTML') {
-				break;
-			}
-
-			var sibCount = 0;
-			var sibIndex = 0;
-			// get sibling indexes
-			for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
-				var sib = el.parentNode.childNodes[i];
-				if ( sib.nodeName == el.nodeName ) {
-					if ( sib === el ) {
-						sibIndex = sibCount;
-					}
-					sibCount++;
-				}
-			}
-			var nodeName = el.nodeName.toLowerCase();
-			if ( sibCount > 1 ) {
-				stack.unshift(nodeName + ':nth-of-type(' + (sibIndex + 1) + ')');
-			} else {
-				stack.unshift(nodeName);
-			}
-			el = el.parentNode;
-		}
-
-		stack = stack.join(' > ');
-
-		return stack;
-	}
-*/
 	editableManager.genPath = function(el) {
 
 		// Cache path as dom node
