@@ -55,17 +55,18 @@ terafm.editableManager = terafm.editableManager || {};
 			entry.value = terafm.help.encodeHTMLEntities(entry.value);
 		}
 
-		// let value = isPlaceholder ? truncateValue(editable, entry) : entry.value;
-		var value = entry.value;
+		let value = isPlaceholder ? truncateValue(editable, entry) : entry.value;
+		// var value = entry.value;
 
 		editableManager.setEditableValue(editable, value);
 	}
 
 
 	function truncateValue(editable, entry) {
+		var truncLength = 500;
 
 		// If small value, don't truncate
-		if((""+entry.value).length < 500) {
+		if((""+entry.value).length < truncLength) {
 			return entry.value;
 		}
 
@@ -75,7 +76,7 @@ terafm.editableManager = terafm.editableManager || {};
 
 		// Anything into anywhere
 		} else {
-			return ("" + entry.value).trim().substring(0, 500) + '... (truncated)';
+			return (entry.value + ' ').substring(0, truncLength) + '... (truncated)';
 		}
 	}
 
