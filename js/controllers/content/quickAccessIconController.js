@@ -26,7 +26,7 @@ window.terafm = window.terafm || {};
 				hide();
 				disableForEditable();
 			} else {
-				terafm.quickAccessController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+15, y: parseFloat(node.style.top)+15})
+				terafm.quickAccessController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+18, y: parseFloat(node.style.top)})
 				terafm.quickAccessController.open();
 			}
 		})
