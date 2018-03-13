@@ -49,7 +49,7 @@ window.terafm = window.terafm || {};
 			})
 		}
 
-		DOMEvents.registerHandler('blur', function() {
+		DOMEvents.registerHandler('blur', function(e) {
 			ui.touch();
 			clearTimeout(tmt);
 			node.style.display = 'none'
@@ -60,7 +60,7 @@ window.terafm = window.terafm || {};
 	function build() {
 		if(!node) {
 			ui.inject({
-				html: '<a id="quickAccessIcon"><span data-hide></span></a>',
+				html: '<a id="quickAccessIcon" title="Open Typio Quick Access"><span data-hide title="Hide icon for this input this page load"></span></a>',
 				returnNode: '#quickAccessIcon'
 			}, function(res) {
 				node = res;
