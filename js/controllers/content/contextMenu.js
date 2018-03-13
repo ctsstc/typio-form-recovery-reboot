@@ -4,7 +4,7 @@ terafm.contextMenuController = {};
 (function(contextMenuController, contextMenu, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts, options, initHandler) {
 
 	let contextTarget;
-	let contextPos = {};
+	let contextTargetRect = {};
 
 	let contextMenuNode;
 
@@ -25,7 +25,7 @@ terafm.contextMenuController = {};
 	contextMenuController.hide = function() {
 		contextMenu.hide();
 	}
-	contextMenuController.setContext = (target, pos) => { contextTarget = target; contextPos = pos; }
+	contextMenuController.setContext = (target, pos) => { contextTarget = target; contextTargetRect = pos; }
 
 
 	// Chrome context item clicked
@@ -39,7 +39,9 @@ terafm.contextMenuController = {};
 		contextTarget = editableManager.getEditable(e.path[0]);
 
 		if(contextTarget) {
-			contextPos.x = e.pageX, contextPos.y = e.pageY;
+			contextTargetRect = {}
+			contextTargetRect.x = e.pageX;
+			contextTargetRect.y = e.pageY;
 		}
 
 	});
@@ -50,10 +52,7 @@ terafm.contextMenuController = {};
 		// Open for currently focused?
 		if(context === 'current' && terafm.focusedEditable) {
 			contextTarget = terafm.focusedEditable;
-			var rect = editableManager.getRect(contextTarget);
-			contextPos.x = rect.x + rect.width;
-			contextPos.y = rect.y;
-
+			contextTargetRect = editableManager.getRect(contextTarget);
 		}
 
 		// Nothing (or nothing editable) was right clicked
@@ -70,7 +69,7 @@ terafm.contextMenuController = {};
 			contextMenu.populate(data);
 			contextMenu.show();
 			requestAnimationFrame(function() {
-				contextMenu.position(contextPos);
+				contextMenu.position(contextTargetRect);
 			})
 		});
 	}
@@ -231,33 +230,28 @@ terafm.contextMenuController = {};
 		target = target.matches(['data-action']) ? target : target.closest('[data-action]');
 		var data = target.dataset;
 
-		console.log(target);
-
-		// Todo: Don't set if same as before
-
 		editableManager.resetPlaceholders();
 
-		if(commit) {
-			contextMenu.hide();
-		}
+		// On hover
+		if(!commit) {
 
-		if(data.action === 'rec-session') {
-			console.log('restoring entire session')
-			setPlaceholdersBy(commit, data.session)
-	
-		} else if(data.action === 'rec-single') {
-			console.log('restoring single entry from session')
-			setPlaceholdersBy(commit, data.session, data.editable)
-	
-		} else if(data.action === 'rec-single-related') {
-			console.log('restoring related entry to target')
-			setPlaceholdersBy(commit, data.session, data.editable, contextTarget)
+			if(data.action === 'rec-session') {
+				editableManager.restoreBy(commit, data.session)
 		
+			} else if(data.action === 'rec-single') {
+				editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
+		
+			} else if(data.action === 'rec-single-related') {
+				editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
+			}
+			
+		// On click/select
 		} else if(commit) {
+
+			contextMenu.hide();
 
 			if(data.action === 'browse-all') {
 				recoveryDialogController.open();
-				contextMenu.hide();
 
 			} else if(data.action === 'keyboard-shortcuts') {
 				console.log('opening keyboard shortcuts')
@@ -273,39 +267,6 @@ terafm.contextMenuController = {};
 
 		if( target && !target.closest('div > #contextmenu') ) {
 			terafm.editableManager.resetPlaceholders();
-		}
-	}
-
-	function setPlaceholdersBy(commit, sessionId, editableId, target) {
-
-		// By session only
-		if(sessionId && !editableId) {
-
-			let session = db.getRevisionsBySession(sessionId);
-
-			for(editableId in session) {
-				let input = editableManager.resolvePath(session[editableId].path);
-
-				if(input) {
-					editableManager.setPlaceholderValue(input, session[editableId], !commit);
-				}
-			}
-
-
-		// By session and editableId (single)
-		} else if(sessionId && editableId) {
-
-			// Target is only neccesary if entry is from recents list (does not belong)
-			if(!target) {
-				target = contextTarget;
-			}
-
-			let rev = db.getSingleRevisionByEditableAndSession(editableId, sessionId);
-
-			if(rev) {
-				editableManager.setPlaceholderValue(target, rev, !commit);
-			}
-
 		}
 	}
 
