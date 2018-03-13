@@ -23,7 +23,7 @@
 
 	function changeHandler(e) {
 
-		// console.log('save');
+		console.log('save', e.path[0]);
 
 		let editable = editableManager.getEditable(e.path[0]),
 			passRules = editable ? editableManager.checkRules(editable) : false;
