@@ -124,6 +124,7 @@ module.exports = function(grunt) {
                         '../js/modules/DOMEvents.js',
                         '../js/modules/keyboardShortcuts.js',
                         '../js/modules/toast.js',
+                        '../js/modules/blacklist.js',
 
                         // Controllers
                         '../js/controllers/content.js',
@@ -146,6 +147,7 @@ module.exports = function(grunt) {
                     ],
 
                     '../publish/js/content.blacklisted.js' : [
+                        '../js/modules/blacklist.js',
                         '../js/controllers/content.blacklisted.js',
                     ]
                 }
