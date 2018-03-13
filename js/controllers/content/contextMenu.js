@@ -142,12 +142,12 @@ terafm.contextMenuController = {};
 		
 		contextMenuNode.addEventListener('click', e => {
 			e.stopPropagation();
-			handleListItemAction(e.target, true);
+			handleListAction(e.target, true);
 		});
 		
 		contextMenuNode.addEventListener('mouseover', function(e) {
 			var target = e.path[0],
-				li = target.matches('ul li') ? target : target.closest('ul li');
+				li = target.matches('li') ? target : target.closest('li');
 
 			if(li) {
 				sel(li, target)
@@ -163,7 +163,7 @@ terafm.contextMenuController = {};
 			selected && selected.classList.remove('selected')
 			selected = li
 			selected.classList.add('selected')
-			handleListItemAction(target || li)
+			handleListAction(target || li)
 		}
 
 		function remSel() {
@@ -215,7 +215,7 @@ terafm.contextMenuController = {};
 		keyboardShortcuts.on([' '], function(e) {
 			if(contextMenu.isOpen()) {
 				e.preventDefault && e.preventDefault();
-				handleListItemAction(selected, true);
+				handleListAction(selected, true);
 			}
 		})
 
@@ -226,50 +226,44 @@ terafm.contextMenuController = {};
 	}
 	
 
-	function handleListItemAction(li, commit) {
+	function handleListAction(target, commit) {
+
+		target = target.matches(['data-action']) ? target : target.closest('[data-action]');
+		var data = target.dataset;
+
+		console.log(target);
+
+		// Todo: Don't set if same as before
 
 		editableManager.resetPlaceholders();
 
-		if(li.dataset.session !== undefined || li.dataset.setSingleEntry !== undefined) {
+		if(commit) {
+			contextMenu.hide();
+		}
 
-			let sid = li.dataset.session,
-				eid = li.dataset.editable,
-				belongsToTarget = li.dataset.recOther !== undefined ? false : true;
-
-			// Entry belongs to editable
-			if(sid && belongsToTarget) {
-				setPlaceholdersBy(commit, sid);
-
-
-			// Entry belongs to editable AND set single entry was clicked
-			} else if(li.dataset.setSingleEntry !== undefined) {
-				var listItem = li.closest('[data-session]');
-
-				if(listItem) {
-					sid = listItem.dataset.session;
-					eid = listItem.dataset.editable;
-
-					setPlaceholdersBy(commit, sid, eid, contextTarget);
-				}
-
-
-			// Entry is from "recents" (does not belong to editable)
-			} else if(sid && eid && !belongsToTarget) {
-				setPlaceholdersBy(commit, sid, eid, contextTarget);
-			}
-
-			if(commit) contextMenu.hide();
-
+		if(data.action === 'rec-session') {
+			console.log('restoring entire session')
+			setPlaceholdersBy(commit, data.session)
+	
+		} else if(data.action === 'rec-single') {
+			console.log('restoring single entry from session')
+			setPlaceholdersBy(commit, data.session, data.editable)
+	
+		} else if(data.action === 'rec-single-related') {
+			console.log('restoring related entry to target')
+			setPlaceholdersBy(commit, data.session, data.editable, contextTarget)
+		
 		} else if(commit) {
-			if(li.dataset.browseAll !== undefined) {
+
+			if(data.action === 'browse-all') {
 				recoveryDialogController.open();
 				contextMenu.hide();
 
-			} else if(li.dataset.keyboardShortcuts !== undefined) {
-				console.log('display shortcuts')
-				// contextMenu.hide();
-			} else if(li.dataset.disableSite !== undefined) {
-				console.log('disable site')
+			} else if(data.action === 'keyboard-shortcuts') {
+				console.log('opening keyboard shortcuts')
+
+			} else if(data.action === 'disable-site') {
+				console.log('disabling site')
 			}
 		}
 	}
