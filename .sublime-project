@@ -3,7 +3,7 @@
 	[
 		{
 			"path": ".",
-			"folder_exclude_patterns": ["js/min"]
+			"folder_exclude_patterns": ["js/min", "publish", "node_modules"]
 		}
 	]
 }
