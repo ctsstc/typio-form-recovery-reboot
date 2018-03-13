@@ -4,8 +4,40 @@ terafm.editableManager = terafm.editableManager || {};
 (function(editableManager) {
 	'use strict';
 
-
 	let currentPlaceholderEditables = [];
+
+	editableManager.restoreBy = function(commit, sessionId, editableId, target) {
+
+		// By session only
+		if(sessionId && !editableId) {
+
+			let session = terafm.db.getRevisionsBySession(sessionId);
+
+			for(editableId in session) {
+				let editable = editableManager.resolvePath(session[editableId].path);
+
+				if(editable) {
+					editableManager.setPlaceholderValue(editable, session[editableId], !commit);
+				}
+			}
+
+
+		// By session and editableId (single)
+		} else if(sessionId && editableId) {
+
+			// Target is only neccesary if entry is from recents list (does not belong)
+			if(!target) {
+				target = contextTarget;
+			}
+
+			let rev = terafm.db.getSingleRevisionByEditableAndSession(editableId, sessionId);
+
+			if(rev) {
+				editableManager.setPlaceholderValue(target, rev, !commit);
+			}
+
+		}
+	}
 
 	editableManager.setPlaceholderValue = function(editable, entry, isPlaceholder) {
 		if(isPlaceholder) {

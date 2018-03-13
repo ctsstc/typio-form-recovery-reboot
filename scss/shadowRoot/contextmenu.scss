@@ -39,6 +39,7 @@
 
 			li {
 				flex: 1;
+				padding: 0 10px;
 
 				&:not(:first-child) {
 					border-left: 1px solid #D6D6D6;
@@ -69,6 +70,7 @@
 				}
 
 				&.icon {
+					padding: 0;
 					flex: 0 1 40px;
 					background-repeat: no-repeat;
 					background-position: center;

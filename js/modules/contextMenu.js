@@ -46,20 +46,22 @@ terafm.contextMenu = {};
 		menuNode.querySelector('ul').innerHTML = html;
 	};
 
-	contextMenu.position = function(coordinates) {
-		var padding = 20,
-			height = menuNode.clientHeight,
-			width = menuNode.clientWidth;
+	contextMenu.position = function(edrect) {
+		var popupHeight = menuNode.clientHeight,
+			popupWidth = menuNode.clientWidth,
+			pos = {x: edrect.x, y: edrect.y}
 
-		if( (coordinates.y + height + padding) > Math.max(document.body.scrollHeight, document.body.offsetHeight) ) {
-			coordinates.y -= height + 20;
+		if(edrect.y + popupHeight > Math.max(document.body.scrollHeight, document.body.offsetHeight) ) {
+			pos.y -= popupHeight;
 		}
 
-		if( (coordinates.x + width + padding) > Math.max(document.body.scrollWidth, document.body.offsetWidth) ) {
-			coordinates.x -= width;
+		if(edrect.x + (edrect.width||0) + popupWidth > Math.max(document.body.scrollWidth, document.body.offsetWidth) ) {
+			pos.x -= popupWidth;
+		} else {
+			pos.x += edrect.width||0;
 		}
 
-		menuNode.style = 'top: '+ coordinates.y +'px; left: '+ coordinates.x +'px;';
+		menuNode.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
 	}
 
 	contextMenu.hide = function() {
