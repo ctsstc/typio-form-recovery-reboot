@@ -136,6 +136,7 @@ terafm.contextMenuController = {};
 		contextMenuNode.addEventListener('mousedown', e => e.stopPropagation());
 		
 		DOMEvents.registerHandler('focus', function() {
+			editableManager.resetPlaceholders();
 			contextMenu.hide();
 		});
 		
@@ -155,7 +156,11 @@ terafm.contextMenuController = {};
 
 		contextMenuNode.addEventListener('mouseout', function(e) {
 			remSel()
-			contextmenuMouseleaveHandler(e)
+
+			var target = e.relatedTarget;
+			if(contextMenu.isOpen() && target && !target.closest('#contextmenu') ) {
+				editableManager.resetPlaceholders();
+			}
 		});
 
 		function sel(li, target) {
@@ -232,21 +237,18 @@ terafm.contextMenuController = {};
 
 		editableManager.resetPlaceholders();
 
-		// On hover
-		if(!commit) {
+		if(data.action === 'rec-session') {
+			editableManager.restoreBy(commit, data.session)
+	
+		} else if(data.action === 'rec-single') {
+			editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
+	
+		} else if(data.action === 'rec-single-related') {
+			editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
+		}
 
-			if(data.action === 'rec-session') {
-				editableManager.restoreBy(commit, data.session)
-		
-			} else if(data.action === 'rec-single') {
-				editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
-		
-			} else if(data.action === 'rec-single-related') {
-				editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
-			}
-			
 		// On click/select
-		} else if(commit) {
+		if(commit) {
 
 			contextMenu.hide();
 
@@ -257,16 +259,12 @@ terafm.contextMenuController = {};
 				console.log('opening keyboard shortcuts')
 
 			} else if(data.action === 'disable-site') {
-				console.log('disabling site')
+				terafm.blacklist.block(window.location.hostname);
+				var reload = confirm(`Typio will be disabled on ${location.hostname} on the next page load. \n\nReload the page now?`)
+				if(reload) {
+					location.reload();
+				}
 			}
-		}
-	}
-
-	function contextmenuMouseleaveHandler(e) {
-		var target = e.relatedTarget;
-
-		if( target && !target.closest('div > #contextmenu') ) {
-			terafm.editableManager.resetPlaceholders();
 		}
 	}
 
