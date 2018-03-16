@@ -244,21 +244,20 @@ terafm.recoveryDialogController = {};
 				recoveryDialog.hide();
 
 			// Add site to blacklist trigger
-			} else if(target.classList.contains('trigger-blacklist')) {
-				/*chrome.storage.sync.get('domainBlacklist', function(res) {
-					var blacklist = res.domainBlacklist;
-					blacklist += window.location.hostname + "\r\n";
-					chrome.storage.sync.set({
-						domainBlacklist: blacklist
-					});
-					target.parentElement.insertAdjacentHTML('afterbegin', 'Added to blacklist. Typio will not save any data on ' + window.location.hostname +' anymore. You can enable the extension for this site again by removing it from the blacklist in the extension settings.');
-					target.parentElement.removeChild(target);
+			} else if(target.dataset.action === 'add-to-blacklist') {
+				terafm.blacklist.block(window.location.hostname)
+				target.parentElement.insertAdjacentHTML('afterbegin', '<p>Typio will be disabled on the next page load.</p>');
+				target.parentElement.removeChild(target);
 
-				});*/
 			} else if(target.classList.contains('toggleHideSmallEntries')) {
 				let value = target.checked === true ? 1 : 0;
 				options.set('hideSmallEntries', value);
 				repopulate();
+
+			// Todo: Make global handler
+			} else if(target.dataset.action === 'show-shortcuts') {
+				recoveryDialog.hide();
+				terafm.keyboardShortcutController.showShortcutDialog();
 			}
 
 		});

@@ -1,3 +1,9 @@
+
+div {
+	font-size: 14px;
+}
+
+
 *:not(img) {
 	box-sizing: border-box;
 }
@@ -26,8 +32,21 @@ a {
 	}
 }
 
+.key {
+    border: 1px solid #a3a3a3;
+    padding: 3px;
+    font-size: 13px;
+    line-height: 15px;
+    display: inline-block;
+    border-radius: 4px;
+    background: #efefef;
+    color: #5b5b5b;
+    box-shadow: inset 0 1px 0 white, 0 1px 0 #a3a3a3;
+}
+
 @import "shadowRoot/quickAccess";
 @import "shadowRoot/quickAccessIcon";
 @import "shadowRoot/dialog";
+@import "shadowRoot/keyboardShortcutPopup";
 @import "shadowRoot/saveIndicator";
 @import "shadowRoot/toast";

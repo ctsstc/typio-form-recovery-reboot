@@ -10,7 +10,7 @@ $right-pane-width: 500px;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(232, 232, 232, 0.6);
+	background: rgba(34,53,67,.75);//rgba(232, 232, 232, 0.6);
 	opacity: 0;
 	transition-duration: .3s;
 }
@@ -495,15 +495,6 @@ $right-pane-width: 500px;
 
 				.hint {
 
-				}
-
-				.key {
-					border: 1px solid #888;
-					padding: 3px;
-					font-size: 13px;
-					line-height: 15px;
-					display: inline-block;
-					border-radius: 4px;
 				}
 
 				p {
