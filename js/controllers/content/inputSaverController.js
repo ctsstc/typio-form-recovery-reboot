@@ -8,22 +8,13 @@
 		}
 	});
 	DOMEvents.registerHandler('change', changeHandler);
-	/*
-	// I don't remember why this was added and it doesn't seem to be needed.
-	// Works without, changes are captured with other events.
-	DOMEvents.registerHandler('click', function(e) {
-		if(!editableManager.isEditableText(e.path[0])) {
-			console.log('click?');
-			changeHandler(e);
-		}
-	});*/
 
 	// Force save before window is closed
 	window.addEventListener('beforeunload', db.sync);
 
 	function changeHandler(e) {
 
-		console.log('save', e.path[0]);
+		// console.log('save', e.path[0]);
 
 		let editable = editableManager.getEditable(e.path[0]),
 			passRules = editable ? editableManager.checkRules(editable) : false;
