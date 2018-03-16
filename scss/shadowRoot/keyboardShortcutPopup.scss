@@ -1,0 +1,114 @@
+
+#keyboardShortcutPopup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 99999999;
+	display: flex;
+	background: rgba(34,53,67,.75);
+	align-items: center;
+	justify-content: center;
+	animation: keyboardShortcutOverlayIn .5s;
+
+	&.hidden {
+		display: none;
+	}
+
+	.modal {
+		animation: keyboardShortcutModalIn .5s;
+		display: block;
+		background: #FFF;
+		color: #333;
+		font-family: sans-serif;
+		box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.19);
+
+		.modal-header {
+			padding: 30px;
+			background: #275e86;
+			display: flex;
+
+			.title {
+				margin: 0;
+				flex: 1;
+				font-size: 20px;
+				color: #FFF;
+			}
+
+			.close {
+				width: 20px;
+				height: 20px;
+				border: none;
+				background: transparent;
+				cursor: pointer;
+
+				&:hover, &:focus {
+					outline: none;
+					// svg {
+					// 	fill: #FFC0C0;
+					// }
+				}
+
+				svg {
+					position: relative;
+					top: -5px;
+					left: -10px;
+					fill: #FFF;
+					height: 28px;
+					width: 28px;
+					pointer-events: none;
+				}
+			}
+		}
+		.modal-content {
+			padding: 30px;
+		}
+	}
+}
+
+.group-title {
+	font-weight: bold;
+	margin-bottom: 10px;
+	// font-size: 13px;
+	text-align: center;
+	display: none;
+}
+.combo-group {
+	margin-bottom: 30px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	p {
+		margin: 0;
+	}
+	
+	.combo {
+		display: flex;
+		margin-bottom: 10px;
+		&:last-child {
+			margin-bottom: 0;
+		}
+		.description {
+			padding-right: 20px;
+			text-align: right;
+			width: 260px;
+		}
+		.keys {
+			width: 260px;
+		}
+	}
+}
+
+@keyframes keyboardShortcutOverlayIn {
+	from {
+		opacity: 0;
+	}
+}
+@keyframes keyboardShortcutModalIn {
+	from {
+		transform: scale(.8);
+	}
+}
