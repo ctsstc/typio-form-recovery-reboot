@@ -62,7 +62,6 @@ terafm.keyboardShortcutController = {};
 	}
 
 	function setupEventListeners() {
-		console.log('ev list')
 		popupNode.addEventListener('click', function(e) {
 			var target = e.path[0];
 
