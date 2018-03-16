@@ -8,7 +8,7 @@
 		if(request.action === 'ping') {
 			sendResponse(true);
 		
-		} else if(request.action === 'contextMenuRecover') {
+		} else if(request.action === 'openQuickAccess') {
 			showError();
 
 		} else if(request.action === 'openRecoveryDialog') {
@@ -20,7 +20,7 @@
 	});
 
 	function showError() {
-		var enable = confirm(`The action cannot be performed because you have disabled Typio on this domain.\n\nDo you want to enable Typio again? A page reload is required.`);
+		var enable = confirm(`The action cannot be performed because you have disabled Typio on this domain.\n\nDo you want to enable Typio again? The page will be refreshed.`);
 		if(enable) {
 			terafm.blacklist.unblock(location.hostname, function() {
 				location.reload();
