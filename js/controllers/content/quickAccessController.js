@@ -12,8 +12,10 @@ terafm.quickAccessController = {};
 	initHandler.onInit(function() {
 		if(options.get('keybindEnabled')) {
 			keyboardShortcuts.on(options.get('keybindOpenQuickAccess'), function(e) {
-				e.preventDefault && e.preventDefault();
-				open('current')
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation(); }
+				setTimeout(function() {
+					open('current')
+				},20);
 			});
 		} 
 	});
@@ -64,7 +66,6 @@ terafm.quickAccessController = {};
 		}
 
 		deepSetup(function() {
-
 
 
 			let data = getDataByEditable(contextTarget);
