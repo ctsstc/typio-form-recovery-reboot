@@ -149,12 +149,8 @@ terafm.quickAccessController = {};
 		});
 		
 		quickAccessNode.addEventListener('mouseover', function(e) {
-			var target = e.path[0],
-				li = target.matches('li') ? target : target.closest('li');
-
-			if(li) {
-				sel(li, target)
-			}
+			var target = e.path[0];
+			handleListAction(target)
 		})
 
 		quickAccessNode.addEventListener('mouseout', function(e) {
@@ -166,11 +162,11 @@ terafm.quickAccessController = {};
 			}
 		});
 
-		function sel(li, target) {
+		function sel(li) {
 			selected && selected.classList.remove('selected')
 			selected = li
 			selected.classList.add('selected')
-			handleListAction(target || li)
+			handleListAction(li)
 		}
 
 		function remSel() {
@@ -203,7 +199,7 @@ terafm.quickAccessController = {};
 
 		function keyNext(e) {
 			if(quickAccess.isOpen()) {
-				e.preventDefault && e.preventDefault();
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 				selNext()
 			}
 		}
@@ -212,7 +208,7 @@ terafm.quickAccessController = {};
 
 		function keyPrev(e) {
 			if(quickAccess.isOpen()) {
-				e.preventDefault && e.preventDefault();
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 				selPrev()
 			}
 		}
@@ -221,7 +217,7 @@ terafm.quickAccessController = {};
 
 		keyboardShortcuts.on([' '], function(e) {
 			if(quickAccess.isOpen()) {
-				e.preventDefault && e.preventDefault();
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 				handleListAction(selected, true);
 			}
 		})
@@ -236,6 +232,9 @@ terafm.quickAccessController = {};
 	function handleListAction(target, commit) {
 
 		target = target.matches(['data-action']) ? target : target.closest('[data-action]');
+
+		if(!target) return !commit || quickAccess.hide();
+
 		var data = target.dataset;
 
 		editableManager.resetPlaceholders();
@@ -259,7 +258,7 @@ terafm.quickAccessController = {};
 				recoveryDialogController.open();
 
 			} else if(data.action === 'keyboard-shortcuts') {
-				console.log('opening keyboard shortcuts')
+				terafm.keyboardShortcutController.showShortcutDialog();
 
 			} else if(data.action === 'disable-site') {
 				terafm.blacklist.block(window.location.hostname);

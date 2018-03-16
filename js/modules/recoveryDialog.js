@@ -43,9 +43,7 @@ terafm.recoveryDialog = {};
 				path: 'templates/dialog.tpl',
 				returnNode: '.dialog-root'
 			}, {
-				'{{ hostname }}' : 						window.location.hostname,
-				'{{ keybindRestorePreviousSession }}' : help.prettyKeys(options.get('keybindRestorePreviousSession')),
-				'{{ keybindToggleRecDiag }}' : 			help.prettyKeys(options.get('keybindToggleRecDiag'))
+				'{{ hostname }}' : 						window.location.hostname
 			}, function(retnode) {
 				dialogNode = retnode;
 				dialogNode.querySelector('#hideSmallEntries').checked = options.get('hideSmallEntries');

@@ -34,7 +34,7 @@ terafm.quickAccess = {};
 			})
 
 		} else {
-			html += '<li>No entries found for this input field</li>'
+			html += '<li><span class="entry-text">No entries found for this input field</span></li>'
 		}
 
 		html += '<div class="flex">';
