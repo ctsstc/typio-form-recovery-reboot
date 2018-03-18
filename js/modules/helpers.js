@@ -20,10 +20,10 @@ terafm.help = (function() {
 		return str.replace(/[\s\n\r]+/g, ' ').trim();
 	}
 	exp.stripTags = function(str) {
-		return (' ' + str).slice(1).replace(/<\/?[^>]+(>|$)/g, "").trim();
+		return ('' + str).replace(/<\/?[^>]+(>|$)/g, "").trim();
 	}
 	exp.encodeHTMLEntities = function(str) {
-		return (' ' + str).slice(1).replace(/[\"&'\/<>]/g, function (a) {
+		return ('' + str).replace(/[\"&'\/<>]/g, function (a) {
 			return {
 				'"': '&quot;', '&': '&amp;', "'": '&#39;',
 				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
@@ -40,7 +40,7 @@ terafm.help = (function() {
 
 	// For displaying in HTML
 	exp.encodeEntry = function(entry) {
-		var str = (' ' + entry.value).slice(1);
+		var str = '' + entry.value;
 
 		// Strip HTML tags, text is already encoded
 		if(entry.type === 'contenteditable') {
