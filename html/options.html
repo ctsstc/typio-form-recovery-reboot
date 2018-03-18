@@ -21,7 +21,8 @@
 		<div class="fixed">
 			<p class="title">Menu</p>
 			<a href="#saving-options-group">Save options</a>
-			<a href="#quickAccess-group">Quick Access Icon</a>
+			<a href="#quickAccess-group">Restore Icon</a>
+			<a href="#saveIndicator-group">Save Indicator</a>
 			<a href="#keycombo-group">Keyboard shortcuts</a>
 			<a href="#blacklist-group">Domain blacklist</a>
 			<a href="#contextmenu-group">Context menu</a>
@@ -35,6 +36,8 @@
 
 		<div id="saving-options-group" class="opt-group">
 			<p class="opt-title">Save options</p>
+	
+			<p>Typio will keep your data for the selected day count. Manually clearing the site data in Google Chrome options will also delete all of the saved Typio data.</p>
 
 			<p>
 				Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text">&nbsp; days
@@ -55,36 +58,36 @@
 			</p>
 
 			<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
-		
+		</div>
 
-			<br>
-			<p class="opt-title">Save indicator</p>
+		<div id="quickAccess-group" class="opt-group">
+			<p class="opt-title">Restore Icon</p>
 
-			<p>The save indicator will appear when you focus on an input field Typio recognizes.</p>
-			<select class="autosave" data-option="saveIndicator">
+			<p class="opt-description">The Restore Icon appears in the top right corner of any input field Typio recognizes. Clicking it will open the Quick Restore popup for the selected field.</p>
+
+			<div class="fancy-chk">
+				<input class="autosave" type="checkbox" data-option="quickAccessButtonEnabled" id="checkboxQuickAccessButtonEnabled">
+				<span class="chk"></span>
+			</div>
+			<label for="checkboxQuickAccessButtonEnabled">Enable Restore Icon</label>
+			<br><br>
+			<select class="autosave" data-option="quickAccessButtonTrigger">
+				<option value="focus">Display on input focus</option>
+				<option value="doubleclick">Display on input double click</option>
+			</select>
+		</div>
+
+		<div id="saveIndicator-group" class="opt-group">
+			<p class="opt-title">Save Indicator</p>
+
+			<p>The save indicator will appear when you focus on an input field Typio recognizes and animates on save.</p>
+			Style:&nbsp;<select class="autosave" data-option="saveIndicator">
 				<option value="topline">Top line</option>
 				<option value="cornertriag">Corner triangle</option>
 				<option value="disable">Disable</option>
 			</select>
 			&nbsp;
 			<input class="autosave" type="color" data-option="saveIndicatorColor">
-		</div>
-
-		<div id="quickAccess-group" class="opt-group">
-			<p class="opt-title">Quick Access Icon</p>
-
-			<p class="opt-description">The Quick Access Icon appears in the top right corner of any input field that Typio recognizes. Clicking it will open the Quick Access popup for easy restoration.</p>
-
-			<div class="fancy-chk">
-				<input class="autosave" type="checkbox" data-option="quickAccessButtonEnabled" id="checkboxQuickAccessButtonEnabled">
-				<span class="chk"></span>
-			</div>
-			<label for="checkboxQuickAccessButtonEnabled">Enable Quick Access icon</label>
-			<br><br>
-			<select class="autosave" data-option="quickAccessButtonTrigger">
-				<option value="focus">Display on input focus</option>
-				<option value="doubleclick">Display on input double click</option>
-			</select>
 		</div>
 
 		<div id="keycombo-group" class="opt-group">
@@ -108,14 +111,17 @@
 				</p>
 
 				<p class="key-combo-item">
-					Open Quick Access for selected field:
+					Open Quick Restore for selected field:
 					<input data-option="keybindOpenQuickAccess" class="autosave set-shortcut" placeholder="disabled" type="text">
 				</p>
 	
 				<div class="change-msg hidden">
 					<p class="note">Psst. You'll have to refresh currently open web pages for the keyboard changes to take effect.</p>
 				</div>
+
 			</div>
+			
+			<p style="margin-top: 20px;">The Quick Restore Popup can be navigated with up/down arrow keys, press space to select.</p>
 		</div>
 
 		<div id="blacklist-group" class="opt-group">
