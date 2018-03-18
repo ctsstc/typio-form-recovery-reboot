@@ -7,20 +7,14 @@
 		// Used to check if content scripts are already injected
 		if(request.action === 'ping') {
 			sendResponse(true);
-		
-		} else if(request.action === 'openQuickAccess') {
+		} else {
 			showError();
 
-		} else if(request.action === 'openRecoveryDialog') {
-			showError();
-
-		} else if(request.action === 'clearData') {
-			showError();
 		}
 	});
 
 	function showError() {
-		var enable = confirm(`The action cannot be performed because you have disabled Typio on this domain.\n\nDo you want to enable Typio again? The page will be refreshed.`);
+		var enable = confirm(`Uh oh! The action cannot be performed because you have disabled Typio on this domain.\n\nDo you want to enable Typio again? The page will be refreshed.`);
 		if(enable) {
 			terafm.blacklist.unblock(location.hostname, function() {
 				location.reload();
