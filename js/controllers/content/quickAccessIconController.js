@@ -13,10 +13,7 @@ window.terafm = window.terafm || {};
 		}
 	});
 
-
-	function addEventListeners() {
-		build();
-
+	function addDeepEventListeners() {
 		node.addEventListener('click', e => e.preventDefault() )
 		node.addEventListener('mousedown', function(e) {
 			e.preventDefault();
@@ -30,7 +27,10 @@ window.terafm = window.terafm || {};
 				terafm.quickAccessController.open();
 			}
 		})
+	}
 
+
+	function addEventListeners() {
 		var tmt;
 
 		// On editable focus
@@ -67,19 +67,23 @@ window.terafm = window.terafm || {};
 
 	}
 
-	function build() {
+	function build(callback) {
 		if(!node) {
 			ui.inject({
-				html: '<a id="quickAccessIcon" title="Open Typio Quick Access"><span data-hide title="Hide icon for this input this page load"></span></a>',
+				html: '<a id="quickAccessIcon" title="Open Typio Quick Access"><span data-hide="" title="Hide icon for this input this page load"></span></a>',
 				returnNode: '#quickAccessIcon'
 			}, function(res) {
 				node = res;
+				addDeepEventListeners();
+				callback();
 			})
+		} else {
+			callback();
 		}
 	}
 
 	function hide() {
-		node.style.display = 'none';
+		if(node) node.style.display = 'none';
 	}
 
 	function disableForEditable() {
@@ -88,41 +92,43 @@ window.terafm = window.terafm || {};
 
 	function show(editable, event) {
 
-		editable = editableManager.getEditable(editable);
+		build(function() {
+			editable = editableManager.getEditable(editable);
 
-		if(	editable && editableManager.isEditableText(editable) &&
-			disabledEditables.indexOf(editable) === -1 && 
-			!(event === 'click' && editable === terafm.focusedEditable && getComputedStyle(editable).display !== 'none')
-			) {
+			if(	editable && editableManager.isEditableText(editable) &&
+				disabledEditables.indexOf(editable) === -1 && 
+				!(event === 'click' && editable === terafm.focusedEditable && getComputedStyle(editable).display !== 'none')
+				) {
 
-			ui.touch();
+				ui.touch();
 
-			var rect = terafm.editableManager.getRect(editable),
-				pos = {
-					x: rect.x + rect.width - 18,
-					y: rect.y
-				},
-				offset = 4;
+				var rect = terafm.editableManager.getRect(editable),
+					pos = {
+						x: rect.x + rect.width - 18,
+						y: rect.y
+					},
+					offset = 4;
 
-			// Calculate edge offset
-			if(rect.height < 50 && rect.width > 150) {
-				offset = (rect.height/2) - (18/2);
+				// Calculate edge offset
+				if(rect.height < 50 && rect.width > 150) {
+					offset = (rect.height/2) - (18/2);
+				}
+
+				// Vertical scrollbar check
+				if(editable.scrollHeight > editable.clientHeight || ['search', 'number'].includes(editable.type)) {
+					pos.x -= 17;
+				}
+
+				pos.x -= offset;
+				pos.y += offset;
+
+				node.style.top = pos.y + 'px';
+				node.style.left = pos.x + 'px';
+				node.style.display = 'block';
+
+				terafm.focusedEditable = editable;
 			}
-
-			// Vertical scrollbar check
-			if(editable.scrollHeight > editable.clientHeight || ['search', 'number'].includes(editable.type)) {
-				pos.x -= 17;
-			}
-
-			pos.x -= offset;
-			pos.y += offset;
-
-			node.style.top = pos.y + 'px';
-			node.style.left = pos.x + 'px';
-			node.style.display = 'block';
-
-			terafm.focusedEditable = editable;
-		}
+		})
 	}
 
 })(terafm.DOMEvents, terafm.initHandler, terafm.ui, terafm.helpers, terafm.editableManager, terafm.options);
