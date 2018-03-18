@@ -38,21 +38,31 @@ window.terafm = window.terafm || {};
 			DOMEvents.registerHandler('focus', function(e) {
 				// In timeout becuase some sites like to animate positioning/size on focus
 				tmt = setTimeout(function() {
-					show(e.path[0])
+					show(e.path[0], 'focus')
 				}, 50)
 			});
+
+			// Click is fallback to "focus".
+			// In shadow DOM focus will only bubble the first time.
+			// Tabbing still does not work correctly.
+			DOMEvents.registerHandler('click', function(e) {
+				clearTimeout(tmt);
+				tmt = setTimeout(function() {
+					show(e.path[0], 'click');
+				}, 50)
+			})
 
 		// On editable double click
 		} else if(triggerAction === 'doubleclick') {
 			DOMEvents.registerHandler('dblclick', function(e) {
-				show(e.path[0])
+				show(e.path[0], 'doubleclick')
 			})
 		}
 
 		DOMEvents.registerHandler('blur', function(e) {
 			ui.touch();
 			clearTimeout(tmt);
-			node.style.display = 'none'
+			hide()
 		});
 
 	}
@@ -76,9 +86,15 @@ window.terafm = window.terafm || {};
 		if(terafm.focusedEditable) disabledEditables.push(terafm.focusedEditable);
 	}
 
-	function show(editable) {
+	function show(editable, event) {
 
-		if(editableManager.isEditableText(editable) && disabledEditables.indexOf(editable) === -1) {
+		editable = editableManager.getEditable(editable);
+
+		if(	editable && editableManager.isEditableText(editable) &&
+			disabledEditables.indexOf(editable) === -1 && 
+			!(event === 'click' && editable === terafm.focusedEditable && getComputedStyle(editable).display !== 'none')
+			) {
+
 			ui.touch();
 
 			var rect = terafm.editableManager.getRect(editable),
