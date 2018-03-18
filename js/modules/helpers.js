@@ -22,14 +22,27 @@ terafm.help = (function() {
 	exp.stripTags = function(str) {
 		return ('' + str).replace(/<\/?[^>]+(>|$)/g, "").trim();
 	}
-	exp.encodeHTMLEntities = function(str) {
-		return ('' + str).replace(/[\"&'\/<>]/g, function (a) {
-			return {
-				'"': '&quot;', '&': '&amp;', "'": '&#39;',
-				'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
-			}[a];
-		})
-	}
+	// exp.encodeHTMLEntities = function(str) {
+	// 	return ('' + str).replace(/[\"&'\/<>]/g, function (a) {
+	// 		return {
+	// 			'"': '&quot;', '&': '&amp;', "'": '&#39;',
+	// 			'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
+	// 		}[a];
+	// 	})
+	// }
+	// https://stackoverflow.com/a/47192491/290790
+	exp.encodeHTMLEntities = (function() {
+		var doc = document.implementation.createDocument("", "", null),
+			el = doc.createElement("terafmXMLTemp");
+		el.textContent = "terafmXMLTemp";
+		el = el.firstChild;
+		var ser =  new XMLSerializer();
+		return function(str) {
+			el.nodeValue = str;
+			return ser.serializeToString(el);
+		};
+	})();
+
 	exp.decodeHTMLEntities = function(str) {
 		var parser = new DOMParser,
 			dom = parser.parseFromString('<!doctype html><body>' + str, 'text/html');
