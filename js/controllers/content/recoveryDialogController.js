@@ -242,6 +242,7 @@ terafm.recoveryDialogController = {};
 				document.body.removeChild(copyCont);
 
 				recoveryDialog.hide();
+				terafm.toast.create('Text copied to clipboard')
 
 			// Add site to blacklist trigger
 			} else if(target.dataset.action === 'add-to-blacklist') {
