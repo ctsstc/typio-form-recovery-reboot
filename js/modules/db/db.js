@@ -168,16 +168,18 @@ terafm.db = terafm.db || {};
 
 	// Deletes everythinng except for current session
 	db.deleteAllSessions = function() {
-		for(var editable in container) {
-			var curr = container[editable][globalSessionId];
+		container = {};
+		
+		// for(var editable in container) {
+		// 	var curr = container[editable][globalSessionId];
 
-			delete container[editable];
+		// 	delete container[editable];
 
-			if(curr) {
-				container[editable] = {};
-				container[editable][globalSessionId] = curr;
-			}
-		}
+		// 	if(curr) {
+		// 		container[editable] = {};
+		// 		container[editable][globalSessionId] = curr;
+		// 	}
+		// }
 
 		sync();
 	}
