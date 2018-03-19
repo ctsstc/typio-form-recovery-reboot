@@ -17,10 +17,12 @@ terafm.db = terafm.db || {};
 
 
 
-	// Writes in memory storage to disk (IndexedDB or localStorage)
+	// Writes in memory storage to disk (IndexedDB)
 	function sync() {
-		// console.log('sync to db');
-		terafm.indexedDB.save(JSON.stringify(container));
+		if(initiated) {
+			// console.log('sync to db');
+			terafm.indexedDB.save(JSON.stringify(container));
+		}
 	}
 
 	let debouncedSync = terafm.help.debounce(function() {
