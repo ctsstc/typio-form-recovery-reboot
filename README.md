@@ -9,6 +9,19 @@ Pull requests are welcome if you'd like to contribute.
 
 # Changelog
 
+### Version 1.8 (9th Mar, 2018):
+- New: Restore icon next to inputs (configurable in options)
+- New: Quick Restore now has keyboard support
+- New: Added option to hide Typio in context menu (in favor of keyboard shortcuts)
+- New: Smarter restoration of entries that contain formatting
+- New: "You have disabled Typio on this site" message now gives you the option to enable Typio
+- New: Smarter display of entries in Quick Restore (Strips formatting and whitespace)
+- Fix: Bug fix for encapsulation injection on certain sites (polymer-project.org)
+- Fix: Keyboard shortcuts can now be pressed in any order
+- Fix: Fix some positioning issues with Quick Restore popup
+- Fix: "Delete all" now actually deletes all entries, including current session.
+- Fix: Fix bug that would cause database to be cleared upon refreshing the page multiple times quickly (see #28).
+
 ### Version 1.6.5 (16th Feb, 2018):
 - New: Added support for websites using XML content types (battle.net)
 - New: Added edge detection for positioning right-click popup menu.
