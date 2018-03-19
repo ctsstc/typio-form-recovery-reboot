@@ -86,7 +86,7 @@ terafm.ui = {};
 		rootNode = document.getElementById('terafm-shadow');
 
 		shadowRootNode = rootNode.attachShadow({mode: 'open'});
-		shadowRootNode.innerHTML = '<div></div>';
+		shadowRootNode.innerHTML = '<div id="shadow-root"></div>';
 		shadowRootNode.querySelector('div').insertAdjacentHTML('beforeend', '<style> @import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '"; </style>');
 
 		return shadowRootNode;
