@@ -85,7 +85,7 @@ terafm.help = (function() {
 		if(!pretty) {
 			return date.toLocaleDateString('en-US', {
 				year: 'numeric',
-				month: 'long',
+				month: 'short',
 				day: 'numeric',
 				hour: 'numeric',
 				minute: 'numeric'
