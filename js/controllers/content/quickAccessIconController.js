@@ -93,11 +93,13 @@ window.terafm = window.terafm || {};
 	function show(editable, event) {
 
 		build(function() {
-			editable = editableManager.getEditable(editable);
+			editable = editableManager.getEditable(editable)
+			var edStyle = editable ? getComputedStyle(editable) : {};
 
 			if(	editable && editableManager.isEditableText(editable) &&
 				disabledEditables.indexOf(editable) === -1 && 
-				!(event === 'click' && editable === terafm.focusedEditable && getComputedStyle(editable).display !== 'none')
+				(parseInt(edStyle.width) > 20 && parseInt(edStyle.height) > 10) &&
+				!(event === 'click' && editable === terafm.focusedEditable && edStyle.display !== 'none')
 				) {
 
 				ui.touch();
