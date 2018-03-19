@@ -10,7 +10,9 @@
 	DOMEvents.registerHandler('change', changeHandler);
 
 	// Force save before window is closed
-	window.addEventListener('beforeunload', db.sync);
+	terafm.initHandler.onInit(function() {
+		window.addEventListener('beforeunload', db.sync);
+	})
 
 	function changeHandler(e) {
 
