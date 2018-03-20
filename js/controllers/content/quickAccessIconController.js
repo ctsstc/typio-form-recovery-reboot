@@ -4,7 +4,8 @@ window.terafm = window.terafm || {};
 
 	let node,
 		triggerAction,
-		disabledEditables = [];
+		disabledEditables = [],
+		iconDelayTimeout;
 
 	initHandler.onInit(function() {
 		if(options.get('quickAccessButtonEnabled')) {
@@ -31,40 +32,30 @@ window.terafm = window.terafm || {};
 
 
 	function addEventListeners() {
-		var tmt;
-
-		// On editable focus
 		if(triggerAction === 'focus') {
-			DOMEvents.registerHandler('focus', function(e) {
-				// In timeout becuase some sites like to animate positioning/size on focus
-				tmt = setTimeout(function() {
-					show(e.path[0], 'focus')
-				}, 50)
+			DOMEvents.registerHandler('focus', function() {
+				delayShow('focus')
 			});
 
 			// Click is fallback to "focus".
 			// In shadow DOM focus will only bubble the first time.
 			// Tabbing still does not work correctly.
-			DOMEvents.registerHandler('click', function(e) {
-				clearTimeout(tmt);
-				tmt = setTimeout(function() {
-					show(e.path[0], 'click');
-				}, 50)
-			})
-
-		// On editable double click
-		} else if(triggerAction === 'doubleclick') {
-			DOMEvents.registerHandler('dblclick', function(e) {
-				show(e.path[0], 'doubleclick')
+			DOMEvents.registerHandler('focus-fallback', function() {
+				delayShow('focus-fallback')
 			})
 		}
 
-		DOMEvents.registerHandler('blur', function(e) {
+		// On editable double click
+		if(triggerAction === 'doubleclick') {
+			DOMEvents.registerHandler('dblclick', function() {
+				delayShow('doubleclick')
+			})
+		}
+
+		DOMEvents.registerHandler('blur', function() {
 			ui.touch();
-			clearTimeout(tmt);
 			hide()
 		});
-
 	}
 
 	function build(callback) {
@@ -90,16 +81,25 @@ window.terafm = window.terafm || {};
 		if(terafm.focusedEditable) disabledEditables.push(terafm.focusedEditable);
 	}
 
-	function show(editable, event) {
+	function delayShow(trigger) {
+		clearTimeout(iconDelayTimeout);
+		iconDelayTimeout = setTimeout(function() {
+			show(trigger)
+		}, 50)
+	}
+
+	function show(trigger) {
+		if(!terafm.focusedEditable) return;
+
+		// Prevent flying icon in some cases
+		if(trigger === 'focus-fallback' || trigger === 'doubleclick') hide();
 
 		build(function() {
-			editable = editableManager.getEditable(editable)
-			var edStyle = editable ? getComputedStyle(editable) : {};
+			var editable = terafm.focusedEditable
+			var edStyle = getComputedStyle(editable);
 
-			if(	editable && editableManager.isEditableText(editable) &&
-				disabledEditables.indexOf(editable) === -1 && 
-				(parseInt(edStyle.width) > 20 && parseInt(edStyle.height) > 10) &&
-				!(event === 'click' && editable === terafm.focusedEditable && edStyle.display !== 'none')
+			if(	disabledEditables.indexOf(editable) === -1 && 
+				(parseInt(edStyle.width) > 20 && parseInt(edStyle.height) > 10)
 				) {
 
 				ui.touch();
@@ -127,8 +127,6 @@ window.terafm = window.terafm || {};
 				node.style.top = pos.y + 'px';
 				node.style.left = pos.x + 'px';
 				node.style.display = 'block';
-
-				terafm.focusedEditable = editable;
 			}
 		})
 	}
