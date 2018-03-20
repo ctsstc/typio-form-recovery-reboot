@@ -26,7 +26,6 @@ window.terafm = window.terafm || {};
 	})
 
 	DOMEvents.registerHandler('blur', function() {
-		console.log('blur')
 		terafm.focusedEditable = null;
 	})
 

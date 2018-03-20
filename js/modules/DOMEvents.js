@@ -25,9 +25,6 @@ terafm.DOMEvents = {};
 	}
 
 
-	console.log(handlers);
-	
-
 	initHandler.onInit(function() {
 		document.addEventListener('input', (e) => 		DOMEvents.trigger(e.type, e) );
 		document.addEventListener('keyup', (e) => 		DOMEvents.trigger(e.type, e), true );
