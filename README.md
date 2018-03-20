@@ -20,7 +20,7 @@ Pull requests are welcome if you'd like to contribute.
 - Fix: Keyboard shortcuts can now be pressed in any order
 - Fix: Fix some positioning issues with Quick Restore popup
 - Fix: "Delete all" now actually deletes all entries, including current session.
-- Fix: Fix bug that would cause database to be cleared upon refreshing the page multiple times quickly (see #28).
+- Fix: Fix bug that would cause database to be cleared upon refreshing the page multiple times quickly (see issue #28).
 
 ### Version 1.6.5 (16th Feb, 2018):
 - New: Added support for websites using XML content types (battle.net)
