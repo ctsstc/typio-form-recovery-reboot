@@ -43,6 +43,8 @@ terafm.keyboardShortcuts = {};
 	}
 
 	DOMEvents.registerHandler('keydown', function(e) {
+		if(e.key === undefined) return;
+
 		var lowcase = e.key.toLowerCase();
 
 		if(pressed.indexOf(lowcase) === -1) {
