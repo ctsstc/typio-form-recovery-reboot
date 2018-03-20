@@ -22,7 +22,7 @@ Pull requests are welcome if you'd like to contribute.
 - Fix: "Delete all" now actually deletes all entries, including current session.
 - Fix: Fix bug that would cause database to be cleared upon refreshing the page multiple times quickly (see [issue #28](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/28/multiple-repeated-page-reloads-clears)).
 
-### Version 1.6.5 (16th Feb, 2018):
+### Version 1.7 (16th Feb, 2018):
 - New: Added support for websites using XML content types (battle.net)
 - New: Added edge detection for positioning right-click popup menu.
 - New: Quick restore popup menu no longer excludes current session data.
