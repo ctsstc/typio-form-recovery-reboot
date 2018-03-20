@@ -20,23 +20,19 @@ terafm.editableManager = terafm.editableManager || {};
 		// Check everything
 		} else {
 			for(type in rules) {
-				// console.log('asdsad', type)
 				if(!checkType(editable, type)) return false
 			}
 		}
 
-		// Nothing failed
 		return true;
 	}
 
 	function checkType(editable, type) {
 		for(var fi in rules[type]) {
 			if(!rules[type][fi](editable)) {
-				console.log('fail?', type, rules[type][fi])
 				return false
 			}
 		}
-		console.log('ok?', type)
 		return true
 	}
 
