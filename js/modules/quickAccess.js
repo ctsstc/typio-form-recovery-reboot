@@ -51,11 +51,11 @@ terafm.quickAccess = {};
 			popupWidth = menuNode.clientWidth,
 			pos = {x: edrect.x, y: edrect.y}
 
-		if(document.body.scrollHeight > 0 && edrect.y + popupHeight > Math.max(document.body.scrollHeight, document.body.offsetHeight) ) {
+		if(document.body.scrollHeight > 0 && edrect.y + popupHeight > Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight) ) {
 			pos.y -= popupHeight;
 		}
 
-		if(edrect.x + (edrect.width||0) + popupWidth > Math.max(document.body.scrollWidth, document.body.offsetWidth) ) {
+		if(edrect.x + (edrect.width||0) + popupWidth > Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth) ) {
 			pos.x -= popupWidth;
 		} else {
 			pos.x += edrect.width||0;
