@@ -2,6 +2,7 @@ window.terafm = window.terafm || {};
 terafm.quickAccessController = {};
 
 (function(quickAccessController, quickAccess, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts, options, initHandler) {
+	"use strict";
 
 	let contextTarget;
 	let contextTargetRect = {};
@@ -12,10 +13,16 @@ terafm.quickAccessController = {};
 	initHandler.onInit(function() {
 		if(options.get('keybindEnabled')) {
 			keyboardShortcuts.on(options.get('keybindOpenQuickAccess'), function(e) {
-				if(e.preventDefault) {e.preventDefault(); e.stopPropagation(); }
-				setTimeout(function() {
-					open('current')
-				},20);
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+
+				if(!quickAccess.isOpen() && terafm.focusedEditable) {
+					contextTarget = terafm.focusedEditable;
+					contextTargetRect = editableManager.getRect(contextTarget);
+					open();
+				} else {
+					quickAccess.hide()
+					editableManager.resetPlaceholders();
+				}
 			});
 		} 
 	});
@@ -52,11 +59,7 @@ terafm.quickAccessController = {};
 
 	function open(context) {
 
-		// Open for currently focused?
-		if(context === 'current' && terafm.focusedEditable) {
-			contextTarget = terafm.focusedEditable;
-			contextTargetRect = editableManager.getRect(contextTarget);
-		}
+		if(!terafm.focusedEditable) return false;
 
 		// Nothing (or nothing editable) was right clicked
 		// Can happen if page hasn't fully loaded at right click (eventhandlers haven't attached yet)
@@ -64,10 +67,7 @@ terafm.quickAccessController = {};
 			// alert("Typio cannot open due to one of the following reasons:\n\n1) Page has not fully loaded yet.\n\n2) The page is running in an inaccessible frame (cross domain).\n\n3) You're tring to recover an illegal field (e.g. password field if disabled).");
 			return false;
 		}
-
 		deepSetup(function() {
-
-
 			let data = getDataByEditable(contextTarget);
 
 			quickAccess.populate(data);
@@ -139,10 +139,13 @@ terafm.quickAccessController = {};
 		});
 		quickAccessNode.addEventListener('mousedown', e => e.stopPropagation());
 		
-		DOMEvents.registerHandler('focus', function() {
-			editableManager.resetPlaceholders();
-			quickAccess.hide();
-		});
+		// DOMEvents.registerHandler('focus', function() {
+		// 	if(quickAccess.isOpen()) {
+		// 		console.log('closing')
+		// 		editableManager.resetPlaceholders();
+		// 		quickAccess.hide();
+		// 	}
+		// });
 		
 		quickAccessNode.addEventListener('click', e => {
 			e.stopPropagation();
@@ -223,9 +226,12 @@ terafm.quickAccessController = {};
 			}
 		})
 
-		keyboardShortcuts.on(['Escape'], function() {
-			quickAccess.hide();
-			editableManager.resetPlaceholders();
+		keyboardShortcuts.on(['Escape'], function(e) {
+			if(quickAccess.isOpen()) {
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+				quickAccess.hide();
+				editableManager.resetPlaceholders();
+			}
 		});
 	}
 	
