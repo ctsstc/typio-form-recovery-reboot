@@ -4,41 +4,69 @@ terafm.editableManager = terafm.editableManager || {};
 (function(editableManager) {
 	'use strict';
 
-	editableManager.checkRules = function(editable) {
+	var rules = {
+		elem: [],
+		value: []
+	}
 
-		if(!passwordCheck(editable)) 		return false;
-		if(!creditCardCheck(editable)) 		return false;
-		if(!isIgnoredFieldCheck(editable)) 	return false;
+	editableManager.checkRules = function(editable, type) {
 
+		if(!editable || !editable.nodeName) return false;
+
+		// Check only a specific type
+		if(type) {
+			return checkType(editable, type)
+
+		// Check everything
+		} else {
+			for(type in rules) {
+				// console.log('asdsad', type)
+				if(!checkType(editable, type)) return false
+			}
+		}
+
+		// Nothing failed
 		return true;
 	}
 
+	function checkType(editable, type) {
+		for(var fi in rules[type]) {
+			if(!rules[type][fi](editable)) {
+				console.log('fail?', type, rules[type][fi])
+				return false
+			}
+		}
+		console.log('ok?', type)
+		return true
+	}
 
-	function passwordCheck(elem) {
+	// Password type check
+	rules.elem.push(function(elem) {
 		if(elem.nodeName.toLowerCase() === 'input' && elem.type === 'password' && terafm.options.get('savePasswords') !== true) {
-			// console.log('password rule check failed');
 			return false;
 		}
 		return true;
-	}
+	})
 
-	function creditCardCheck(elem) {
+	// Typio ignore field check
+	rules.elem.push(function(elem) {
+		return !elem.classList.contains('typioIgnoreField');
+	})
+
+
+	// Credit card value check
+	rules.value.push(function(elem) {
 		if(editableManager.isEditableText(elem)) {
 			let value = editableManager.getEditableValue(elem),
 				isCard = /^[0-9\-\s]{8,22}$/.test(value);
 
 			if(isCard && terafm.options.get('saveCreditCards') !== true) {
-				// console.log('credit card detected and disallowed');
 				return false;
 			}
 		}
 
 		return true;
-	}
-
-	function isIgnoredFieldCheck(elem) {
-		return !elem.classList.contains('typioIgnoreField');
-	}
+	})
 
 
 })(terafm.editableManager);
