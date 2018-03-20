@@ -35,14 +35,18 @@ window.terafm = window.terafm || {};
 	function addEventListeners() {
 		if(triggerAction === 'focus') {
 			DOMEvents.registerHandler('editable-text-focus', function() {
-				delayShow()
+				if(editableManager.checkRules(terafm.focusedEditable, 'elem')) {
+					delayShow()
+				}
 			});
 		}
 
 		// On editable double click
 		if(triggerAction === 'doubleclick') {
 			DOMEvents.registerHandler('dblclick', function() {
-				delayShow()
+				if(editableManager.checkRules(terafm.focusedEditable, 'elem')) {
+					delayShow()
+				}
 			})
 		}
 
@@ -98,7 +102,7 @@ window.terafm = window.terafm || {};
 
 			if(!isDisabled(editable) && (parseInt(edStyle.width) > 20 && parseInt(edStyle.height) > 10)) {
 
-				var rect = terafm.editableManager.getRect(editable),
+				var rect = editableManager.getRect(editable),
 					pos = {
 						x: rect.x + rect.width - 18,
 						y: rect.y
