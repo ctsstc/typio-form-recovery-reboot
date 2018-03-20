@@ -215,6 +215,11 @@ terafm.editableManager = terafm.editableManager || {};
 		return false;
 	}
 
+	editableManager.getEditableText = function(elem) {
+		elem = editableManager.getEditable(elem)
+		return editableManager.isEditableText(elem) ? elem : false;
+	}
+
 	editableManager.getEditableValue = function(editable, trim) {
 		let value;
 

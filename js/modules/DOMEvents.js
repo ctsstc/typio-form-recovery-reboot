@@ -4,7 +4,6 @@ terafm.DOMEvents = {};
 (function(DOMEvents, ui, initHandler) {
 	'use strict';
 
-
 	let handlers = {},
 		shadowRootNode;
 
@@ -25,6 +24,8 @@ terafm.DOMEvents = {};
 		handlers[type].push(callback);
 	}
 
+
+	console.log(handlers);
 	
 
 	initHandler.onInit(function() {
