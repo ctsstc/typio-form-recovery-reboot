@@ -6,19 +6,16 @@ window.terafm = window.terafm || {};
 		let isEnabled = options.get('saveIndicator') !== 'disable';
 
 		if(isEnabled) {
-
 			addEventListeners();
 		}
 	});
 
 
 	function addEventListeners() {
-		DOMEvents.registerHandler('focus', function(e) {
+		DOMEvents.registerHandler('editable-text-focus', function() {
 			saveIndicator.build(function() {
 
-				let isEditable = editableManager.isEditableText(e.path[0]) && editableManager.checkRules(e.path[0]);
-
-				if(!isEditable) {
+				if(!terafm.focusedEditable || !editableManager.checkRules(terafm.focusedEditable)) {
 					return false;
 				}
 

@@ -1,6 +1,7 @@
 window.terafm = window.terafm || {};
 
 (function(DOMEvents, initHandler, ui, help, editableManager, options) {
+	"use strict";
 
 	let node,
 		triggerAction,
@@ -33,22 +34,15 @@ window.terafm = window.terafm || {};
 
 	function addEventListeners() {
 		if(triggerAction === 'focus') {
-			DOMEvents.registerHandler('focus', function() {
-				delayShow('focus')
+			DOMEvents.registerHandler('editable-text-focus', function() {
+				delayShow()
 			});
-
-			// Click is fallback to "focus".
-			// In shadow DOM focus will only bubble the first time.
-			// Tabbing still does not work correctly.
-			DOMEvents.registerHandler('focus-fallback', function() {
-				delayShow('focus-fallback')
-			})
 		}
 
 		// On editable double click
 		if(triggerAction === 'doubleclick') {
 			DOMEvents.registerHandler('dblclick', function() {
-				delayShow('doubleclick')
+				delayShow()
 			})
 		}
 
@@ -81,28 +75,28 @@ window.terafm = window.terafm || {};
 		if(terafm.focusedEditable) disabledEditables.push(terafm.focusedEditable);
 	}
 
-	function delayShow(trigger) {
+	function isDisabled(editable) {
+		return disabledEditables.indexOf(editable) !== -1;
+	}
+
+	function delayShow() {
 		clearTimeout(iconDelayTimeout);
-		iconDelayTimeout = setTimeout(function() {
-			show(trigger)
-		}, 50)
+		iconDelayTimeout = setTimeout(show, 50);
 	}
 
 	function show(trigger) {
 		if(!terafm.focusedEditable) return;
 
-		// Prevent flying icon in some cases
-		if(trigger === 'focus-fallback' || trigger === 'doubleclick') hide();
-
 		build(function() {
 			var editable = terafm.focusedEditable
 			var edStyle = getComputedStyle(editable);
 
-			if(	disabledEditables.indexOf(editable) === -1 && 
-				(parseInt(edStyle.width) > 20 && parseInt(edStyle.height) > 10)
-				) {
+			// Prevent flying icon in some cases
+			if(edStyle.display !== 'none') {
+				hide();
+			}
 
-				ui.touch();
+			if(!isDisabled(editable) && (parseInt(edStyle.width) > 20 && parseInt(edStyle.height) > 10)) {
 
 				var rect = terafm.editableManager.getRect(editable),
 					pos = {
@@ -127,6 +121,8 @@ window.terafm = window.terafm || {};
 				node.style.top = pos.y + 'px';
 				node.style.left = pos.x + 'px';
 				node.style.display = 'block';
+				
+				ui.touch();
 			}
 		})
 	}
