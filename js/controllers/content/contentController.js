@@ -5,24 +5,14 @@ var terafm = window.terafm;
 
 	// Load extension options into memory
 	options.loadFromChromeStorage(function() {
-
 		
 		// Initiate DB, populate in-memory storage
 		db.init(function() {
 
 			// Run init handlers
 			initHandler.executeInitHandlers();
-
-			// If something has autofocus, trigger fake focus event
-			setTimeout(function() {
-				if(editableManager.isEditableText(document.activeElement) && editableManager.checkRules(document.activeElement)) {
-					DOMEvents.trigger('focus', {path: [document.activeElement]});
-				}
-			}, 100)
 		});
 	});
-
-
 
 
 	// Messages from background.js

@@ -1,11 +1,32 @@
 window.terafm = window.terafm || {};
 
-(function(DOMEvents, editableManager) {
-	var target;
+(function(DOMEvents, initHandler, editableManager) {
+	"use strict";
+	
+	var target,
+		focusTimeout;
+
+	initHandler.onInit(function() {
+
+		// Autofocus support
+		setTimeout(function() {
+			DOMEvents.trigger('focus', {path: [document.activeElement]});
+		}, 100)
+	});
+
+
+	// Empty setTimeouts are used to make sure focus is always called after
+	// blur on another input. This works by default but bubbling fake events
+	// from encapsulators is slightly slower and causes the events to fire
+	// out of order. This fixes the issue.
 
 	DOMEvents.registerHandler('focus', function(e) {
-		target = e.path[0];
-		terafm.focusedEditable = editableManager.getEditableText(e.path[0]);
+		clearTimeout(focusTimeout)
+		focusTimeout = setTimeout(function() {
+			target = e.path[0];
+			terafm.focusedEditable = editableManager.getEditableText(e.path[0]);
+			DOMEvents.trigger('editable-text-focus', null)
+		})
 	});
 
 	// Click is fallback to "focus" because shadow dom is being a dick and
@@ -19,8 +40,11 @@ window.terafm = window.terafm || {};
 			target = e.path[0];
 			
 			if(editable && editable !== terafm.focusedEditable) {
-				terafm.focusedEditable = editable;
-				DOMEvents.trigger('focus-fallback', null);
+				clearTimeout(focusTimeout)
+				focusTimeout = setTimeout(function() {
+					terafm.focusedEditable = editable;
+					DOMEvents.trigger('editable-text-focus', null);
+				})
 			}
 		}
 	})
@@ -29,4 +53,4 @@ window.terafm = window.terafm || {};
 		terafm.focusedEditable = null;
 	})
 
-})(terafm.DOMEvents, terafm.editableManager);
+})(terafm.DOMEvents, terafm.initHandler, terafm.editableManager);
