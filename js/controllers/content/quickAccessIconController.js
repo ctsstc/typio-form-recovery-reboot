@@ -100,34 +100,34 @@ window.terafm = window.terafm || {};
 				hide();
 			}
 
-			if(!isDisabled(editable) && (parseInt(edStyle.width) > 20 && parseInt(edStyle.height) > 10)) {
+			if(isDisabled(editable)) return;
+			if(triggerAction === 'focus' && !(parseInt(edStyle.width) > 80 && parseInt(edStyle.height) > 10)) return;
 
-				var rect = editableManager.getRect(editable),
-					pos = {
-						x: rect.x + rect.width - 18,
-						y: rect.y
-					},
-					offset = 4;
+			var rect = editableManager.getRect(editable),
+				pos = {
+					x: rect.x + rect.width - 18,
+					y: rect.y
+				},
+				offset = 4;
 
-				// Calculate edge offset
-				if(rect.height < 50 && rect.width > 150) {
-					offset = (rect.height/2) - (18/2);
-				}
-
-				// Vertical scrollbar check
-				if(editable.scrollHeight > editable.clientHeight || ['search', 'number'].includes(editable.type)) {
-					pos.x -= 17;
-				}
-
-				pos.x -= offset;
-				pos.y += offset;
-
-				node.style.top = pos.y + 'px';
-				node.style.left = pos.x + 'px';
-				node.style.display = 'block';
-				
-				ui.touch();
+			// Calculate edge offset
+			if(rect.height < 50 && rect.width > 150) {
+				offset = (rect.height/2) - (18/2);
 			}
+
+			// Vertical scrollbar check
+			if(editable.scrollHeight > editable.clientHeight || ['search', 'number'].includes(editable.type)) {
+				pos.x -= 17;
+			}
+
+			pos.x -= offset;
+			pos.y += offset;
+
+			node.style.top = pos.y + 'px';
+			node.style.left = pos.x + 'px';
+			node.style.display = 'block';
+			
+			ui.touch();
 		})
 	}
 
