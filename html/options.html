@@ -17,153 +17,157 @@
 		</p>
 	</div>
 
-	<div class="menu-panel">
-		<div class="fixed">
-			<p class="title">Menu</p>
-			<a href="#saving-options-group">Save options</a>
-			<a href="#quickAccess-group">Restore Icon</a>
-			<a href="#saveIndicator-group">Save Indicator</a>
-			<a href="#keycombo-group">Keyboard shortcuts</a>
-			<a href="#blacklist-group">Domain blacklist</a>
-			<a href="#contextmenu-group">Context menu</a>
-			<br>
-			<a href="#privacypolicy-group">Privacy policy</a>
-			<a href="#feedback-group">Feedback</a>
+	<div class="container">
+
+		<div class="menu-panel">
+			<div class="fixed">
+				<p class="title">Menu</p>
+				<a href="#saving-options-group">Save options</a>
+				<a href="#quickAccess-group">Restore Icon</a>
+				<a href="#saveIndicator-group">Save Indicator</a>
+				<a href="#keycombo-group">Keyboard shortcuts</a>
+				<a href="#blacklist-group">Domain blacklist</a>
+				<a href="#contextmenu-group">Context menu</a>
+				<br>
+				<a href="#privacypolicy-group">Privacy policy</a>
+				<a href="#feedback-group">Feedback</a>
+			</div>
+		</div>
+
+		<div class="options-panel">
+
+			<div id="saving-options-group" class="opt-group">
+				<p class="opt-title">Save options</p>
+		
+				<p>Typio will keep your data for the selected day count. Manually clearing the site data in Google Chrome options will also delete all of the saved Typio data.</p>
+
+				<p>
+					Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text">&nbsp; days
+				</p>
+				<p>
+					<div class="fancy-chk">
+						<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
+						<span class="chk"></span>
+					</div>
+					<label for="checkboxSavePasswords">Save password fields</label>
+				</p>
+				<p>
+					<div class="fancy-chk">
+						<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
+						<span class="chk"></span>
+					</div>
+					<label for="checkboxSaveCreditCards">Save credit card numbers</label>
+				</p>
+
+				<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
+			</div>
+
+			<div id="quickAccess-group" class="opt-group">
+				<p class="opt-title">Restore Icon</p>
+
+				<p class="opt-description">The Restore Icon appears in the top right corner of any input field Typio recognizes. Clicking it will open the Quick Restore popup for the selected field.</p>
+
+				<div class="fancy-chk">
+					<input class="autosave" type="checkbox" data-option="quickAccessButtonEnabled" id="checkboxQuickAccessButtonEnabled">
+					<span class="chk"></span>
+				</div>
+				<label for="checkboxQuickAccessButtonEnabled">Enable Restore Icon</label>
+				<br><br>
+				<select class="autosave" data-option="quickAccessButtonTrigger">
+					<option value="focus">Display on input focus</option>
+					<option value="doubleclick">Display on input double click</option>
+				</select>
+			</div>
+
+			<div id="saveIndicator-group" class="opt-group">
+				<p class="opt-title">Save Indicator</p>
+
+				<p>The save indicator will appear when you focus on an input field Typio recognizes and animates on save.</p>
+				Style:&nbsp;<select class="autosave" data-option="saveIndicator">
+					<option value="topline">Top line</option>
+					<option value="cornertriag">Corner triangle</option>
+					<option value="disable">Disable</option>
+				</select>
+				&nbsp;
+				<input class="autosave" type="color" data-option="saveIndicatorColor">
+			</div>
+
+			<div id="keycombo-group" class="opt-group">
+				<p class="opt-title">Keyboard shortcuts</p>
+
+				<div class="fancy-chk">
+					<input class="autosave" type="checkbox" data-option="keybindEnabled" id="checkboxKeybindEnabled">
+					<span class="chk"></span>
+				</div>
+				<label for="checkboxKeybindEnabled">Enable keyboard shortcuts</label>
+
+				<div class="key-combo-module">
+					<p class="key-combo-item">
+						Open/Close Recovery Dialog:
+						<input data-option="keybindToggleRecDiag" class="autosave set-shortcut" placeholder="disabled" type="text">
+					</p>
+
+					<p class="key-combo-item">
+						Auto restore last session:
+						<input data-option="keybindRestorePreviousSession" class="autosave set-shortcut" placeholder="disabled" type="text">
+					</p>
+
+					<p class="key-combo-item">
+						Open Quick Restore for selected field:
+						<input data-option="keybindOpenQuickAccess" class="autosave set-shortcut" placeholder="disabled" type="text">
+					</p>
+		
+					<div class="change-msg hidden">
+						<p class="note">Psst. You'll have to refresh currently open web pages for the keyboard changes to take effect.</p>
+					</div>
+
+				</div>
+				
+				<p style="margin-top: 20px;">The Quick Restore Popup can be navigated with up/down arrow keys, press space to select.</p>
+			</div>
+
+			<div id="blacklist-group" class="opt-group">
+				<p class="opt-title">Domain blacklist</p>
+
+				<p>Typio will be completely disabled on these domains, autosave and restoration will not be available.</p>
+				<div class="blacklist-module">
+					<form id="blacklist-add-form" class="controls">
+						<input placeholder="Enter a domain name to block" type="text" name="domain">
+						<button>Add to blacklist</button>
+					</form>
+					<p class="error hidden">That doesn't look like a valid domain name to me.</p>
+					<ul id="domainBlacklist"></ul>
+				</div>
+			</div>
+
+			<div id="contextmenu-group" class="opt-group">
+				<p class="opt-title">Context menu</p>
+
+				<p class="opt-description">Typio can also be accessed with the keyboard shortcuts or using the browser toolbar icon.</p>
+
+				<div class="fancy-chk">
+					<input class="autosave" type="checkbox" data-option="hideContextItems" id="checkboxHideContextItems">
+					<span class="chk"></span>
+				</div>
+				<label for="checkboxHideContextItems">Hide Typio from context menu</label>
+			</div>
+
+			<div id="privacypolicy-group" class="opt-group">
+				<p class="opt-title">Privacy policy</p>
+				<p>Any user input Typio collects is stored only for the purpose of restoration and is never uploaded to any servers. Your data stays on your computer.</p>
+				<p>The source code for Typio is available to view on <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">Bitbucket</a>.</p>
+			</div>
+
+			<div id="feedback-group" class="opt-group">
+				<p class="opt-title">Feedback</p>
+				<p>You can submit feedback or bug reports on the <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new">bug tracker</a> or Tweet me at <a href="https://twitter.com/TypioRecovery">@TypioRecovery</a>.</p>
+				<p>If you're enjoying the experience with Typio, you can let others know by <a href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">leaving a review</a>.</p>
+			</div>
+
+			<p><button id="saveAndClose">Save and close</button></p>
 		</div>
 	</div>
 
-	<div id="save-indicator-group" class="options-panel">
-
-		<div id="saving-options-group" class="opt-group">
-			<p class="opt-title">Save options</p>
-	
-			<p>Typio will keep your data for the selected day count. Manually clearing the site data in Google Chrome options will also delete all of the saved Typio data.</p>
-
-			<p>
-				Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text">&nbsp; days
-			</p>
-			<p>
-				<div class="fancy-chk">
-					<input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
-					<span class="chk"></span>
-				</div>
-				<label for="checkboxSavePasswords">Save password fields</label>
-			</p>
-			<p>
-				<div class="fancy-chk">
-					<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
-					<span class="chk"></span>
-				</div>
-				<label for="checkboxSaveCreditCards">Save credit card numbers</label>
-			</p>
-
-			<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
-		</div>
-
-		<div id="quickAccess-group" class="opt-group">
-			<p class="opt-title">Restore Icon</p>
-
-			<p class="opt-description">The Restore Icon appears in the top right corner of any input field Typio recognizes. Clicking it will open the Quick Restore popup for the selected field.</p>
-
-			<div class="fancy-chk">
-				<input class="autosave" type="checkbox" data-option="quickAccessButtonEnabled" id="checkboxQuickAccessButtonEnabled">
-				<span class="chk"></span>
-			</div>
-			<label for="checkboxQuickAccessButtonEnabled">Enable Restore Icon</label>
-			<br><br>
-			<select class="autosave" data-option="quickAccessButtonTrigger">
-				<option value="focus">Display on input focus</option>
-				<option value="doubleclick">Display on input double click</option>
-			</select>
-		</div>
-
-		<div id="saveIndicator-group" class="opt-group">
-			<p class="opt-title">Save Indicator</p>
-
-			<p>The save indicator will appear when you focus on an input field Typio recognizes and animates on save.</p>
-			Style:&nbsp;<select class="autosave" data-option="saveIndicator">
-				<option value="topline">Top line</option>
-				<option value="cornertriag">Corner triangle</option>
-				<option value="disable">Disable</option>
-			</select>
-			&nbsp;
-			<input class="autosave" type="color" data-option="saveIndicatorColor">
-		</div>
-
-		<div id="keycombo-group" class="opt-group">
-			<p class="opt-title">Keyboard shortcuts</p>
-
-			<div class="fancy-chk">
-				<input class="autosave" type="checkbox" data-option="keybindEnabled" id="checkboxKeybindEnabled">
-				<span class="chk"></span>
-			</div>
-			<label for="checkboxKeybindEnabled">Enable keyboard shortcuts</label>
-
-			<div class="key-combo-module">
-				<p class="key-combo-item">
-					Open/Close Recovery Dialog:
-					<input data-option="keybindToggleRecDiag" class="autosave set-shortcut" placeholder="disabled" type="text">
-				</p>
-
-				<p class="key-combo-item">
-					Auto restore last session:
-					<input data-option="keybindRestorePreviousSession" class="autosave set-shortcut" placeholder="disabled" type="text">
-				</p>
-
-				<p class="key-combo-item">
-					Open Quick Restore for selected field:
-					<input data-option="keybindOpenQuickAccess" class="autosave set-shortcut" placeholder="disabled" type="text">
-				</p>
-	
-				<div class="change-msg hidden">
-					<p class="note">Psst. You'll have to refresh currently open web pages for the keyboard changes to take effect.</p>
-				</div>
-
-			</div>
-			
-			<p style="margin-top: 20px;">The Quick Restore Popup can be navigated with up/down arrow keys, press space to select.</p>
-		</div>
-
-		<div id="blacklist-group" class="opt-group">
-			<p class="opt-title">Domain blacklist</p>
-
-			<p>Typio will be completely disabled on these domains, autosave and restoration will not be available.</p>
-			<div class="blacklist-module">
-				<form id="blacklist-add-form" class="controls">
-					<input placeholder="Enter a domain name to block" type="text" name="domain">
-					<button>Add to blacklist</button>
-				</form>
-				<p class="error hidden">That doesn't look like a valid domain name to me.</p>
-				<ul id="domainBlacklist"></ul>
-			</div>
-		</div>
-
-		<div id="contextmenu-group" class="opt-group">
-			<p class="opt-title">Context menu</p>
-
-			<p class="opt-description">Typio can also be accessed with the keyboard shortcuts or using the browser toolbar icon.</p>
-
-			<div class="fancy-chk">
-				<input class="autosave" type="checkbox" data-option="hideContextItems" id="checkboxHideContextItems">
-				<span class="chk"></span>
-			</div>
-			<label for="checkboxHideContextItems">Hide Typio from context menu</label>
-		</div>
-
-		<div id="privacypolicy-group" class="opt-group">
-			<p class="opt-title">Privacy policy</p>
-			<p>Any user input Typio collects is stored only for the purpose of restoration and is never uploaded to any servers. Your data stays on your computer.</p>
-			<p>The source code for Typio is available to view on <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">Bitbucket</a>.</p>
-		</div>
-
-		<div id="feedback-group" class="opt-group">
-			<p class="opt-title">Feedback</p>
-			<p>You can submit feedback or bug reports on the <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new">bug tracker</a> or Tweet me at <a href="https://twitter.com/TypioRecovery">@TypioRecovery</a>.</p>
-			<p>If you're enjoying the experience with Typio, you can let others know by <a href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">leaving a review</a>.</p>
-		</div>
-
-		<p><button id="saveAndClose">Save and close</button></p>
-	</div>
 
 	<script src="../js/options.js"></script>
 </body>
