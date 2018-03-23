@@ -96,6 +96,38 @@ input[type='color'] {
     color: #555;
 }
 
+
+
+.menu-panel {
+	position: fixed;
+	top: 50px;
+	left: 50px;
+
+	* {
+		margin-bottom: 10px;
+		display: block;
+	}
+
+	a {
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.container {
+	overflow-y: scroll;
+	max-height: 600px;
+    width: 740px;
+}
+
+.options-panel {
+    padding: 50px 50px 200px 220px;
+}
+
+
 #key-combo-capturer {
 	display: flex;
     flex-direction: column;
@@ -286,42 +318,6 @@ input[type='color'] {
 			}
 		}
 	}
-}
-
-
-
-.container {
-	max-height: 600px;
-	width: 740px;
-	display: flex;
-}
-.menu-panel {
-    flex: 0 0 180px;
-    padding: 40px 0 0 50px;
-
-    .fixed {
-    	position: fixed;
-    	margin-top: 10px;
-
-    	* {
-    		margin-bottom: 10px;
-    		display: block;
-    	}
-
-    	a {
-    		text-decoration: none;
-
-    		&:hover {
-    			text-decoration: underline;
-    		}
-    	}
-    }
-}
-
-.options-panel {
-	flex: 1;
-    padding: 40px 50px 200px;
-	overflow-y: scroll;
 }
 
 
