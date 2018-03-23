@@ -4,9 +4,6 @@ body {
 	color: #444;
 	line-height: 1.3em;
 	margin: 0;
-	padding: 50px;
-	width: 740px;
-	display: flex;
 
 	background: #f0f3f6 linear-gradient(-23deg, #f7f7f7, #f0f3f6);
 	background-size: 100%;
@@ -292,8 +289,15 @@ input[type='color'] {
 }
 
 
+
+.container {
+	max-height: 600px;
+	width: 740px;
+	display: flex;
+}
 .menu-panel {
     flex: 0 0 180px;
+    padding: 40px 0 0 50px;
 
     .fixed {
     	position: fixed;
@@ -315,7 +319,9 @@ input[type='color'] {
 }
 
 .options-panel {
-	padding-bottom: 200px;
+	flex: 1;
+    padding: 40px 50px 200px;
+	overflow-y: scroll;
 }
 
 
