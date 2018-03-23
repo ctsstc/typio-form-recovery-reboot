@@ -19,6 +19,12 @@
 		} else if(target.classList.contains('open-options-link')) {
 			chrome.runtime.openOptionsPage();
 
+		// Show key combos
+		} else if(target.classList.contains('open-keyboard-shortcuts')) {
+			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+				chrome.tabs.sendMessage(tabs[0].id, {action: 'showKeyboardShortcuts'});
+			});
+
 		// Delete all link
 		} else if(target.classList.contains('delete-all-link')) {
 			if(target.classList.contains('confirm-click')) {
