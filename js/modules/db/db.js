@@ -28,7 +28,7 @@ terafm.db = terafm.db || {};
 	let debouncedSync = terafm.help.debounce(function() {
 		sync();
 		terafm.saveIndicator.animate();
-	}, 3000);
+	}, 1000);
 
 	// Loads disk storage to in-memory
 	function loadStorageFromDisk(callback) {
