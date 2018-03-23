@@ -42,7 +42,7 @@
 					border-left: 1px solid #D6D6D6;
 				}
 
-				&[data-tooltip]:hover:after, &.selected[data-tooltip]:after {
+				&.selected[data-tooltip]:after {
 					content: '';
 					position: absolute;
 					bottom: calc(100% + 3px);
@@ -51,7 +51,7 @@
 					border-left: 3px solid transparent;
 					border-right: 3px solid transparent;
 				}
-				&[data-tooltip]:hover:before, &.selected[data-tooltip]:before {
+				&.selected[data-tooltip]:before {
 					content: attr(data-tooltip);
 					position: absolute;
 					bottom: calc(100% + 5px);
@@ -99,12 +99,12 @@
 			display: flex;
 			justify-content: space-between;
 
-			&.selected {
-				outline: 1px solid #1281d3;
-				z-index: 2;
-			}
+			// &.selected {
+			// 	outline: 1px solid #1281d3;
+			// 	z-index: 2;
+			// }
 
-			&.selected, &:hover {
+			&.selected/* , &:hover */ {
 				background: #E8E8E8;
 
 				.entry-icon {
