@@ -19,7 +19,6 @@ terafm.keyboardShortcuts = {};
 
 
 	function checkForCombo(event) {
-		console.log(combos)
 
 		// Loop through all key combos
 		comboLoop:
