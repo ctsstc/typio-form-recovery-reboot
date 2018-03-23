@@ -42,6 +42,12 @@ a {
     background: #efefef;
     color: #5b5b5b;
     box-shadow: inset 0 1px 0 white, 0 1px 0 #a3a3a3;
+
+    &.disabled {
+		border-color: #d7d7d7;
+		background: #f3f3f3;
+		box-shadow: none;
+    }
 }
 
 @import "shadowRoot/quickAccess";
