@@ -9,6 +9,8 @@ terafm.quickAccessController = {};
 
 	let quickAccessNode;
 
+	let lastListActionTarget;
+
 	// Key combo to open
 	initHandler.onInit(function() {
 		if(options.get('keybindEnabled')) {
@@ -139,22 +141,20 @@ terafm.quickAccessController = {};
 		});
 		quickAccessNode.addEventListener('mousedown', e => e.stopPropagation());
 		
-		// DOMEvents.registerHandler('focus', function() {
-		// 	if(quickAccess.isOpen()) {
-		// 		console.log('closing')
-		// 		editableManager.resetPlaceholders();
-		// 		quickAccess.hide();
-		// 	}
-		// });
-		
 		quickAccessNode.addEventListener('click', e => {
 			e.stopPropagation();
 			handleListAction(e.target, true);
 		});
 		
-		quickAccessNode.addEventListener('mouseover', function(e) {
-			var target = e.path[0];
-			handleListAction(target)
+		quickAccessNode.addEventListener('mousemove', function(e) {
+			var target = e.path[0],
+				li = target.nodeName.toLowerCase() === 'li' ? target : target.closest('li');
+
+			if(li) {
+				sel(li, target);
+			} else {
+				handleListAction(target)
+			}
 		})
 
 		quickAccessNode.addEventListener('mouseout', function(e) {
@@ -166,17 +166,18 @@ terafm.quickAccessController = {};
 			}
 		});
 
-		function sel(li) {
+		function sel(li, target) {
 			selected && selected.classList.remove('selected')
 			selected = li
 			selected.classList.add('selected')
-			handleListAction(li)
+			handleListAction(target || li)
 		}
 
 		function remSel() {
 			if(selected) {
 				selected.classList.remove('selected')
 				selected = null
+				lastListActionTarget = null;
 			}
 		}
 
@@ -241,6 +242,9 @@ terafm.quickAccessController = {};
 		target = target.matches(['data-action']) ? target : target.closest('[data-action]');
 
 		if(!target) return !commit || quickAccess.hide();
+		if(!commit && target === lastListActionTarget) return;
+
+		lastListActionTarget = target;
 
 		var data = target.dataset;
 
