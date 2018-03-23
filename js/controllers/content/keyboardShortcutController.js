@@ -12,6 +12,11 @@ terafm.keyboardShortcutController = {};
 		showPopup();
 	}
 
+	// Open call popup
+	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+		if(request.action === 'showKeyboardShortcuts') showPopup();
+	});
+
 	initHandler.onInit(function() {
 
 		if(options.get('keybindEnabled')) {
