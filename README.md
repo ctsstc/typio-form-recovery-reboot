@@ -9,6 +9,14 @@ Pull requests are welcome if you'd like to contribute.
 
 # Changelog
 
+### Version 1.8.6 (23 Mar, 2018):
+- Fix: Fix broken scrolling in options page caused by recent Chrome update.
+- Fix: Fix selection issues in quick restore popup
+- Fix: Save delay shortened
+- Fix: Hide Restore Icon on inputs smaller than 80px in width (only with "focus" trigger)
+- Fix: Keyboard shortcut window now displays disabled shortcuts better
+- New: Added link to open keyboard shortcuts window in toolbar popup
+
 ### Version 1.8 (9th Mar, 2018):
 - New: Restore icon next to inputs (configurable in options)
 - New: Quick Restore now has keyboard support
