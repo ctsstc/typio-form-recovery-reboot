@@ -10,6 +10,8 @@
 
 		<div class="modal-content">
 
+			{{keybindDisabledMessage}}
+
 			<!-- <p class="group-title">General</p> -->
 			<div class="combo-group">
 				<div class="combo">

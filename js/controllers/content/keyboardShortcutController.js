@@ -63,7 +63,12 @@ terafm.keyboardShortcutController = {};
 	}
 
 	function prettyKeyCombo(keyarr) {
-		return '<span class="key">' + keyarr.join('</span> <span class="key">') + '</span>';
+		
+		if(keyarr.length === 1 && keyarr[0] === '') {
+			return '<span class="key disabled">disabled</span>'
+		} else {
+			return '<span class="key">' + keyarr.join('</span> <span class="key">') + '</span>';
+		}
 	}
 
 	function setupEventListeners() {
@@ -91,10 +96,17 @@ terafm.keyboardShortcutController = {};
 
 	function build(callback) {
 		if(!popupNode) {
+
+			var disabledMsg = '';
+			if(!options.get('keybindEnabled')) {
+				disabledMsg = '<p class="error">You have disabled keyboard shortcuts in the options.</p>';
+			}
+
 			terafm.ui.inject({
 				path: 'templates/keyboardShortcutPopup.tpl',
 				returnNode: '#keyboardShortcutPopup'
 			}, {
+				'{{keybindDisabledMessage}}' : disabledMsg,
 				'{{keybindToggleRecDiag}}' : prettyKeyCombo(options.get('keybindToggleRecDiag')),
 				'{{keybindRestorePreviousSession}}' : prettyKeyCombo(options.get('keybindRestorePreviousSession')),
 				'{{keybindOpenQuickAccess}}' : prettyKeyCombo(options.get('keybindOpenQuickAccess'))
