@@ -17,7 +17,7 @@ terafm.db = terafm.db || {};
 
 	// SYNC: pergePush, fetch
 
-
+	db.fetchSnapshot = fetchSnapshot;
 
 	db.getAllSess = () => {
 		// Fetch new snapshot, merge, return new SessionIterator()
@@ -32,8 +32,8 @@ terafm.db = terafm.db || {};
 		// Get sess, map by eid, return new Entry()
 		return new terafm.Entry(db.getSess(sid).getEntry(eid));
 	}
-	db.getEditable = (eid) => {
-		return getEditableFromBucket('inUse', eid) || getEditableFromBucket('snapshot', eid);
+	db.getByEditable = (eid) => {
+		return new terafm.EntryList(getEditableFromBucket('inUse', eid) || getEditableFromBucket('snapshot', eid));
 	}
 
 
@@ -88,10 +88,13 @@ terafm.db = terafm.db || {};
 
 
 
+	// chrome.storage.local.clear();
+
 
 	db.init = function(callback) {
 		// convertIndexedDB(); return;
 
+		// convertIndexedDB().then(pushSnapshot);
 		console.log(storage)
 		// fetchSnapshot().then(() => {
 		// 	randomInput('111');
@@ -106,7 +109,11 @@ terafm.db = terafm.db || {};
 			// console.log(db.getSess('1521818363'))
 			// console.log(db.getSess('1521816559'))
 			// console.log(db.getEntry('1521570031', 'field-1712385224'))
-			console.log(db.getEditable('field-1712385224'))
+			// var byed = db.getByEditable('field-1712385224')
+			// console.log(byed.editable)
+			// storage.snapshot[domainId].banana = 'hello yo!';
+			// randomInput('bah');
+			// pushSnapshot().then();
 		})
 	}
 
@@ -130,16 +137,23 @@ terafm.db = terafm.db || {};
 	function fetchSnapshot() {
 		return new Promise(done => {
 			chrome.storage.local.get(domainId, data => {
-				storage.snapshot = isWrapped(data) ? data : wrap({});
+				storage.snapshot = data;//isWrapped(data) ? data : wrap({});
 				done();
 			})
 		});
+	}
+
+	function pushSnapshot() {
+		return new Promise(done => {
+			chrome.storage.local.set(storage.snapshot, done);
+		})
 	}
 
 	// Fetch, merge, push
 	function fetchMergePush() {
 		return new Promise(done => {
 			fetchSnapshot().then(() => {
+				// Todo: Check if snapshot[domainId].fields exists first??
 				storage.snapshot[domainId].fields = getMerged();
 				chrome.storage.local.set(storage.snapshot, done);
 			});
