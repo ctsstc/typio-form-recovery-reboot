@@ -2,7 +2,7 @@
 	'use strict';
 
 	terafm.initHandler.onInit(function() {
-		
+
 		// Force save before window is closed
 		window.addEventListener('beforeunload', db.sync);
 
@@ -19,8 +19,14 @@
 
 	function changeHandler(e) {
 
-		// console.log('save', e.path[0]);
+		let editable = terafm.EditableFactory(e.path[0]);
 
+
+		// if(editable) {
+		console.log(editable);
+		// }
+
+		/*
 		let editable = editableManager.getEditable(e.path[0]),
 			passRules = editable ? editableManager.checkRules(editable) : false;
 
@@ -55,6 +61,7 @@
 
 		 	db.deleteSingleRevisionByEditable(editableId, sessId);
 		}
+		*/
 	}
 
 })(terafm.editableManager, terafm.db, terafm.saveIndicator, terafm.DOMEvents);

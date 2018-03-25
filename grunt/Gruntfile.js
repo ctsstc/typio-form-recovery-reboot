@@ -110,8 +110,10 @@ module.exports = function(grunt) {
                         '../js/modules/db/db.maintenance.js',
                         '../js/modules/db/db.convertLegacy.js',
                         '../js/modules/db/indexedDBDriver.js',
-                        '../js/modules/editableManager/editableManager.pathGenerator.js',
-                        '../js/modules/editableManager/editableManager.pathResolver.js',
+                        '../js/modules/pathResolver.js',
+                        '../js/modules/pathGenerator.js',
+                        // '../js/modules/editableManager/editableManager.pathResolver.js',
+                        // '../js/modules/editableManager/editableManager.pathGenerator.js',
                         '../js/modules/editableManager/editableManager.placeholders.js',
                         '../js/modules/editableManager/editableManager.rules.js',
                         '../js/modules/editableManager/editableManager.js',
@@ -126,14 +128,18 @@ module.exports = function(grunt) {
                         '../js/modules/toast.js',
                         '../js/modules/blacklist.js',
 
+                        // Classes
+                        '../js/classes/Editable.js',
+                        '../js/classes/Entry.js',
+
                         // Controllers
                         '../js/controllers/content/contentController.js',
-                            '../js/controllers/content/recoveryDialogController.js',
-                            '../js/controllers/content/quickAccessController.js',
-                            '../js/controllers/content/quickAccessIconController.js',
+                            // '../js/controllers/content/recoveryDialogController.js',
+                            // '../js/controllers/content/quickAccessController.js',
+                            // '../js/controllers/content/quickAccessIconController.js',
                             '../js/controllers/content/inputSaverController.js',
-                            '../js/controllers/content/keyboardShortcutController.js',
-                            '../js/controllers/content/saveIndicatorController.js',
+                            // '../js/controllers/content/keyboardShortcutController.js',
+                            // '../js/controllers/content/saveIndicatorController.js',
                     ],
 
                     // Runs as content script
