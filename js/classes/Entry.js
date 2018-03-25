@@ -13,12 +13,26 @@ window.terafm = window.terafm || {};
 		}
 	}
 
+	terafm.EntryList = class EntryList {
+		constructor(entries) {
+			this.entries = entries;
+		}
+
+		get editable() {
+			return this.first().editable;
+		}
+
+		first() {
+			return new terafm.Entry(this.entries[Object.keys(this.entries)[0]]);
+		}
+	}
+
 	terafm.Entry = class Entry {
 		constructor(obj) {
 
 			// Make Entry from editable
 			if(obj instanceof terafm.Editable) {
-				this._editable = obj;
+				this.editable = obj;
 				this.value = obj.getValue()
 				this.path = obj.getPath()
 				this.type = obj.getType()
@@ -28,7 +42,7 @@ window.terafm = window.terafm || {};
 			// Cast entry object
 			} else {
 				Object.assign(this, obj);
-				this._editable = null;
+				this.editable = 'some editable here'; // Todo: Resolve path
 			}
 		}
 
@@ -39,10 +53,6 @@ window.terafm = window.terafm || {};
 				type: this.type,
 				meta: this.meta
 			}
-		}
-
-		get editable() {
-			return this._editable;
 		}
 	}
 
