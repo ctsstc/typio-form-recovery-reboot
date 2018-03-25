@@ -1,9 +1,11 @@
 window.terafm = window.terafm || {};
+terafm.editableManager = terafm.editableManager || {};
 
-(function() {
+(function(editableManager) {
 	'use strict';
 
-	terafm.resolvePath = function(selector) {
+	// querySelector with ::shadow support
+	editableManager.resolvePath = function(selector) {
 
 		var pathData = splitSelectorByEncapsulators(selector),
 			currNode = window.top.document;
@@ -16,7 +18,10 @@ window.terafm = window.terafm || {};
 			// If node was not found, abort
 			if(!currNode) {
 				return false;
+			} else {
+				// console.log('success:', currNode, currSel);
 			}
+
 
 			if(pathData.instructions[pathIndex] === 'iframe') {
 				currNode = currNode.contentDocument;
@@ -83,4 +88,4 @@ window.terafm = window.terafm || {};
 	}
 
 
-})();
+})(terafm.editableManager);

@@ -1,271 +1,181 @@
 window.terafm = window.terafm || {};
 terafm.db = terafm.db || {};
 
-(function(db, options, help) {
+(function(db) {
 	'use strict';
 
-	// Change of this will trigger convertLegacy
-	db.version = 2;
+	let storage = { inUse: {}, snapshot: {} };
+
+	const domainId = '###' + window.location.hostname;
+
+	// storage.inUse.field505372698 = {sess111: {something: 'some value'}, sess222: {something: 'some other value'}}
+	// storage.inUse.dummyField = {sess111: {something: 'somsssddue'}, sess222: {something: 'somesdfue'}}
+
+	// GET: All sessions, single session, single entry, specials (recent, latest)
+	// SAVE: sessions in use
+	// DEL: single entry?
+
+	// SYNC: pergePush, fetch
 
 
-	let container = {};
-	let initiated = false;
 
-	let globalSessionId;
+	db.getAllSess = () => {
+		// Fetch new snapshot, merge, return new SessionIterator()
+	}
+	db.getSess = (sid) => {
+		// No need to fetch; will never request a specific session from the future
+		// if(session is in use) return new Session() from in use
+		// else if(session is in snapshot) return new Session() from snapshot
+		return getFromBuckets(sid);
+	}
+	db.getEntry = (sid, eid) => {
+		// Get sess, map by eid, return new Entry()
+		return new terafm.Entry(db.getSess(sid).getEntry(eid));
+	}
+	db.getEditable = (eid) => {
+		return getEditableFromBucket('inUse', eid) || getEditableFromBucket('snapshot', eid);
+	}
 
 
+	function getFromBuckets(...args) {
+		return getSessFromBucket('inUse', ...args) || getSessFromBucket('snapshot', ...args);
+	}
 
-
-
-	// Writes in memory storage to disk (IndexedDB)
-	function sync() {
-		if(initiated) {
-			// console.log('sync to db');
-			terafm.indexedDB.save(JSON.stringify(container));
+	function getEditableFromBucket(bucketId, eid) {
+		let bucket = getBucket(bucketId);
+		if(bucket.hasOwnProperty(eid)) {
+			return Object.assign({}, bucket[eid])
 		}
 	}
 
-	let debouncedSync = terafm.help.debounce(function() {
-		sync();
-		terafm.saveIndicator.animate();
-	}, 1000);
+	function getSessFromBucket(bucketId, sid) {
+		let tmp = {},
+			bucket = copyBucket(bucketId);
 
-	// Loads disk storage to in-memory
-	function loadStorageFromDisk(callback) {
-		terafm.indexedDB.load(function(res) {
-			if(res) {
-				container = JSON.parse(res);
+		for(let eid in bucket) {
+			if(bucket[eid].hasOwnProperty(sid)) {
+				tmp[eid] = bucket[eid][sid]
 			}
+		}
 
-			callback();
-		});
+		return Object.keys(tmp).length ? new terafm.Session(Object.assign({}, tmp), sid) : null;
+	}
+
+	function copyBucket(bucketId) {
+		if(bucketId === 'inUse') {
+			return Object.assign({}, storage.inUse);
+		} else if(bucketId === 'snapshot') {
+			if(storage.snapshot.hasOwnProperty(domainId)) {
+				return Object.assign({}, storage.snapshot[domainId].fields);
+			} else {
+				return {};
+			}
+		}
+	}
+
+	function getBucket(bucketId) {
+		if(bucketId === 'inUse') {
+			return storage.inUse;
+		} else if(bucketId === 'snapshot') {
+			if(storage.snapshot.hasOwnProperty(domainId)) {
+				return storage.snapshot[domainId].fields;
+			} else {
+				return {};
+			}
+		}
 	}
 
 
 
-	// Public facing methods
+
 
 	db.init = function(callback) {
+		// convertIndexedDB(); return;
 
-		if(initiated) {
-			callback();
-			return true;
-		}
-
-		// Generate initial session id
-		globalSessionId = db.generateSessionId();
-
-		// For pages that hijack history changes (like polymer),
-		// attempt to start new session between page "loads". It won't
-		// work when clicking links, only when using browser nav actions
-		// like back/forward etc.
-		// Also this doesn't take into account custom editable sess id's. Todo: Fix this!
-		window.addEventListener('popstate', function() {
-			globalSessionId = db.generateSessionId();
-		});
-
-		// Initiate connected and load disk storage to in memory
-		terafm.indexedDB.init(function() {
-
-			loadStorageFromDisk(function() {
-
-				// Convert old storage to new
-				db.legacy.convert();
-
-				// Remove old entries
-				db.maintenance.run();
-
-				callback();
-				initiated = true;
-			});
-		});
-	}
-
-	db.initiated = function() {
-		return initiated ? true : false;
-	}
-
-	db.sessionId = function() {
-		return globalSessionId;
-	}
-
-	db.sync = function(){
-		sync();
-	}
-
-	db.generateSessionId = function() {
-		return Math.round(Date.now()/1000);
-	}
-
-	db.saveRevision = function(editableId, obj, editableSessId) {
-		if(!(editableId in container)) {
-			container[editableId] = {}
-		}
-		container[editableId][editableSessId || globalSessionId] = obj;
-		debouncedSync();
-	}
-
-	db.getContainer = function() {
-		return container;
-	}
-
-	db.getAllRevisions = function() {
-		return help.cloneObject(container);
-	}
-
-	db.getAllRevisionsGroupedBySession = function() {
-
-		var sessions = {};
-
-		for(var editableId in container) {
-			for(var globalSessionId in container[editableId]) {
-				if(sessions[globalSessionId] === undefined) {
-					sessions[globalSessionId] = {};
-				}
-				sessions[globalSessionId][editableId] = container[editableId][globalSessionId];
-			}
-		}
-
-		return help.cloneObject(sessions);
-
-	}
-
-	db.getLatestSession = function() {
-		var sessions = terafm.db.getAllRevisionsGroupedBySession();
-
-		// Exclude current if it exists
-		delete sessions[globalSessionId];
-
-		var keys = Object.keys(sessions);
-
-		if(keys.length < 1) return false;
-
-		var last = keys.reduce(function(a, b) {
-			return Math.max(a, b);
-		});
-
-		return sessions[last];
-	}
-
-	db.getRevisionsByEditable = function(editableId) {
-		return help.cloneObject(container[editableId] || {})
-	}
-
-	db.getSingleRevisionByEditableAndSession = function(editableId, session) {
-		if(container[editableId]) {
-			return help.cloneObject(container[editableId][session] || {});
-		}
-	}
-
-	db.getRevisionsBySession = function(session) {
-		var revisions = [];
-
-		for(var editable in container) {
-			if(session in container[editable]) {
-				revisions.push(container[editable][session]);
-			}
-		}
-
-		return revisions; // Todo: Clone??
-	}
-
-	// Deletes everythinng except for current session
-	db.deleteAllSessions = function() {
-		container = {};
+		console.log(storage)
+		// fetchSnapshot().then(() => {
+		// 	randomInput('111');
+		// 	// console.log(getMerged())
+		// });
 		
-		// for(var editable in container) {
-		// 	var curr = container[editable][globalSessionId];
+		// randomInput('111');
+		// fetchMergePush().then(fetchSnapshot);
 
-		// 	delete container[editable];
+		fetchSnapshot().then(() => {
 
-		// 	if(curr) {
-		// 		container[editable] = {};
-		// 		container[editable][globalSessionId] = curr;
-		// 	}
-		// }
-
-		sync();
+			// console.log(db.getSess('1521818363'))
+			// console.log(db.getSess('1521816559'))
+			// console.log(db.getEntry('1521570031', 'field-1712385224'))
+			console.log(db.getEditable('field-1712385224'))
+		})
 	}
 
-	db.deleteSingleRevisionByEditable = function(editableId, session) {
+	function randomInput(id) {
+		storage.inUse['dummy-' + id] = {sess111: {something: id}, sess222: {something: id}}
+	}
 
-		// Check if input exists in storage
-		if( container[editableId] ) {
-			delete container[editableId][session || globalSessionId];
 
-			// If this was the only revision, just delete the whole storage item
-			if( Object.keys(container[editableId]).length < 1 ) {
-				delete container[editableId]
+	function getMerged() {
+		var tmp = Object.assign({}, unwrap(storage.snapshot));
+		for(let fid in storage.inUse) {
+			if(fid in tmp) {
+				tmp[fid] = {...tmp[fid], ...storage.inUse[fid]}
+			} else {
+				tmp[fid] = storage.inUse[fid]
 			}
 		}
-		sync();
+		return tmp;
 	}
 
-	db.getRecentRevisions = function(excludeId, max) {
-		var revisions = terafm.db.getAllRevisionsGroupedBySession(),
-			max = max || 10,
-			matches = {};
+	function fetchSnapshot() {
+		return new Promise(done => {
+			chrome.storage.local.get(domainId, data => {
+				storage.snapshot = isWrapped(data) ? data : wrap({});
+				done();
+			})
+		});
+	}
 
-		var revKeys = Object.keys(revisions).reverse();
+	// Fetch, merge, push
+	function fetchMergePush() {
+		return new Promise(done => {
+			fetchSnapshot().then(() => {
+				storage.snapshot[domainId].fields = getMerged();
+				chrome.storage.local.set(storage.snapshot, done);
+			});
+		})
+	}
 
-		// Loop through sessions
-		for(var revKey in revKeys) {
-			if(excludeId in revisions[revKeys[revKey]]) {
-				continue;
-			}
-
-			// Loop through entries
-			for(var entryId in revisions[revKeys[revKey]]) {
-				if(max < 1) break;
-				// if(entryId === excludeId) continue;
-
-				var entry = revisions[revKeys[revKey]][entryId],
-					sessId = revKeys[revKey];
-
-				if(entry.value.length > 4) {
-					// matches[entryId] = matches[entryId] || {};
-					// matches[entryId][revKeys[revKey]] = entry;
-
-					if(!matches[sessId]) matches[sessId] = {};
-					matches[sessId][entryId] = entry;
-
-
-					max--;
-				}
-			}
-		}
-
-		return matches;
+	function isWrapped(data) {
+		return (typeof data === 'object' && domainId in data && 'fields' in data[domainId]) ? true : false;
+	}
+	function wrap(data) {
+		if(!isWrapped(data)) return { [domainId] : { fields: data } };
+		else throw new Error('Cant rap twice yo');
+	}
+	function unwrap(data) {
+		return isWrapped(data) ? data[domainId].fields : {};
 	}
 
 
-	db.getEntriesByText = function(search, max) {
-		var search = '' + search;
-		search = search.trim();
-		search = escapeRegExp(search);
-		search = new RegExp(search, 'i');
-
-		var fields = terafm.db.getAllRevisions(),
-			matches = {},
-			max = max || 10;
-
-		for(fieldId in fields) {
-			for(entryId in fields[fieldId]) {
-				if(max < 1) break;
-
-				var entry = fields[fieldId][entryId];
-
-
-				if( search.test(entry.value) === true ) {
-					matches[entryId] = entry;
-					max--;
-				}
-			}
-		}
-
-		return matches;
-
+	// Get data from indexeddb
+	function convertIndexedDB() {
+		return new Promise(done => {
+			getIndexedDBData().then((data) => {
+				data = wrap(data);
+				storage.snapshot = data;
+				chrome.storage.local.set(data, done);
+			})
+		})
+	}
+	function getIndexedDBData() {
+		return new Promise(done => {
+			terafm.indexedDB.init(() => {
+				terafm.indexedDB.load(res => {
+					done(JSON.parse(res) || {});
+				})
+			})
+		})
 	}
 
-
-})(terafm.db, terafm.options, terafm.help);
+})(terafm.db);
