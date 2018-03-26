@@ -112,11 +112,9 @@ module.exports = function(grunt) {
                         '../js/modules/db/indexedDBDriver.js',
                         '../js/modules/pathResolver.js',
                         '../js/modules/pathGenerator.js',
-                        // '../js/modules/editableManager/editableManager.pathResolver.js',
-                        // '../js/modules/editableManager/editableManager.pathGenerator.js',
                         '../js/modules/editableManager/editableManager.placeholders.js',
-                        '../js/modules/editableManager/editableManager.rules.js',
                         '../js/modules/editableManager/editableManager.js',
+                        '../js/modules/validator.js',
                         '../js/modules/ui.js',
                         '../js/modules/editablePicker.js',
                         '../js/modules/recoveryDialog.js',
@@ -130,21 +128,26 @@ module.exports = function(grunt) {
 
                         // Classes
                         '../js/classes/Editable.js',
+                        '../js/classes/EntryList.js',
                         '../js/classes/Entry.js',
+                        '../js/classes/SessionList.js',
+                        '../js/classes/Session.js',
 
                         // Controllers
                         '../js/controllers/content/contentController.js',
-                            // '../js/controllers/content/recoveryDialogController.js',
-                            // '../js/controllers/content/quickAccessController.js',
-                            // '../js/controllers/content/quickAccessIconController.js',
                             '../js/controllers/content/inputSaverController.js',
-                            // '../js/controllers/content/keyboardShortcutController.js',
-                            // '../js/controllers/content/saveIndicatorController.js',
+                            '../js/controllers/content/focusedEditableController.js',
+                            '../js/controllers/content/saveIndicatorController.js',
+                            '../js/controllers/content/quickAccessIconController.js',
+                            '../js/controllers/content/quickAccessController.js',
+                            '../js/controllers/content/keyboardShortcutController.js',
+                            '../js/controllers/content/recoveryDialogController.js',
                     ],
 
                     // Runs as content script
                     '../publish/js/content.frameInjector.js' : [
-                        '../js/modules/editableManager/editableManager.pathGenerator.js',
+                        '../js/modules/pathResolver.js',
+                        '../js/modules/pathGenerator.js',
                         '../js/modules/cache.js',
 
                         '../js/controllers/content.frameInjector/frameInjectorController.js',

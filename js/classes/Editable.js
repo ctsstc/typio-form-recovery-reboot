@@ -1,25 +1,72 @@
 window.terafm = window.terafm || {};
 
+terafm.highlightedElements = [];
+
 (function() {
-
-	const editableTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
-	const textEditableTypes = ['text', 'email', 'search', 'password', 'url', 'tel', 'number'];
-
-	terafm.EditableFactory = el => {
-		if(isEditable(el)) return terafm.cache(el, () => new terafm.Editable(el));
-	}
-	terafm.TextEditableFactory = el => {
-		if(isTextEditable(el)) return terafm.cache(el, () => new terafm.Editable(el));
-	}
 
 	terafm.Editable = class Editable {
 		constructor(el) {
 			this.el = el;
-			this.path = terafm.generatePath(el)
-			this.id = generateId(this.path)
 		}
 
-		get value() {
+		get path() {
+			return this._path ? this._path : this._path = terafm.generatePath(this.el);
+		}
+		get id() {
+			return this._id ? this._id : this._id = generateId(this.path);
+		}
+		get type() {
+			return this._type ? this._type : this._type = getType(this.el);
+		}
+		get sessionId() {
+			return this._sessionId || terafm.db.getGlobalSessionId();
+		}
+
+		is(editable) {
+			if(!(editable instanceof terafm.Editable)) throw new Error('Editable.is requires an editable to compare.');
+			return this.el === editable.el;
+		}
+
+		isHighlighted() {
+			return terafm.highlightedElements.indexOf(this.el) !== -1;
+		}
+
+		flashHighlight() {
+			this.highlight();
+			setTimeout(this.remHighlight.bind(this), 	200);
+			setTimeout(this.highlight.bind(this), 		400);
+			setTimeout(this.remHighlight.bind(this),	600);
+			setTimeout(this.highlight.bind(this), 		800);
+			setTimeout(this.remHighlight.bind(this), 	1000);
+		}
+
+		highlight() {
+			if(!this.isHighlighted()) {
+				var attr = this.el.getAttribute('style') || '';
+				this.el.terafmOrgStyle = attr;
+				
+				this.el.style.background = 'rgb(255, 251, 153)';
+				this.el.style.color = '#222';
+				terafm.highlightedElements.push(this.el);
+			}
+		}
+		remHighlight() {
+			// Todo: test if org style is restored
+			if(this.isHighlighted() && this.el.terafmOrgStyle !== undefined) {
+				this.el.setAttribute('style', this.el.terafmOrgStyle);
+				delete this.el.terafmOrgStyle;
+				delete terafm.highlightedElements[terafm.highlightedElements.indexOf(this.el)];
+			}
+		}
+
+		setEntry(entry, highlight) {
+			if(!(entry instanceof terafm.Entry)) throw new Error('setEntry requires an entry to set');
+			// Todo: Do smart restore stuff with contenteditable and whatev
+			this.setValue(entry.obj.value);
+			if(highlight) this.highlight();
+		}
+
+		getValue(trim) {
 			let value;
 
 			if(isNode(this.el, 'input') || isNode(this.el, 'textarea') || isNode(this.el, 'select')) {
@@ -41,14 +88,13 @@ window.terafm = window.terafm || {};
 				}
 			}
 
-			// Todo: Needed?
-			// if(typeof value === 'string') {
-			// 	return value.trim();
-			// }
+			if(trim && typeof value === 'string') {
+				return value.trim();
+			}
 
 			return value;
 		}
-		set value(val) {
+		setValue(val) {
 			if(isNode(this.el, 'INPUT') || isNode(this.el, 'TEXTAREA')) {
 
 				// Special care for checkable inputs
@@ -83,6 +129,34 @@ window.terafm = window.terafm || {};
 			}
 		}
 
+		touch() {
+			if(this.isTextEditable()) {
+				const currLen = this.getValue(true).length;
+				const oldLen = this.length;
+
+				// If input was cleared, set new ID
+				if(oldLen > 1 && currLen === 0) {
+					this._sessionId = terafm.db.generateSessionId();
+					console.log('new id yo!');
+				}
+
+				this.length = currLen;
+			}
+		}
+
+		getMeta() {
+			if(this.isTextEditable()) return;
+
+			// Checkbox or radio
+			if(this.el.type && ['checkbox', 'radio'].includes(this.el.type) ) {
+				return this.el.name + ': ' + this.el.value;
+
+			// All other input types (select, range, color, date etc)
+			} else if(this.el.type) {
+				return this.el.name;
+			}
+		}
+
 		isEditable() {
 			return isEditable(this.el)
 		}
@@ -91,7 +165,7 @@ window.terafm = window.terafm || {};
 		}
 		
 		getEntry() {
-			return new Entry(this.el);
+			return new terafm.Entry(this);
 		}
 
 		rect() {
@@ -127,21 +201,35 @@ window.terafm = window.terafm || {};
 		}
 	}
 
+	const editableTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
+	const textEditableTypes = ['text', 'email', 'search', 'password', 'url', 'tel', 'number'];
+
+	terafm.EditableFactory = arg => {
+		if(typeof arg === 'string') {
+			arg = terafm.cache(arg, () => terafm.resolvePath(arg))
+		}
+		if(isEditable(arg)) return terafm.cache(arg, () => new terafm.Editable(arg));
+	}
+	terafm.TextEditableFactory = el => {
+		if(typeof arg === 'string') {
+			arg = terafm.cache(arg, () => terafm.resolvePath(arg))
+		}
+		if(isTextEditable(el)) return terafm.cache(el, () => new terafm.Editable(el));
+	}
+
+
+
+
+
+	// Helper functions, not part of prototype
+
 	function generateId(path) {
 		return 'field' + terafm.help.hashStr(path);
 	}
 
-
-	// terafm.Editable.prototype.createEntryObject = function() {}
-	// terafm.Editable.prototype.generateEditableId = function() {}
-	// terafm.Editable.prototype.getEditableSessionId = function() {}
-	// terafm.Editable.prototype.deleteRadioSiblingsFromStorage = function() {}
-
-
-
-	// terafm.Editable.prototype.getEditable = function() {}
-	// terafm.Editable.prototype.getTextEditable = function() {}
-
+	function getType(el) {
+		return el.type ? el.type : 'contenteditable'
+	}
 
 	function isEditable(elem) {
 		if(!isElement(elem)) return false;
@@ -181,47 +269,16 @@ window.terafm = window.terafm || {};
 	}
 
 	function isElement(elem) {
-		// Check if element has parent document and window
 		if(elem.ownerDocument && elem.ownerDocument.defaultView) {
-
-			// Check if it's of type HTMLElement from parent window
 			if(elem instanceof elem.ownerDocument.defaultView.HTMLElement) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	function isNode(elem, compare) {
-		if( (elem.nodeName + '').toLowerCase() === compare.toLowerCase() ) {
-			return true;
-		}
-		return false;
-	}
-
-	function getEditableType(editable) {
-
-		// Is input(various text types) or textarea or contenteditable
-		if(editableManager.isEditableText(editable)) {
-			return {
-				type: editable.type ? editable.type : 'contenteditable'
-			};
-
-		// Checkbox or radio
-		} else if(editable.type && ['checkbox', 'radio'].includes(editable.type) ) {
-			return {
-				type: editable.type,
-				meta: editable.name + ': ' + editable.value,
-			};
-
-		// All other input types (select, range, color, date etc)
-		} else if(editable.type) {
-			return {
-				type: editable.type,
-				meta: editable.name
-			};
-		}
+		return (elem.nodeName + '').toLowerCase() === compare.toLowerCase();
 	}
 
 })();

@@ -112,7 +112,7 @@ terafm.recoveryDialog = {};
 		let html = '',
 			prettyDate = help.prettyDateFromTimestamp(timestamp);
 
-		if(timestamp == db.sessionId()) {
+		if(timestamp == terafm.db.getGlobalSessionId()) {
 			prettyDate = 'Current session';
 		}
 

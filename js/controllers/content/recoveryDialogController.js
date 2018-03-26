@@ -44,47 +44,49 @@ terafm.recoveryDialogController = {};
 	}
 
 	function getRevisionData() {
-		let sessions = db.getAllRevisionsGroupedBySession(),
-			sessKeys = Object.keys(sessions),
-			currentSessionId = db.sessionId(),
-			hideSmallEntries = options.get('hideSmallEntries'),
-			skipCount = 0,
-			retObj = {};
+		return {sessions: db.getAllSessions(), skipCount: 0};
+
+		// let sessions = db.getAllRevisionsGroupedBySession(),
+		// 	sessKeys = Object.keys(sessions),
+		// 	currentSessionId = db.sessionId(),
+		// 	hideSmallEntries = options.get('hideSmallEntries'),
+		// 	skipCount = 0,
+		// 	retObj = {};
 
 
-		for(let skey in sessKeys) {
+		// for(let skey in sessKeys) {
 
-			// Delete if value is too short
-			for(let editableId in sessions[sessKeys[skey]]) {
-				var editable = sessions[sessKeys[skey]][editableId],
-					cleanValue = help.encodeEntry(editable);
+		// 	// Delete if value is too short
+		// 	for(let editableId in sessions[sessKeys[skey]]) {
+		// 		var editable = sessions[sessKeys[skey]][editableId],
+		// 			cleanValue = help.encodeEntry(editable);
 
-				if(cleanValue.length < 5) {
-					skipCount++;
+		// 		if(cleanValue.length < 5) {
+		// 			skipCount++;
 
-					if(hideSmallEntries) {
-						delete sessions[ sessKeys[skey] ][ editableId ];
+		// 			if(hideSmallEntries) {
+		// 				delete sessions[ sessKeys[skey] ][ editableId ];
 
-						// If last item in session, delete session from list to prevent empty <ul> tag
-						if(Object.keys(sessions[ sessKeys[skey] ]).length === 0) {
-							delete sessions[ sessKeys[skey] ];
-						}
+		// 				// If last item in session, delete session from list to prevent empty <ul> tag
+		// 				if(Object.keys(sessions[ sessKeys[skey] ]).length === 0) {
+		// 					delete sessions[ sessKeys[skey] ];
+		// 				}
 
-						// If empty, delete from database
-						if(cleanValue.length < 1) {
-							db.deleteSingleRevisionByEditable(editableId, sessKeys[skey]);
-						}
-					}
-				}
-			}
-		}
+		// 				// If empty, delete from database
+		// 				if(cleanValue.length < 1) {
+		// 					db.deleteSingleRevisionByEditable(editableId, sessKeys[skey]);
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 
-		retObj = {
-			sessions: sessions,
-			skipCount: skipCount
-		};
+		// retObj = {
+		// 	sessions: sessions,
+		// 	skipCount: skipCount
+		// };
 
-		return retObj;
+		// return retObj;
 	}
 
 	function setup(callback) {

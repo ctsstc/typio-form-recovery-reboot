@@ -35,8 +35,8 @@ window.terafm = window.terafm || {};
 	function addEventListeners() {
 		if(triggerAction === 'focus') {
 			DOMEvents.registerHandler('editable-text-focus', function() {
-				if(editableManager.checkRules(terafm.focusedEditable, 'elem')) {
-					delayShow()
+				if(terafm.validator.validate(terafm.focusedEditable, 'elem')) {
+					delayShow();
 				}
 			});
 		}
@@ -44,8 +44,8 @@ window.terafm = window.terafm || {};
 		// On editable double click
 		if(triggerAction === 'doubleclick') {
 			DOMEvents.registerHandler('dblclick', function() {
-				if(editableManager.checkRules(terafm.focusedEditable, 'elem')) {
-					delayShow()
+				if(terafm.validator.validate(terafm.focusedEditable, 'elem')) {
+					delayShow();
 				}
 			})
 		}
@@ -93,17 +93,17 @@ window.terafm = window.terafm || {};
 
 		build(function() {
 			var editable = terafm.focusedEditable
-			var edStyle = getComputedStyle(editable);
+			var edStyle = getComputedStyle(editable.el);
 
 			// Prevent flying icon in some cases
 			if(edStyle.display !== 'none') {
 				hide();
 			}
 
-			if(isDisabled(editable)) return;
+			if(isDisabled(editable.el)) return;
 			if(triggerAction === 'focus' && !(parseInt(edStyle.width) > 80 && parseInt(edStyle.height) > 10)) return;
 
-			var rect = editableManager.getRect(editable),
+			var rect = editable.rect(),
 				pos = {
 					x: rect.x + rect.width - 18,
 					y: rect.y
@@ -116,7 +116,7 @@ window.terafm = window.terafm || {};
 			}
 
 			// Vertical scrollbar check
-			if(editable.scrollHeight > editable.clientHeight || ['search', 'number'].includes(editable.type)) {
+			if(editable.el.scrollHeight > editable.el.clientHeight || ['search', 'number'].includes(editable.type)) {
 				pos.x -= 17;
 			}
 

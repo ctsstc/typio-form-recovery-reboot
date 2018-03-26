@@ -15,7 +15,7 @@ window.terafm = window.terafm || {};
 		DOMEvents.registerHandler('editable-text-focus', function() {
 			saveIndicator.build(function() {
 
-				if(!terafm.focusedEditable || !editableManager.checkRules(terafm.focusedEditable)) {
+				if(!terafm.validator.validate(terafm.focusedEditable)) {
 					return false;
 				}
 

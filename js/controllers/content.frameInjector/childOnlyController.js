@@ -18,7 +18,7 @@
 		let msg = {
 			action: 'terafmEventCatcher',
 			event: {
-				path: [terafm.editableManager.genPath(e.path[0])],
+				path: [terafm.generatePath(e.path[0])],
 				type: e.type
 			}
 		}
