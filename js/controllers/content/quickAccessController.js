@@ -19,7 +19,7 @@ terafm.quickAccessController = {};
 
 				if(!quickAccess.isOpen() && terafm.focusedEditable) {
 					contextTarget = terafm.focusedEditable;
-					contextTargetRect = editableManager.getRect(contextTarget);
+					contextTargetRect = contextTarget.rect();
 					open();
 				} else {
 					quickAccess.hide()
@@ -37,8 +37,7 @@ terafm.quickAccessController = {};
 	quickAccessController.hide = function() {
 		quickAccess.hide();
 	}
-	quickAccessController.setContext = (target, pos) => { contextTarget = target; contextTargetRect = pos; }
-
+	quickAccessController.setContext = (editable, pos) => { contextTarget = editable; contextTargetRect = pos; }
 
 	// Chrome context item clicked
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -48,14 +47,13 @@ terafm.quickAccessController = {};
 	});
 
 	DOMEvents.registerHandler('contextmenu', function(e) {
-		contextTarget = editableManager.getEditable(e.path[0]);
+		contextTarget = terafm.EditableFactory(e.path[0]);
 
 		if(contextTarget) {
 			contextTargetRect = {}
 			contextTargetRect.x = e.pageX;
 			contextTargetRect.y = e.pageY;
 		}
-
 	});
 
 
@@ -83,6 +81,8 @@ terafm.quickAccessController = {};
 	// Returns entries to populate context menu with
 	// Returns an object with two arrays in "match" and "other"
 	function getDataByEditable(editable) {
+		return {match:{}, other: {}, empty: true};
+
 		let editableId = editableManager.generateEditableId(editable),
 			revs = db.getRevisionsByEditable(editableId),
 			revKeys = Object.keys(revs).reverse(),

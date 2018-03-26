@@ -19,7 +19,7 @@
 			msg = msg.data.event;
 
 			// Todo: Unclear; it can resolve path anywhere, not just editables.
-			let target = terafm.editableManager.resolvePath(msg.path[0]);
+			let target = terafm.resolvePath(msg.path[0]);
 
 			if(target) {
 				msg.path[0] = target;

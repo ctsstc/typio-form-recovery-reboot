@@ -1,59 +1,52 @@
 window.terafm = window.terafm || {};
 
-(function() {
+terafm.Entry = class Entry {
+	constructor(obj, sid, eid) {
 
-	terafm.Session = class Session {
-		constructor(editables, id) {
-			this.id = id;
-			this.editables = editables;
-		}
+		this.obj = {};
 
-		getEntry(eid) {
-			return this.editables.hasOwnProperty(eid) ? this.editables[eid] : null;
-		}
-	}
+		// Make Entry from editable
+		if(obj instanceof terafm.Editable) {
+			this._editable = obj;
+			this.editableId = this._editable.id;
+			this.sessionId = this._editable.sessionId;
 
-	terafm.EntryList = class EntryList {
-		constructor(entries) {
-			this.entries = entries;
-		}
-
-		get editable() {
-			return this.first().editable;
-		}
-
-		first() {
-			return new terafm.Entry(this.entries[Object.keys(this.entries)[0]]);
-		}
-	}
-
-	terafm.Entry = class Entry {
-		constructor(obj) {
-
-			// Make Entry from editable
-			if(obj instanceof terafm.Editable) {
-				this.editable = obj;
-				this.value = obj.getValue()
-				this.path = obj.getPath()
-				this.type = obj.getType()
-				this.meta = obj.getMeta()
+			this.obj.value = obj.getValue();
+			this.obj.path = obj.path;
+			this.obj.type = obj.type;
+			
+			var meta = obj.getMeta();
+			if(meta) this.obj.meta = meta;
 
 
-			// Cast entry object
-			} else {
-				Object.assign(this, obj);
-				this.editable = 'some editable here'; // Todo: Resolve path
-			}
-		}
-
-		get obj() {
-			return {
-				value: this.value,
-				path: this.path,
-				type: this.type,
-				meta: this.meta
-			}
+		// Cast entry object
+		} else {
+			Object.assign(this.obj, obj);
+			this.editableId = eid;
+			this.sessionId = sid;
 		}
 	}
 
-})();
+	restore(highlight) {
+		let editable = this.getEditable();
+		if(editable) {
+			editable.setEntry(this, highlight);
+		}
+	}
+
+	save() {
+		terafm.db.saveEntry(this);
+	}
+
+	getSession() {
+		return this.session = terafm.db.getSession(this.sessionId);
+	}
+
+	getEditable() {
+		if(this._editable) {
+			return this._editable;
+		} else {
+			return this._editable = terafm.EditableFactory(this.obj.path);
+		}
+	}
+}

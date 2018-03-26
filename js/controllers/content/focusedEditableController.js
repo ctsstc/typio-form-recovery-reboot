@@ -24,22 +24,23 @@ window.terafm = window.terafm || {};
 		clearTimeout(focusTimeout)
 		focusTimeout = setTimeout(function() {
 			target = e.path[0];
-			terafm.focusedEditable = editableManager.getEditableText(e.path[0]);
-			DOMEvents.trigger('editable-text-focus', null)
+			terafm.focusedEditable = terafm.TextEditableFactory(e.path[0]);
+			if(terafm.focusedEditable) DOMEvents.trigger('editable-text-focus', null)
 		})
 	});
 
 	// Click is fallback to "focus" because shadow dom is being a dick and
 	// will only bubble the first time. Tabbing still does not work correctly.
 	DOMEvents.registerHandler('click', function(e) {
+		return;
 
 		// If focus has taken care of it, do nothing
 		if(e.path[0] !== target) {
-			var editable = editableManager.getEditableText(e.path[0]);
+			var editable = terafm.TextEditableFactory(e.path[0]);
 
 			target = e.path[0];
 			
-			if(editable && editable !== terafm.focusedEditable) {
+			if(editable && !editable.is(terafm.focusedEditable)) {
 				clearTimeout(focusTimeout)
 				focusTimeout = setTimeout(function() {
 					terafm.focusedEditable = editable;

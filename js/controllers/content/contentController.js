@@ -11,6 +11,11 @@ var terafm = window.terafm;
 
 			// Run init handlers
 			initHandler.executeInitHandlers();
+
+			let sess = db.getSession('1522099629');
+			console.log(sess.restore())
+			// let entry = db.getEntry('1522094138', 'field-1712385224');
+			// console.log(entry.restore(true))
 		});
 	});
 

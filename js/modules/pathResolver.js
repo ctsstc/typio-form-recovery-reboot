@@ -1,11 +1,10 @@
 window.terafm = window.terafm || {};
-terafm.editableManager = terafm.editableManager || {};
 
-(function(editableManager) {
+(function() {
 	'use strict';
 
 	// querySelector with ::shadow support
-	editableManager.resolvePath = function(selector) {
+	terafm.resolvePath = function(selector) {
 
 		var pathData = splitSelectorByEncapsulators(selector),
 			currNode = window.top.document;
@@ -88,4 +87,4 @@ terafm.editableManager = terafm.editableManager || {};
 	}
 
 
-})(terafm.editableManager);
+})();

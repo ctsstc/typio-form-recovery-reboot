@@ -4,171 +4,185 @@ terafm.db = terafm.db || {};
 (function(db) {
 	'use strict';
 
-	let storage = { inUse: {}, snapshot: {} };
-
 	const domainId = '###' + window.location.hostname;
+	let sessionId;
 
-	// storage.inUse.field505372698 = {sess111: {something: 'some value'}, sess222: {something: 'some other value'}}
-	// storage.inUse.dummyField = {sess111: {something: 'somsssddue'}, sess222: {something: 'somesdfue'}}
-
-	// GET: All sessions, single session, single entry, specials (recent, latest)
-	// SAVE: sessions in use
-	// DEL: single entry?
-
-	// SYNC: pergePush, fetch
-
-	db.fetchSnapshot = fetchSnapshot;
-
-	db.getAllSess = () => {
-		// Fetch new snapshot, merge, return new SessionIterator()
-	}
-	db.getSess = (sid) => {
-		// No need to fetch; will never request a specific session from the future
-		// if(session is in use) return new Session() from in use
-		// else if(session is in snapshot) return new Session() from snapshot
-		return getFromBuckets(sid);
-	}
-	db.getEntry = (sid, eid) => {
-		// Get sess, map by eid, return new Entry()
-		return new terafm.Entry(db.getSess(sid).getEntry(eid));
-	}
-	db.getByEditable = (eid) => {
-		return new terafm.EntryList(getEditableFromBucket('inUse', eid) || getEditableFromBucket('snapshot', eid));
-	}
-
-
-	function getFromBuckets(...args) {
-		return getSessFromBucket('inUse', ...args) || getSessFromBucket('snapshot', ...args);
-	}
-
-	function getEditableFromBucket(bucketId, eid) {
-		let bucket = getBucket(bucketId);
-		if(bucket.hasOwnProperty(eid)) {
-			return Object.assign({}, bucket[eid])
+	class Bucket {
+		constructor(obj) {
+			this.set(obj)
 		}
-	}
 
-	function getSessFromBucket(bucketId, sid) {
-		let tmp = {},
-			bucket = copyBucket(bucketId);
-
-		for(let eid in bucket) {
-			if(bucket[eid].hasOwnProperty(sid)) {
-				tmp[eid] = bucket[eid][sid]
+		// Dels onlt from inUse memory. For snapshot deletion make new method similar to push()
+		del(sid, eid) {
+			if(this.fields.hasOwnProperty(eid) && this.fields[eid].hasOwnProperty(sid)) {
+				delete this.fields[eid][sid];
+				if(Object.keys(this.fields[eid]).length === 0) {
+					delete this.fields[eid];
+				}
+				console.log('found to delete!')
 			}
 		}
 
-		return Object.keys(tmp).length ? new terafm.Session(Object.assign({}, tmp), sid) : null;
-	}
+		set(obj = {}) {
+			// Set context
+			if(obj.hasOwnProperty(domainId)) {
+				this.context = obj;
+				this.fields = this.context[domainId].fields;
 
-	function copyBucket(bucketId) {
-		if(bucketId === 'inUse') {
-			return Object.assign({}, storage.inUse);
-		} else if(bucketId === 'snapshot') {
-			if(storage.snapshot.hasOwnProperty(domainId)) {
-				return Object.assign({}, storage.snapshot[domainId].fields);
+			// Set fields
 			} else {
-				return {};
+				// Update fields within context
+				if(this.context !== undefined) {
+					this.context[domainId].fields = obj;
+					this.fields = this.context[domainId].fields;
+
+				// Create context (first time)
+				} else {
+					this.context = {[domainId]: {fields: obj }};
+					this.fields = this.context[domainId].fields;
+				}
 			}
 		}
-	}
-
-	function getBucket(bucketId) {
-		if(bucketId === 'inUse') {
-			return storage.inUse;
-		} else if(bucketId === 'snapshot') {
-			if(storage.snapshot.hasOwnProperty(domainId)) {
-				return storage.snapshot[domainId].fields;
+		setEntry(entry) {
+			if(!(entry instanceof terafm.Entry)) throw new Error(`setEntry requires an actual entry, you goof!`);
+			if(!this.fields.hasOwnProperty(entry.editableId)) {
+				this.fields[entry.editableId] = { [entry.sessionId] : entry.obj };
 			} else {
-				return {};
+				this.fields[entry.editableId][entry.sessionId] = entry.obj;
+			}
+		}
+
+		// Returns context with merged fields
+		getMerged(toMerge) {
+			if(!(toMerge instanceof Bucket)) throw new Error(`Merge requires a bucket to merge. That doesn't look like a bucket to me.`);
+			
+			var tmpContext = Object.assign({}, this.context),
+				tmpFields = tmpContext[domainId].fields;
+
+			for(let fid in toMerge.fields) {
+				if(fid in tmpFields) {
+					tmpFields[fid] = Object.assign({}, tmpFields[fid], toMerge.fields[fid]);
+				} else {
+					tmpFields[fid] = toMerge.fields[fid]
+				}
+			}
+
+			return tmpContext;
+		}
+
+		getSessions() {
+			var tmp = {};
+
+			for(let eid in this.fields) {
+				for(let sid in this.fields[eid]) {
+					if(!tmp.hasOwnProperty(sid)) tmp[sid] = {};
+					tmp[sid][eid] = new terafm.Entry(this.fields[eid][sid], sid, eid);
+				}
+			}
+
+			return new terafm.SessionList(tmp);
+		}
+		getSession(sid) {
+			var tmp = {};
+
+			for(let eid in this.fields) {
+				if(this.fields[eid].hasOwnProperty(sid)) {
+					tmp[eid] = this.fields[eid][sid];
+				}
+			}
+
+			return Object.keys(tmp).length ? new terafm.Session(tmp, sid) : null;
+		}
+		getEntry(sid, eid) {
+
+			if(this.fields.hasOwnProperty(eid) && this.fields[eid].hasOwnProperty(sid)) {
+				return new terafm.Entry(this.fields[eid][sid], sid, eid);
 			}
 		}
 	}
 
+	let buckets = {
+		inUse: new Bucket(),
+		snapshot: new Bucket()
+	};
+	buckets.applyOne = fn => fn(buckets.inUse) || fn(buckets.snapshot) || null;
+	buckets.applyBoth = fn => {
+		let res = [fn(buckets.inUse), fn(buckets.snapshot)];
 
+		if(res[0] && res[1]) return res[0].merge(res[1])
+		else if(res[0]) return res[0]
+		else if(res[1]) return res[1]
+	};
 
-
-	// chrome.storage.local.clear();
-
-
-	db.init = function(callback) {
-		// convertIndexedDB(); return;
-
-		// convertIndexedDB().then(pushSnapshot);
-		console.log(storage)
-		// fetchSnapshot().then(() => {
-		// 	randomInput('111');
-		// 	// console.log(getMerged())
-		// });
-		
-		// randomInput('111');
-		// fetchMergePush().then(fetchSnapshot);
-
-		fetchSnapshot().then(() => {
-
-			// console.log(db.getSess('1521818363'))
-			// console.log(db.getSess('1521816559'))
-			// console.log(db.getEntry('1521570031', 'field-1712385224'))
-			// var byed = db.getByEditable('field-1712385224')
-			// console.log(byed.editable)
-			// storage.snapshot[domainId].banana = 'hello yo!';
-			// randomInput('bah');
-			// pushSnapshot().then();
-		})
-	}
-
-	function randomInput(id) {
-		storage.inUse['dummy-' + id] = {sess111: {something: id}, sess222: {something: id}}
-	}
-
-
-	function getMerged() {
-		var tmp = Object.assign({}, unwrap(storage.snapshot));
-		for(let fid in storage.inUse) {
-			if(fid in tmp) {
-				tmp[fid] = {...tmp[fid], ...storage.inUse[fid]}
-			} else {
-				tmp[fid] = storage.inUse[fid]
-			}
-		}
-		return tmp;
-	}
-
+	// Will override context metadata if present. Make updateSnapshotFields() function if needed.
 	function fetchSnapshot() {
 		return new Promise(done => {
 			chrome.storage.local.get(domainId, data => {
-				storage.snapshot = data;//isWrapped(data) ? data : wrap({});
+				buckets.snapshot.set(data);
 				done();
-			})
+			});
 		});
 	}
 
-	function pushSnapshot() {
-		return new Promise(done => {
-			chrome.storage.local.set(storage.snapshot, done);
-		})
-	}
 
 	// Fetch, merge, push
-	function fetchMergePush() {
+	function push() {
 		return new Promise(done => {
 			fetchSnapshot().then(() => {
-				// Todo: Check if snapshot[domainId].fields exists first??
-				storage.snapshot[domainId].fields = getMerged();
-				chrome.storage.local.set(storage.snapshot, done);
+				chrome.storage.local.set(buckets.snapshot.getMerged(buckets.inUse), () => {
+					done();
+				});
 			});
 		})
 	}
 
-	function isWrapped(data) {
-		return (typeof data === 'object' && domainId in data && 'fields' in data[domainId]) ? true : false;
+
+	db.init = function(done) {
+		// chrome.storage.local.clear();return;
+		console.log(buckets);
+		sessionId = db.generateSessionId();
+		fetchSnapshot().then(done);
 	}
-	function wrap(data) {
-		if(!isWrapped(data)) return { [domainId] : { fields: data } };
-		else throw new Error('Cant rap twice yo');
+	db.getGlobalSessionId = () => sessionId;
+	db.fetch = () => {
+		return fetchSnapshot();
 	}
-	function unwrap(data) {
-		return isWrapped(data) ? data[domainId].fields : {};
+	db.push = () => {
+		return push();
+	}
+	db.getAllSessions = () => {
+		return buckets.applyBoth(buck => buck.getSessions());
+	}
+	db.getSession = (sid) => {
+		return buckets.applyOne(buck => buck.getSession(sid));
+	}
+	db.getEntry = (sid, eid) => {
+		return buckets.applyOne(buck => buck.getEntry(sid, eid));
+	}
+	db.generateSessionId = function() {
+		return Math.round(Date.now()/1000) + '';
+	}
+	db.saveEntry = (entry) => {
+		buckets.inUse.setEntry(entry);
+		debouncePush();
+	}
+	db.del = (...args) => {
+		buckets.inUse.del(...args);
+	}
+
+	var debouncePush = terafm.help.throttle(push, 1000, {leading: false});
+
+
+
+
+
+	function randomInput(id) {
+		buckets.inUse.set({
+			['dummyfield-' + id]: {
+				sess111: {something: id},
+				sess222: {something: id}
+			}
+		})
 	}
 
 
@@ -176,9 +190,9 @@ terafm.db = terafm.db || {};
 	function convertIndexedDB() {
 		return new Promise(done => {
 			getIndexedDBData().then((data) => {
-				data = wrap(data);
-				storage.snapshot = data;
-				chrome.storage.local.set(data, done);
+				data = new Bucket(data);
+				// buckets.snapshot.set(data);
+				chrome.storage.local.set(data.context, done);
 			})
 		})
 	}
