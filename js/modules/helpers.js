@@ -10,7 +10,7 @@ terafm.help = (function() {
 		for (var i = 0; i < str.length; i++) {
 			var char = str.charCodeAt(i);
 			hash = ((hash<<5)-hash)+char;
-			hash = hash & hash; // Convert to 32bit integer
+			hash = hash & hash;
 		}
 		return hash;
 	}
@@ -19,17 +19,15 @@ terafm.help = (function() {
 	exp.trim = function(str) {
 		return str.replace(/[\s\n\r]+/g, ' ').trim();
 	}
-	exp.stripTags = function(str) {
-		return ('' + str).replace(/<\/?[^>]+(>|$)/g, "").trim();
-	}
-	// exp.encodeHTMLEntities = function(str) {
-	// 	return ('' + str).replace(/[\"&'\/<>]/g, function (a) {
-	// 		return {
-	// 			'"': '&quot;', '&': '&amp;', "'": '&#39;',
-	// 			'/': '&#47;',  '<': '&lt;',  '>': '&gt;'
-	// 		}[a];
-	// 	})
-	// }
+
+	exp.stripTags = (() => {
+		var tmp = document.createElement('div');
+		return (html) => {
+			tmp.innerHTML = html;
+			return tmp.textContent;
+		}
+	})();
+
 	// https://stackoverflow.com/a/47192491/290790
 	exp.encodeHTMLEntities = (function() {
 		var doc = document.implementation.createDocument("", "", null),

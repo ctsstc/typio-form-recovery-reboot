@@ -30,7 +30,7 @@ terafm.Entry = class Entry {
 	restore(highlight) {
 		let editable = this.getEditable();
 		if(editable) {
-			editable.setEntry(this, highlight);
+			editable.applyEntry(this, highlight);
 		}
 	}
 
