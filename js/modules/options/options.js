@@ -16,7 +16,7 @@ window.terafm.options = {};
 			chrome.storage.sync.set({ [opt] : val });
 			globalOptions[opt] = val	
 		} else {
-			throw Error('DID NOT SET OPTION DUE TO VALIDATION ERROR', opt, val)
+			throw new Error('Option could not be sanitized', opt, val);
 		}
 	}
 
