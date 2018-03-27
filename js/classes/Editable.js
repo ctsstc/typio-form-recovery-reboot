@@ -59,11 +59,52 @@ terafm.highlightedElements = [];
 			}
 		}
 
-		setEntry(entry, highlight) {
-			if(!(entry instanceof terafm.Entry)) throw new Error('setEntry requires an entry to set');
-			// Todo: Do smart restore stuff with contenteditable and whatev
-			this.setValue(entry.obj.value);
-			if(highlight) this.highlight();
+		setPlaceholderEntry(entry) {
+			this.cacheValue();
+			this.applyEntry(entry, {truncate: true});
+			this.highlight();
+		}
+
+		resetPlaceholder() {
+			this.restoreCachedValue();
+			this.remHighlight()
+		}
+
+		cacheValue() {
+			if(!this.orgValue) {
+				this.orgValue = this.getValue();
+			}
+		}
+		restoreCachedValue() {
+			if(this.orgValue !== undefined) {
+				this.setValue(this.orgValue);
+				this.orgValue = undefined;
+			}
+		}
+
+		applyEntry(entry, truncate) {
+			if(!(entry instanceof terafm.Entry)) throw new Error('applyEntry requires an entry to set');
+
+			let tmpVal = entry.obj.value;
+
+			// If restoring html into text field, strip html and trim
+			if(this.isContentEditable() === false && entry.obj.type === 'contenteditable') {
+				tmpVal = terafm.help.stripTags(tmpVal);
+				tmpVal = terafm.help.decodeHTMLEntities(tmpVal);
+				tmpVal = terafm.help.trim(tmpVal);
+
+			// Restoring text into html field
+			} else if(this.isContentEditable() === true && entry.obj.type !== 'contenteditable') {
+				tmpVal = terafm.help.encodeHTMLEntities(tmpVal);
+			}
+
+			if(truncate && tmpVal.length > 500) {
+				if(!(this.isContentEditable() && entry.type === 'contenteditable')) {
+					tmpVal = tmpVal.substring(0, 500) + '... (truncated)';
+				}
+			}
+
+			this.setValue(tmpVal);
 		}
 
 		getValue(trim) {
@@ -73,7 +114,7 @@ terafm.highlightedElements = [];
 
 				// Special care for checkable inputs
 				if(this.el.type === 'checkbox' || this.el.type === 'radio') {
-					value = this.el.checked ? 1 : 0;
+					value = this.el.checked ? '1' : '0';
 
 				} else {
 					value = this.el.value;
@@ -200,6 +241,7 @@ terafm.highlightedElements = [];
 			return rect;
 		}
 	}
+
 
 	const editableTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
 	const textEditableTypes = ['text', 'email', 'search', 'password', 'url', 'tel', 'number'];

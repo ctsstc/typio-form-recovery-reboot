@@ -12,9 +12,9 @@ var terafm = window.terafm;
 			// Run init handlers
 			initHandler.executeInitHandlers();
 
-			let sess = db.getSession('1522147757');
-			sess.filter(entry => !!entry.getEditable())
-			console.log(sess.initLength, sess.length);
+			// let sess = db.getSession('1522147757');
+			// sess.filter(entry => !!entry.getEditable())
+			// console.log(sess.initLength, sess.length);
 
 			// let entry = db.getEntry('1522094138', 'field-1712385224');
 			// console.log(entry.restore(true))
