@@ -1,36 +1,42 @@
 window.terafm = window.terafm || {};
 
 terafm.Entry = class Entry {
-	constructor(obj, sid, eid) {
-
+	constructor(arg) {
 		this.obj = {};
 
 		// Make Entry from editable
-		if(obj instanceof terafm.Editable) {
-			this._editable = obj;
+		if(arg instanceof terafm.Editable) {
+			this._editable = arg;
 			this.editableId = this._editable.id;
 			this.sessionId = this._editable.sessionId;
 
-			this.obj.value = obj.getValue();
-			this.obj.path = obj.path;
-			this.obj.type = obj.type;
+			this.obj.value = arg.getValue();
+			this.obj.path = arg.path;
+			this.obj.type = arg.type;
 			
-			var meta = obj.getMeta();
+			var meta = arg.getMeta();
 			if(meta) this.obj.meta = meta;
 
-
-		// Cast entry object
 		} else {
-			Object.assign(this.obj, obj);
-			this.editableId = eid;
-			this.sessionId = sid;
+			Object.assign(this, arg);
 		}
 	}
 
-	restore(highlight) {
+	getValue(opts = {encode: false, truncate: false}) {
+		return this.obj.value;
+	}
+
+	setPlaceholder() {
 		let editable = this.getEditable();
 		if(editable) {
-			editable.applyEntry(this, highlight);
+			editable.applyPlaceholderEntry(this);
+		}
+	}
+
+	restore() {
+		let editable = this.getEditable();
+		if(editable) {
+			editable.applyEntry(this);
 		}
 	}
 
@@ -39,7 +45,7 @@ terafm.Entry = class Entry {
 	}
 
 	getSession() {
-		return this.session = terafm.db.getSession(this.sessionId);
+		return this.session;// = terafm.db.getSession(this.sessionId);
 	}
 
 	getEditable() {

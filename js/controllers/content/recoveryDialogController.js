@@ -5,7 +5,9 @@ terafm.recoveryDialogController = {};
 (function(recoveryDialogController, recoveryDialog, db, help, editableManager, options, keyboardShortcuts, initHandler) {
 	'use strict';
 	
-	let selectedRevision = {},
+	let loadedData,
+		selectedEntry,
+
 		dialogNode;
 
 	// Open call from context menu
@@ -31,9 +33,9 @@ terafm.recoveryDialogController = {};
 		terafm.quickAccessController.hide();
 
 		setup(function() {
-			let revData = getRevisionData();
-
-			recoveryDialog.populate(revData);
+			loadedData = db.getAllSessions();
+			console.log(loadedData)
+			recoveryDialog.populate(loadedData);
 			recoveryDialog.setPage('default');
 			recoveryDialog.show();
 		});
@@ -44,7 +46,7 @@ terafm.recoveryDialogController = {};
 	}
 
 	function getRevisionData() {
-		return {sessions: db.getAllSessions(), skipCount: 0};
+		// return {sessions: db.getAllSessions(), skipCount: 0};
 
 		// let sessions = db.getAllRevisionsGroupedBySession(),
 		// 	sessKeys = Object.keys(sessions),

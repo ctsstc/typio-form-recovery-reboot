@@ -100,6 +100,14 @@ module.exports = function(grunt) {
                     // Runs isolated on every page (not in iframes)
                     '../publish/js/content.js' : [
 
+                        // Classes
+                        '../js/classes/StorageBucket.js',
+                        '../js/classes/Editable.js',
+                        '../js/classes/EntryList.js',
+                        '../js/classes/Entry.js',
+                        '../js/classes/SessionList.js',
+                        '../js/classes/Session.js',
+
                         // Modules
                         '../js/modules/initHandler.js',
                         '../js/modules/helpers.js',
@@ -112,11 +120,9 @@ module.exports = function(grunt) {
                         '../js/modules/db/indexedDBDriver.js',
                         '../js/modules/pathResolver.js',
                         '../js/modules/pathGenerator.js',
-                        '../js/modules/editableManager/editableManager.placeholders.js',
-                        '../js/modules/editableManager/editableManager.js',
+                        '../js/modules/editables.js',
                         '../js/modules/validator.js',
                         '../js/modules/ui.js',
-                        '../js/modules/editablePicker.js',
                         '../js/modules/recoveryDialog.js',
                         '../js/modules/quickAccess.js',
                         '../js/modules/saveIndicator.js',
@@ -125,13 +131,6 @@ module.exports = function(grunt) {
                         '../js/modules/keyboardShortcuts.js',
                         '../js/modules/toast.js',
                         '../js/modules/blacklist.js',
-
-                        // Classes
-                        '../js/classes/Editable.js',
-                        '../js/classes/EntryList.js',
-                        '../js/classes/Entry.js',
-                        '../js/classes/SessionList.js',
-                        '../js/classes/Session.js',
 
                         // Controllers
                         '../js/controllers/content/contentController.js',
@@ -144,7 +143,7 @@ module.exports = function(grunt) {
                             '../js/controllers/content/recoveryDialogController.js',
                     ],
 
-                    // Runs as content script
+                    // Runs on site context (not isolated)
                     '../publish/js/content.frameInjector.js' : [
                         '../js/modules/pathResolver.js',
                         '../js/modules/pathGenerator.js',

@@ -11,6 +11,8 @@ terafm.quickAccessController = {};
 
 	let lastListActionTarget;
 
+	let populatedData;
+
 	// Key combo to open
 	initHandler.onInit(function() {
 		if(options.get('keybindEnabled')) {
@@ -23,7 +25,7 @@ terafm.quickAccessController = {};
 					open();
 				} else {
 					quickAccess.hide()
-					editableManager.resetPlaceholders();
+					terafm.editables.resetPlaceholders();
 				}
 			});
 		} 
@@ -68,9 +70,9 @@ terafm.quickAccessController = {};
 			return false;
 		}
 		deepSetup(function() {
-			let data = getDataByEditable(contextTarget);
+			populatedData = getDataByEditable(contextTarget);
 
-			quickAccess.populate(data);
+			quickAccess.populate(populatedData);
 			quickAccess.show();
 			requestAnimationFrame(function() {
 				quickAccess.position(contextTargetRect);
@@ -79,42 +81,13 @@ terafm.quickAccessController = {};
 	}
 
 	// Returns entries to populate context menu with
-	// Returns an object with two arrays in "match" and "other"
+	// Returns an object with two arrays in "sess" and "recent"
 	function getDataByEditable(editable) {
-		return {match:{}, other: {}, empty: true};
+		let data = {sess:{}, recent: {}, empty: true};
 
-		let editableId = editableManager.generateEditableId(editable),
-			revs = db.getRevisionsByEditable(editableId),
-			revKeys = Object.keys(revs).reverse(),
-
-			currSessionId = db.sessionId();
-
-		let itemsLeft = 10;
-
-		let data = {match:{}, other: {}, empty: true};
-
-		for(let revKey in revKeys) {
-
-			// Skip current session
-			//if(revKeys[revKey] == (currSessionId+"")) continue;
-			if(itemsLeft < 1) break; itemsLeft--;
-
-			let sessId = revKeys[revKey],
-				entry = revs[sessId];
-
-			data.match[sessId] = entry;
-			data.empty = false;
-		}
-
-		// If less than 10 entries in field, get other recent entries to fill gap up to 10
-		if(itemsLeft > 0) {
-			let extraEntries = db.getRecentRevisions( editableId, itemsLeft );
-			if(Object.keys(extraEntries).length) {
-				data.other = extraEntries;
-				data.empty = false;
-			}
-		}
-
+		data.sess = terafm.db.getSessionsContainingEditable(editable.id, 5).getEntriesByEditable(editable.id);
+		// data.recent = terafm.db.getSessionsContainingEditable(editable.id, 5).getEntriesByEditable(editable.id);
+		if(data.sess.length || data.empty.length) data.empty = false;
 		return data;
 	}
 
@@ -137,7 +110,7 @@ terafm.quickAccessController = {};
 		// Mousedown events on quickaccess are stopped below.
 		DOMEvents.registerHandler('mousedown', function() {
 			quickAccess.hide();
-			editableManager.resetPlaceholders();
+			terafm.editables.resetPlaceholders();
 		});
 		quickAccessNode.addEventListener('mousedown', e => e.stopPropagation());
 		
@@ -162,7 +135,7 @@ terafm.quickAccessController = {};
 
 			var target = e.relatedTarget;
 			if(quickAccess.isOpen() && target && !target.closest('#quickAccess') ) {
-				editableManager.resetPlaceholders();
+				terafm.editables.resetPlaceholders();
 			}
 		});
 
@@ -231,7 +204,7 @@ terafm.quickAccessController = {};
 			if(quickAccess.isOpen()) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 				quickAccess.hide();
-				editableManager.resetPlaceholders();
+				terafm.editables.resetPlaceholders();
 			}
 		});
 	}
@@ -248,20 +221,34 @@ terafm.quickAccessController = {};
 
 		var data = target.dataset;
 
-		editableManager.resetPlaceholders();
+		terafm.editables.resetPlaceholders();
 
-		if(data.action === 'rec-session') {
-			editableManager.restoreBy(commit, data.session)
-	
-		} else if(data.action === 'rec-single') {
-			editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
-	
-		} else if(data.action === 'rec-single-related') {
-			editableManager.restoreBy(commit, data.session, data.editable, contextTarget)
+		let torestore;
+
+		if(data.action === 'restore-sess') {
+			if(data.group === 'sess') {
+				let entry = populatedData['sess']['entries'][data.eid];
+				torestore = entry.getSession();
+
+			} else if(data.group === 'single') {
+				torestore = populatedData['sess']['entries'][data.eid];
+			}
+
+		} else if(data.action === 'restore-single' && data.group === 'single') {
+			torestore = populatedData['recent']['entries'][data.eid];
 		}
 
-		// On click/select
-		if(commit) {
+		// Preview
+		if(!commit) {
+			if(torestore instanceof terafm.Session) {
+				torestore.setPlaceholders();
+			} else if(torestore instanceof terafm.Entry) {
+				torestore.setPlaceholder();
+			}
+
+		// Commit (click, select)
+		} else {
+			if(torestore) torestore.restore();
 
 			quickAccess.hide();
 

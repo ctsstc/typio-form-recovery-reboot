@@ -1,7 +1,5 @@
 window.terafm = window.terafm || {};
 
-terafm.highlightedElements = [];
-
 (function() {
 
 	terafm.Editable = class Editable {
@@ -27,10 +25,6 @@ terafm.highlightedElements = [];
 			return this.el === editable.el;
 		}
 
-		isHighlighted() {
-			return terafm.highlightedElements.indexOf(this.el) !== -1;
-		}
-
 		flashHighlight() {
 			this.highlight();
 			setTimeout(this.remHighlight.bind(this), 	200);
@@ -40,6 +34,10 @@ terafm.highlightedElements = [];
 			setTimeout(this.remHighlight.bind(this), 	1000);
 		}
 
+		isHighlighted() {
+			return Object.keys(terafm.editables.highlighted).indexOf(this.id) !== -1;
+		}
+
 		highlight() {
 			if(!this.isHighlighted()) {
 				var attr = this.el.getAttribute('style') || '';
@@ -47,7 +45,7 @@ terafm.highlightedElements = [];
 				
 				this.el.style.background = 'rgb(255, 251, 153)';
 				this.el.style.color = '#222';
-				terafm.highlightedElements.push(this.el);
+				terafm.editables.highlighted[this.id] = this;
 			}
 		}
 		remHighlight() {
@@ -55,14 +53,8 @@ terafm.highlightedElements = [];
 			if(this.isHighlighted() && this.el.terafmOrgStyle !== undefined) {
 				this.el.setAttribute('style', this.el.terafmOrgStyle);
 				delete this.el.terafmOrgStyle;
-				delete terafm.highlightedElements[terafm.highlightedElements.indexOf(this.el)];
+				delete terafm.editables.highlighted[this.id];
 			}
-		}
-
-		setPlaceholderEntry(entry) {
-			this.cacheValue();
-			this.applyEntry(entry, {truncate: true});
-			this.highlight();
 		}
 
 		resetPlaceholder() {
@@ -82,7 +74,13 @@ terafm.highlightedElements = [];
 			}
 		}
 
-		applyEntry(entry, truncate) {
+		applyPlaceholderEntry(entry) {
+			this.cacheValue();
+			this.applyEntry(entry, {truncate: true});
+			this.highlight();
+		}
+
+		applyEntry(entry, opts = {truncate: false}) {
 			if(!(entry instanceof terafm.Entry)) throw new Error('applyEntry requires an entry to set');
 
 			let tmpVal = entry.obj.value;
@@ -98,7 +96,7 @@ terafm.highlightedElements = [];
 				tmpVal = terafm.help.encodeHTMLEntities(tmpVal);
 			}
 
-			if(truncate && tmpVal.length > 500) {
+			if(opts.truncate && tmpVal.length > 500) {
 				if(!(this.isContentEditable() && entry.type === 'contenteditable')) {
 					tmpVal = tmpVal.substring(0, 500) + '... (truncated)';
 				}
@@ -203,6 +201,9 @@ terafm.highlightedElements = [];
 		}
 		isTextEditable() {
 			return isTextEditable(this.el)
+		}
+		isContentEditable() {
+			return isContentEditable(this.el);
 		}
 		
 		getEntry() {
