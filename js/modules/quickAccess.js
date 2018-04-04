@@ -22,16 +22,8 @@ terafm.quickAccess = {};
 		var html = '';
 
 		if(!data.empty) {
-			Object.keys(data.match).reverse().map(sid => {
-				html += generateListItemHtml(sid, data.match[sid], false);
-			})
-
-			Object.keys(data.other).reverse().map(sid => {
-				Object.keys(data.other[sid]).map(eid => {
-					html += generateListItemHtml(sid, data.other[sid][eid], true);
-				})
-
-			})
+			html += generateListItemHtml(data.sess, 'sess');
+			html += generateListItemHtml(data.recent, 'single');
 
 		} else {
 			html += '<li><span class="entry-text">No entries found for this input field</span></li>'
@@ -86,25 +78,24 @@ terafm.quickAccess = {};
 	}
 
 
-	function generateListItemHtml(sessionId, revision, isRelated) {
+	function generateListItemHtml(entrylist, type) {
+		let html = '';
 
-		let editableId = terafm.editableManager.generateEditableId(revision.path),
-			safeString = help.encodeEntry(revision).substring(0,50),
-			html = '';
+		for(let eid in entrylist.entries) {
+			let entry = entrylist.entries[eid];
+			let val = entry.getValue({encode: true, truncate: 50});
 
-		if(!isRelated) {
-			var count = terafm.db.getRevisionsBySession(sessionId).length;
+			if(type === 'sess') {
+				var count = entry.session.length;
+			}
+
+			html += `<li data-action="restore-${type}" data-group="${type}" data-eid="${eid}">`;
+				html += `<span class="entry-text">${val}</span>`;
+				html += type === 'single' ? `<span class="entry-icon icon-chevron" title="Restore this entry (this entry was typed in another field)"></span>` :
+											`<span data-action="restore-sess" data-group="single" data-eid="${eid}" class="entry-icon icon-count" title="Restore just this entry">${count}</span>`;
+			html += `</li>`;
 		}
-
-		html += isRelated ? `<li data-action="rec-single-related" data-session="${sessionId}" data-editable="${editableId}">` :
-							 `<li data-action="rec-session" data-session="${sessionId}">`;
-
-			html += 			`<span class="entry-text">${safeString}</span>`;
-			html += isRelated ? `<span class="entry-icon icon-chevron" title="Restore this entry (this entry was typed in another field)"></span>` :
-								`<span data-action="rec-single" data-session="${sessionId}" data-editable="${editableId}" class="entry-icon icon-count" title="Restore just this entry">${count}</span>`;
-		
-		html += `</li>`;
-		
+			
 		return html;
 	}
 

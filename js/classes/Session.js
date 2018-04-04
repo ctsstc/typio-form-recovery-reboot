@@ -1,14 +1,18 @@
 window.terafm = window.terafm || {};
 
 terafm.Session = class Session {
-	constructor(entries, id) {
+	constructor(id) {
 		this.id = id;
-		this.entries = entries;
-		this.initLength = this.length;
+		this.entries = {};
 	}
 
 	get length() {
 		return Object.keys(this.entries).length;
+	}
+
+	push(entry) {
+		if(!(entry instanceof terafm.Entry)) throw new Error('Push requires an Entry to push.')
+		this.entries[entry.editableId] = entry;
 	}
 
 	each(fn) {
@@ -26,14 +30,19 @@ terafm.Session = class Session {
 		}
 	}
 
+	prettyDate() {
+		return terafm.help.prettyDateFromTimestamp(this.id);
+	}
+
+	setPlaceholders() {
+		this.each((entry) => entry.setPlaceholder());
+	}
+
 	restore() {
 		this.each((entry) => entry.restore());
 	}
 
-	getEntry(eid) {
+	getEntryByEditable(eid) {
 		return this.entries.hasOwnProperty(eid) ? this.entries[eid] : null;
-	}
-	getFirst() {
-		return this.entries[Object.keys(this.entries)[0]];
 	}
 }

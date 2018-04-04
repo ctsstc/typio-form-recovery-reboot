@@ -1,15 +1,16 @@
 window.terafm = window.terafm || {};
 
 terafm.EntryList = class EntryList {
-	constructor(entries) {
-		this.entries = entries;
+	constructor() {
+		this.entries = [];
 	}
 
-	get editable() {
-		return this.first().editable;
+	get length() {
+		return this.entries.length;
 	}
 
-	first() {
-		return new terafm.Entry(this.entries[Object.keys(this.entries)[0]]);
+	push(entry) {
+		if(!(entry instanceof terafm.Entry)) return false;
+		this.entries.push(entry);
 	}
 }

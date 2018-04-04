@@ -63,17 +63,13 @@ terafm.recoveryDialog = {};
 		currPartial.style.animation = null;
 	}
 
-	recoveryDialog.populate = function(data) {
+	recoveryDialog.populate = function(sessions) {
 		let html = '';
 
-		dialogNode.querySelector('.small-entries-filler').innerHTML = data.skipCount;
+		// dialogNode.querySelector('.small-entries-filler').innerHTML = data.skipCount;
 
-		if(Object.keys(data.sessions).length > 0) {
-
-			sortObjectByKey(data.sessions, function(k, v) {
-				html += generateListGroupHTML(k, v)
-			})
-			
+		if(sessions.length > 0) {
+			html += generateListGroupHTML(sessions)
 		} else {
 			html += '<p style="margin: 20px;">Nothing saved yet, buddy!</p>';
 		}
@@ -108,23 +104,36 @@ terafm.recoveryDialog = {};
 		}
 	}
 
-	function generateListGroupHTML(timestamp, data) {
-		let html = '',
-			prettyDate = help.prettyDateFromTimestamp(timestamp);
+	function generateListGroupHTML(sessions) {
 
-		if(timestamp == terafm.db.getGlobalSessionId()) {
-			prettyDate = 'Current session';
-		}
-
-		html += '<ul data-pretty-date="'+ prettyDate +'">';
-
-			for(let editableId in data) {
-				html += generateListItemHTML(data[editableId], editableId, timestamp)
+		let html = '';
+		sessions.each(sess => {
+			let shtml = '';
+			sess.each(entry => {
+				shtml += generateListItemHTML(entry.obj, entry.editableId, entry.sessionId);
+			})
+			if(shtml) {
+				html += `<p>`+ sess.prettyDate() +`</p><ul>${shtml}</ul>`;
 			}
-
-		html += '</ul>';
-
+		});
 		return html;
+
+		// let html = '',
+		// 	prettyDate = help.prettyDateFromTimestamp(timestamp);
+
+		// if(timestamp == terafm.db.getGlobalSessionId()) {
+		// 	prettyDate = 'Current session';
+		// }
+
+		// html += '<ul data-pretty-date="'+ prettyDate +'">';
+
+		// 	for(let editableId in data) {
+		// 		html += generateListItemHTML(data[editableId], editableId, timestamp)
+		// 	}
+
+		// html += '</ul>';
+
+		// return html;
 	}
 
 	function generateListItemHTML(item, editableId, sessionId) {
