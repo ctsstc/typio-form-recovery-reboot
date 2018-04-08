@@ -23,6 +23,9 @@ terafm.Entry = class Entry {
 	}
 
 	getValue(opts = {encode: false, truncate: false}) {
+		if(opts.encode) {
+			return terafm.help.encodeHTMLEntities(terafm.help.stripTags(this.obj.value)).trim();
+		}
 		return this.obj.value;
 	}
 
@@ -46,6 +49,10 @@ terafm.Entry = class Entry {
 
 	getSession() {
 		return this.session;// = terafm.db.getSession(this.sessionId);
+	}
+
+	hasEditable() {
+		return !!this.getEditable();
 	}
 
 	getEditable() {

@@ -53,10 +53,10 @@ terafm.SessionList = class SessionList {
 		return this;
 	}
 
-	getFirst() {
-		var tmp = Object.keys(this)[0];
-		return new terafm.Session(this[tmp], tmp);
-	}
+	// getFirst() {
+	// 	var tmp = Object.keys(this)[0];
+	// 	return new terafm.Session(this[tmp], tmp);
+	// }
 
 	getEntriesByEditable(eid) {
 		let entrylist = new terafm.EntryList();
@@ -64,6 +64,11 @@ terafm.SessionList = class SessionList {
 			entrylist.push(sess.getEntryByEditable(eid))
 		})
 		return entrylist;
+	}
+
+	getEntry(sid, eid) {
+		if(!this.contains(sid)) return false;
+		return this.sessions[sid].entries.hasOwnProperty(eid) ? this.sessions[sid].entries[eid] : null;
 	}
 
 	merge(list) {

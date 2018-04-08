@@ -95,7 +95,7 @@ terafm.db = terafm.db || {};
 		return db.getSessions();
 	}
 	db.getSessions = (max) => {
-		return buckets.applyBoth(buck => buck.getSessions()).truncate(max);
+		return buckets.applyBoth(buck => buck.getSessions()).truncate(max); // Todo: Remove?
 	}
 	db.getSession = (sid) => {
 		return buckets.applyOne(buck => buck.getSession(sid));
