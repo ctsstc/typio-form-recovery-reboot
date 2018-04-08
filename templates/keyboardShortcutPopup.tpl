@@ -1,4 +1,4 @@
-<div id="keyboardShortcutPopup">
+<div id="keyboardShortcutPopup" class="modal-container">
 	<div class="modal">
 
 		<div class="modal-header">

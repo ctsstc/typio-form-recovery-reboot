@@ -1,6 +1,10 @@
 
+$overlay-color: rgba(34,53,67,.75);
+
 #shadow-root {
 	font-size: 14px;
+	font-family: sans-serif;
+	line-height: 18px;
 }
 
 
@@ -48,6 +52,26 @@ a {
 		background: #f3f3f3;
 		box-shadow: none;
     }
+}
+
+.modal-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 99999999;
+	display: flex;
+	background: $overlay-color;
+	align-items: center;
+	justify-content: center;
+	animation: modalIn .5s;
+
+	@keyframes modalIn {
+		from {
+			opacity: 0;
+		}
+	}
 }
 
 @import "shadowRoot/quickAccess";

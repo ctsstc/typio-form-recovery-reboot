@@ -4,31 +4,19 @@ terafm.recoveryDialog = {};
 (function(recoveryDialog, db, editableManager, ui, help, options) {
 	'use strict';
 
-	var dialogNode;
+	var dialogNode,
+		dataContainer,
+		currPage;
 
-	recoveryDialog.show = function(setDefault) {
+	recoveryDialog.show = function() {
 		ui.touch();
-		document.activeElement.blur()
-		if(setDefault === undefined) recoveryDialog.setPage('default');
+		document.activeElement.blur();
+		recoveryDialog.setPage('default');
 		dialogNode.classList.add('open');
 	}
 
 	recoveryDialog.isShowing = function() {
 		return dialogNode && dialogNode.classList.contains('open');
-	}
-
-	recoveryDialog.setPage = function(pageId) {
-		var currHeader = dialogNode.querySelector('.header .header-partial.partial-current'),
-			newHeader = dialogNode.querySelector('.header .header-partial.partial-' + pageId),
-
-			currContent = dialogNode.querySelector('.content .content-partial.partial-current'),
-			newContent = dialogNode.querySelector('.content .content-partial.partial-' + pageId);
-
-		currHeader.classList.remove('partial-current');
-		currContent.classList.remove('partial-current');
-
-		newHeader.classList.add('partial-current');
-		newContent.classList.add('partial-current');
 	}
 
 	recoveryDialog.hide = function() {
@@ -37,16 +25,35 @@ terafm.recoveryDialog = {};
 		}
 	}
 
+	recoveryDialog.setPage = (pid) => {
+		remCurrPage();
+		currPage = dialogNode.querySelector('.page-' + pid);
+		if(currPage) {
+			currPage.classList.add('page-current');
+		}
+	};
+
+	recoveryDialog.setEntry = (entry) => {
+		recoveryDialog.setPage('entry');
+		dialogNode.querySelector('#entry-text').innerText = entry.getValue({encode: true});
+		dialogNode.querySelector('#entry-path').innerText = entry.obj.path;
+	}
+
+	function remCurrPage() {
+		if(currPage) currPage.classList.remove('page-current');
+	}
+
 	recoveryDialog.build = function(callback) {
 		if(!dialogNode) {
 			ui.inject({
 				path: 'templates/dialog.tpl',
-				returnNode: '.dialog-root'
+				returnNode: '#recovery-dialog'
 			}, {
-				'{{ hostname }}' : 						window.location.hostname
+				'{{ hostname }}' : window.location.hostname
 			}, function(retnode) {
 				dialogNode = retnode;
-				dialogNode.querySelector('#hideSmallEntries').checked = options.get('hideSmallEntries');
+				dataContainer = dialogNode.querySelector('.session-data');
+				// dialogNode.querySelector('#hideSmallEntries').checked = options.get('hideSmallEntries'); // Todo: Fix
 				requestAnimationFrame(() => {
 					requestAnimationFrame(() => callback(retnode));
 				});
@@ -56,101 +63,36 @@ terafm.recoveryDialog = {};
 		}
 	}
 
-	recoveryDialog.animateContentPartial = function() {
-		let currPartial = dialogNode.querySelector('.content .content-partial.partial-current');
-		currPartial.style.animation = 'none';
-		currPartial.offsetHeight; // Trigger reflow
-		currPartial.style.animation = null;
-	}
 
-	recoveryDialog.populate = function(sessions) {
+	recoveryDialog.populate = (sesslist) => {
 		let html = '';
-
-		// dialogNode.querySelector('.small-entries-filler').innerHTML = data.skipCount;
-
-		if(sessions.length > 0) {
-			html += generateListGroupHTML(sessions)
-		} else {
-			html += '<p style="margin: 20px;">Nothing saved yet, buddy!</p>';
-		}
-
-		dialogNode.querySelector('.left-pane .content .recovery-container').innerHTML = html;
-	}
-
-	recoveryDialog.setRevision = function(revision, editableId, session) {
-
-		// These nodes will be updated
-		let fulltextNode = dialogNode.querySelector('.content .partial-recover .full-text .container'),
-			dateNode = dialogNode.querySelector('.content .partial-recover .meta .date'),
-			typeNode = dialogNode.querySelector('.content .partial-recover .meta .type'),
-			pathNode = dialogNode.querySelector('.content .partial-recover .editable-path');
-		
-		// Make data pretty before we update the dom
-		let prettyDate = help.prettyDateFromTimestamp(session),
-			prettyDateFull = new Date(session*1000).toString(),
-			healthStatus = editableManager.resolvePath(revision.path) ? true : false,
-			revisionValue = generateEntryValue(revision).replace(/[\r\n]/gm, '<br/>');
-
-		fulltextNode.innerHTML = revisionValue;
-		dateNode.innerHTML = prettyDate;
-		dateNode.title = prettyDateFull;
-		typeNode.innerHTML = revision.type;
-		pathNode.innerHTML = revision.path;
-
-		if(healthStatus) {
-			dialogNode.classList.add('health-ok');
-		} else {
-			dialogNode.classList.remove('health-ok');
-		}
-	}
-
-	function generateListGroupHTML(sessions) {
-
-		let html = '';
-		sessions.each(sess => {
-			let shtml = '';
-			sess.each(entry => {
-				shtml += generateListItemHTML(entry.obj, entry.editableId, entry.sessionId);
-			})
-			if(shtml) {
-				html += `<p>`+ sess.prettyDate() +`</p><ul>${shtml}</ul>`;
-			}
+		sesslist.each((sess) => {
+			makeSess(sess);
 		});
-		return html;
+		dataContainer.innerHTML = html;
 
-		// let html = '',
-		// 	prettyDate = help.prettyDateFromTimestamp(timestamp);
+		function makeSess(sess) {
+			html += '<p class="date-stamp">' + sess.prettyDate() + '</p>';
+			html += '<ul>';
+			sess.each(entry => {
+				makeEntry(entry);
+			})
+			html += '</ul>';
+		}
 
-		// if(timestamp == terafm.db.getGlobalSessionId()) {
-		// 	prettyDate = 'Current session';
-		// }
-
-		// html += '<ul data-pretty-date="'+ prettyDate +'">';
-
-		// 	for(let editableId in data) {
-		// 		html += generateListItemHTML(data[editableId], editableId, timestamp)
-		// 	}
-
-		// html += '</ul>';
-
-		// return html;
+		function makeEntry(entry) {
+			html += '<li data-session-id="'+ entry.sessionId +'" data-editable-id="'+ entry.editableId +'">';
+				html += '<p>'+ entry.getValue({encode: true, truncate: 50}); +'</p>';
+				html += '<p class="meta">';
+					html += '<span>' + (entry.hasEditable() ? 'Target found' : 'Target NOT found') + '</span>';
+					html += '<span><a>More info</a></span>';
+					html += '<span><a class="red">Delete entry</a></span>';
+				html += '</p>';
+			html += '</li>';
+		}
 	}
 
-	function generateListItemHTML(item, editableId, sessionId) {
-
-		let excerpt = generateEntryValue(item, 220),
-			html = '';
-
-		html += '<li data-set-current="" data-editable="'+ editableId +'" data-session="'+ sessionId +'">';
-			html += '<p class="excerpt">' + excerpt + '</p>';
-			html += '<div class="meta-bar">';
-				html += (item.type ? 'Type: ' + item.type + ' | ' : '') + '<a>Details</a> |  <a class="del-link" data-delete-single="" data-editable="'+ editableId +'" data-session="'+ sessionId +'">Delete entry</a>';
-			html += '</div>';
-		html += '</li>';
-
-		return html;
-	}
-
+/*	// Todo: Move to entry?
 	function generateEntryValue(entry, truncate) {
 		let value = '';
 
@@ -178,17 +120,6 @@ terafm.recoveryDialog = {};
 
 		return value;
 	}
-
-	function sortObjectByKey(data, callback) {
-		var keys = Object.keys(data);
-		keys.sort().reverse();
-
-		keys.forEach(function(key) {
-			callback(key, data[key]);
-		});
-	}
-
-
-
+	*/
 
 })(terafm.recoveryDialog, terafm.db, terafm.editableManager, terafm.ui, terafm.help, terafm.options);

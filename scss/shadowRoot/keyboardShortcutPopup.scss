@@ -1,16 +1,5 @@
 
 #keyboardShortcutPopup {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 99999999;
-	display: flex;
-	background: rgba(34,53,67,.75);
-	align-items: center;
-	justify-content: center;
-	animation: keyboardShortcutOverlayIn .5s;
 
 	&.hidden {
 		display: none;
@@ -105,12 +94,6 @@
 		.keys {
 			width: 270px;
 		}
-	}
-}
-
-@keyframes keyboardShortcutOverlayIn {
-	from {
-		opacity: 0;
 	}
 }
 @keyframes keyboardShortcutModalIn {
