@@ -73,7 +73,7 @@ terafm.recoveryDialog = {};
 
 		function makeSess(sess) {
 			html += '<p class="date-stamp">' + sess.prettyDate() + '</p>';
-			html += '<ul>';
+			html += '<ul class="card-1">';
 			sess.each(entry => {
 				makeEntry(entry);
 			})

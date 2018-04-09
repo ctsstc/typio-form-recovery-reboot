@@ -26,11 +26,18 @@ terafm.recoveryDialogController = {};
 			if(target.matches('.session-data ul > li') || target.closest('.session-data ul > li')) {
 				if(target.nodeName.toLowerCase() !== 'li') target = target.closest('.session-data ul > li')
 
+				remSel();
+				target.classList.add('selected');
 				let data = target.dataset;
 				currentry = sessionlist.getEntry(data.sessionId, data.editableId);
 				recoveryDialog.setEntry(currentry);
 			}
 		});
+	}
+
+	function remSel() {
+		let cs = diagRootNode.querySelector('.session-data li.selected');
+		if(cs) cs.classList.remove('selected');
 	}
 
 })(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager, terafm.options, terafm.keyboardShortcuts, terafm.initHandler);
