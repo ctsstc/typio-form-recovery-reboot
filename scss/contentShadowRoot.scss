@@ -23,7 +23,7 @@ p {
 }
 
 a {
-	color: #1e78b9; //#275e86;
+	color: #2583c6; //#1e78b9; //#275e86;
 	text-decoration: none;
 	cursor: pointer;
 
@@ -33,6 +33,10 @@ a {
 
 	&.confirm {
 		font-weight: bold;
+	}
+
+	&.danger {
+		color: #eb3e3e;
 	}
 }
 
