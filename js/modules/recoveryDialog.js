@@ -84,9 +84,9 @@ terafm.recoveryDialog = {};
 			html += '<li data-session-id="'+ entry.sessionId +'" data-editable-id="'+ entry.editableId +'">';
 				html += '<p>'+ entry.getValue({encode: true, truncate: 50}); +'</p>';
 				html += '<p class="meta">';
-					html += '<span>' + (entry.hasEditable() ? 'Target found' : 'Target NOT found') + '</span>';
+					html += '<span>' + (entry.hasEditable() ? '<i class="target-ok"></i>Target found' : '<i class="target-bad"></i>Target NOT found') + '</span>';
 					html += '<span><a>More info</a></span>';
-					html += '<span><a class="red">Delete entry</a></span>';
+					html += '<span><a class="danger">Delete entry</a></span>';
 				html += '</p>';
 			html += '</li>';
 		}

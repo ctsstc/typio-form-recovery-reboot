@@ -19,8 +19,13 @@
 		<div class="panes">
 			<div class="left">
 				<div class="header">
-					<input class="filter-input" type="text" placeholder="Filter entries...">
-					<input type="checkbox" id="chk-hide-small-entries"> <label for="chk-hide-small-entries">Hide small entries</label>
+					<div class="filter-box">
+						<input class="filter-input" type="text" placeholder="Filter entries">
+						<div class="chk-label">
+							<input type="checkbox" id="chk-hide-small-entries">
+							<label for="chk-hide-small-entries">Hide small entries</label>
+						</div>
+					</div>
 				</div>
 				<div class="session-data"></div>
 			</div>
