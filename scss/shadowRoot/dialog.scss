@@ -53,11 +53,11 @@
 	.panes {
 		display: flex;
 
-		.left, .right {
+		& > .left, & > .right {
 			width: 500px;
 		}
 
-		.left {
+		& > .left {
 			display: flex;
 			flex-direction: column;
 		}
@@ -225,9 +225,9 @@
 		border-bottom: 1px solid #ededed;
 		&:last-child {border-bottom: none;}
 
-		&:not(:hover):not(.selected) {
+		&:not(:hover):not(.selected) .meta {
 			&, & a {
-				color: #444;
+				color: #888;
 			}
 		}
 
@@ -272,10 +272,14 @@
 		font-size: 13px;
 		color: #555;
 		margin: 5px 0 0;
+		display: flex;
 
-		span {
-			display: inline-block;
-			margin-right: 10px;
+		.left {
+			flex: 1 0;
+		}
+
+		.right a {
+			margin-left: 10px;
 		}
 	}
 }

@@ -83,11 +83,15 @@ terafm.recoveryDialog = {};
 		function makeEntry(entry) {
 			html += '<li data-session-id="'+ entry.sessionId +'" data-editable-id="'+ entry.editableId +'">';
 				html += '<p>'+ entry.getValue({encode: true, truncate: 50}); +'</p>';
-				html += '<p class="meta">';
-					html += '<span>' + (entry.hasEditable() ? '<i class="target-ok"></i>Target found' : '<i class="target-bad"></i>Target NOT found') + '</span>';
-					html += '<span><a>More info</a></span>';
-					html += '<span><a class="danger">Delete entry</a></span>';
-				html += '</p>';
+				html += '<div class="meta">';
+					html += '<div class="left">';
+						html += '<span>' + (entry.hasEditable() ? 'Target found' : 'Target not found') + '</span>';
+					html += '</div>';
+					html += '<div class="right">';
+						html += '<a>More info</a>';
+						html += '<a class="danger">Delete entry</a>';
+					html += '</div>';
+				html += '</div>';
 			html += '</li>';
 		}
 	}

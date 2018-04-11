@@ -8,11 +8,11 @@
 			</div>
 			<div class="primary">
 				<div class="left">
-					Recover {{ hostname }}
+					Recover {{ hostname }} <span class="icon-trash"></span>
 				</div>
-				<button>X</button>
-				<button>Y</button>
-				<button>Z</button>
+				<button class="icon-trash"></button>
+				<button class="icon-block">Y</button>
+				<button class="icon-cog">Z</button>
 			</div>
 		</div>
 
