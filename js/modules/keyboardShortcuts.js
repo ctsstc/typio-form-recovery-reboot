@@ -1,7 +1,7 @@
 window.terafm = window.terafm || {};
 terafm.keyboardShortcuts = {};
 
-(function(keyboardShortcuts, DOMEvents) {
+(function(keyboardShortcuts, Events) {
 	'use strict';
 
 	var pressed = [],
@@ -44,7 +44,7 @@ terafm.keyboardShortcuts = {};
 		}
 	}
 
-	DOMEvents.registerHandler('keydown', function(e) {
+	Events.on('keydown', function(e) {
 		if(e.key === undefined) return;
 
 		var lowcase = e.key.toLowerCase();
@@ -56,7 +56,7 @@ terafm.keyboardShortcuts = {};
 		checkForCombo(e);
 	})
 
-	DOMEvents.registerHandler('keyup', function(e) {
+	Events.on('keyup', function(e) {
 		pressed = []
 
 		// var pi = pressed.indexOf(e.key)
@@ -67,4 +67,4 @@ terafm.keyboardShortcuts = {};
 	})
 
 
-})(terafm.keyboardShortcuts, terafm.DOMEvents);
+})(terafm.keyboardShortcuts, terafm.Events);

@@ -23,7 +23,7 @@
 
 			if(target) {
 				msg.path[0] = target;
-				terafm.DOMEvents.trigger(msg.type, msg);
+				terafm.Events.trigger(msg.type, msg);
 			}
 			
 		}

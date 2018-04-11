@@ -1,6 +1,6 @@
 var terafm = window.terafm;
 
-(function(db, options, recoveryDialog, initHandler, DOMEvents, editableManager) {
+(function(db, options, recoveryDialog, initHandler, Events, editableManager) {
 	'use strict';
 
 	// Load extension options into memory
@@ -45,4 +45,4 @@ var terafm = window.terafm;
 	});
 	
 
-})(terafm.db, terafm.options, terafm.recoveryDialog, terafm.initHandler, terafm.DOMEvents, terafm.editableManager);
+})(terafm.db, terafm.options, terafm.recoveryDialog, terafm.initHandler, terafm.Events, terafm.editableManager);

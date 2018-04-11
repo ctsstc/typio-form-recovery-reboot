@@ -17,14 +17,18 @@ terafm.Session = class Session {
 
 	each(fn) {
 		for(let eid in this.entries) {
-			fn(new terafm.Entry(this.entries[eid], this.id, eid));
+			let tmp = fn(this.entries[eid], this.id, eid);
+			if(tmp === false) break;
+			else if(tmp === null) delete this.entries[eid];
+			else if(tmp !== undefined) this.entries[eid] =tmp;
 		}
+		return this;
 	}
 
 	// Only keep entry if fn returns true
 	filter(fn) {
 		for(let eid in this.entries) {
-			if(fn(new terafm.Entry(this.entries[eid], this.id, eid)) !== true) {
+			if(fn(this.entries[eid]) !== true) {
 				delete this.entries[eid];
 			}
 		}

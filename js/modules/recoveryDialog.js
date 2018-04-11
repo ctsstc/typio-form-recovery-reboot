@@ -64,14 +64,18 @@ terafm.recoveryDialog = {};
 	}
 
 
-	recoveryDialog.populate = (sesslist) => {
+	recoveryDialog.populate = (sesslist, filterCount) => {
 		let html = '';
+		if(filterCount > 0) {
+			html += '<p>'+ filterCount +' entries are filtered out <a>Clear filters</a></p>'
+		}
 		sesslist.each((sess) => {
 			makeSess(sess);
 		});
 		dataContainer.innerHTML = html;
 
 		function makeSess(sess) {
+			if(sess.length < 1) return;
 			html += '<p class="date-stamp">' + sess.prettyDate() + '</p>';
 			html += '<ul class="card-1">';
 			sess.each(entry => {

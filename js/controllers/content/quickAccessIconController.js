@@ -1,6 +1,6 @@
 window.terafm = window.terafm || {};
 
-(function(DOMEvents, initHandler, ui, help, editableManager, options) {
+(function(Events, initHandler, ui, help, editableManager, options) {
 	"use strict";
 
 	let node,
@@ -34,7 +34,7 @@ window.terafm = window.terafm || {};
 
 	function addEventListeners() {
 		if(triggerAction === 'focus') {
-			DOMEvents.registerHandler('editable-text-focus', function() {
+			Events.on('editable-text-focus', function() {
 				if(terafm.validator.validate(terafm.focusedEditable, 'elem')) {
 					delayShow();
 				}
@@ -43,14 +43,14 @@ window.terafm = window.terafm || {};
 
 		// On editable double click
 		if(triggerAction === 'doubleclick') {
-			DOMEvents.registerHandler('dblclick', function() {
+			Events.on('dblclick', function() {
 				if(terafm.validator.validate(terafm.focusedEditable, 'elem')) {
 					delayShow();
 				}
 			})
 		}
 
-		DOMEvents.registerHandler('blur', function() {
+		Events.on('blur', function() {
 			ui.touch();
 			hide()
 		});
@@ -131,4 +131,4 @@ window.terafm = window.terafm || {};
 		})
 	}
 
-})(terafm.DOMEvents, terafm.initHandler, terafm.ui, terafm.helpers, terafm.editableManager, terafm.options);
+})(terafm.Events, terafm.initHandler, terafm.ui, terafm.helpers, terafm.editableManager, terafm.options);

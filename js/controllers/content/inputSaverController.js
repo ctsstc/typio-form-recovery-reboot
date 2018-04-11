@@ -1,4 +1,4 @@
-(function(editableManager, db, saveIndicator, DOMEvents) {
+(function(editableManager, db, saveIndicator, Events) {
 	'use strict';
 
 	terafm.initHandler.onInit(function() {
@@ -6,12 +6,12 @@
 		// Force save before window is closed
 		window.addEventListener('beforeunload', db.push);
 
-		DOMEvents.registerHandler('input', changeHandler);
-		DOMEvents.registerHandler('change', changeHandler);
+		Events.on('input', changeHandler);
+		Events.on('change', changeHandler);
 
 		// Hack for facebook messenger
 		if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host)) {
-			DOMEvents.registerHandler('keyup', function(e) {
+			Events.on('keyup', function(e) {
 				if(e.keyCode == 8 || e.keyCode == 46 || e.keyCode === 13) changeHandler(e);
 			});
 		}
@@ -53,4 +53,4 @@
 		}
 	}
 
-})(terafm.editableManager, terafm.db, terafm.saveIndicator, terafm.DOMEvents);
+})(terafm.editableManager, terafm.db, terafm.saveIndicator, terafm.Events);
