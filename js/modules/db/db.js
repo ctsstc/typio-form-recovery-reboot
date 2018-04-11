@@ -34,8 +34,6 @@ terafm.db = terafm.db || {};
 				for(let sid in f2[eid]) {
 					if(!f3[eid].hasOwnProperty(sid)) {
 						f3[eid][sid] = f2[eid][sid];
-					} else {
-						console.log('wat wat wat')
 					}
 				}
 			}
@@ -64,6 +62,7 @@ terafm.db = terafm.db || {};
 				let ts = mergeBuckets(buckets.inUse, buckets.snapshot);
 				if(!ts.hasOwnProperty('context') || !ts.context.hasOwnProperty(domainId)) throw new Error('Attempted to write garbish to database. Careful!');
 				chrome.storage.local.set(ts.context, () => {
+					terafm.Events.trigger('db-save');
 					done();
 				});
 			});
@@ -95,7 +94,7 @@ terafm.db = terafm.db || {};
 		return db.getSessions();
 	}
 	db.getSessions = (max) => {
-		return buckets.applyBoth(buck => buck.getSessions()).truncate(max); // Todo: Remove?
+		return buckets.applyBoth(buck => buck.getSessions()); // Todo: Make max arg work
 	}
 	db.getSession = (sid) => {
 		return buckets.applyOne(buck => buck.getSession(sid));

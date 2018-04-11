@@ -9,15 +9,40 @@ terafm.SessionList = class SessionList {
 		return Object.keys(this.sessions).length;
 	}
 
+	countEntries() {
+		let i=0;
+		this.each((sess) => {
+			i += sess.length;
+		})
+		return i;
+	}
+
 	index(i) {
 		return this.sessions[Object.keys(this.sessions)[i]];
+	}
+
+	copy() {
+		return new terafm.SessionList(this.sessions);
 	}
 
 	each(fn) {
 		const sids = Object.keys(this.sessions).reverse();
 		for(let sid of sids) {
-			if(fn(this.sessions[sid], sid) === false) break;
+			let tmp = fn(this.sessions[sid], sid);
+
+			if(tmp === false) return;
+			else if(tmp === null) delete this.sessions[sid];
+			else if(tmp !== undefined) this.sessions[sid] = tmp;
 		}
+		return this;
+	}
+
+	filterEntries(fn) {
+		return this.each(function(sess, sid) {
+			return sess.each(function(entry, sid, eid) {
+				return fn(entry, sid, eid);
+			})
+		});
 	}
 
 	contains(sid) {
@@ -41,17 +66,17 @@ terafm.SessionList = class SessionList {
 		this.sessions[sid] = new terafm.Session({}, sid);
 	}
 
-	truncate(max) {
-		if(max === undefined || this.length <= max) return this;
-		let tmp = {};
-		this.each((sess, sid) => {
-			if(max===0) return false;
-			tmp[sid] = sess;
-			max--;
-		})
-		this.sessions = tmp;
-		return this;
-	}
+	// truncate(max) {
+	// 	if(max === undefined || this.length <= max) return this;
+	// 	let tmp = {};
+	// 	this.each((sess, sid) => {
+	// 		if(max===0) return false;
+	// 		tmp[sid] = sess;
+	// 		max--;
+	// 	})
+	// 	this.sessions = tmp;
+	// 	return this;
+	// }
 
 	// getFirst() {
 	// 	var tmp = Object.keys(this)[0];

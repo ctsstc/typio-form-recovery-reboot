@@ -1,6 +1,6 @@
 window.terafm = window.terafm || {};
 
-(function(DOMEvents, initHandler, editableManager) {
+(function(Events, initHandler, editableManager) {
 	"use strict";
 	
 	var target,
@@ -10,7 +10,7 @@ window.terafm = window.terafm || {};
 
 		// Autofocus support
 		setTimeout(function() {
-			DOMEvents.trigger('focus', {path: [document.activeElement]});
+			Events.trigger('focus', {path: [document.activeElement]});
 		}, 100)
 	});
 
@@ -20,18 +20,18 @@ window.terafm = window.terafm || {};
 	// from encapsulators is slightly slower and causes the events to fire
 	// out of order. This fixes the issue.
 
-	DOMEvents.registerHandler('focus', function(e) {
+	Events.on('focus', function(e) {
 		clearTimeout(focusTimeout)
 		focusTimeout = setTimeout(function() {
 			target = e.path[0];
 			terafm.focusedEditable = terafm.TextEditableFactory(e.path[0]);
-			if(terafm.focusedEditable) DOMEvents.trigger('editable-text-focus', null)
+			if(terafm.focusedEditable) Events.trigger('editable-text-focus', null)
 		})
 	});
 
 	// Click is fallback to "focus" because shadow dom is being a dick and
 	// will only bubble the first time. Tabbing still does not work correctly.
-	DOMEvents.registerHandler('click', function(e) {
+	Events.on('click', function(e) {
 		return;
 
 		// If focus has taken care of it, do nothing
@@ -44,14 +44,14 @@ window.terafm = window.terafm || {};
 				clearTimeout(focusTimeout)
 				focusTimeout = setTimeout(function() {
 					terafm.focusedEditable = editable;
-					DOMEvents.trigger('editable-text-focus', null);
+					Events.trigger('editable-text-focus', null);
 				})
 			}
 		}
 	})
 
-	DOMEvents.registerHandler('blur', function() {
+	Events.on('blur', function() {
 		terafm.focusedEditable = null;
 	})
 
-})(terafm.DOMEvents, terafm.initHandler, terafm.editableManager);
+})(terafm.Events, terafm.initHandler, terafm.editableManager);

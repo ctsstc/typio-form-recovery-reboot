@@ -135,7 +135,7 @@ module.exports = function(grunt) {
                         '../js/modules/quickAccess.js',
                         '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',
-                        '../js/modules/DOMEvents.js',
+                        '../js/modules/events.js',
                         '../js/modules/keyboardShortcuts.js',
                         '../js/modules/toast.js',
                         '../js/modules/blacklist.js',

@@ -33,6 +33,28 @@ terafm.recoveryDialogController = {};
 				recoveryDialog.setEntry(currentry);
 			}
 		});
+
+		// diagRootNode.querySelector('input[type=text]').addEventListener('input', function(e) {
+		// 	console.log(e);
+		// 	let copy = sessionlist.filterEntries(function(entry) {
+		// 		console.log('filterin', entry);
+		// 		return entry;
+		// 	});
+		// 	console.log('original', sessionlist)
+		// 	console.log('filtered', copy)
+		// });
+
+		diagRootNode.querySelector('input[type=text]').addEventListener('input', function(e) {
+			let s = e.target.value;
+
+			let copy = db.getAllSessions().filterEntries(function(entry) {
+				if(entry.obj.value.indexOf(s) === -1) return null;
+			});
+
+			let filterCount = sessionlist.countEntries() - copy.countEntries();
+
+			recoveryDialog.populate(copy, filterCount);
+		});
 	}
 
 	function remSel() {

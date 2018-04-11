@@ -1,7 +1,7 @@
 window.terafm = window.terafm || {};
 terafm.quickAccessController = {};
 
-(function(quickAccessController, quickAccess, editableManager, db, recoveryDialogController, DOMEvents, keyboardShortcuts, options, initHandler) {
+(function(quickAccessController, quickAccess, editableManager, db, recoveryDialogController, Events, keyboardShortcuts, options, initHandler) {
 	"use strict";
 
 	let contextTarget;
@@ -48,7 +48,7 @@ terafm.quickAccessController = {};
 		}
 	});
 
-	DOMEvents.registerHandler('contextmenu', function(e) {
+	Events.on('contextmenu', function(e) {
 		contextTarget = terafm.EditableFactory(e.path[0]);
 
 		if(contextTarget) {
@@ -108,7 +108,7 @@ terafm.quickAccessController = {};
 
 		// Captures mousedown anywhere outside quickaccess popup.
 		// Mousedown events on quickaccess are stopped below.
-		DOMEvents.registerHandler('mousedown', function() {
+		Events.on('mousedown', function() {
 			quickAccess.hide();
 			terafm.editables.resetPlaceholders();
 		});
@@ -268,4 +268,4 @@ terafm.quickAccessController = {};
 		}
 	}
 
-})(terafm.quickAccessController, terafm.quickAccess, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.DOMEvents, terafm.keyboardShortcuts, terafm.options, terafm.initHandler);
+})(terafm.quickAccessController, terafm.quickAccess, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.Events, terafm.keyboardShortcuts, terafm.options, terafm.initHandler);
