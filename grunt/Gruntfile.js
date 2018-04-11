@@ -18,6 +18,14 @@ module.exports = function(grunt) {
         },
 
         copy: {
+            fonts: {
+                files: [{
+                    expand: true,
+                    cwd: '../',
+                    src: 'fonts/**/*.*',
+                    dest: '../publish/'
+                }]
+            },
             img: {
                 files: [{
                     expand: true,
@@ -200,6 +208,14 @@ module.exports = function(grunt) {
                 }
             },
 
+            copyFonts: {
+                files: ['../fonts/**/*.*'],
+                tasks: ['copy:fonts'],
+                options: {
+                    spawn: false
+                }
+            },
+
             copyIMG: {
                 files: ['../img/**/*.*'],
                 tasks: ['copy:img'],
@@ -235,6 +251,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('compile', ['sass', 'uglify:content', 'htmlmin', 'copy:img', 'copy:misc', 'copy:templates'])
+    grunt.registerTask('compile', ['sass', 'uglify:content', 'htmlmin', 'copy:fonts', 'copy:img', 'copy:misc', 'copy:templates'])
 
 }

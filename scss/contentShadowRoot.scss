@@ -1,4 +1,3 @@
-
 $overlay-color: rgba(34,53,67,.75);
 
 #shadow-root {
@@ -77,6 +76,8 @@ a {
 		}
 	}
 }
+
+@import "../fonts/typio/styles.css";
 
 @import "shadowRoot/quickAccess";
 @import "shadowRoot/quickAccessIcon";
