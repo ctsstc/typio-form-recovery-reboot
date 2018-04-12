@@ -52,6 +52,7 @@
 
 	.panes {
 		display: flex;
+		flex: 1 0;
 
 		& > .left, & > .right {
 			width: 500px;
