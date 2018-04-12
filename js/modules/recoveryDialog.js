@@ -34,6 +34,8 @@ terafm.recoveryDialog = {};
 	};
 
 	recoveryDialog.setEntry = (entry) => {
+		if(!entry) throw new Error('No entry supplied!');
+		
 		recoveryDialog.setPage('entry');
 		dialogNode.querySelector('#entry-text').innerText = entry.getValue({encode: true});
 		dialogNode.querySelector('#entry-path').innerText = entry.obj.path;

@@ -90,9 +90,6 @@ terafm.db = terafm.db || {};
 		buckets.inUse.setEntry(entry);
 		debouncePush();
 	}
-	db.getAllSessions = () => {
-		return db.getSessions();
-	}
 	db.getSessions = (max) => {
 		return buckets.applyBoth(buck => buck.getSessions()); // Todo: Make max arg work
 	}

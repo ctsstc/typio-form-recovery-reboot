@@ -14,7 +14,7 @@ terafm.recoveryDialogController = {};
 		recoveryDialog.build((node) => {
 			diagRootNode = node;
 			setupEventListeners();
-			sessionlist = db.getAllSessions();
+			sessionlist = db.getSessions();
 			recoveryDialog.show();
 			recoveryDialog.populate(sessionlist);
 		} )
@@ -34,27 +34,21 @@ terafm.recoveryDialogController = {};
 			}
 		});
 
-		// diagRootNode.querySelector('input[type=text]').addEventListener('input', function(e) {
-		// 	console.log(e);
-		// 	let copy = sessionlist.filterEntries(function(entry) {
-		// 		console.log('filterin', entry);
-		// 		return entry;
-		// 	});
-		// 	console.log('original', sessionlist)
-		// 	console.log('filtered', copy)
-		// });
+		let filterfunc = terafm.help.debounce(function(e) {
+			let value = e.path[0].value,
+				data = db.getSessions(),
+				filterCount = 0;
 
-		diagRootNode.querySelector('input[type=text]').addEventListener('input', function(e) {
-			let s = e.target.value;
+			if(value.length) {
+				data = data.filterEntries(function(entry) {
+					if(entry.obj.value.indexOf(value) === -1) return null;
+				});
+				filterCount = sessionlist.countEntries() - data.countEntries();
+			}
 
-			let copy = db.getAllSessions().filterEntries(function(entry) {
-				if(entry.obj.value.indexOf(s) === -1) return null;
-			});
-
-			let filterCount = sessionlist.countEntries() - copy.countEntries();
-
-			recoveryDialog.populate(copy, filterCount);
-		});
+			recoveryDialog.populate(data, filterCount);
+		}, 500);
+		diagRootNode.querySelector('input[type=text]').addEventListener('input', filterfunc);
 	}
 
 	function remSel() {
