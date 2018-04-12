@@ -6,6 +6,10 @@ terafm.StorageBucket = class Bucket {
 		this.set(setObj)
 	}
 
+	get sessionIds() {
+		return this._sessionIds !== undefined ? this._sessionIds : this._sessionIds = this.generateSessionIds();
+	}
+
 	// Dels onlt from inUse memory. For snapshot deletion make new method similar to push()
 	del(sid, eid) {
 		if(this.fields.hasOwnProperty(eid) && this.fields[eid].hasOwnProperty(sid)) {
@@ -40,6 +44,14 @@ terafm.StorageBucket = class Bucket {
 		}
 	}
 
+	generateSessionIds() {
+		let ids = [];
+		for(let fid in this.fields) {
+			ids = ids.concat(Object.keys(this.fields[fid]));
+		}
+		return ids.sort();
+	}
+
 	setEntry(entry) {
 		if(!(entry instanceof terafm.Entry)) throw new Error(`setEntry requires an actual entry, you goof!`);
 		if(!this.fields.hasOwnProperty(entry.editableId)) {
@@ -54,38 +66,30 @@ terafm.StorageBucket = class Bucket {
 	}
 
 	getSessions(_sids=[], max=-1) {
-		let tmp = {};
-
-		fieldLoop:
-		for(let eid in this.fields) {
-
-			// If session ids are supplied
-			if(_sids.length) {
-				var ok = false;
-				for(let sid of _sids) {
-					if(this.fields[eid].hasOwnProperty(sid) === true) {ok = true; break;}
-				}
-				if(!ok) continue fieldLoop;
-			}
-			
-			for(let sid in this.fields[eid]) {
-				if(!tmp[sid]) tmp[sid] = new terafm.Session(sid);
-				tmp[sid].push(new terafm.Entry({
-					session: tmp[sid],
-					sessionId: sid,
-					editableId: eid,
-					obj: this.fields[eid][sid]
-				}))
-			}
-
-			max--; if(max===0) break fieldLoop;
-		}
-
-		// Make sessionlist
+		let sids = _sids.length ? _sids : this.sessionIds.reverse();
 		let sesslist = new terafm.SessionList();
-		for(let sid in tmp) {
-			sesslist.push(tmp[sid]);
+
+		for(let sid of sids) {
+			let tmpsess = new terafm.Session(sid);
+
+			for(let fid in this.fields) {
+				if(this.fields[fid].hasOwnProperty(sid)) {
+					tmpsess.push(new terafm.Entry({
+						session: tmpsess[sid],
+						sessionId: sid,
+						editableId: fid,
+						obj: this.fields[fid][sid]
+					}));
+				}
+			}
+
+			if(tmpsess.length) {
+				sesslist.push(tmpsess);
+				if(max === 0) break; max--;
+			}
 		}
+
+		console.log(sesslist)
 
 		return sesslist;
 	}

@@ -13,6 +13,7 @@ var terafm = window.terafm;
 			initHandler.executeInitHandlers();
 
 			// var sesss = db.getSessions();
+			// console.log(sesss)
 			// console.log(sesss.getEntriesByEditable('field-1712385224'))
 
 			// let s = db.getSessions();
