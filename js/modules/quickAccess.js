@@ -22,17 +22,26 @@ terafm.quickAccess = {};
 		var html = '';
 
 		if(!data.empty) {
-			html += generateListItemHtml(data.sess, 'sess');
-			html += generateListItemHtml(data.recent, 'single');
+			let tmp;
+			tmp = generateListItemHtml(data.sess, 'sess');
+			if(tmp.length) {
+				html += '<p class="title" title="Recent sessions containing entries from this field">Sessions with this field <span class="icon-info"></span></p>';
+				html += tmp;
+			}
+			tmp = generateListItemHtml(data.recent, 'single');
+			if(tmp) {
+				html += '<p class="title" title="Recent entries from other fields">Recent entries <span class="icon-info"></span></p>';
+				html += tmp;
+			}
 
 		} else {
-			html += '<li><span class="entry-text">No entries found for this input field</span></li>'
+			html += '<li><span class="fill">No entries found for this input field</span></li>'
 		}
 
-		html += '<div class="flex">';
-			html += '<li data-action="browse-all">Browse all entries</li>';
-			html += '<li data-action="keyboard-shortcuts" class="icon" data-tooltip="Show keyboard shortcuts"><span class="icon-keyboard"></span></li>';
-			html += '<li data-action="disable-site" class="icon" data-tooltip="Disable Typio on this site"><span class="icon-block"></span></li>';
+		html += '<div class="flex-row">';
+			html += '<li class="fill" data-action="browse-all">Browse all entries</li>';
+			html += '<li data-action="keyboard-shortcuts" class="flex-icon" data-tooltip="Show keyboard shortcuts"><span class="icon-keyboard"></span></li>';
+			html += '<li data-action="disable-site" class="flex-icon" data-tooltip="Disable Typio on this site"><span class="icon-block"></span></li>';
 		html += '</div>';
 
 		menuNode.querySelector('ul').innerHTML = html;
@@ -90,9 +99,9 @@ terafm.quickAccess = {};
 			}
 
 			html += `<li data-action="restore-${type}" data-group="${type}" data-eid="${eid}">`;
-				html += `<span class="entry-text">${val}</span>`;
-				html += type === 'single' ? `<span class="entry-icon icon-chevron" title="Restore this entry (this entry was typed in another field)"></span>` :
-											`<span data-action="restore-sess" data-group="single" data-eid="${eid}" class="entry-icon icon-count" title="Restore just this entry">${count}</span>`;
+				html += `<div class="fill">${val}</div>`;
+				html += type === 'single' ? `<div class="flex-icon" title="Restore this entry (this entry was typed in another field)"><span class="icon-arrow-forward"></span></div>` :
+											`<div data-action="restore-sess" data-group="single" data-eid="${eid}" class="flex-icon" title="Restore just this entry"><span class="custom-icon-session">${count}</span></div>`;
 			html += `</li>`;
 		}
 			

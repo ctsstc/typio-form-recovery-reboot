@@ -85,9 +85,12 @@ terafm.quickAccessController = {};
 	function getDataByEditable(editable) {
 		let data = {sess:{}, recent: {}, empty: true};
 
-		data.sess = terafm.db.getSessionsContainingEditable(editable.id, 5).getEntriesByEditable(editable.id);
-		// data.recent = terafm.db.getSessionsContainingEditable(editable.id, 5).getEntriesByEditable(editable.id);
-		if(data.sess.length || data.empty.length) data.empty = false;
+		data.sess = terafm.db.getSessionsContainingEditable(editable.id).getEntriesByEditable(editable.id);
+		console.log(10-data.sess.length)
+		data.recent = terafm.db.getEntriesExcludingEditable(editable, 10-data.sess.length);
+
+		if(data.sess.length || data.recent.length) data.empty = false;
+
 		return data;
 	}
 

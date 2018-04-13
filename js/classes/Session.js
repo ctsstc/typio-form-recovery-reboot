@@ -10,6 +10,10 @@ terafm.Session = class Session {
 		return Object.keys(this.entries).length;
 	}
 
+	contains(eid) {
+		return this.entries.hasOwnProperty(eid);
+	}
+
 	push(entry) {
 		if(!(entry instanceof terafm.Entry)) throw new Error('Push requires an Entry to push.')
 		this.entries[entry.editableId] = entry;

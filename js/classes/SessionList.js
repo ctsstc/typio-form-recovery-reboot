@@ -25,16 +25,25 @@ terafm.SessionList = class SessionList {
 		return new terafm.SessionList(this.sessions);
 	}
 
+	// Rename to map, make another each that does not delete if !== undefined
 	each(fn) {
 		const sids = Object.keys(this.sessions).reverse();
 		for(let sid of sids) {
 			let tmp = fn(this.sessions[sid], sid);
 
-			if(tmp === false) return;
+			if(tmp === false) break;
 			else if(tmp === null) delete this.sessions[sid];
 			else if(tmp !== undefined) this.sessions[sid] = tmp;
 		}
 		return this;
+	}
+
+	filter(fn) {
+		return this.each((sess, sid) => {
+			let res = fn(sess, sid);
+			if(res !== true) delete this.sessions[sid];
+			if(res === false) return false;
+		});
 	}
 
 	filterEntries(fn) {
@@ -82,6 +91,16 @@ terafm.SessionList = class SessionList {
 	// 	var tmp = Object.keys(this)[0];
 	// 	return new terafm.Session(this[tmp], tmp);
 	// }
+
+	getEntryList() {
+		let entrylist = new terafm.EntryList();
+		this.each(sess => {
+			sess.each(entry => {
+				entrylist.push(entry);
+			})
+		})
+		return entrylist;
+	}
 
 	getEntriesByEditable(eid) {
 		let entrylist = new terafm.EntryList();

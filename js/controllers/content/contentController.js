@@ -12,6 +12,8 @@ var terafm = window.terafm;
 			// Run init handlers
 			initHandler.executeInitHandlers();
 
+			// let entr = db.getEntriesExcludingEditable('field-1712385224');
+
 			// var sesss = db.getSessions();
 			// console.log(sesss)
 			// console.log(sesss.getEntriesByEditable('field-1712385224'))
