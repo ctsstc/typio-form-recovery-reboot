@@ -75,7 +75,7 @@ terafm.StorageBucket = class Bucket {
 			for(let fid in this.fields) {
 				if(this.fields[fid].hasOwnProperty(sid)) {
 					tmpsess.push(new terafm.Entry({
-						session: tmpsess[sid],
+						session: tmpsess,
 						sessionId: sid,
 						editableId: fid,
 						obj: this.fields[fid][sid]
@@ -85,11 +85,11 @@ terafm.StorageBucket = class Bucket {
 
 			if(tmpsess.length) {
 				sesslist.push(tmpsess);
-				if(max === 0) break; max--;
+				if(max === 0) break; else max--;
 			}
 		}
 
-		console.log(sesslist)
+		// console.log('getSessions', _sids, max, sesslist)
 
 		return sesslist;
 	}
