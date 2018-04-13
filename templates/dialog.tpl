@@ -4,15 +4,15 @@
 		<div class="header">
 			<div class="top-bar">
 				<p>Typio Form Recovery</p>
-				<button>X</button>
+				<button class="icon-close"></button>
 			</div>
 			<div class="primary">
 				<div class="left">
-					Recover {{ hostname }} <span class="icon-trash"></span>
+					Recover {{ hostname }}
 				</div>
 				<button class="icon-trash"></button>
-				<button class="icon-block">Y</button>
-				<button class="icon-cog">Z</button>
+				<button class="icon-block"></button>
+				<button class="icon-gear"></button>
 			</div>
 		</div>
 

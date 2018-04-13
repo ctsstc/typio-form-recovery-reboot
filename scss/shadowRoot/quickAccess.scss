@@ -68,20 +68,15 @@
 				}
 
 				&.icon {
-					padding: 0;
 					flex: 0 1 40px;
-					background-repeat: no-repeat;
-					background-position: center;
-				}
+					display: flex;
+					align-items: center;
+					justify-content: center;
 
-				&.icon-blacklist {
-					background-size: 16px;
-					background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIyMHB4IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwcHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48dGl0bGUvPjxkZXNjLz48ZGVmcy8+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSI+PGcgZmlsbD0iIzAwMDAwMCIgaWQ9IkNvcmUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xNzAuMDAwMDAwLCAtNDQuMDAwMDAwKSI+PGcgaWQ9ImJsb2NrIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNzAuMDAwMDAwLCA0NC4wMDAwMDApIj48cGF0aCBkPSJNMTAsMCBDNC41LDAgMCw0LjUgMCwxMCBDMCwxNS41IDQuNSwyMCAxMCwyMCBDMTUuNSwyMCAyMCwxNS41IDIwLDEwIEMyMCw0LjUgMTUuNSwwIDEwLDAgTDEwLDAgWiBNMiwxMCBDMiw1LjYgNS42LDIgMTAsMiBDMTEuOCwyIDEzLjUsMi42IDE0LjksMy43IEwzLjcsMTQuOSBDMi42LDEzLjUgMiwxMS44IDIsMTAgTDIsMTAgWiBNMTAsMTggQzguMiwxOCA2LjUsMTcuNCA1LjEsMTYuMyBMMTYuMyw1LjEgQzE3LjQsNi41IDE4LDguMiAxOCwxMCBDMTgsMTQuNCAxNC40LDE4IDEwLDE4IEwxMCwxOCBaIiBpZD0iU2hhcGUiLz48L2c+PC9nPjwvZz48L3N2Zz4=);
-				}
-
-				&.icon-keyboard {
-					background-size: 20px;
-					background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDQ4IDQ4IiB3aWR0aD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTQwIDEwaC0zMmMtMi4yMSAwLTMuOTggMS43OS0zLjk4IDRsLS4wMiAyMGMwIDIuMjEgMS43OSA0IDQgNGgzMmMyLjIxIDAgNC0xLjc5IDQtNHYtMjBjMC0yLjIxLTEuNzktNC00LTR6bS0xOCA2aDR2NGgtNHYtNHptMCA2aDR2NGgtNHYtNHptLTYtNmg0djRoLTR2LTR6bTAgNmg0djRoLTR2LTR6bS0yIDRoLTR2LTRoNHY0em0wLTZoLTR2LTRoNHY0em0xOCAxNGgtMTZ2LTRoMTZ2NHptMC04aC00di00aDR2NHptMC02aC00di00aDR2NHptNiA2aC00di00aDR2NHptMC02aC00di00aDR2NHoiLz48cGF0aCBkPSJNMCAwaDQ4djQ4aC00OHptMCAwaDQ4djQ4aC00OHoiIGZpbGw9Im5vbmUiLz48L3N2Zz4=)
+					span {
+						font-size: 18px;
+						height: 24px;
+					}
 				}
 			}
 		}

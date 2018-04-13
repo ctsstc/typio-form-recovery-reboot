@@ -10,15 +10,15 @@ terafm.recoveryDialogController = {};
 		sessionlist,
 		currentry;
 
-	initHandler.onInit(() => {
-		recoveryDialog.build((node) => {
-			diagRootNode = node;
-			setupEventListeners();
-			sessionlist = db.getSessions();
-			recoveryDialog.show();
-			recoveryDialog.populate(sessionlist);
-		} )
-	} );
+	// initHandler.onInit(() => {
+	// 	recoveryDialog.build((node) => {
+	// 		diagRootNode = node;
+	// 		setupEventListeners();
+	// 		sessionlist = db.getSessions();
+	// 		recoveryDialog.show();
+	// 		recoveryDialog.populate(sessionlist);
+	// 	} )
+	// } );
 
 	function setupEventListeners() {
 		diagRootNode.addEventListener('click', function(e) {

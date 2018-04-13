@@ -83,11 +83,21 @@ terafm.ui = {};
 
 	function createShadowRoot() {
 		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-shadow"></div>');
-		rootNode = document.getElementById('terafm-shadow');
 
+		rootNode = document.getElementById('terafm-shadow');
 		shadowRootNode = rootNode.attachShadow({mode: 'open'});
-		shadowRootNode.innerHTML = '<div id="shadow-root"></div>';
-		shadowRootNode.querySelector('div').insertAdjacentHTML('beforeend', '<style> @import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '"; </style>');
+
+		let html = '';
+		html += '<style>';
+			html += '@import "' + chrome.runtime.getURL('fonts/typio/styles.css') + '";' + `\n`;
+			html += '@import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '";';
+		html += '</style>';
+		html += '<div id="shadow-root"></div>';
+
+		shadowRootNode.innerHTML = html;
+
+		var iconfont = new FontFace("typio", 'url('+ chrome.extension.getURL('fonts/typio/fonts/typio.woff') +')');
+		document.fonts.add(iconfont);
 
 		return shadowRootNode;
 	}
