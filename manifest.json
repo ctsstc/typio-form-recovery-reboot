@@ -28,7 +28,7 @@
     "web_accessible_resources": [
         "img/*",
         "css/*.css",
-        "fonts/*.*",
+        "fonts/*",
         "templates/*.tpl",
         "js/content.frameInjector.js",
         "js/*.js.map"

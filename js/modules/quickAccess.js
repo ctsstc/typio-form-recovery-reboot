@@ -31,8 +31,8 @@ terafm.quickAccess = {};
 
 		html += '<div class="flex">';
 			html += '<li data-action="browse-all">Browse all entries</li>';
-			html += '<li data-action="keyboard-shortcuts" class="icon icon-keyboard" data-tooltip="Show keyboard shortcuts"></li>';
-			html += '<li data-action="disable-site" class="icon icon-blacklist" data-tooltip="Disable Typio on this site"></li>';
+			html += '<li data-action="keyboard-shortcuts" class="icon" data-tooltip="Show keyboard shortcuts"><span class="icon-keyboard"></span></li>';
+			html += '<li data-action="disable-site" class="icon" data-tooltip="Disable Typio on this site"><span class="icon-block"></span></li>';
 		html += '</div>';
 
 		menuNode.querySelector('ul').innerHTML = html;
