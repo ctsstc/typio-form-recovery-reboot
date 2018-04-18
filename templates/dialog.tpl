@@ -20,9 +20,9 @@
 			<div class="left">
 				<div class="header">
 					<div class="filter-box">
-						<input class="filter-input" type="text" placeholder="Filter entries">
+						<input class="filter-input typioIgnoreField" type="text" placeholder="Filter entries">
 						<div class="chk-label">
-							<input type="checkbox" id="chk-hide-small-entries">
+							<input type="checkbox" id="chk-hide-small-entries" class="typioIgnoreField">
 							<label for="chk-hide-small-entries">Hide small entries</label>
 						</div>
 					</div>
