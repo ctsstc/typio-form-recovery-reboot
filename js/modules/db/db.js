@@ -54,19 +54,31 @@ terafm.db = terafm.db || {};
 		});
 	}
 
-
-	// Fetch, merge, push
-	function push() {
+	function fetchAndMerge() {
 		return new Promise(done => {
 			fetchSnapshot().then(() => {
 				let ts = mergeBuckets(buckets.inUse, buckets.snapshot);
 				if(!ts.hasOwnProperty('context') || !ts.context.hasOwnProperty(domainId)) throw new Error('Attempted to write garbish to database. Careful!');
-				chrome.storage.local.set(ts.context, () => {
-					terafm.Events.trigger('db-save');
-					done();
-				});
+				done(ts);
 			});
 		})
+	}
+
+	function pushBucket(bucket) {
+		return new Promise(done => {
+			if(!(bucket instanceof terafm.StorageBucket) || !bucket.hasOwnProperty('context') || !bucket.context.hasOwnProperty(domainId)) throw new Error('Can not push non-buckets to database.');
+			chrome.storage.local.set(bucket.context, () => {
+				terafm.Events.trigger('db-save');
+				done();
+			});
+		});
+	}
+
+
+	// Fetch, merge, push
+	function sync() {
+		console.log('sync');
+		return fetchAndMerge().then(pushBucket);
 	}
 
 
@@ -81,7 +93,7 @@ terafm.db = terafm.db || {};
 		return fetchSnapshot();
 	}
 	db.push = () => {
-		return push();
+		return sync();
 	}
 	db.generateSessionId = function() {
 		return Math.round(Date.now()/1000) + '';
@@ -114,10 +126,14 @@ terafm.db = terafm.db || {};
 		return buckets.applyOne(buck => buck.getEntry(...args));
 	}
 	db.del = (...args) => {
-		buckets.inUse.del(...args);
+		fetchAndMerge().then(bucket => {
+			buckets.inUse.del(...args);
+			bucket.del(...args);
+			pushBucket(bucket);
+		});
 	}
 
-	var debouncePush = terafm.help.throttle(push, 1000, {leading: false});
+	var debouncePush = terafm.help.throttle(sync, 1000, {leading: false});
 
 
 
