@@ -68,11 +68,40 @@ a {
 	background: $overlay-color;
 	align-items: center;
 	justify-content: center;
-	animation: modalIn .5s;
+	animation: modalContainerIn .3s;
 
-	@keyframes modalIn {
+	& > .modal {
+		animation: modalInnerIn .3s;
+	}
+
+	&.hidden {
+		animation: modalContainerOut forwards .3s;
+		pointer-events: none;
+
+		& > .modal {
+			animation: modalInnerOut forwards .3s;
+		}
+	}
+
+	@keyframes modalContainerIn {
 		from {
 			opacity: 0;
+		}
+	}
+	@keyframes modalInnerIn {
+		from {
+			transform: skew(-1deg, -1deg) scale(0.95);
+		}
+	}
+
+	@keyframes modalContainerOut {
+		to {
+			opacity: 0;
+		}
+	}
+	@keyframes modalInnerOut {
+		to {
+			transform: skew(1deg, 1deg) scale(0.95);
 		}
 	}
 }

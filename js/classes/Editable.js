@@ -42,7 +42,6 @@ window.terafm = window.terafm || {};
 			if(!this.isHighlighted()) {
 				var attr = this.el.getAttribute('style') || '';
 				this.el.terafmOrgStyle = attr;
-				
 				this.el.style.background = 'rgb(255, 251, 153)';
 				this.el.style.color = '#222';
 				terafm.editables.highlighted[this.id] = this;

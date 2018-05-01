@@ -131,7 +131,7 @@ module.exports = function(grunt) {
                         '../js/modules/editables.js',
                         '../js/modules/validator.js',
                         '../js/modules/ui.js',
-                        '../js/modules/recoveryDialog.js',
+                        // '../js/modules/recoveryDialog.js',
                         '../js/modules/quickAccess.js',
                         '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',

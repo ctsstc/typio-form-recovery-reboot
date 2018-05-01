@@ -8,6 +8,7 @@
 
 		Events.on('input', changeHandler);
 		Events.on('change', changeHandler);
+		// Events.on('submit', changeHandler); // Todo: Add? Test?
 
 		// Hack for facebook messenger
 		if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host)) {
@@ -33,7 +34,7 @@
 
 		// Did not validate, delete if exists (if value validation failed)
 		} else {
-			terafm.db.del(editable.sessionId, editable.id)
+			terafm.db.del(editable.sessionId, editable.id);
 		}
 	}
 
@@ -43,11 +44,11 @@
 		if(editable.type === 'radio' && editable.el.name) {
 			
 			const radios = editable.el.getRootNode().querySelectorAll('input[type="radio"][name="'+ editable.el.name +'"]');
-			
+			console.log(radios)
 			radios.forEach(function(rad) {
 				if(rad !== editable.el) {
 					let sib = new terafm.Editable(rad);
-					db.del(editable.getSessionId(), sib.id);
+					db.del(editable.sessionId, sib.id);
 				}
 			});
 		}

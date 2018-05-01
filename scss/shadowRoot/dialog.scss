@@ -12,40 +12,75 @@
 		background: #486da7;
 
 		.top-bar {
-			padding: 8px 15px;
-			height: 30px;
+			display: flex;
+			align-items: center;
 			background: rgba(0,0,100,.1);
 			font-size: 13px;
-			color: #87A0B9;
+			color: #C0D0E0;
 
 			p {
-				display: inline-block;
+				margin: 0 0 0 15px;
+				flex: 1 0;
 			}
 
 			button {
-				float: right;
+				flex: 0 0;
 				border: 0;
 				background: transparent;
-				padding: 0;
+				padding: 0 12px;
+				height: 28px;
 				margin: 0;
+				color: #FFF;
+				outline: none;
+				line-height: 6px;
+
+				&:hover {
+					background: #ff5555;
+				}
+
+				&:active {
+					background: #EB4343;
+				}
 			}
 		}
 
 		.primary {
-			padding: 20px 15px;
+			padding: 0 15px;
 			display: flex;
+			height: 60px;
+			align-items: center;
 
 			.left {
 				flex: 1 0;
 				font-weight: bold;
 				color: #FFF;
 				font-size: 16px;
-				line-height: 22px;
 			}
-
-			button {
+			
+			.toolbar-icon {
+				position: relative;
 				flex: 0 1;
-				margin-left: 15px;
+				height: 40px;
+				padding: 0 10px 0 32px;
+				margin-left: 10px;
+				border-radius: 3px;
+				color: #FFF;
+				border: none;
+				outline: none;
+				background: transparent;
+				white-space: nowrap;
+
+				span {
+					font-size: 22px;
+					position: absolute;
+					top: 8px;
+					left: 5px;
+					color: rgba(255,255,255,.4);
+				}
+
+				&:hover {
+					background: rgba(200,200,255,.15);
+				}
 			}
 		}
 	}
@@ -151,7 +186,7 @@
 
 
 #recovery-dialog .left .header {
-	margin: 30px;
+	margin: 30px 30px 15px;
 
 	.filter-box {
 		display: flex;
@@ -159,10 +194,21 @@
 		border-radius: 100px;
 		padding: 6px 12px;
 		border: 1px solid rgba(0,0,100,.1);
+		position: relative;
+
+		.icon {
+			position: absolute;
+			left: 10px;
+			top: 8px;
+			font-size: 14px;
+			color: #999;
+			pointer-events: none;
+		}
 
 		.filter-input {
 			flex: 1 0;
 			padding: 0;
+			text-indent: 18px;
 			margin: 0;
 			border: none;
 			outline: none;
@@ -182,8 +228,54 @@
 			position: relative;
 			top: 2px;
 		}
+
+		.pretty-chk {
+			$size: 14px;
+			height: $size;
+			width: $size;
+			position: relative;
+			display: inline-block;
+			top: 2px;
+
+			&:hover .fake-chk {
+				box-shadow: inset 0 0 0 1px #8C8C8C;
+			}
+
+			.fake-chk, input {
+				position: absolute;
+				top: 0; left: 0;
+				height: $size; width: $size;
+			}
+			input {
+				opacity: 0;
+			}
+
+			.fake-chk {
+				pointer-events: none;
+				box-shadow: inset 0 0 0 1px #A8A8A8;
+				transition-duration: .2s;
+				border-radius: 2px;
+				background: #FFF no-repeat url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIzMiIgaWQ9ImNoZWNrIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMSAxNCBMNSAxMCBMMTMgMTggTDI3IDQgTDMxIDggTDEzIDI2IHoiLz48L3N2Zz4=);
+				background-size: 10px;
+				background-position-y: -12px;
+				background-position-x: center;
+			}
+			input:checked ~ .fake-chk {
+				box-shadow: inset 0 0 0 0 #A8A8A8;
+				background-position-y: center;
+				background-color: #33A851;
+			}
+		}
+	}
+
+	.filter-warning {
+		margin: 5px 0 0 0;
+		text-align: center;
+		font-size: 13px;
 	}
 }
+
+
 
 #recovery-dialog .session-data {
 	flex: 1;
@@ -226,39 +318,19 @@
 		border-bottom: 1px solid #ededed;
 		&:last-child {border-bottom: none;}
 
-		&:not(:hover):not(.selected) .meta {
-			&, & a {
-				color: #888;
-			}
-		}
+		// &:not(:hover):not(.selected) .meta {
+		// 	&, & a {
+		// 		filter: grayscale(30%);
+		// 	}
+		// }
 
 		&.selected {
 			box-shadow: 0 0 3px 1px #cfd2d9, 0 1px 10px 0 rgba(0, 41, 124, 0.1);
 			z-index: 2;
-			// background: #FFF;
 		}
-		// &:hover {
-		// 	background: #FFF;
-		// }
 
 		p {
 			margin: 0;
-		}
-
-		.target-ok, .target-bad {
-			display: inline-block;
-			height: 7px;
-			width: 7px;
-			border-radius: 100px;
-			margin-right: 5px;
-		}
-		.target-ok {
-			background: #3FB91E;
-			box-shadow: 0 0 0 3px #D6F2CE;
-		}
-		.target-bad {
-			background: #B91E1E;
-			box-shadow: 0 0 0 3px #F2CECE;
 		}
 	}
 
@@ -272,15 +344,45 @@
 	li .meta {
 		font-size: 13px;
 		color: #555;
-		margin: 5px 0 0;
+		margin: 10px 0 0;
 		display: flex;
 
 		.left {
 			flex: 1 0;
 		}
 
-		.right a {
-			margin-left: 10px;
+		.delete {
+			color: #AAA;
+			text-decoration: none;
+
+			.icon-trash {
+				font-size: 16px;
+				position: relative;
+				top: 3px;
+			}
+
+			&:hover, &.confirm {
+				color: #DD4A4A;
+			}
+		}
+
+		.status:before {
+			content: '';
+			display: inline-block;
+			height: 7px;
+			width: 7px;
+			border-radius: 100px;
+			margin-right: 5px;
+			position: relative;
+			top: -1px;
+		}
+		.status.found:before {
+			background: #3FB91E;
+			box-shadow: 0 0 0 2px #D6F2CE;
+		}
+		.status.not-found:before {
+			background: #B91E1E;
+			box-shadow: 0 0 0 2px #F2CECE;
 		}
 	}
 }

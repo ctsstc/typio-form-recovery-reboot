@@ -22,11 +22,26 @@ terafm.Entry = class Entry {
 		}
 	}
 
-	getValue(opts = {encode: false, truncate: false}) {
+	getValue(opts = {encode: false, plaintext: false, truncate: false, trim: false}) {
+
+		var str = this.obj.value;
+
 		if(opts.encode) {
-			return terafm.help.encodeHTMLEntities(terafm.help.stripTags(this.obj.value)).trim();
+			str = terafm.help.encodeHTMLEntities(terafm.help.stripTags(str)).trim();
+		
+		} else if(opts.plaintext) {
+			str = terafm.help.stripTags(str).trim();
 		}
-		return this.obj.value;
+
+		if(Number.isInteger(opts.truncate)) {
+			str = str.substring(0, opts.truncate) + '...';
+		}
+
+		if(opts.trim) {
+			str = terafm.help.trim(str);
+		}
+
+		return str;
 	}
 
 	setPlaceholder() {
@@ -61,5 +76,9 @@ terafm.Entry = class Entry {
 		} else {
 			return this._editable = terafm.EditableFactory(this.obj.path);
 		}
+	}
+
+	delete() {
+		terafm.db.del(this.sessionId, this.editableId);
 	}
 }

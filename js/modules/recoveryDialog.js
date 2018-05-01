@@ -2,6 +2,7 @@ window.terafm = window.terafm || {};
 terafm.recoveryDialog = {};
 
 (function(recoveryDialog, db, editableManager, ui, help, options) {
+/*
 	'use strict';
 
 	var dialogNode,
@@ -12,16 +13,17 @@ terafm.recoveryDialog = {};
 		ui.touch();
 		document.activeElement.blur();
 		recoveryDialog.setPage('default');
-		dialogNode.classList.add('open');
+		dialogNode.classList.remove('hidden');
 	}
 
 	recoveryDialog.isShowing = function() {
-		return dialogNode && dialogNode.classList.contains('open');
+		return dialogNode && !dialogNode.classList.contains('hidden');
 	}
 
 	recoveryDialog.hide = function() {
 		if(dialogNode) {
-			dialogNode.classList.remove('open');
+			console.log('DSADADS')
+			dialogNode.classList.add('hidden');
 		}
 	}
 
@@ -66,41 +68,40 @@ terafm.recoveryDialog = {};
 	}
 
 
-	recoveryDialog.populate = (sesslist, filterCount) => {
-		let html = '';
-		if(filterCount > 0) {
-			html += '<p>'+ filterCount +' entries are filtered out <a>Clear filters</a></p>'
-		}
-		sesslist.each((sess) => {
-			makeSess(sess);
-		});
-		dataContainer.innerHTML = html;
+	// recoveryDialog.populate = (sesslist, filterCount) => {
+	// 	let html = '';
+	// 	if(filterCount > 0) {
+	// 		html += '<p>'+ filterCount +' entries are filtered out <a>Clear filters</a></p>'
+	// 	}
+	// 	sesslist.each((sess) => {
+	// 		makeSess(sess);
+	// 	});
+	// 	dataContainer.innerHTML = html;
 
-		function makeSess(sess) {
-			if(sess.length < 1) return;
-			html += '<p class="date-stamp">' + sess.prettyDate() + '</p>';
-			html += '<ul class="card-1">';
-			sess.each(entry => {
-				makeEntry(entry);
-			})
-			html += '</ul>';
-		}
+	// 	function makeSess(sess) {
+	// 		if(sess.length < 1) return;
+	// 		html += '<p class="date-stamp">' + sess.prettyDate() + '</p>';
+	// 		html += '<ul class="card-1">';
+	// 		sess.each(entry => {
+	// 			makeEntry(entry);
+	// 		})
+	// 		html += '</ul>';
+	// 	}
 
-		function makeEntry(entry) {
-			html += '<li data-session-id="'+ entry.sessionId +'" data-editable-id="'+ entry.editableId +'">';
-				html += '<p>'+ entry.getValue({encode: true, truncate: 50}); +'</p>';
-				html += '<div class="meta">';
-					html += '<div class="left">';
-						html += '<span>' + (entry.hasEditable() ? 'Target found' : 'Target not found') + '</span>';
-					html += '</div>';
-					html += '<div class="right">';
-						html += '<a>More info</a>';
-						html += '<a class="danger">Delete entry</a>';
-					html += '</div>';
-				html += '</div>';
-			html += '</li>';
-		}
-	}
+	// 	function makeEntry(entry) {
+	// 		html += '<li data-session-id="'+ entry.sessionId +'" data-editable-id="'+ entry.editableId +'">';
+	// 			html += '<p>'+ entry.getValue({encode: true, truncate: 300}); +'</p>';
+	// 			html += '<div class="meta">';
+	// 				html += '<div class="left">';
+	// 					html += (entry.hasEditable() ? '<span class="status found">Target found</span>' : '<span class="status not-found">Target not found</span>');
+	// 				html += '</div>';
+	// 				html += '<div class="right">';
+	// 					html += '<a class="delete" data-action="delete-entry"><i class="icon-trash"></i> <span class="text">Delete</span></a>';
+	// 				html += '</div>';
+	// 			html += '</div>';
+	// 		html += '</li>';
+	// 	}
+	// }
 
 /*	// Todo: Move to entry?
 	function generateEntryValue(entry, truncate) {
@@ -131,5 +132,5 @@ terafm.recoveryDialog = {};
 		return value;
 	}
 	*/
-
+*/
 })(terafm.recoveryDialog, terafm.db, terafm.editableManager, terafm.ui, terafm.help, terafm.options);
