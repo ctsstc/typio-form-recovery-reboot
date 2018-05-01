@@ -108,6 +108,17 @@ terafm.help = (function() {
 	}
 
 
+	exp.copyToClipboard = function(text) {
+		var input = document.createElement('input');
+		input.setAttribute('value', text);
+		document.body.appendChild(input);
+		input.select();
+		var result = document.execCommand('copy');
+		document.body.removeChild(input)
+		return result;
+	}
+
+
 
 	// https://davidwalsh.name/javascript-debounce-function
 	// Returns a function, that, as long as it continues to be invoked, will not
