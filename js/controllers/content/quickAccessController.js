@@ -246,12 +246,16 @@ terafm.quickAccessController = {};
 			if(torestore instanceof terafm.Session) {
 				torestore.setPlaceholders();
 			} else if(torestore instanceof terafm.Entry) {
-				torestore.setPlaceholder();
+				contextTarget.applyPlaceholderEntry(torestore);
 			}
 
 		// Commit (click, select)
 		} else {
-			if(torestore) torestore.restore();
+			if(torestore instanceof terafm.Session) {
+				torestore.restore();
+			} else if(torestore instanceof terafm.Entry) {
+				contextTarget.applyEntry(torestore);
+			}
 
 			quickAccess.hide();
 
