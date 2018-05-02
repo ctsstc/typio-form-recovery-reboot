@@ -135,7 +135,13 @@ keyCapture();
 	addForm.addEventListener('submit', function(e) {
 		e.preventDefault();
 
-		let domain = sanitizeHostname(new FormData(addForm).get('domain'));
+		let domain = new FormData(addForm).get('domain');
+
+		let regex = isRegex(domain);
+
+		if(regex === false) {
+			domain = sanitizeHostname(domain);
+		}
 
 		if(!domain) {
 			errorMsgNode.classList.remove('hidden');
@@ -191,6 +197,16 @@ keyCapture();
 		}
 	}
 
+	function isRegex(string) {
+		if(string.length > 3 && string.indexOf('/') === 0 && string.slice(-1) === '/') {
+			let tmp = string.substring(1, string.length-1);
+			try {
+				return new RegExp(tmp);
+			} catch(e) {}
+		}
+		return false;
+	}
+
 	function sanitizeHostname(domain, isSecondTry) {
 		domain = domain.trim();
 
@@ -200,7 +216,8 @@ keyCapture();
 			if(domain.hostname.indexOf('%20') !== -1) {
 				return false;
 			}
-			return domain.hostname;
+
+			return domain.hostname.replace('%2A', '*');
 
 		} catch(e) {
 
