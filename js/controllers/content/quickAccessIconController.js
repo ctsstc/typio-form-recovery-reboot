@@ -21,12 +21,18 @@ window.terafm = window.terafm || {};
 			e.preventDefault();
 			e.stopPropagation();
 
+			if(e.button !== 0) return;
+
 			if(e.target.dataset.hide !== undefined) {
 				hide();
 				disableForEditable();
 			} else {
-				terafm.quickAccessController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+18, y: parseFloat(node.style.top)})
-				terafm.quickAccessController.open();
+				if(!terafm.quickAccess.isOpen()) {
+					terafm.quickAccessController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+18, y: parseFloat(node.style.top)})
+					terafm.quickAccessController.open();
+				} else {
+					terafm.quickAccess.hide();
+				}
 			}
 		})
 	}
