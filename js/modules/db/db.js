@@ -108,19 +108,11 @@ terafm.db = terafm.db || {};
 	db.getSession = (sid) => {
 		return buckets.applyOne(buck => buck.getSession(sid));
 	}
+	db.getEntries = (max, excludeEid) => {
+		return buckets.applyBoth(buck => buck.getEntries(max, excludeEid));
+	}
 	db.getSessionsContainingEditable = (eid, max) => {
 		return buckets.applyBoth(buck => buck.getSessionsContainingEditable(eid, max));
-	}
-	db.getEntriesExcludingEditable = (eid, max=-1) => {
-		return db.getSessions().each((sess, sid) => {
-			let has = sess.contains(eid);
-			if(has === true) return null;
-			// else if(max < 1) return false;
-			else {
-				console.log(max);
-				max--;
-			}
-		}).getEntryList();
 	}
 	db.getEntry = (...args) => {
 		return buckets.applyOne(buck => buck.getEntry(...args));

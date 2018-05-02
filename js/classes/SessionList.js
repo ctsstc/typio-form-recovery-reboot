@@ -9,6 +9,10 @@ terafm.SessionList = class SessionList {
 		return Object.keys(this.sessions).length;
 	}
 
+	getArray() {
+		return Object.values(this.sessions);
+	}
+
 	countEntries() {
 		let i=0;
 		this.each((sess) => {
@@ -32,7 +36,7 @@ terafm.SessionList = class SessionList {
 			let tmp = fn(this.sessions[sid], sid);
 
 			if(tmp === false) break;
-			else if(tmp === null) delete this.sessions[sid];
+			else if(tmp === null) {delete this.sessions[sid]; console.log('deleted?', sid, 'tmp result:', tmp);}
 			else if(tmp !== undefined) this.sessions[sid] = tmp;
 		}
 		return this;
