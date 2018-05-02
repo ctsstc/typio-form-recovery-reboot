@@ -6,22 +6,35 @@
 		// Force save before window is closed
 		window.addEventListener('beforeunload', db.push);
 
-		Events.on('input', changeHandler);
-		Events.on('change', changeHandler);
-		// Events.on('submit', changeHandler); // Todo: Add? Test?
+		Events.on('input', e => changeHandler(e.path[0]));
+		Events.on('change', e => changeHandler(e.path[0]));
+		// Events.on('submit', e => changeHandler(e.path[0])); // Todo: Add? Test?
 
 		// Hack for facebook messenger
 		if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host)) {
 			Events.on('keyup', function(e) {
-				if(e.keyCode == 8 || e.keyCode == 46 || e.keyCode === 13) changeHandler(e);
+				if(e.keyCode == 8 || e.keyCode == 46 || e.keyCode === 13) changeHandler(e.path[0]);
 			});
 		}
+
+		// Watch for subtree changes (for contenteditables)
+		let observer = new MutationObserver(mutation => changeHandler(mutation[0].target));
+		Events.on('focus', e => {
+			observer.disconnect();
+
+			const editable = terafm.EditableFactory(e.path[0]);
+			if(editable && editable.isContentEditable()) {
+				observer.observe(editable.el, {childList: true, subtree: true});
+			}
+		});
 	})
 
 	// Todo: Deal with empty values (chat apps?)
-	function changeHandler(e) {
+	function changeHandler(el) {
 
-		const editable = terafm.EditableFactory(e.path[0]);
+
+		const editable = terafm.EditableFactory(el);
+		console.log('change', editable);
 
 		if(!editable) return;
 
@@ -36,6 +49,10 @@
 		} else {
 			terafm.db.del(editable.sessionId, editable.id);
 		}
+	}
+
+	function watchTree() {
+
 	}
 
 
