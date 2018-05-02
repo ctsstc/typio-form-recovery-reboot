@@ -127,6 +127,9 @@
 				<p class="opt-title">Domain blacklist</p>
 
 				<p>Typio will be completely disabled on these domains, autosave and restoration will not be available.</p>
+				<p>Use * as a wildcard to block all subdomains, e.g: *.bank.com</p>
+				<p>Regex is supported if you wrap the pattern in forward slashes /like this/. It will match against the hostname of the site.</p>
+				
 				<div class="blacklist-module">
 					<form id="blacklist-add-form" class="controls">
 						<input placeholder="Enter a domain name to block" type="text" name="domain">
