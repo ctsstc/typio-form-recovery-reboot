@@ -66,17 +66,19 @@ terafm.quickAccessController = {};
 		// Nothing (or nothing editable) was right clicked
 		// Can happen if page hasn't fully loaded at right click (eventhandlers haven't attached yet)
 		if(!contextTarget) {
-			// alert("Typio cannot open due to one of the following reasons:\n\n1) Page has not fully loaded yet.\n\n2) The page is running in an inaccessible frame (cross domain).\n\n3) You're tring to recover an illegal field (e.g. password field if disabled).");
+			alert("Typio cannot open due to one of the following reasons:\n\n1) Page has not fully loaded yet.\n\n2) The page is running in an inaccessible frame (cross domain).\n\n3) You're tring to recover an illegal field (e.g. password field if disabled).");
 			return false;
 		}
 		deepSetup(function() {
-			populatedData = getDataByEditable(contextTarget);
+			db.fetch().then(() => {
+				populatedData = getDataByEditable(contextTarget);
 
-			quickAccess.populate(populatedData);
-			quickAccess.show();
-			requestAnimationFrame(function() {
-				quickAccess.position(contextTargetRect);
-			})
+				quickAccess.populate(populatedData);
+				quickAccess.show();
+				requestAnimationFrame(function() {
+					quickAccess.position(contextTargetRect);
+				})
+			});
 		});
 	}
 
@@ -86,7 +88,6 @@ terafm.quickAccessController = {};
 		let data = {sess:{}, recent: {}, empty: true};
 
 		data.sess = terafm.db.getSessionsContainingEditable(editable.id).getEntriesByEditable(editable.id);
-		console.log(10-data.sess.length)
 		data.recent = terafm.db.getEntries(10-data.sess.length, editable.id);
 
 		if(data.sess.length || data.recent.length) data.empty = false;

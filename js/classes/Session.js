@@ -46,8 +46,8 @@ terafm.Session = class Session {
 		this.each((entry) => entry.setPlaceholder());
 	}
 
-	restore() {
-		this.each((entry) => entry.restore());
+	restore(opts) {
+		this.each((entry) => entry.restore(opts));
 	}
 
 	getEntryByEditable(eid) {

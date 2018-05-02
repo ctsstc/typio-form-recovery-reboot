@@ -18,6 +18,14 @@ module.exports = function(grunt) {
         },
 
         copy: {
+            jslibs: {
+                files: [{
+                    expand: true,
+                    cwd: '../js/libs/',
+                    src: '*.js',
+                    dest: '../publish/js/'
+                }]
+            },
             fonts: {
                 files: [{
                     expand: true,
@@ -102,7 +110,11 @@ module.exports = function(grunt) {
 
 
                         // Controllers
-                        '../js/controllers/backgroundController.js',
+                        '../js/controllers/background/backgroundController.js',
+                        '../js/controllers/background/maintenanceController.js',
+                        '../js/controllers/background/injectController.js',
+                        '../js/controllers/background/contextMenuController.js',
+                        '../js/controllers/background/splashController.js',
                     ],
 
                     // Runs isolated on every page (not in iframes)
@@ -191,7 +203,6 @@ module.exports = function(grunt) {
                 }
             },
 
-
             js: {
                 files: ['../js/**/*.js'],
                 tasks: ['uglify:content'],
@@ -251,6 +262,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('compile', ['sass', 'uglify:content', 'htmlmin', 'copy:fonts', 'copy:img', 'copy:misc', 'copy:templates'])
+    grunt.registerTask('compile', ['sass', 'uglify:content', 'htmlmin', 'copy'])
 
 }

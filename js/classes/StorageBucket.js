@@ -66,7 +66,6 @@ terafm.StorageBucket = class Bucket {
 	}
 
 	getEntries(max=-1, excludeEid) {
-		console.log('max:' ,max)
 		let allsess = this.getSessions();
 		let entrylist = new terafm.EntryList();
 
@@ -79,7 +78,6 @@ terafm.StorageBucket = class Bucket {
 			if(max < 0) return false;
 		});
 
-		console.log('list:', entrylist)
 		return entrylist;
 	}
 

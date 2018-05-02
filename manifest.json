@@ -17,7 +17,8 @@
         "https://*/",
         "storage",
         "contextMenus",
-        "unlimitedStorage"
+        "unlimitedStorage",
+        "idle"
     ],
 
     "background": {
