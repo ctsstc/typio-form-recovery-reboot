@@ -48,25 +48,6 @@ terafm.help = (function() {
 		return dom.body.textContent.trim();
 	}
 
-
-	// For displaying in HTML
-	exp.encodeEntry = function(entry) {
-		var str = '' + entry.value;
-
-		// Strip HTML tags, text is already encoded
-		if(entry.type === 'contenteditable') {
-			str = exp.stripTags(str);
-
-		// Everything is text, encode
-		} else {
-			str = exp.encodeHTMLEntities(str).trim();
-		}
-
-		str = exp.trim(str);
-
-		return str;
-	}
-
 	exp.escapeRegExp = function(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	}

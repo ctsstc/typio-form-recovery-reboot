@@ -22,19 +22,28 @@ terafm.Entry = class Entry {
 		}
 	}
 
-	getValue(opts = {encode: false, plaintext: false, truncate: false, trim: false}) {
+	getValue(opts = {encodeHTMLEntities: false, decodeHTMLEntities: false, stripTags: false, truncate: false, trim: false, retainLineBreaks: false}) {
 
 		var str = this.obj.value;
 
-		if(opts.encode) {
-			str = terafm.help.encodeHTMLEntities(terafm.help.stripTags(str)).trim();
-		
-		} else if(opts.plaintext) {
-			str = terafm.help.stripTags(str).trim();
+		if(opts.stripTags) {
+			str = terafm.help.stripTags(str);
 		}
 
-		if(Number.isInteger(opts.truncate)) {
+		if(opts.encodeHTMLEntities) {
+			str = terafm.help.encodeHTMLEntities(terafm.help.stripTags(str));
+		}
+
+		if(opts.decodeHTMLEntities) {
+			str = terafm.help.decodeHTMLEntities(terafm.help.stripTags(str));
+		}
+
+		if(typeof opts.truncate === 'number') {
 			str = str.substring(0, opts.truncate) + '...';
+		}
+
+		if(opts.retainLineBreaks) {
+			str = str.replace(/[\r\n]/gm, '<br/>');
 		}
 
 		if(opts.trim) {
@@ -42,6 +51,31 @@ terafm.Entry = class Entry {
 		}
 
 		return str;
+	}
+
+	getPrintableValue(opts) {
+		let value = '';
+		let entry = this.obj;
+
+		if(entry.type === 'radio' && entry.meta) {
+			value += entry.meta; // Meta contains name:value, we don't care about the value here (its always 1 because its selected)
+
+		} else if(entry.type === 'checkbox' && entry.meta) {
+			value += entry.meta + (entry.value == '1' ? ' (checked)' : ' (unchecked)');
+
+		} else {
+			if(entry.meta) {
+				value = entry.meta + ': ';
+			}
+
+			if(entry.type === 'contenteditable') {
+				value += this.getValue({stripTags: true, trim: true, ...opts});
+			} else {
+				value += this.getValue({encodeHTMLEntities: true, trim: true, ...opts});
+			}
+		}
+
+		return value;
 	}
 
 	setPlaceholder() {

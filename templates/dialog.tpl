@@ -37,7 +37,7 @@
 						<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
 						<ul v-if="sess.length" class="card-1">
 							<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">
-								<p>{{ entry.getValue({encode: true, truncate: 300}) }}</p>
+								<p>{{ entry.getPrintableValue({truncate: 300}) }}</p>
 								<div class="meta">
 									<div class="left">
 										<span v-if="entry.hasEditable()" class="status found">Target found</span>
@@ -91,7 +91,7 @@
 						<p class="message" v-if="!currEntry.hasEditable()"><span class="icon-trash"></span>This entry cannot be restored automatically.</p>
 					</div>
 
-					<div id="entry-text" class="entry-text card-1">{{ currEntry.getValue({encode: true}) }}</div>
+					<div id="entry-text" class="entry-text card-1" v-html="currEntry.getPrintableValue({retainLineBreaks: true})"></div>
 					<div id="entry-path" class="entry-meta card-1">{{ currEntry.obj.path }}</div>
 				</div>
 			</div>	
