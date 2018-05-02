@@ -10,7 +10,6 @@
 
 		// Check if blacklisted on this domain
 		terafm.blacklist.isBlocked(hostname, function(isBlacklisted) {
-
 			chrome.tabs.sendMessage(tabId, {action: 'ping'}, function(response) {
 
 				// Already injected, let's bail

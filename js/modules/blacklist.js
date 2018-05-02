@@ -9,7 +9,7 @@ terafm.blacklist = {};
 
 	blacklist.block = function(domain) {
 		getOptionData(function(list) {
-			if(list.indexOf(domain) === -1) {
+			if(domainInList(list, domain) === false) {
 				list.push(domain);
 				saveList(list);
 			}
@@ -18,8 +18,9 @@ terafm.blacklist = {};
 
 	blacklist.unblock = function(domain, callback) {
 		getOptionData(function(list) {
-			if(list.includes(domain)) {
-				list.splice(list.indexOf(domain), 1);
+			let index = domainInList(list, domain);
+			if(index !== false) {
+				list.splice(index, 1);
 				saveList(list, callback);
 			}
 		});
@@ -27,12 +28,48 @@ terafm.blacklist = {};
 
 	blacklist.isBlocked = function(domain, callback) {
 		getOptionData(function(list) {
-			if(list.includes(domain)) {
-				callback(true);
-				return true;
-			}
-			callback(false);
+			callback(domainInList(list, domain) !== false );
 		});
+	}
+
+	function domainInList(list, domain) {
+
+		// Check simple first
+		let index = list.indexOf(domain);
+		if(index !== -1) return index;
+
+		// Loop through regex and check
+		for(let pi in list) {
+			let pattern = list[pi];
+
+			// Regex
+			let regex = isRegex(pattern);
+			if(regex !== false) {
+				if(regex.test(domain)) {
+					return pi;
+				}
+
+			// Wildcard
+			} else if(pattern.indexOf('*') !== -1) {
+				try {
+					let regex = new RegExp( pattern.replace('.', '\.?').replace('*', '.*?') )
+					if(regex.test(domain)) {
+						return pi;
+					}
+				} catch(e){}
+			}
+		}
+		return false;
+	}
+
+	function isRegex(string) {
+		if(string.length > 3 && string.indexOf('/') === 0 && string.slice(-1) === '/') {
+			let tmp = string.substring(1, string.length-1);
+			try {
+				return new RegExp(tmp);
+			} catch(e) {}
+		}
+		return false;
 	}
 
 	function saveList(list, callback) {
