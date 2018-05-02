@@ -161,6 +161,15 @@ terafm.recoveryDialogController = {};
 						terafm.toast.create('Copied text with formatting to clipboard.');
 					}
 
+				},
+
+				openOptions: function() {
+					chrome.runtime.sendMessage({action: 'openSettings'});
+				},
+				disableSite: function() {
+					terafm.blacklist.block(window.location.hostname);
+					terafm.toast.create('Typio will be disabled on the next page load.');
+					this.hide();
 				}
 			},
 			data: {
@@ -184,64 +193,6 @@ terafm.recoveryDialogController = {};
 		keyboardShortcuts.on(['Escape'], function() {
 			vue.hide();
 		});
-
-		// diagRootNode.addEventListener('click', function(e) {
-		// 	let target = e.target;
-			
-		// 	console.log(target);
-
-		// 	if(target.matches('.session-data ul > li') || target.closest('.session-data ul > li')) {
-		// 		if(target.nodeName.toLowerCase() !== 'li') target = target.closest('.session-data ul > li');
-		// 		clickListItem(target);
-
-		// 	} else if(target.matches('[data-action="close"]') || target.classList.contains('modal-container')) {
-		// 		recoveryDialog.hide();
-			
-		// 	} else if(target.matches('[data-action="delete-entry"]') || target.closest('[data-action="delete-entry"]')) {
-		// 		if(!target.matches('[data-action="delete-entry"]')) target = target.closest('[data-action="delete-entry"]');
-		// 		console.log(target)
-		// 		clickDeleteLink(target);
-		// 	}
-		// });
-
-		// function clickDeleteLink() {
-		// 	if(target.classList.contains('confirm')) {
-		// 		target.closest('ul').removeChild(target.closest('li'));
-		// 	} else {
-		// 		target.querySelector('.text').innerHTML = 'Click to confirm deletion';
-		// 		target.classList.add('confirm');
-		// 	}
-		// }
-
-
-		// function clickListItem() {
-		// 	remSel();
-		// 	target.classList.add('selected');
-		// 	let data = target.dataset;
-		// 	currentry = sessionlist.getEntry(data.sessionId, data.editableId);
-		// 	recoveryDialog.setEntry(currentry);
-		// }
-
-		// let filterfunc = terafm.help.debounce(function(e) {
-		// 	let value = e.path[0].value,
-		// 		data = db.getSessions(),
-		// 		filterCount = 0;
-
-		// 	if(value.length) {
-		// 		data = data.filterEntries(function(entry) {
-		// 			if(entry.obj.value.indexOf(value) === -1) return null;
-		// 		});
-		// 		filterCount = sessionlist.countEntries() - data.countEntries();
-		// 	}
-
-		// 	recoveryDialog.populate(data, filterCount);
-		// }, 500);
-		// diagRootNode.querySelector('input[type=text]').addEventListener('input', filterfunc);
 	}
-
-	// function remSel() {
-	// 	let cs = diagRootNode.querySelector('.session-data li.selected');
-	// 	if(cs) cs.classList.remove('selected');
-	// }
 
 })(terafm.recoveryDialogController, terafm.recoveryDialog, terafm.db, terafm.help, terafm.editableManager, terafm.options, terafm.keyboardShortcuts, terafm.initHandler);
