@@ -155,16 +155,16 @@
 		display: inline-block;
 		position: relative;
 
-		&:hover .btn-drop {display: block;}
+		&.open .btn-drop { display: block; }
 
 		.btn-drop {
 			position: absolute;
 			top: calc(100% + 4px);
 			left: 0;
-			padding: 2px;
+			padding: 4px;
 			border-radius: 2px;
 			background: #FFF;
-			box-shadow: 0 7px 14px rgba(50,50,90,.1), 0 3px 6px rgba(0,0,0,.08);
+			box-shadow: 0 7px 14px rgba(50,50,90,.1), 0 3px 6px rgba(0,0,0,.1);
 			display: none;
 
 			li {
@@ -175,7 +175,7 @@
 				color: #888;
 
 				&:hover {
-					background: rgba(0,0,100,.05);
+					background: rgba(0, 40, 125, .08);
 					color: #555;
 					border-radius: 2px;
 				}

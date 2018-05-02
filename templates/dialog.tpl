@@ -78,14 +78,19 @@
 							<button class="btn btn-primary" v-on:click="restoreSession()">Restore session</button>
 							<button class="btn" v-on:click="restoreEntry()">Restore only this</button>
 						</template>
-
-						<div class="btn-drop-container">
-							<button class="btn">Copy &#9662;</button>
-							<ul class="btn-drop">
-								<li v-on:click="copyEntry('plaintext')">Copy plain text</li>
-								<li v-on:click="copyEntry('formatting')">Copy with formatting</li>
-							</ul>
-						</div>
+						
+						<template v-if="currEntry.obj.type === 'contenteditable'">
+							<div class="btn-drop-container" onclick="this.classList.toggle('open')">
+								<button class="btn">Copy &#9662;</button>
+								<ul class="btn-drop">
+									<li v-on:click="copyEntry('plaintext')">Copy plain text</li>
+									<li v-on:click="copyEntry('formatting')">Copy with formatting</li>
+								</ul>
+							</div>
+						</template>
+						<template v-else>
+							<button class="btn" v-on:click="copyEntry('plaintext')">Copy</button>
+						</template>
 
 						<p class="message" v-if="currEntry.hasEditable()">This entry can be restored automatically.</p>
 						<p class="message" v-if="!currEntry.hasEditable()"><span class="icon-trash"></span>This entry cannot be restored automatically.</p>
