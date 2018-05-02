@@ -86,20 +86,22 @@ window.terafm = window.terafm || {};
 
 			// If restoring html into text field, strip html and trim
 			if(this.isContentEditable() === false && entry.obj.type === 'contenteditable') {
-				tmpVal = terafm.help.stripTags(tmpVal);
-				tmpVal = terafm.help.decodeHTMLEntities(tmpVal);
-				tmpVal = terafm.help.trim(tmpVal);
+				tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts})
+				// tmpVal = terafm.help.stripTags(tmpVal);
+				// tmpVal = terafm.help.decodeHTMLEntities(tmpVal);
+				// tmpVal = terafm.help.trim(tmpVal);
 
 			// Restoring text into html field
 			} else if(this.isContentEditable() === true && entry.obj.type !== 'contenteditable') {
-				tmpVal = terafm.help.encodeHTMLEntities(tmpVal);
+				tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts})
+				// tmpVal = terafm.help.encodeHTMLEntities(tmpVal);
 			}
 
-			if(opts.truncate && tmpVal.length > 500) {
-				if(!(this.isContentEditable() && entry.type === 'contenteditable')) {
-					tmpVal = tmpVal.substring(0, 500) + '... (truncated)';
-				}
-			}
+			// if(opts.truncate && tmpVal.length > 500) {
+			// 	if(!(this.isContentEditable() && entry.type === 'contenteditable')) {
+			// 		tmpVal = tmpVal.substring(0, 500) + '... (truncated)';
+			// 	}
+			// }
 
 			this.setValue(tmpVal);
 		}

@@ -154,8 +154,9 @@ terafm.recoveryDialogController = {};
 					if(!this.currEntry) return;
 
 					if(format === 'plaintext') {
-						terafm.help.copyToClipboard(this.currEntry.getValue({encode: true, trim: true}));
+						terafm.help.copyToClipboard(this.currEntry.getValue({stripTags: true, trim: true}));
 						terafm.toast.create('Copied plaintext to clipboard.');
+
 					} else if(format === 'formatting') {
 						terafm.help.copyToClipboard(this.currEntry.getValue({trim: true}));
 						terafm.toast.create('Copied text with formatting to clipboard.');

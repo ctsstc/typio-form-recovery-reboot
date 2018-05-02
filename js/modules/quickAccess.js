@@ -81,7 +81,7 @@ terafm.quickAccess = {};
 
 		for(let eid in entrylist.entries) {
 			let entry = entrylist.entries[eid];
-			let val = entry.getValue({encode: true, truncate: 50});
+			let val = entry.getPrintableValue({truncate: 50});
 
 			if(type === 'sess') {
 				var count = entry.session.length;
