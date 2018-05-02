@@ -1,6 +1,8 @@
 
 #recovery-dialog .modal {
 	height: 85vh;
+	width: 1024px;
+	max-width: 90vw;
 	background: #f4f6fa;
 	color: #444;
 	position: relative;
@@ -91,7 +93,7 @@
 		flex: 1 0;
 
 		& > .left, & > .right {
-			width: 500px;
+			width: 50%;
 		}
 
 		& > .left {
