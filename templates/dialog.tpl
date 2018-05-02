@@ -10,8 +10,8 @@
 				<div class="left">
 					Recover {{ hostname }}
 				</div>
-				<button class="toolbar-icon"><span class="icon-block"></span>Disable on this site</button>
-				<button class="toolbar-icon"><span class="icon-gear"></span>Open settings</button>
+				<button class="toolbar-icon" v-on:click="disableSite()"><span class="icon-block"></span>Disable on this site</button>
+				<button class="toolbar-icon" v-on:click="openOptions()"><span class="icon-gear"></span>Open settings</button>
 			</div>
 		</div>
 
