@@ -33,7 +33,7 @@
 				</div>
 				<div class="session-data">
 
-					<template v-if="totalEntries" v-for="sess in sesslist.sessions">
+					<template v-if="totalEntries" v-for="sess in sesslist.getArray().reverse()">
 						<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
 						<ul v-if="sess.length" class="card-1">
 							<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">

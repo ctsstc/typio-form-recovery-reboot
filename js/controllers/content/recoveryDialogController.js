@@ -153,11 +153,12 @@ terafm.recoveryDialogController = {};
 
 					if(format === 'plaintext') {
 						terafm.help.copyToClipboard(this.currEntry.getValue({encode: true, trim: true}));
+						terafm.toast.create('Copied plaintext to clipboard.');
 					} else if(format === 'formatting') {
 						terafm.help.copyToClipboard(this.currEntry.getValue({trim: true}));
+						terafm.toast.create('Copied text with formatting to clipboard.');
 					}
-					
-					terafm.toast.create('Copied to clipboard.');
+
 				}
 			},
 			data: {
@@ -166,7 +167,7 @@ terafm.recoveryDialogController = {};
 				page: 'default',
 				selectedListItem: null,
 
-				sesslist: {sessions: []}, // Todo: fix
+				sesslist: new terafm.SessionList(), // Todo: fix
 				currEntry: null,
 
 				totalEntries: 0,

@@ -28,7 +28,7 @@ terafm.quickAccessController = {};
 					terafm.editables.resetPlaceholders();
 				}
 			});
-		} 
+		}
 	});
 
 	quickAccessController.open = function() {
@@ -87,7 +87,7 @@ terafm.quickAccessController = {};
 
 		data.sess = terafm.db.getSessionsContainingEditable(editable.id).getEntriesByEditable(editable.id);
 		console.log(10-data.sess.length)
-		data.recent = terafm.db.getEntriesExcludingEditable(editable, 10-data.sess.length);
+		data.recent = terafm.db.getEntries(10-data.sess.length, editable.id);
 
 		if(data.sess.length || data.recent.length) data.empty = false;
 
@@ -139,6 +139,12 @@ terafm.quickAccessController = {};
 			var target = e.relatedTarget;
 			if(quickAccess.isOpen() && target && !target.closest('#quickAccess') ) {
 				terafm.editables.resetPlaceholders();
+			}
+		});
+
+		keyboardShortcuts.on(['Tab'], e => {
+			if(quickAccess.isOpen()) {
+				quickAccess.hide();
 			}
 		});
 

@@ -65,6 +65,24 @@ terafm.StorageBucket = class Bucket {
 		return JSON.parse(JSON.stringify(this));
 	}
 
+	getEntries(max=-1, excludeEid) {
+		console.log('max:' ,max)
+		let allsess = this.getSessions();
+		let entrylist = new terafm.EntryList();
+
+		allsess.each(sess => {
+			sess.each(entry => {
+				if(excludeEid && entry.editableId === excludeEid) return null;
+				entrylist.push(entry);
+				if(max > -1) max--; else return false;
+			})
+			if(max < 0) return false;
+		});
+
+		console.log('list:', entrylist)
+		return entrylist;
+	}
+
 	getSessions(_sids=[], max=-1) {
 		let sids = _sids.length ? _sids : this.sessionIds.reverse();
 		let sesslist = new terafm.SessionList();
