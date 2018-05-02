@@ -22,8 +22,8 @@ terafm.db.maintenance = {};
 	function shouldRunMaintenance() {
 		let lastRun = localStorage.getItem('terafmMaintenanceStamp');
 
-		// If last run was over an hour ago
-		if(Date.now() - lastRun > 3600000) {
+		// If last run was over 12 hours ago
+		if(Date.now() - lastRun > 43200000) {
 			return true;
 		}
 

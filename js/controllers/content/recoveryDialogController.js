@@ -25,11 +25,13 @@ terafm.recoveryDialogController = {};
 	})
 
 	function show() {
-		if(vue) {
-			vue.show();
-		} else {
-			build((node) => vue.show() );
-		}
+		db.fetch().then(() => {
+			if(vue) {
+				vue.show();
+			} else {
+				build((node) => vue.show() );
+			}
+		})
 	}
 
 	function build(callback) {
@@ -77,13 +79,13 @@ terafm.recoveryDialogController = {};
 				// Callback for failures?
 				restoreSession: function() {
 					if(!this.currEntry) return;
-					this.currEntry.getSession().restore();
+					this.currEntry.getSession().restore({flash: true});
 					terafm.toast.create('Session restored.');
 					this.hide();
 				},
 				restoreEntry: function() {
 					if(!this.currEntry) return;
-					this.currEntry.restore();
+					this.currEntry.restore({flash: true});
 					terafm.toast.create('Entry restored.');
 					this.hide();
 				},

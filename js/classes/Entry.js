@@ -51,10 +51,11 @@ terafm.Entry = class Entry {
 		}
 	}
 
-	restore() {
+	restore(opts={flash: false}) {
 		let editable = this.getEditable();
 		if(editable) {
 			editable.applyEntry(this);
+			if(opts.flash) editable.flashHighlight();
 		}
 	}
 
