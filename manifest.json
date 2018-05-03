@@ -30,7 +30,7 @@
         "img/*",
         "css/*.css",
         "fonts/*",
-        "templates/*.tpl",
+        "templates/*",
         "js/content.frameInjector.js",
         "js/*.js.map"
     ],
