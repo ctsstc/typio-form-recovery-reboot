@@ -46,7 +46,7 @@ terafm.keyboardShortcutController = {};
 				}
 			});
 		}
-	})
+	});
 
 	function showPopup() {
 		build(function() {
@@ -54,6 +54,45 @@ terafm.keyboardShortcutController = {};
 			popupVisible = true;
 		})
 	}
+
+	function build(callback) {
+		terafm.ui.inject({
+			html: '<div id="tmp-holder"></div>',
+			returnNode: '#tmp-holder'
+		}, function(rootnode) {
+			makeVue(rootnode, callback);
+		});
+	}
+
+	function makeVue(rootnode, callback) {
+
+		// console.log(rootnode)
+		// return;
+
+		import( chrome.runtime.getURL('../templates/keyboardShortcutPopup.js') ).then((module) => {
+
+			let vue = new Vue({
+				...(module),
+				el: rootnode,
+				data: {
+					keybindDisabledMessage: 'disabled',
+					keybindToggleRecDiag: '',
+					keybindToggleRecDiag: '',
+					keybindRestorePreviousSession: '',
+					keybindOpenQuickAccess: '',
+
+				},
+				methods: {}
+			});
+
+			console.log(rootnode, vue);
+
+			// if(callback) callback();
+
+		});
+	}
+
+	/*
 
 	function hidePopup() {
 		if(popupVisible) {
@@ -119,5 +158,7 @@ terafm.keyboardShortcutController = {};
 			callback()
 		}
 	}
+
+	*/
 
 })(terafm.keyboardShortcutController, terafm.db, terafm.editableManager, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);

@@ -23,7 +23,7 @@
 					return false;
 				}
 				
-				chrome.tabs.executeScript(tabId, {file: 'js/vue.js', runAt: 'document_start'});
+				chrome.tabs.executeScript(tabId, {file: 'js/vue.runtime.js', runAt: 'document_start'});
 				chrome.tabs.executeScript(tabId, {file: 'js/content.js', runAt: 'document_start'});
 				chrome.tabs.executeScript(tabId, {file: 'js/content.frameInjector.js', runAt: 'document_end', allFrames: true});
 			});

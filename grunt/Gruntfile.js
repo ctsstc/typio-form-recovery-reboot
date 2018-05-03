@@ -50,8 +50,16 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '../',
-                    src: 'templates/*.tpl',
+                    src: 'templates/*.*',
                     dest: '../publish/'
+                },
+                {
+                    expand: true,
+                    cwd: '../templates/',
+                    src: ['**/render.js'],
+                    rename: function(src, dest) {
+                        return '../publish/templates/' + dest.replace(/(.+)\/(.+)/g, '$1.js')
+                    }
                 }]
             },
             misc: {
@@ -89,6 +97,12 @@ module.exports = function(grunt) {
 
                         // Controllers
                         '../js/controllers/optionsController.js',
+                    ],
+
+                    '../publish/js/options2.js' : [
+
+                        // Controllers
+                        '../js/controllers/options2Controller.js',
                     ],
 
 
@@ -241,13 +255,24 @@ module.exports = function(grunt) {
             },
 
             copyTemplates: {
-                files: ['../templates/**/*.tpl'],
-                tasks: ['copy:templates'],
+                files: ['../templates/**/*.*'],
+                tasks: ['vue_template_compiler', 'copy:templates'],
                 options: {
                     spawn: false
                 }
             }
-        }
+        },
+
+        vue_template_compiler: {
+            options: {
+                validate: true, //default is true
+                validateOnly: false, //default is false
+                es2015: true //default is true
+            },
+            opts: { files : {src:'../templates/options/options.vue'} },
+            dialog: { files : {src:'../templates/dialog/dialog.vue'} },
+            keyboardShortcutPopup: { files : {src:'../templates/keyboardShortcutPopup/keyboardShortcutPopup.vue'} },
+        },
 
     });
 
@@ -257,8 +282,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify-es');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-vue-template-compiler');
 
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('compile', ['sass', 'uglify:content', 'htmlmin', 'copy'])
+    grunt.registerTask('compile', ['sass', 'uglify', 'htmlmin', 'vue_template_compiler', 'copy']);
 
 }
