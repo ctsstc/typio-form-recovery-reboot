@@ -265,9 +265,9 @@ module.exports = function(grunt) {
 
         vue_template_compiler: {
             options: {
-                validate: true, //default is true
-                validateOnly: false, //default is false
-                es2015: true //default is true
+                validate: true,
+                validateOnly: false,
+                es2015: true
             },
             opts: { files : {src:'../templates/options/options.vue'} },
             dialog: { files : {src:'../templates/dialog/dialog.vue'} },
@@ -283,7 +283,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-vue-template-compiler');
-
+    
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('compile', ['sass', 'uglify', 'htmlmin', 'vue_template_compiler', 'copy']);
 
