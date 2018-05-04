@@ -11,9 +11,10 @@
     "grunt-contrib-htmlmin": "^2.4.0",
     "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-contrib-watch": "~0.6.1",
+    "grunt-run": "^0.8.1",
     "grunt-sass": "^2.0.0",
     "grunt-vue-template-compiler": "^0.4.5",
-    "serve-static": "^1.13.1",
-    "parse5": "^4.0.0"
+    "parse5": "^4.0.0",
+    "serve-static": "^1.13.1"
   }
 }

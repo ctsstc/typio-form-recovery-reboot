@@ -3,7 +3,7 @@ window.terafm = window.terafm || {};
 terafm.keyboardShortcutController = {};
 
 (function(keyboardShortcutController, db, editableManager, initHandler, options, keyboardShortcuts, toast) {
-	'use strict';
+	// 'use strict';
 
 	var popupNode,
 		popupVisible = false;
@@ -69,23 +69,26 @@ terafm.keyboardShortcutController = {};
 		// console.log(rootnode)
 		// return;
 
-		import( chrome.runtime.getURL('../templates/keyboardShortcutPopup.js') ).then((module) => {
+		import( chrome.runtime.getURL('../templates/keyboardShortcutPopup.js') ).then(module => {
+			console.log(module.render);
+			console.log(module.staticRenderFns);
 
 			let vue = new Vue({
-				...(module),
-				el: rootnode,
-				data: {
-					keybindDisabledMessage: 'disabled',
-					keybindToggleRecDiag: '',
-					keybindToggleRecDiag: '',
-					keybindRestorePreviousSession: '',
-					keybindOpenQuickAccess: '',
+				...module,
 
+				el: rootnode,
+				data: function() {
+					return {
+						keybindDisabledMessage : 'hello keybindDisabledMessage',
+						keybindToggleRecDiag : 'hello keybindToggleRecDiag',
+						keybindRestorePreviousSession : 'hello keybindRestorePreviousSession',
+						keybindOpenQuickAccess : 'hello keybindOpenQuickAccess'
+					}
 				},
 				methods: {}
 			});
 
-			console.log(rootnode, vue);
+			// console.log(rootnode, vue);
 
 			// if(callback) callback();
 
