@@ -5,8 +5,7 @@ terafm.keyboardShortcutController = {};
 (function(keyboardShortcutController, db, editableManager, initHandler, options, keyboardShortcuts, toast) {
 	// 'use strict';
 
-	var popupNode,
-		popupVisible = false;
+	let vue;
 
 	keyboardShortcutController.showShortcutDialog = function() {
 		showPopup();
@@ -50,12 +49,13 @@ terafm.keyboardShortcutController = {};
 
 	function showPopup() {
 		build(function() {
-			popupNode.classList.remove('hidden');
-			popupVisible = true;
+			vue.visible = true;
 		})
 	}
 
 	function build(callback) {
+		if(vue) return callback();
+
 		terafm.ui.inject({
 			html: '<div id="tmp-holder"></div>',
 			returnNode: '#tmp-holder'
@@ -65,103 +65,46 @@ terafm.keyboardShortcutController = {};
 	}
 
 	function makeVue(rootnode, callback) {
-
-		// console.log(rootnode)
-		// return;
-
 		import( chrome.runtime.getURL('../templates/keyboardShortcutPopup.js') ).then(module => {
-			console.log(module.render);
-			console.log(module.staticRenderFns);
 
-			let vue = new Vue({
+			vue = new Vue({
 				...module,
 
 				el: rootnode,
 				data: function() {
 					return {
-						keybindDisabledMessage : 'hello keybindDisabledMessage',
-						keybindToggleRecDiag : 'hello keybindToggleRecDiag',
-						keybindRestorePreviousSession : 'hello keybindRestorePreviousSession',
-						keybindOpenQuickAccess : 'hello keybindOpenQuickAccess'
+						visible: true,
+						isDisabled : false,
+						keybindToggleRecDiag : 'false',
+						keybindRestorePreviousSession : 'false',
+						keybindOpenQuickAccess : 'false'
 					}
 				},
-				methods: {}
+				mounted: function() {
+					this.fetchOptions();
+				},
+				methods: {
+					fetchOptions: function() {
+						this.isDisabled = !options.get('keybindEnabled'),
+						this.keybindToggleRecDiag = terafm.keyboardShortcuts.printableKey(options.get('keybindToggleRecDiag')),
+						this.keybindRestorePreviousSession = terafm.keyboardShortcuts.printableKey(options.get('keybindRestorePreviousSession')),
+						this.keybindOpenQuickAccess = terafm.keyboardShortcuts.printableKey(options.get('keybindOpenQuickAccess'))
+					},
+					openSettings: function() {
+						chrome.runtime.sendMessage({action: 'openSettings'});
+					},
+					closeModal: function() {
+						this.visible = false;
+					},
+					backgroundClickHide: function(e) {
+						if(e.path[0].classList.contains('modal-container')) this.closeModal();
+					},
+				}
 			});
 
-			// console.log(rootnode, vue);
-
-			// if(callback) callback();
+			if(callback) callback();
 
 		});
 	}
-
-	/*
-
-	function hidePopup() {
-		if(popupVisible) {
-			popupNode.classList.add('hidden')
-			popupVisible = false;
-		}
-	}
-
-	function prettyKeyCombo(keyarr) {
-		
-		if(keyarr.length === 1 && keyarr[0] === '') {
-			return '<span class="key disabled">disabled</span>'
-		} else {
-			return '<span class="key">' + keyarr.join('</span> <span class="key">') + '</span>';
-		}
-	}
-
-	function setupEventListeners() {
-		popupNode.addEventListener('click', function(e) {
-			var target = e.path[0];
-
-			// Close btn
-			if(target.dataset.action === 'close') {
-				hidePopup();
-
-			// Overlay
-			} else if(target.id === 'keyboardShortcutPopup') {
-				hidePopup();
-
-			// Opts link
-			} else if(target.dataset.action === 'open-options') {
-				chrome.runtime.sendMessage({action: 'openSettings'});
-			}
-		})
-
-		keyboardShortcuts.on(['Escape'], function() {
-			hidePopup();
-		})
-	}
-
-	function build(callback) {
-		if(!popupNode) {
-
-			var disabledMsg = '';
-			if(!options.get('keybindEnabled')) {
-				disabledMsg = '<p class="error">You have disabled keyboard shortcuts in the options.</p>';
-			}
-
-			terafm.ui.inject({
-				path: 'templates/keyboardShortcutPopup.tpl',
-				returnNode: '#keyboardShortcutPopup'
-			}, {
-				'{{keybindDisabledMessage}}' : disabledMsg,
-				'{{keybindToggleRecDiag}}' : prettyKeyCombo(options.get('keybindToggleRecDiag')),
-				'{{keybindRestorePreviousSession}}' : prettyKeyCombo(options.get('keybindRestorePreviousSession')),
-				'{{keybindOpenQuickAccess}}' : prettyKeyCombo(options.get('keybindOpenQuickAccess'))
-			}, function(res) {
-				popupNode = res;
-				setupEventListeners();
-				callback()
-			})
-		} else {
-			callback()
-		}
-	}
-
-	*/
 
 })(terafm.keyboardShortcutController, terafm.db, terafm.editableManager, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);

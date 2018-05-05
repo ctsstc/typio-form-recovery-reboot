@@ -17,6 +17,14 @@ terafm.keyboardShortcuts = {};
 		})
 	}
 
+	keyboardShortcuts.printableKey = function(keycombo) {
+		if(keycombo.length === 1 && keycombo[0] === '') {
+			return '<span class="key disabled">disabled</span>'
+		} else {
+			return '<span class="key">' + keycombo.join('</span> <span class="key">') + '</span>';
+		}
+	}
+
 
 	function checkForCombo(event) {
 

@@ -1,13 +1,7 @@
 
 #keyboardShortcutPopup {
 
-	&.hidden {
-		display: none;
-	}
-
 	.modal {
-		animation: keyboardShortcutModalIn .5s;
-		display: block;
 		background: #FFF;
 		color: #333;
 		font-family: sans-serif;
@@ -26,27 +20,18 @@
 			}
 
 			.close {
-				width: 20px;
-				height: 20px;
+				font-size: 20px;
+				font-size: 20px;
+				line-height: 0px;
+				padding: 0;
 				border: none;
 				background: transparent;
 				cursor: pointer;
+				color: #FFF;
+				outline: none;
 
-				&:hover, &:focus {
-					outline: none;
-					// svg {
-					// 	fill: #FFC0C0;
-					// }
-				}
-
-				svg {
-					position: relative;
-					top: -5px;
-					left: -10px;
-					fill: #FFF;
-					height: 28px;
-					width: 28px;
-					pointer-events: none;
+				&:hover, &:active {
+					color: #D3EAFA;
 				}
 			}
 		}
@@ -94,10 +79,5 @@
 		.keys {
 			width: 270px;
 		}
-	}
-}
-@keyframes keyboardShortcutModalIn {
-	from {
-		transform: scale(.8);
 	}
 }
