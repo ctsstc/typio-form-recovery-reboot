@@ -38,7 +38,7 @@ terafm.Entry = class Entry {
 			str = terafm.help.decodeHTMLEntities(terafm.help.stripTags(str));
 		}
 
-		if(typeof opts.truncate === 'number') {
+		if(typeof opts.truncate === 'number' && str.length > opts.truncate) {
 			str = str.substring(0, opts.truncate) + '...';
 		}
 
