@@ -35,11 +35,6 @@ terafm.quickAccess = {};
 			html += '<p>No entries found for this input field</p>'
 		}
 
-		html += '<ul class="footer">';
-			html += '<li class="fill" data-action="browse-all">Browse all entries</li>';
-			html += '<li class="flex-icon" data-action="keyboard-shortcuts" data-tooltip="Show keyboard shortcuts"><span class="icon-keyboard"></span></li>';
-			html += '<li class="flex-icon" data-action="disable-site" data-tooltip="Disable Typio on this site"><span class="icon-block"></span></li>';
-		html += '</ul>';
 
 		menuNode.querySelector('ul').innerHTML = html;
 	};

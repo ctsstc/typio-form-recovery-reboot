@@ -1,6 +1,142 @@
 window.terafm = window.terafm || {};
 terafm.quickAccessController = {};
 
+(function(controller, initHandler, options, keyboardShortcuts) {
+
+	let vue;
+
+	initHandler.onInit(function() {
+		if(options.get('keybindEnabled')) {
+			keyboardShortcuts.on(options.get('keybindOpenQuickAccess'), function(e) {
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+
+				// toggle show
+				show();
+			});
+		}
+	});
+
+	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+		if(request.action === 'openQuickAccess') {
+			show();
+		}
+	});
+
+	function show() {
+		if(vue) {
+			vue.showAndPopulate();
+		} else {
+			build();
+		}
+	}
+
+	function build(callback) {
+		if(vue) return callback && callback();
+
+		terafm.ui.inject({
+			html: '<div id="tmp-qa-holder"></div>',
+			returnNode: '#tmp-qa-holder'
+		}, function(rootnode) {
+			makeVue(rootnode, callback);
+		});
+	}
+
+	function makeVue(rootnode, callback) {
+
+		import( chrome.runtime.getURL('../templates/quickAccess.js') ).then((module) => {
+			vue = new Vue({
+				...(module),
+				el: rootnode,
+				methods: {
+					showAndPopulate: function() {
+						if(!terafm.focusedEditable) {
+							console.warn('No terafm.focusedEditable');
+							return;
+						}
+						this.data = {sess:{}, recent: {}, empty: true};
+
+						this.data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
+						this.data.recent = terafm.db.getEntries(10-this.data.sess.length, terafm.focusedEditable.id);
+
+						this.isEmpty = (this.data.sess.length || this.data.recent.length) ? false : true;
+						
+						console.log(this.data);
+					},
+					hoverPreview: function(e) {
+						let li = getLI(e.path[0]);
+						if(this.selected !== li) {
+							this.unselect();
+							this.select(li);
+
+							let entry = this.getEntryBySelected(li);
+						}
+					},
+					resetPreview: function() {
+						console.log('reset')
+					},
+					restore: function(e) {
+						let li = getLI(e.path[0]);
+					},
+
+
+					openRecovery: function() {
+						
+					},
+					openKeyboardShortcutsModal: function() {
+						
+					},
+					disableSite: function() {
+						
+					},
+
+					getEntryBySelected: function(li) {
+						if(li.dataset.group === 'sess') {
+							return this.data.sess.entries[li.dataset.index];
+						} else if(li.dataset.group === 'recent') {
+							return this.data.recent.entries[li.dataset.index];
+						}
+					},
+
+					select: function(li) {
+						this.selected = li;
+						li.classList.add('selected');
+					},
+					unselect: function() {
+						this.selected && this.selected.classList.remove('selected');
+						this.selected = false;
+					},
+					selectNext: function() {
+
+					},
+				},
+				data: function() {
+					return {
+						data: {},
+						selected: false,
+						isEmpty: false
+					}
+				},
+				mounted: function() {
+					this.showAndPopulate();
+				}
+			});
+
+			if(callback) callback();
+		})
+
+
+
+
+		function getLI(el) {
+			if(el.nodeName.toLowerCase() === 'li') return el;
+			else return el.closest('li');
+		}
+	}
+
+})(terafm.quickAccessController, terafm.initHandler, terafm.options, terafm.keyboardShortcuts);
+
+
+/*
 (function(quickAccessController, quickAccess, editableManager, db, recoveryDialogController, Events, keyboardShortcuts, options, initHandler) {
 	"use strict";
 
@@ -283,3 +419,5 @@ terafm.quickAccessController = {};
 	}
 
 })(terafm.quickAccessController, terafm.quickAccess, terafm.editableManager, terafm.db, terafm.recoveryDialogController, terafm.Events, terafm.keyboardShortcuts, terafm.options, terafm.initHandler);
+
+*/

@@ -272,6 +272,7 @@ module.exports = function(grunt) {
             opts: { files : {src:'../templates/options/options.vue'} },
             dialog: { files : {src:'../templates/dialog/dialog.vue'} },
             keyboardShortcutPopup: { files : {src:'../templates/keyboardShortcutPopup/keyboardShortcutPopup.vue'} },
+            quickAccess: { files : {src:'../templates/quickAccess/quickAccess.vue'} },
         },
 
     });

@@ -42,9 +42,9 @@ setTimeout(function() {
 			shroot.querySelector('iframe').contentWindow.document.body.insertAdjacentHTML('afterbegin', '<iframe height="40"></iframe><textarea placeholder="dsf" rows=5 cols=20></textarea>');
 			var iframe = shroot.querySelector('iframe').contentWindow.document.querySelector('iframe').contentWindow;
 			iframe.document.body.innerHTML = '<input type="new in iframe" />';
-		}, 1000);
-	}, 500);
-}, 500);
+		}, 300);
+	}, 300);
+}, 300);
 
 
 // Generates shadow dom
