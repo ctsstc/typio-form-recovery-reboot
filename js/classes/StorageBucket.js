@@ -82,7 +82,7 @@ terafm.StorageBucket = class Bucket {
 	}
 
 	getSessions(_sids=[], max=-1) {
-		let sids = sids && _sids.length ? _sids : this.sessionIds.reverse();
+		let sids = _sids && _sids.length ? _sids : this.sessionIds.reverse();
 		let sesslist = new terafm.SessionList();
 
 		for(let sid of sids) {
