@@ -81,7 +81,7 @@
 						
 						<template v-if="currEntry.obj.type === 'contenteditable'">
 							<div class="btn-drop-container" onclick="this.classList.toggle('open')">
-								<button class="btn">Copy &#9662;</button>
+								<button class="btn" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : '' ]">Copy &#9662;</button>
 								<ul class="btn-drop">
 									<li v-on:click="copyEntry('plaintext')">Copy plain text</li>
 									<li v-on:click="copyEntry('formatting')">Copy with formatting</li>
@@ -89,7 +89,7 @@
 							</div>
 						</template>
 						<template v-else>
-							<button class="btn" v-on:click="copyEntry('plaintext')">Copy</button>
+							<button class="btn" v-on:click="copyEntry('plaintext')" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : '' ]">Copy</button>
 						</template>
 
 						<p class="message" v-if="currEntry.hasEditable()">This entry can be restored automatically.</p>
