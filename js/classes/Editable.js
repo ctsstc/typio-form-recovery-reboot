@@ -253,11 +253,11 @@ window.terafm = window.terafm || {};
 		}
 		if(isEditable(arg)) return terafm.cache(arg, () => new terafm.Editable(arg));
 	}
-	terafm.TextEditableFactory = el => {
+	terafm.TextEditableFactory = arg => {
 		if(typeof arg === 'string') {
 			arg = terafm.cache(arg, () => terafm.resolvePath(arg))
 		}
-		if(isTextEditable(el)) return terafm.cache(el, () => new terafm.Editable(el));
+		if(isTextEditable(arg)) return terafm.cache(arg, () => new terafm.Editable(arg));
 	}
 
 
