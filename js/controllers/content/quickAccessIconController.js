@@ -78,7 +78,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function hide() {
-		if(node) {node.style.display = 'none'; console.log('HIDDEN!')}
+		if(node) node.style.display = 'none';
 	}
 
 	function disableForEditable() {

@@ -48,7 +48,6 @@ window.terafm = window.terafm || {};
 			}
 		}
 		remHighlight() {
-			// Todo: test if org style is restored
 			if(this.isHighlighted() && this.el.terafmOrgStyle !== undefined) {
 				this.el.setAttribute('style', this.el.terafmOrgStyle);
 				delete this.el.terafmOrgStyle;
@@ -74,6 +73,7 @@ window.terafm = window.terafm || {};
 		}
 
 		applyPlaceholderEntry(entry) {
+			console.log('caching for', this.el);
 			this.cacheValue();
 			this.applyEntry(entry, {truncate: true});
 			this.highlight();
@@ -144,6 +144,8 @@ window.terafm = window.terafm || {};
 
 				} else if(this.el.type === 'radio') {
 
+					console.log('radio restore?', val);
+
 					// Set by value
 					if(val == parseInt(val)) {
 						this.el.checked = true;
@@ -151,7 +153,8 @@ window.terafm = window.terafm || {};
 					// Set by path
 					// Todo: What?? Also, change to deep selector?
 					} else {
-						var orgRadio = document.querySelector(val);
+						// var orgRadio = document.querySelector(val);
+						var orgRadio = this.el.getRootNode().querySelector(val);
 						if(orgRadio) {
 							orgRadio.checked = true;
 						}

@@ -52,17 +52,12 @@
 		}
 	}
 
-	function watchTree() {
-
-	}
-
 
 	
 	function deleteRadioSiblings(editable) {
 		if(editable.type === 'radio' && editable.el.name) {
 			
 			const radios = editable.el.getRootNode().querySelectorAll('input[type="radio"][name="'+ editable.el.name +'"]');
-			console.log(radios)
 			radios.forEach(function(rad) {
 				if(rad !== editable.el) {
 					let sib = new terafm.Editable(rad);
