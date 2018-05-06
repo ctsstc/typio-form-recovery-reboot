@@ -68,7 +68,7 @@ terafm.db = terafm.db || {};
 		return new Promise(done => {
 			if(!(bucket instanceof terafm.StorageBucket) || !bucket.hasOwnProperty('context') || !bucket.context.hasOwnProperty(domainId)) throw new Error('Can not push non-buckets to database.');
 			chrome.storage.local.set(bucket.context, () => {
-				console.log('pushed bucket', bucket)
+				// console.log('pushed bucket', bucket)
 				terafm.Events.trigger('db-save');
 				done();
 			});
@@ -118,11 +118,11 @@ terafm.db = terafm.db || {};
 	db.getEntry = (...args) => {
 		return buckets.applyOne(buck => buck.getEntry(...args));
 	}
-	db.del = (...args) => {
-		fetchAndMerge().then(bucket => {
-			buckets.inUse.del(...args);
-			bucket.del(...args);
-			pushBucket(bucket);
+	db.del = (sid, eid, callback) => {
+		fetchAndMerge().then(mergeBuck => {
+			buckets.inUse.del(sid, eid);
+			mergeBuck.del(sid, eid);
+			pushBucket(mergeBuck).then(fetchSnapshot).then(callback);
 		});
 	}
 

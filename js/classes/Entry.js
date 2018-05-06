@@ -113,7 +113,7 @@ terafm.Entry = class Entry {
 		}
 	}
 
-	delete() {
-		terafm.db.del(this.sessionId, this.editableId);
+	delete(callback) {
+		terafm.db.del(this.sessionId, this.editableId, callback);
 	}
 }

@@ -11,6 +11,14 @@ terafm.quickAccess = {};
 		ui.touch();
 		menuNode.classList.remove('hidden');
 		quickAccessVisible = true;
+		terafm.pauseLogging = true;
+	};
+
+	quickAccess.hide = function() {
+		if(!quickAccessVisible) return;
+		menuNode.classList.add('hidden');
+		quickAccessVisible = false;
+		terafm.pauseLogging = false;
 	};
 
 	quickAccess.isOpen = function() {
@@ -53,12 +61,6 @@ terafm.quickAccess = {};
 
 		menuNode.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
 	}
-
-	quickAccess.hide = function() {
-		if(!quickAccessVisible) return;
-		menuNode.classList.add('hidden');
-		quickAccessVisible = false;
-	};
 
 	// Injects HTML
 	quickAccess.build = function(callback) {

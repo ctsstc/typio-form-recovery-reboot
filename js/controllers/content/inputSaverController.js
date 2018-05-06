@@ -32,6 +32,7 @@
 	// Todo: Deal with empty values (chat apps?)
 	function changeHandler(el) {
 
+		if(terafm.pauseLogging) return;
 
 		const editable = terafm.EditableFactory(el);
 		console.log('change', editable);

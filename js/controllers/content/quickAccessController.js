@@ -267,7 +267,7 @@ terafm.quickAccessController = {};
 			quickAccess.hide();
 
 			if(data.action === 'browse-all') {
-				recoveryDialogController.open();
+				terafm.recoveryDialogController.open();
 
 			} else if(data.action === 'keyboard-shortcuts') {
 				terafm.keyboardShortcutController.showShortcutDialog();

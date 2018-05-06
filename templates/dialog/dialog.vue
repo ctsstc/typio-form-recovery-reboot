@@ -19,7 +19,7 @@
 			<div class="left">
 				<div class="header">
 					<div class="filter-box">
-						<input class="filter-input typioIgnoreField" type="text" placeholder="Filter entries" v-model="filterText" v-on:input="populate()">
+						<input class="filter-input typioIgnoreField" type="text" placeholder="Filter entries" v-model="filterText" v-on:input="populate(true)">
 						<div class="chk-label">
 							<div class="pretty-chk">
 								<input type="checkbox" id="chk-hide-small-entries" class="typioIgnoreField" v-model="filterSmallEntries" v-on:change="updateOptsFilterSmallEntries()">
@@ -29,30 +29,33 @@
 						</div>
 						<span class="icon icon-search"></span>
 					</div>
-					<p class="filter-warning" v-if="filteredCount">{{ filteredCount }} entries filtered - <a v-on:click="filterSmallEntries = false; filterText = ''; populate();">clear filters</a></p>
+					<p class="filter-warning" v-if="filteredCount">{{ filteredCount }} entries hidden - <a v-on:click="filterSmallEntries = false; filterText = ''; populate(true);">clear filters</a></p>
 				</div>
 				<div class="session-data">
 
-					<template v-if="totalEntries" v-for="sess in sesslist.getArray().reverse()">
-						<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
-						<ul v-if="sess.length" class="card-1">
-							<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">
-								<p>{{ entry.getPrintableValue({truncate: 300}) }}</p>
-								<div class="meta">
-									<div class="left">
-										<span v-if="entry.hasEditable()" class="status found">Target found</span>
-										<span v-if="!entry.hasEditable()" class="status not-found">Target not found</span>
+					<div v-if="sesslist !== false">
+						<template v-for="sess in sesslist.getArray().reverse()">
+							<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
+							<ul v-if="sess.length" class="card-1">
+								<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">
+									<p>{{ entry.getPrintableValue({truncate: 300}) }}</p>
+									<div class="meta">
+										<div class="left">
+											<span v-if="entry.hasEditable()" class="status ok">Target found</span>
+											<span v-if="!entry.hasEditable()" class="status bad">Target not found</span>
+										</div>
+										<div class="right">
+											<a class="delete" v-on:click="deleteEntry($event)">
+												<span class="text">Delete</span>
+											</a>
+										</div>
 									</div>
-									<div class="right">
-										<a class="delete" v-on:click="deleteEntry($event)">
-											<i class="icon-trash"></i> <span class="text">Delete</span>
-										</a>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</template>
-					<template v-if="totalEntries === 0">
+								</li>
+							</ul>
+						</template>
+					</div>
+
+					<template v-if="!sesslist || !sesslist.length">
 						<p>No entries found.</p>
 					</template>
 
@@ -92,12 +95,13 @@
 							<button class="btn" v-on:click="copyEntry('plaintext')" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : '' ]">Copy</button>
 						</template>
 
-						<p class="message" v-if="currEntry.hasEditable()">This entry can be restored automatically.</p>
-						<p class="message" v-if="!currEntry.hasEditable()"><span class="icon-trash"></span>This entry cannot be restored automatically.</p>
+						<p class="message-warn" v-if="!currEntry.hasEditable()"><span class="icon-info"></span>This entry cannot be restored automatically. <a href="#">Why?</a></p>
 					</div>
 
 					<div id="entry-text" class="entry-text card-1" v-html="currEntry.getPrintableValue({retainLineBreaks: true})"></div>
-					<div id="entry-path" class="entry-meta card-1">{{ currEntry.obj.path }}</div>
+					<div id="entry-path" class="entry-meta card-1">
+						{{ currEntry.obj.path }}
+					</div>
 				</div>
 			</div>	
 		</div>
