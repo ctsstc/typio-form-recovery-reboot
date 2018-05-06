@@ -104,7 +104,7 @@ terafm.db = terafm.db || {};
 		debouncePush();
 	}
 	db.getSessions = (max) => {
-		return buckets.applyBoth(buck => buck.getSessions()); // Todo: Make max arg work
+		return buckets.applyBoth(buck => buck.getSessions(false, max));
 	}
 	db.getSession = (sid) => {
 		return buckets.applyOne(buck => buck.getSession(sid));

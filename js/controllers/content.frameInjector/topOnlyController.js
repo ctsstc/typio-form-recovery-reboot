@@ -17,8 +17,6 @@
 
 		if(msg.data.action && msg.data.action === 'terafmEventCatcher') {
 			msg = msg.data.event;
-
-			// Todo: Unclear; it can resolve path anywhere, not just editables.
 			let target = terafm.resolvePath(msg.path[0]);
 
 			if(target) {
