@@ -22,6 +22,10 @@ terafm.Entry = class Entry {
 		}
 	}
 
+	isTextType() {
+		return terafm.editables.isTextEditableType(this.obj.type);
+	}
+
 	getValue(opts = {encodeHTMLEntities: false, decodeHTMLEntities: false, stripTags: false, truncate: false, trim: false, retainLineBreaks: false}) {
 
 		var str = this.obj.value;
