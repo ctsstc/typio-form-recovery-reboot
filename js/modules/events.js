@@ -10,6 +10,7 @@ terafm.Events = {};
 	Events.trigger = function(type, event) {
 		// console.log(type, event)
 		// Loop through handlers and call
+		// console.log('triggering', type, event);
 		if(type in handlers) {
 			for(let h =0; h < handlers[type].length; ++h) {
 				handlers[type][h](event);
@@ -19,8 +20,18 @@ terafm.Events = {};
 
 
 	Events.on = function(type, callback) {
-		if(!Array.isArray(handlers[type])) handlers[type] = [];
+		if(Array.isArray(type)) {
+			for(let evt of type) {
+				attachListener(evt, callback);
+			}
+		} else {
+			attachListener(type, callback);
+		}
+	}
 
+	function attachListener(type, callback) {
+		if(!Array.isArray(handlers[type])) handlers[type] = [];
+		// console.log('adding listener', type, callback)
 		handlers[type].push(callback);
 	}
 

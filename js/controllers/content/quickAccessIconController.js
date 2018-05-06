@@ -56,7 +56,7 @@ window.terafm = window.terafm || {};
 			})
 		}
 
-		Events.on('blur', function() {
+		Events.on(['blur'], function(e) {
 			ui.touch();
 			hide()
 		});
@@ -78,7 +78,7 @@ window.terafm = window.terafm || {};
 	}
 
 	function hide() {
-		if(node) node.style.display = 'none';
+		if(node) {node.style.display = 'none'; console.log('HIDDEN!')}
 	}
 
 	function disableForEditable() {

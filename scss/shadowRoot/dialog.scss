@@ -185,6 +185,25 @@
 			}
 		}
 	}
+
+	.status:before {
+		content: '';
+		display: inline-block;
+		height: 7px;
+		width: 7px;
+		border-radius: 100px;
+		margin-right: 5px;
+		position: relative;
+		top: -1px;
+	}
+	.status.ok:before {
+		background: #3FB91E;
+		box-shadow: 0 0 0 2px #D6F2CE;
+	}
+	.status.bad:before {
+		background: #B91E1E;
+		box-shadow: 0 0 0 2px #F2CECE;
+	}
 }
 
 
@@ -356,37 +375,20 @@
 		}
 
 		.delete {
-			color: #AAA;
+			color: #555;
 			text-decoration: none;
+			user-select: none;
 
 			.icon-trash {
 				font-size: 16px;
 				position: relative;
 				top: 3px;
+				display: none;
 			}
 
 			&:hover, &.confirm {
 				color: #DD4A4A;
 			}
-		}
-
-		.status:before {
-			content: '';
-			display: inline-block;
-			height: 7px;
-			width: 7px;
-			border-radius: 100px;
-			margin-right: 5px;
-			position: relative;
-			top: -1px;
-		}
-		.status.found:before {
-			background: #3FB91E;
-			box-shadow: 0 0 0 2px #D6F2CE;
-		}
-		.status.not-found:before {
-			background: #B91E1E;
-			box-shadow: 0 0 0 2px #F2CECE;
 		}
 	}
 }
@@ -397,8 +399,16 @@
 	height: 100%;
 
 	.entry-header {
-		.message {
-			margin-top: 20px;
+		margin-bottom: 20px;
+
+		.message-warn {
+			margin: 20px 0 0;
+
+			span {
+				position: relative;
+				top: 2px;
+				margin-right: 4px;
+			}
 		}
 	}
 	.entry-text, .entry-meta {

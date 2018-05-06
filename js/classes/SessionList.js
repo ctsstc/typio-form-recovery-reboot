@@ -118,6 +118,13 @@ terafm.SessionList = class SessionList {
 		if(!this.contains(sid)) return false;
 		return this.sessions[sid].entries.hasOwnProperty(eid) ? this.sessions[sid].entries[eid] : null;
 	}
+	deleteEntry(sid, eid, callback) {
+		if(!this.contains(sid)) return false;
+		this.getEntry(sid, eid).delete(() => {
+			if(this.sessions[sid].entries.hasOwnProperty(eid)) delete this.sessions[sid].entries[eid];
+			if(callback) callback();
+		});
+	}
 
 	merge(list) {
 		if(!(list instanceof terafm.SessionList)) throw new Error('Merge requires another ' + this.constructor.name + ' to merge.');
