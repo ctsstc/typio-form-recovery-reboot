@@ -23,6 +23,7 @@ terafm.saveIndicator = {};
 	}
 
 	saveIndicator.animate = function() {
+		if(!isVisible) return;
 		animatorNode.style.animation = 'none';
 		animatorNode.offsetHeight; // Trigger reflow
 		animatorNode.style.animation = null;
