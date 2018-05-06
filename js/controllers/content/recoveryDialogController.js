@@ -35,16 +35,14 @@ terafm.recoveryDialogController = {};
 	}
 
 	function build(callback) {
-		if(!vue) {
-			terafm.ui.inject({
-				html: '<div id="tmp-dialog-holder"></div>',
-				returnNode: '#tmp-dialog-holder'
-			}, function(rootnode) {
-				makeVue(rootnode, callback);
-			});
-		} else {
-			if(callback) callback();
-		}
+		if(vue) return callback && callback();
+
+		terafm.ui.inject({
+			html: '<div id="tmp-dialog-holder"></div>',
+			returnNode: '#tmp-dialog-holder'
+		}, function(rootnode) {
+			makeVue(rootnode, callback);
+		});
 	}
 
 	function makeVue(rootnode, callback) {

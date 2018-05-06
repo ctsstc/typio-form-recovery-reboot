@@ -62,3 +62,6 @@
 .icon-trash:before {
   content: "\63";
 }
+.icon-ios-albums-outline:before {
+  content: "\61";
+}
