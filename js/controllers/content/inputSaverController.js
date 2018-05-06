@@ -8,7 +8,6 @@
 
 		Events.on('input', e => changeHandler(e.path[0]));
 		Events.on('change', e => changeHandler(e.path[0]));
-		// Events.on('submit', e => changeHandler(e.path[0])); // Todo: Add? Test?
 
 		// Hack for facebook messenger
 		if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host)) {
@@ -29,15 +28,14 @@
 		});
 	})
 
-	// Todo: Deal with empty values (chat apps?)
 	function changeHandler(el) {
 
 		if(terafm.pauseLogging) return;
 
 		const editable = terafm.EditableFactory(el);
-		console.log('change', editable);
 
 		if(!editable) return;
+		console.log('change', editable);
 
 		editable.touch();
 

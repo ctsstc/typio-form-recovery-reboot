@@ -184,7 +184,6 @@ keyCapture();
 	})
 
 
-	// Todo: sanitize
 	function genListItem(id, domain, classname) {
 		return '<li class="'+ classname +'" data-id="'+ id +'"><span>' + domain + '</span><span class="del">Delete</span></li>';
 	}
