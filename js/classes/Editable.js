@@ -244,10 +244,6 @@ window.terafm = window.terafm || {};
 		}
 	}
 
-
-	const editableTypes = ['color', 'date', 'datetime-local', 'email', 'month', 'number', 'password', 'checkbox', 'radio', 'range', 'search', 'tel', 'text', 'time', 'url', 'week'];
-	const textEditableTypes = ['text', 'email', 'search', 'password', 'url', 'tel', 'number'];
-
 	terafm.EditableFactory = arg => {
 		if(typeof arg === 'string') {
 			arg = terafm.cache(arg, () => terafm.resolvePath(arg))
@@ -278,7 +274,7 @@ window.terafm = window.terafm || {};
 	function isEditable(elem) {
 		if(!isElement(elem)) return false;
 
-		if(isNode(elem, 'INPUT') && editableTypes.includes(elem.type)) {
+		if(isNode(elem, 'INPUT') && terafm.editables.isEditableType(elem.type)) {
 			return true;
 
 		} else if(isNode(elem, 'TEXTAREA')) {
@@ -296,7 +292,7 @@ window.terafm = window.terafm || {};
 	function isTextEditable(elem) {
 		if(!isElement(elem)) return false;
 
-		if(isNode(elem, 'INPUT') && textEditableTypes.includes(elem.type)) {
+		if(isNode(elem, 'INPUT') && terafm.editables.isTextEditableType(elem.type)) {
 			return true;
 
 		} else if(elem.getAttribute('contenteditable') == 'true') {

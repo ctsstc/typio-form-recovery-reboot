@@ -22,14 +22,14 @@
 						<input class="filter-input typioIgnoreField" type="text" placeholder="Filter entries" v-model="filterText" v-on:input="populate(true)">
 						<div class="chk-label">
 							<div class="pretty-chk">
-								<input type="checkbox" id="chk-hide-small-entries" class="typioIgnoreField" v-model="filterSmallEntries" v-on:change="updateOptsFilterSmallEntries()">
+								<input type="checkbox" id="chk-hide-small-entries" class="typioIgnoreField" v-model="filterShowTextOnly" v-on:change="updateOptsfilterShowTextOnly()">
 								<div class="fake-chk"></div>
 							</div>
-							<label for="chk-hide-small-entries">Hide small entries</label>
+							<label for="chk-hide-small-entries">Hide non-text entries</label>
 						</div>
 						<span class="icon icon-search"></span>
 					</div>
-					<p class="filter-warning" v-if="filteredCount">{{ filteredCount }} entries hidden - <a v-on:click="filterSmallEntries = false; filterText = ''; populate(true);">clear filters</a></p>
+					<p class="filter-warning" v-if="filteredCount">{{ filteredCount }} entries hidden - <a v-on:click="resetFilters(); populate(true);">clear filters</a></p>
 				</div>
 				<div class="session-data">
 
@@ -38,7 +38,7 @@
 							<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
 							<ul v-if="sess.length" class="card-1">
 								<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">
-									<p>{{ entry.getPrintableValue({truncate: 300}) }}</p>
+									<p>{{ entry.getPrintableValue({truncate: 300}) }} {{ entry.obj.type }}</p>
 									<div class="meta">
 										<div class="left">
 											<span v-if="entry.hasEditable()" class="status ok">Target found</span>

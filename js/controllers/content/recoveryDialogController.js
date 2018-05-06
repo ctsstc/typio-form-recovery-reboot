@@ -97,16 +97,21 @@ terafm.recoveryDialogController = {};
 					},
 
 					populate: function(opts = {scrollTop: false}) {
-						document.activeElement.blur();
 						this.setDefaultPage();
 
 						db.fetch().then(() => {
 							this.sesslist = db.getSessions();
 
-							if(this.filterSmallEntries || this.filterText.length > 2) {
+							if(this.filterShowTextOnly || this.filterText.length > 1) {
 								var defCount = this.sesslist.countEntries();
 								this.sesslist = this.sesslist.filterEntries(entry => {
-									if(entry.obj.value.toLowerCase().indexOf(this.filterText.toLowerCase()) === -1 || entry.obj.value.length < 6) return null;
+									if(this.filterText.length > 1) {
+										if(entry.obj.value.toLowerCase().indexOf(this.filterText.toLowerCase()) === -1) return null;
+									}
+
+									if(this.filterShowTextOnly) {
+										if(!entry.isTextType()) return null;
+									}
 								});
 								this.filteredCount = defCount - this.sesslist.countEntries();
 							} else {
@@ -119,9 +124,13 @@ terafm.recoveryDialogController = {};
 					scrollTop: function() {
 						this.$el.querySelector('.session-data').scrollTop = 0;
 					},
-					updateOptsFilterSmallEntries: function() {
+					updateOptsfilterShowTextOnly: function() {
 						this.populate();
-						options.set('hideSmallEntries', this.filterSmallEntries);
+						options.set('hideSmallEntries', this.filterShowTextOnly);
+					},
+					resetFilters: function() {
+						this.filterText = '';
+						this.filterShowTextOnly = false;
 					},
 
 					deleteEntry: function(e) {
@@ -191,10 +200,11 @@ terafm.recoveryDialogController = {};
 					currEntry: null,
 
 					filteredCount: 0,
-					filterSmallEntries: options.get('hideSmallEntries'),
+					filterShowTextOnly: options.get('hideSmallEntries'),
 					filterText: '',
 				},
 				mounted: function() {
+					document.activeElement.blur();
 					this.populate();
 				}
 			});
