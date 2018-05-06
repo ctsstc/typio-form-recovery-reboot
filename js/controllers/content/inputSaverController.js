@@ -21,7 +21,7 @@
 		Events.on('focus', e => {
 			observer.disconnect();
 
-			const editable = terafm.EditableFactory(e.path[0]);
+			const editable = terafm.editables.get(e.path[0]);
 			if(editable && editable.isContentEditable()) {
 				observer.observe(editable.el, {childList: true, subtree: true});
 			}
@@ -32,7 +32,7 @@
 
 		if(terafm.pauseLogging) return;
 
-		const editable = terafm.EditableFactory(el);
+		const editable = terafm.editables.get(el);
 
 		if(!editable) return;
 		console.log('change', editable);

@@ -49,7 +49,7 @@ terafm.quickAccessController = {};
 	});
 
 	Events.on('contextmenu', function(e) {
-		contextTarget = terafm.EditableFactory(e.path[0]);
+		contextTarget = terafm.editables.get(e.path[0]);
 
 		if(contextTarget) {
 			contextTargetRect = {}

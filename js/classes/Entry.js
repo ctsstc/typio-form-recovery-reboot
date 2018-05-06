@@ -113,7 +113,7 @@ terafm.Entry = class Entry {
 		if(this._editable) {
 			return this._editable;
 		} else {
-			return this._editable = terafm.EditableFactory(this.obj.path);
+			return this._editable = terafm.editables.get(this.obj.path);
 		}
 	}
 
