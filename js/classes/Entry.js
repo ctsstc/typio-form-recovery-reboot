@@ -111,10 +111,11 @@ terafm.Entry = class Entry {
 	}
 
 	getEditable() {
-		if(this._editable) {
+		if(this._editable !== undefined) {
 			return this._editable;
 		} else {
-			return this._editable = terafm.editables.get(this.obj.path);
+			this._editable = terafm.editables.get(this.obj.path);
+			return this._editable;
 		}
 	}
 
