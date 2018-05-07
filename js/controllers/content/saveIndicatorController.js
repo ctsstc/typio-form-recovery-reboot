@@ -16,7 +16,7 @@ window.terafm = window.terafm || {};
 	function addEventListeners() {
 
 		Events.on('db-save', () => {
-			vue.animate();
+			if(vue) vue.animate();
 		});
 
 		Events.on('editable-text-focus', function() {
