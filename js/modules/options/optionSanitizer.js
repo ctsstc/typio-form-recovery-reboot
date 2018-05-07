@@ -43,6 +43,7 @@ window.terafm.optionSanitizer = {};
 		storageTimeDays: sanitizers.yearInDays,
 		quickAccessButtonEnabled: sanitizers.bool,
 		quickAccessButtonTrigger: sanitizers.quickAccessTrigger,
+		cloneOnRestore: sanitizers.bool,
 
 		keybindToggleRecDiag: sanitizers.keyBinding,
 		keybindRestorePreviousSession: sanitizers.keyBinding,

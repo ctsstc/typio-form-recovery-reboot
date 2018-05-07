@@ -93,6 +93,7 @@ terafm.Entry = class Entry {
 		let editable = this.getEditable();
 		if(editable) {
 			editable.applyEntry(this);
+			if(terafm.options.get('cloneOnRestore') === true) editable.getEntry().save();
 			if(opts.flash) editable.flashHighlight();
 		}
 	}

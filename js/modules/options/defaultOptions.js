@@ -16,6 +16,7 @@ window.terafm.defaultOptions = {};
 	def.keybindEnabled = true;
 	def.quickAccessButtonEnabled = true;
 	def.quickAccessButtonTrigger = 'focus';
+	def.cloneOnRestore = false;
 
 	// Mac specific
 	if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {
