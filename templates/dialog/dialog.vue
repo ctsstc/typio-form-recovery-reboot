@@ -41,8 +41,8 @@
 									<p>{{ entry.getPrintableValue({truncate: 300}) }}</p>
 									<div class="meta">
 										<div class="left">
-											<span v-if="entry.hasEditable()" class="status ok">Target found</span>
-											<span v-if="!entry.hasEditable()" class="status bad">Target not found</span>
+											<span v-if="entry.hasEditable()" class="status ok">Input found</span>
+											<span v-if="!entry.hasEditable()" class="status bad">Input not found</span>
 										</div>
 										<div class="right">
 											<a class="delete" v-on:click="deleteEntry($event)">
