@@ -119,7 +119,7 @@ window.terafm = window.terafm || {};
 				offset = 4;
 
 			// Calculate edge offset
-			if(rect.height < 50 && rect.width > 150) {
+			if(!editable.isBigTextEditable()) { // if(rect.height < 50 && rect.width > 150) {
 				offset = (rect.height/2) - (18/2);
 			}
 
@@ -128,7 +128,7 @@ window.terafm = window.terafm || {};
 				pos.x -= 17;
 			}
 
-			pos.x -= offset;
+			pos.x -= (offset > 15 ? 15 : offset);
 			pos.y += offset;
 
 			node.style.top = pos.y + 'px';
