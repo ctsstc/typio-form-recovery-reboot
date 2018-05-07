@@ -92,6 +92,7 @@ terafm.help = (function() {
 	exp.copyToClipboard = function(text) {
 		var input = document.createElement('input');
 		input.setAttribute('value', text);
+		input.setAttribute('class', 'typioIgnoreField');
 		document.body.appendChild(input);
 		input.select();
 		var result = document.execCommand('copy');
