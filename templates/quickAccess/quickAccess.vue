@@ -5,7 +5,7 @@
 	<template v-for="dataType in ['sess', 'recent']">
 		<ul v-if="data[dataType]" class="entry-list">
 			<li v-for="(entry, index) in data[dataType].entries">
-				<div v-on:click="restore($event)" v-on:mousemove="preview($event)" :data-group="dataType" :data-index="index" class="fill selectable">
+				<div :data-todo="entry.editableId + ' ' + entry.sessionId" v-on:click="restore($event)" v-on:mousemove="preview($event)" :data-group="dataType" :data-index="index" class="fill selectable">
 					{{ entry.getPrintableValue({truncate: 50}) }}
 				</div>
 				
