@@ -21,7 +21,8 @@ terafm.editables = {};
 		if(typeof el === 'string') el = terafm.cache(el, () => terafm.resolvePath(el));
 
 		if(el && editableCache.has(el)) {
-			return editableCache.get(el);
+			let ed = editableCache.get(el);
+			return ed.isTextEditable() ? ed : false;
 
 		} else if(!onlyTextEditable && editables.isEditable(el) || onlyTextEditable && editables.isTextEditable(el)) {
 			let ed = new terafm.Editable(el);
