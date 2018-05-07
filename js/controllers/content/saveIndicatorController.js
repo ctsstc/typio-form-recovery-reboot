@@ -51,7 +51,6 @@ window.terafm = window.terafm || {};
 	}
 
 	function makeVue(rootnode, callback) {
-
 		import( chrome.runtime.getURL('../templates/saveIndicator.js') ).then((module) => {
 			vue = new Vue({
 				...(module),
@@ -64,9 +63,11 @@ window.terafm = window.terafm || {};
 						this.isVisible = false;
 					},
 					animate: function() {
-						this.animator.style.animation = 'none';
-						this.animator.offsetHeight; // Trigger reflow
-						this.animator.style.animation = null;
+						if(this.isVisible) {
+							this.animator.style.animation = 'none';
+							this.animator.offsetHeight; // Trigger reflow
+							this.animator.style.animation = null;
+						}
 					},
 				},
 				data: function() {

@@ -24,7 +24,7 @@ window.terafm = window.terafm || {};
 		clearTimeout(focusTimeout)
 		focusTimeout = setTimeout(function() {
 			target = e.path[0];
-			terafm.focusedEditable = terafm.editables.get(e.path[0], true);
+			terafm.focusedEditable = terafm.editables.getTextEditable(e.path[0]);
 			if(terafm.focusedEditable) Events.trigger('editable-text-focus', null)
 		})
 	});
@@ -36,7 +36,7 @@ window.terafm = window.terafm || {};
 
 		// If focus has taken care of it, do nothing
 		if(e.path[0] !== target) {
-			var editable = terafm.editables.get(e.path[0], true);
+			var editable = terafm.editables.getTextEditable(e.path[0]);
 
 			target = e.path[0];
 			
