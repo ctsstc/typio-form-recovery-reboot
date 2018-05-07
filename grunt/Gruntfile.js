@@ -247,7 +247,7 @@ module.exports = function(grunt) {
             },
 
             copyTemplates: {
-                files: ['../templates/**/*.*'],
+                files: ['../templates/**/*.vue'],
                 tasks: ['vue_template_compiler', 'copy:templates'],
                 options: {
                     spawn: false
