@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Form Recovery</title>
+	<title>Options - Typio Form Recovery</title>
 	<link rel="stylesheet" href="../css/options.css">
 </head>
 <body>
@@ -27,8 +27,10 @@
 			<a href="#blacklist-group">Domain blacklist</a>
 			<a href="#contextmenu-group">Context menu</a>
 			<br>
-			<a href="#privacypolicy-group">Privacy policy</a>
-			<a href="#feedback-group">Feedback</a>
+			<a href="options.html">Options page</a>
+			<a href="privacypolicy.html">Privacy policy</a>
+			<a href="docs.html">Documentation</a>
+			<a href="feedback.html">Feedback</a>
 		</div>
 
 		<div class="options-panel">
@@ -51,7 +53,7 @@
 						<input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
 						<span class="chk"></span>
 					</div>
-					<label for="checkboxSaveCreditCards">Save credit card numbers</label>
+					<label for="checkboxSaveCreditCards">Save credit card numbers <span data-tooltip="Typio will attempt to ignore credit card numbers based on the length and structure of the number. Numbers similar to credit cards will also be ignored.">(info)</span></label>
 				</p>
 
 				<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
@@ -64,7 +66,7 @@
 					<input class="autosave" type="checkbox" data-option="cloneOnRestore" id="checkboxcloneOnRestore">
 					<span class="chk"></span>
 				</div>
-				<label for="checkboxcloneOnRestore">Clone entries on restoration</label>
+				<label for="checkboxcloneOnRestore">Clone entries on restoration <span data-tooltip="Entries will be re-saved in the current session upon restoration.">(info)</span></label>
 			</div>
 
 			<div id="quickAccess-group" class="opt-group">
@@ -158,18 +160,6 @@
 					<span class="chk"></span>
 				</div>
 				<label for="checkboxHideContextItems">Hide Typio from context menu</label>
-			</div>
-
-			<div id="privacypolicy-group" class="opt-group">
-				<p class="opt-title">Privacy policy</p>
-				<p>Any user input Typio collects is stored only for the purpose of restoration and is never uploaded to any servers. Your data stays on your computer.</p>
-				<p>The source code for Typio is available to view on <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">Bitbucket</a>.</p>
-			</div>
-
-			<div id="feedback-group" class="opt-group">
-				<p class="opt-title">Feedback</p>
-				<p>You can submit feedback or bug reports on the <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new">bug tracker</a> or Tweet me at <a href="https://twitter.com/TypioRecovery">@TypioRecovery</a>.</p>
-				<p>If you're enjoying the experience with Typio, you can let others know by <a href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">leaving a review</a>.</p>
 			</div>
 
 			<p><button id="saveAndClose">Save and close</button></p>
