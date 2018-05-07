@@ -6,3 +6,4 @@
 /grunt/.sass-cache
 /.sublime-project.sublime-workspace
 /todo.*
+/templates/*/render.js
