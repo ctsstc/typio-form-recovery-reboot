@@ -338,19 +338,21 @@
 	ul li {
 		position: relative;
 		padding: 15px 20px;
-		transition-duration: .1s;
 		border-bottom: 1px solid #ededed;
+		background: #FFF;
+		cursor: default;
+		// transition-duration: .1s;
 		&:last-child {border-bottom: none;}
 
-		// &:not(:hover):not(.selected) .meta {
-		// 	&, & a {
-		// 		filter: grayscale(30%);
-		// 	}
-		// }
 
-		&.selected {
+		&.selected, &.selected:hover {
 			box-shadow: 0 0 3px 1px #cfd2d9, 0 1px 10px 0 rgba(0, 41, 124, 0.1);
+			margin: 0 -4px;
+			padding: 15px 24px;
 			z-index: 2;
+		}
+		&:hover {
+			// background: #fafafb;
 		}
 
 		p {
