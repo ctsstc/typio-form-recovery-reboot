@@ -266,6 +266,7 @@ module.exports = function(grunt) {
             keyboardShortcutPopup: { files : {src:'../templates/keyboardShortcutPopup/keyboardShortcutPopup.vue'} },
             quickAccess: { files : {src:'../templates/quickAccess/quickAccess.vue'} },
             saveIndicator: { files : {src:'../templates/saveIndicator/saveIndicator.vue'} },
+            toast: { files : {src:'../templates/toast/toast.vue'} },
         },
 
     });

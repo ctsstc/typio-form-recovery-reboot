@@ -3,21 +3,55 @@ terafm.toast = {};
 
 (function(toast, ui) {
 
-	var rootNode;
+	let vue;
 
-	toast.create = function(text) {
+	toast.create = function(message) {
 		build(function() {
-			rootNode.innerHTML = '<div class="toast">'+ text +'</div>';
-		})
+			vue.showMessage(message);
+		});
 	}
 
+
 	function build(callback) {
-		ui.inject({
-			path: 'templates/toast.tpl',
-			returnNode: '#toast-container'
-		}, function(resnode) {
-			rootNode = resnode;
-			callback();
+		if(vue) return callback && callback();
+
+		terafm.ui.inject({
+			html: '<div id="tmp-toast-holder"></div>',
+			returnNode: '#tmp-toast-holder'
+		}, function(rootnode) {
+			makeVue(rootnode, () => {
+				if(callback) callback();
+			});
+		});
+	}
+
+	function makeVue(rootnode, callback) {
+
+		import( chrome.runtime.getURL('../templates/toast.js') ).then((module) => {
+			vue = new Vue({
+				...(module),
+				el: rootnode,
+				methods: {
+					showMessage: function(message) {
+						this.message = message;
+						this.isVisible = true;
+
+						clearTimeout(this.timeout);
+						this.timeout = setTimeout(() => {
+							this.isVisible = false;
+						}, 3000);
+					},
+				},
+				data: function() {
+					return {
+						message: '',
+						isVisible: false,
+						timeout: null
+					}
+				}
+			});
+
+			if(callback) requestAnimationFrame(() => requestAnimationFrame(callback));
 		})
 	}
 

@@ -11,25 +11,6 @@ var terafm = window.terafm;
 
 			// Run init handlers
 			initHandler.executeInitHandlers();
-
-			// let entr = db.getEntriesExcludingEditable('field-1712385224');
-
-			// var sesss = db.getSessions();
-			// console.log(sesss)
-			// console.log(sesss.getEntriesByEditable('field-1712385224'))
-
-			// let s = db.getSessions();
-			// let s = db.getSessionsContainingEditable('field-1712385224');
-			// console.log(s);
-			// console.log(s.truncate(1));
-
-			// let sess = db.getSession('1522235705');//('1522147757');
-			// console.log(sess)
-			// sess.filter(entry => !!entry.getEditable())
-			// console.log(sess.initLength, sess.length);
-
-			// let entry = db.getEntry('1522094138', 'field-1712385224');
-			// console.log(entry.restore(true))
 		});
 	});
 
@@ -41,6 +22,7 @@ var terafm = window.terafm;
 		if(request.action === 'ping') {
 			sendResponse(true);
 		
+		// Todo: ?
 		} else if(request.action === 'clearData') {
 			db.deleteAllSessions();
 			recoveryDialog.hide();

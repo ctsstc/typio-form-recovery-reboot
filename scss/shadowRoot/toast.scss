@@ -8,7 +8,14 @@
 	z-index: 9999999999999;
 	pointer-events: none;
 
-	.toast {
+	&.visible {pointer-events: auto}
+
+	&.visible .message {
+		opacity: 1;
+		transform: translateY(40px);
+	}
+
+	.message {
 		display: inline-block;
 		padding: 10px 16px;
 		background: rgba(0,0,0,.8);
@@ -16,23 +23,9 @@
 		font-size: 14px;
 		font-family: sans-serif;
 		border-radius: 3px;
-		animation: animateIn 3s;
-		animation-fill-mode: forwards;
-	}
-}
 
-@keyframes animateIn {
-	0% {
-		transform: translateY(-105%)
-	}
-
-	10% {
-		transform: translateY(30px)
-	}
-	90% {
-		transform: translateY(30px)
-	}
-	100% {
-		transform: translateY(-105%)
+		opacity: 0;
+		transform: translateY(-110%);
+		transition-duration: .2s;
 	}
 }
