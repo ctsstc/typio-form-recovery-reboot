@@ -71,7 +71,6 @@ terafm.Editable = class Editable {
 	}
 
 	applyPlaceholderEntry(entry) {
-		console.log('caching for', this.el);
 		this.cacheValue();
 		this.applyEntry(entry, {truncate: true});
 		this.highlight();

@@ -27,12 +27,15 @@ window.terafm = window.terafm || {};
 				hide();
 				disableForEditable();
 			} else {
-				if(!terafm.quickAccess.isOpen()) {
-					terafm.quickAccessController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+18, y: parseFloat(node.style.top)})
-					terafm.quickAccessController.open();
-				} else {
-					terafm.quickAccess.hide();
-				}
+				// if(!terafm.quickAccess.isOpen()) {
+				// 	terafm.quickAccessController.setContext(terafm.focusedEditable, {x: parseFloat(node.style.left)+18, y: parseFloat(node.style.top)})
+				// 	terafm.quickAccessController.open();
+				// } else {
+				// 	terafm.quickAccess.hide();
+				// }
+
+				console.log(e);
+				terafm.quickAccessController.show(terafm.focusedEditable, {x: e.pageX, y: e.pageY});
 			}
 		})
 	}
