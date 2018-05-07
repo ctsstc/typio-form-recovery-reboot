@@ -149,7 +149,6 @@ module.exports = function(grunt) {
                         '../js/modules/editables.js',
                         '../js/modules/validator.js',
                         '../js/modules/ui.js',
-                        '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',
                         '../js/modules/events.js',
                         '../js/modules/keyboardShortcuts.js',
@@ -266,6 +265,7 @@ module.exports = function(grunt) {
             dialog: { files : {src:'../templates/dialog/dialog.vue'} },
             keyboardShortcutPopup: { files : {src:'../templates/keyboardShortcutPopup/keyboardShortcutPopup.vue'} },
             quickAccess: { files : {src:'../templates/quickAccess/quickAccess.vue'} },
+            saveIndicator: { files : {src:'../templates/saveIndicator/saveIndicator.vue'} },
         },
 
     });
