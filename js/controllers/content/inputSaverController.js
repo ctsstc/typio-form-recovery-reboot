@@ -35,13 +35,13 @@
 		const editable = terafm.editables.get(el);
 
 		if(!editable) return;
-		console.log('change', editable);
 
 		editable.touch();
 
 		if(terafm.validator.validate(editable)) {
-			editable.getEntry().save();
+			let entry = editable.getEntry();
 
+			if(entry.obj.value.length > 0) entry.save();
 			if(editable.type === 'radio') deleteRadioSiblings(editable);
 
 		// Did not validate, delete if exists (if value validation failed)
