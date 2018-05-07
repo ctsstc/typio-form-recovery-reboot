@@ -60,7 +60,9 @@ terafm.quickAccessController = {};
 						}
 						this.data = {sess:{}, recent: {}, empty: true};
 						this.data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
-						this.data.recent = terafm.db.getEntries(10-this.data.sess.length, terafm.focusedEditable.id);
+						this.data.recent = terafm.db.getEntries(10-this.data.sess.length, terafm.focusedEditable.id, function(entry) {
+							return terafm.editables.isTextEditableType(entry.obj.type);
+						});
 
 						this.isEmpty = (this.data.sess.length || this.data.recent.length) ? false : true;
 						this.editable = ed;
