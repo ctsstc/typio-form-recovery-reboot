@@ -1,3 +1,36 @@
+(function() {
+
+	let node,
+		visible = false;
+
+	document.addEventListener('mousemove', function(e) {
+		if(e.path[0].dataset.tooltip) {
+			let text = e.path[0].dataset.tooltip;
+			
+			build();
+
+			node.innerText = text;
+			node.style.display = 'block';
+			node.style.top = window.scrollY + e.clientY + 20 + 'px';
+			node.style.left = window.scrollX + e.clientX + 'px';
+
+			visible = true;
+		} else if(visible) {
+			node.style.display = 'none';
+			visible = false;
+		}
+	})
+
+	function build() {
+		if(node) return node;
+		document.body.insertAdjacentHTML('beforeend', '<div id="terafm-tooltip"></div>');
+		node = document.querySelector('#terafm-tooltip');
+	}
+
+})();
+
+
+
 function keyCapture() {
 	var keyInpts = document.querySelectorAll('.set-shortcut'),
 		currInput = undefined,
