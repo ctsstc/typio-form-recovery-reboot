@@ -78,6 +78,9 @@ terafm.editables = {};
 	editables.isContentEditable = (elem) => {
 		return elem.contentEditable === 'true';
 	}
+	editables.isBigTextEditable = (elem) => {
+		return elem.contentEditable === 'true' || elem.type === 'textarea';
+	}
 
 	editables.isElement = (elem) => {
 		if(elem.ownerDocument && elem.ownerDocument.defaultView) {
