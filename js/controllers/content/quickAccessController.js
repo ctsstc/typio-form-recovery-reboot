@@ -69,8 +69,10 @@ terafm.quickAccessController = {};
 						this.isVisible = true;
 					},
 					hide: function() {
-						this.resetPreview();
-						this.isVisible = false;
+						if(this.isVisible) {
+							this.resetPreview();
+							this.isVisible = false;
+						}
 					},
 					position: function(ed, coord) {
 						let popupHeight = this.$el.clientHeight,
@@ -190,6 +192,10 @@ terafm.quickAccessController = {};
 	}
 
 	function setupKeyNav() {
+
+		terafm.Events.on('mousedown', () => vue.hide());
+		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
+
 		keyboardShortcuts.on(['ArrowDown'], selNext);
 		keyboardShortcuts.on(['ArrowRight'], selNext);
 		function selNext(e) {
@@ -237,9 +243,9 @@ terafm.quickAccessController = {};
 
 		keyboardShortcuts.on(['Escape'], hide);
 		keyboardShortcuts.on(['Tab'], hide);
+		keyboardShortcuts.on(['Shift', 'Tab'], hide);
 		function hide(e) {
 			if(vue.isVisible) {
-				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 				vue.hide();
 			}
 		}
