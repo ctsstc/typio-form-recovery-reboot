@@ -35,8 +35,6 @@
 
 			<div id="saving-options-group" class="opt-group">
 				<p class="opt-title">Save options</p>
-		
-				<p>Typio will keep your data for the selected day count. Manually clearing the site data in Google Chrome options will also delete all of the saved Typio data.</p>
 
 				<p>
 					Save data for &nbsp;<input class="smallinput autosave" maxlength="4" data-option="storageTimeDays" type="text">&nbsp; days
@@ -57,6 +55,16 @@
 				</p>
 
 				<p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
+			</div>
+
+			<div id="restore-options-group" class="opt-group">
+				<p class="opt-title">Restore options</p>
+
+				<div class="fancy-chk">
+					<input class="autosave" type="checkbox" data-option="cloneOnRestore" id="checkboxcloneOnRestore">
+					<span class="chk"></span>
+				</div>
+				<label for="checkboxcloneOnRestore">Clone entries on restoration</label>
 			</div>
 
 			<div id="quickAccess-group" class="opt-group">
