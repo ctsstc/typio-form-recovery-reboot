@@ -64,11 +64,14 @@ terafm.validator = terafm.validator || {};
 		return true;
 	})
 
-	// Empty text editable value
+	// Cannot be here because it'll be false on first focus and will trigger
+	// weird stuff due to being invalid like broken saveindicator
+	// Empty value check
 	// validators.value.push(editable => {
-	// 	if(!editable.isTextEditable() || editable.getValue().length > 0) {
-	// 		return true;
+	// 	if(editable.isTextEditable() && editable.getValue().length === 0) {
+	// 		return false;
 	// 	}
+	// 	return true;
 	// });
 
 
