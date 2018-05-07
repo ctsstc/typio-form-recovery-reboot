@@ -1,5 +1,4 @@
 #quickAccess {
-
 	position: absolute;
 	z-index: 99999999999;
 	top: 0;
@@ -10,7 +9,6 @@
 	width: 250px;
 	animation: qa-in .1s;
 	transform-origin: top center;
-	padding: 4px;
 	color: #555;
 
 	@keyframes qa-in {
@@ -32,12 +30,12 @@
 			display: flex;
 		}
 
-		.selectable {position: relative; border-radius: 2px; padding: 3px 0; cursor: default;}
+		.selectable {position: relative; padding: 6px 0; cursor: default;}
 		.selectable.selected { background: #E6E7E8; }
 
 		.fill {
-			padding-left: 6px;
-			padding-right: 6px;
+			padding-left: 8px;
+			padding-right: 8px;
 			flex: 1 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -82,8 +80,6 @@
 	.entry-list li .fill.selected ~ .selectable { background: #E6E7E8; }
 
 	.footer {
-		margin-top: 2px;
-		padding-top: 2px;
 		border-top: 1px solid #EAEAEA;
 	}
 
