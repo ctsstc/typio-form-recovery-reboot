@@ -4,17 +4,25 @@
 	
 	<template v-for="dataType in ['sess', 'recent']">
 		<ul v-if="data[dataType]" class="entry-list">
-			<li v-on:click="restore($event)" v-on:mousemove="preview($event)" v-for="(entry, index) in data[dataType].entries" :data-group="dataType" :data-index="index">
-				<div class="value">{{ entry.getPrintableValue({truncate: 50}) }}</div>
-				<div v-if="dataType === 'sess'" class="flex-icon" data-action="restore-sess" data-group="single" data-eid="${eid}" title="Restore just this entry"><span class="icon-ios-albums-outline">{{ entry.getSession().length }}</span></div>
+			<li v-for="(entry, index) in data[dataType].entries">
+				<div v-on:click="restore($event)" v-on:mousemove="preview($event)" :data-group="dataType" :data-index="index" class="fill selectable">
+					{{ entry.getPrintableValue({truncate: 50}) }}
+				</div>
+				
+				<div v-if="dataType === 'sess'" v-on:click="restore($event)" v-on:mousemove="preview($event)" data-group="sess" data-single="true" :data-index="index" :title="'This entry belongs to a session with ' + entry.getSession().length + ' entries. Click this icon to restore only the entry that belongs to the field.'" data-keynav-skip="" class="flex-icon sess-count-icon selectable">
+					<span class="icon icon-square"></span>
+					<span class="num">{{ entry.getSession().length }}</span>
+				</div>
 			</li>
 		</ul>
 	</template>
 
 
 	<ul class="footer">
-		<li v-on:click="openRecovery()" v-on:mousemove="preview($event)" class="fill">Browse all entries</li>
-		<li v-on:click="openKeyboardShortcutsModal()" v-on:mousemove="preview($event)" class="flex-icon" data-tooltip="Show keyboard shortcuts"><span class="icon-keyboard"></span></li>
-		<li v-on:click="disableSite()" v-on:mousemove="preview($event)" class="flex-icon" data-tooltip="Disable Typio on this site"><span class="icon-block"></span></li>
+		<li>
+			<div v-on:click="openRecovery()" v-on:mousemove="preview($event)" class="fill selectable">Browse all entries</div>
+			<div v-on:click="openKeyboardShortcutsModal()" v-on:mousemove="preview($event)" class="flex-icon selectable" data-tooltip="Show keyboard shortcuts"><span class="icon-keyboard"></span></div>
+			<div v-on:click="disableSite()" v-on:mousemove="preview($event)" class="flex-icon selectable" data-tooltip="Disable Typio on this site"><span class="icon-block"></span></div>
+		</li>
 	</ul>
 </div>
