@@ -34,7 +34,6 @@ window.terafm = window.terafm || {};
 				// 	terafm.quickAccess.hide();
 				// }
 
-				console.log(e);
 				terafm.quickAccessController.show(terafm.focusedEditable, {x: e.pageX, y: e.pageY});
 			}
 		})

@@ -102,18 +102,18 @@ terafm.quickAccessController = {};
 						this.$el.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
 					},
 					preview: function(e) {
-						let li = getLI(e.path[0]);
-						if(this.selected !== li) {
+						let sel = getSelectable(e.path[0]);
+						if(this.selected !== sel) {
 							this.resetPreview();
 							this.unselect();
-							this.select(li);
+							this.select(sel);
 
-							let torestore = this.getEntryBySelected(li);
+							let torestore = this.getEntryBySelected(sel);
 
 							if(torestore) {
-								if(li.dataset.group === 'sess') {
+								if(sel.dataset.group === 'sess' && !sel.dataset.single) {
 									torestore.getSession().setPlaceholders();
-								} else if(li.dataset.group === 'recent') {
+								} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
 									this.editable.applyPlaceholderEntry(torestore);
 								}
 							}
@@ -126,13 +126,13 @@ terafm.quickAccessController = {};
 						this.resetPreview();
 						this.isVisible = false;
 
-						let li = getLI(e.path[0]);
-						let torestore = this.getEntryBySelected(li);
+						let sel = getSelectable(e.path[0]);
+						let torestore = this.getEntryBySelected(sel);
 
 						if(torestore) {
-							if(li.dataset.group === 'sess') {
+							if(sel.dataset.group === 'sess' && !sel.dataset.single) {
 								torestore.getSession().restore();
-							} else if(li.dataset.group === 'recent') {
+							} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
 								this.editable.applyEntry(torestore);
 							}
 						}
@@ -165,8 +165,8 @@ terafm.quickAccessController = {};
 						}
 					},
 
-					select: function(li) {
-						this.selected = li;
+					select: function(el) {
+						this.selected = el;
 						this.selected.classList.add('selected');
 					},
 					unselect: function() {
@@ -196,16 +196,16 @@ terafm.quickAccessController = {};
 			if(vue.isVisible) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
-				var lis = Array.prototype.slice.call(vue.$el.querySelectorAll('li')),
-					currI = lis.indexOf(vue.selected),
-					newli;
+				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable:not([data-keynav-skip])')),
+					currI = sels.indexOf(vue.selected),
+					newsel;
 
-				if(currI === -1 || currI === lis.length-1) {
-					newli = lis[0]
+				if(currI === -1 || currI === sels.length-1) {
+					newsel = sels[0]
 				} else {
-					newli = lis[currI+1]
+					newsel = sels[currI+1]
 				}
-				newli.dispatchEvent(new Event('mousemove'));
+				newsel.dispatchEvent(new Event('mousemove'));
 			}
 		}
 
@@ -215,16 +215,16 @@ terafm.quickAccessController = {};
 			if(vue.isVisible) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
-				var lis = Array.prototype.slice.call(vue.$el.querySelectorAll('li')),
-					currI = lis.indexOf(vue.selected),
-					newli;
+				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable:not([data-keynav-skip])')),
+					currI = sels.indexOf(vue.selected),
+					newsel;
 
 				if(currI < 1) {
-					newli = lis[lis.length-1];
+					newsel = sels[sels.length-1];
 				} else {
-					newli = lis[currI-1];
+					newsel = sels[currI-1];
 				}
-				newli.dispatchEvent(new Event('mousemove'));
+				newsel.dispatchEvent(new Event('mousemove'));
 			}
 		}
 
@@ -246,9 +246,9 @@ terafm.quickAccessController = {};
 	}
 
 
-	function getLI(el) {
-		if(el.nodeName.toLowerCase() === 'li') return el;
-		else return el.closest('li');
+	function getSelectable(el) {
+		if(el.classList.contains('selectable')) return el;
+		else return el.closest('.selectable');
 	}
 
 })(terafm.quickAccessController, terafm.initHandler, terafm.options, terafm.keyboardShortcuts);

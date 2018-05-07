@@ -1,5 +1,4 @@
 #quickAccess {
-	$box-padding: 10px;
 
 	position: absolute;
 	z-index: 99999999999;
@@ -11,7 +10,8 @@
 	width: 250px;
 	animation: qa-in .1s;
 	transform-origin: top center;
-	padding: ($box-padding/2) 0;
+	padding: 4px;
+	color: #555;
 
 	@keyframes qa-in {
 		from {
@@ -24,93 +24,70 @@
 		display: none;
 	}
 
-	.custom-icon-session {
-		border: 1.3px solid #333;
-		border-radius: 2px;
-		width: 50%;
-		position: relative;
-		text-align: center;
-		line-height: 13px;
-		height: 85% !important;
-		font-size: 11px !important;
-	}
-
-	.flex-icon {
-		flex: 0 1 40px;
-		font-size: 13px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		span {
-			font-size: 18px;
-			line-height: 10px;
-		}
-	}
-
-	.title {
-		color: #a2a2a2;
-		margin: $box-padding 0 0 0;
-		text-transform: uppercase;
-		letter-spacing: .3px;
-		font-size: 12px;
-
-		[class^="icon-"] {
-			position: relative;
-			top: 1px;
-			opacity: .5;
-		}
-
-		&:first-child {
-			margin-top: 0;
-		}
-	}
-
-	li.selected {
-		background: #F0F0F0;
-	}
-
-	.entry-list {
-		margin: 0; padding: 0; // Reset, some websites fuck it up
-		display: block;
+	ul {
+		margin: 0;
+		padding: 0;
 
 		li {
-			position: relative;
-			padding: 5px $box-padding;
-			cursor: default;
-			color: #444;
-			text-align: left; // Reset
-			font-family: sans-serif;
 			display: flex;
-			justify-content: space-between;
-
-			.value {
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-				flex: 1 0;
-			}
 		}
-	}
 
-	.footer {
-		display: flex;
-		border-top: 1px solid #EAEAEA;
-		margin-top: 2px;
-
-		li {
-			padding: 5px $box-padding;
-			position: relative;
-		}
+		.selectable {position: relative; border-radius: 2px; padding: 3px 0; cursor: default;}
+		.selectable.selected { background: #E6E7E8; }
 
 		.fill {
+			padding-left: 6px;
+			padding-right: 6px;
 			flex: 1 0;
-			// padding-left: $box-padding;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 
 		.flex-icon {
-			border-left: 1px solid #EAEAEA;
+			flex: 0 1 34px;
+			font-size: 13px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			span {
+				font-size: 18px;
+				line-height: 10px;
+			}
 		}
+
+		.sess-count-icon {
+			padding: 0;
+			position: relative;
+
+			.icon, .num {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+			}
+			.icon {
+				font-size: 22px;
+				height: 18px;
+				transform: scaleX(1.2) translateX(-44%) translateY(-50%);
+			}
+			.num {
+				font-size: 11px;
+				line-height: 20px;
+			}
+		}
+	}
+	
+	.entry-list li .fill.selected ~ .selectable { background: #E6E7E8; }
+
+	.footer {
+		margin-top: 2px;
+		padding-top: 2px;
+		border-top: 1px solid #EAEAEA;
+	}
+
+	.footer {
 
 		[data-tooltip]:before, [data-tooltip]:after {
 			position: absolute;
