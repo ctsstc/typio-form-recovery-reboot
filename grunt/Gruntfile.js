@@ -99,12 +99,6 @@ module.exports = function(grunt) {
                         '../js/controllers/optionsController.js',
                     ],
 
-                    '../publish/js/options2.js' : [
-
-                        // Controllers
-                        '../js/controllers/options2Controller.js',
-                    ],
-
 
                     '../publish/js/popup.js' : [
 
@@ -155,7 +149,6 @@ module.exports = function(grunt) {
                         '../js/modules/editables.js',
                         '../js/modules/validator.js',
                         '../js/modules/ui.js',
-                        '../js/modules/quickAccess.js',
                         '../js/modules/saveIndicator.js',
                         '../js/modules/cache.js',
                         '../js/modules/events.js',
