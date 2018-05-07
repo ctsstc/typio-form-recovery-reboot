@@ -49,8 +49,8 @@ terafm.keyboardShortcutController = {};
 
 	function showPopup() {
 		build(function() {
-			vue.visible = true;
-		})
+			vue.show();
+		});
 	}
 
 	function build(callback) {
@@ -92,6 +92,10 @@ terafm.keyboardShortcutController = {};
 					this.fetchOptions();
 				},
 				methods: {
+					show: function() {
+						document.activeElement.blur();
+						vue.visible = true;
+					},
 					fetchOptions: function() {
 						this.isDisabled = !options.get('keybindEnabled'),
 						this.keybindToggleRecDiag = terafm.keyboardShortcuts.printableKey(options.get('keybindToggleRecDiag')),
