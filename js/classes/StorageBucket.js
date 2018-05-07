@@ -65,13 +65,14 @@ terafm.StorageBucket = class Bucket {
 		return JSON.parse(JSON.stringify(this));
 	}
 
-	getEntries(max=-1, excludeEid) {
+	getEntries(max=-1, excludeEid, filterFn) {
 		let allsess = this.getSessions();
 		let entrylist = new terafm.EntryList();
 
 		allsess.each(sess => {
 			sess.each(entry => {
 				if(excludeEid && entry.editableId === excludeEid) return null;
+				if(filterFn && filterFn(entry) === false) return false;
 				entrylist.push(entry);
 				if(max > -1) max--; else return false;
 			})

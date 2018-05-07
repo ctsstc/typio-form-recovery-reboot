@@ -12,6 +12,9 @@ terafm.editables = {};
 	editables.get = (el) => getEditable(el);
 	editables.getTextEditable = (el) => getEditable(el, true);
 
+	editables.isEditableType = (type) => editableTypes.includes(type);
+	editables.isTextEditableType = (type) => textEditableTypes.includes(type);
+
 
 	function getEditable(el, onlyTextEditable=false) {
 		// If path, resolve it

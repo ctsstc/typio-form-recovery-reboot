@@ -109,8 +109,8 @@ terafm.db = terafm.db || {};
 	db.getSession = (sid) => {
 		return buckets.applyOne(buck => buck.getSession(sid));
 	}
-	db.getEntries = (max, excludeEid) => {
-		return buckets.applyBoth(buck => buck.getEntries(max, excludeEid));
+	db.getEntries = (max, excludeEid, filterFn) => {
+		return buckets.applyBoth(buck => buck.getEntries(max, excludeEid, filterFn));
 	}
 	db.getSessionsContainingEditable = (eid, max) => {
 		return buckets.applyBoth(buck => buck.getSessionsContainingEditable(eid, max));
