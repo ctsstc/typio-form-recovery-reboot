@@ -103,6 +103,7 @@
 
 		.page {
 			padding: 30px;
+			overflow: hidden;
 
 			&:not(.page-current) {
 				display: none;
@@ -444,7 +445,20 @@
 	}
 
 	.icon {
-		width: 150px;
+		display: block;
+		font-size: 100px;
+		line-height: 45px;
+		margin-bottom: 30px;
+		color: #c1c8d5;
+	}
+
+	p {
+		font-weight: bold;
+	}
+
+	.hint {
+		font-size: 13px;
+		font-weight: normal;
 	}
 }
 
