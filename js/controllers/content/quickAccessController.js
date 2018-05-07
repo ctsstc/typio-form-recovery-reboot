@@ -10,24 +10,27 @@ terafm.quickAccessController = {};
 			keyboardShortcuts.on(options.get('keybindOpenQuickAccess'), function(e) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
-				// toggle show
-				show();
+				// Only pass editable
+				// Todo: Toggle show
+				show(terafm.focusedEditable);
 			});
 		}
 	});
 
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'openQuickAccess') {
-			show();
+
+			// Also pass right click mouse coord
+			show(terafm.focusedEditable);
 		}
 	});
 
-	function show() {
-		if(vue) {
-			vue.showAndPopulate();
-		} else {
-			build();
-		}
+	controller.show = (...args) => show(...args);
+
+	function show(editable, coord) {
+		build(function() {
+			vue.showAndPopulate(editable, coord);
+		});
 	}
 
 	function build(callback) {
@@ -37,7 +40,10 @@ terafm.quickAccessController = {};
 			html: '<div id="tmp-qa-holder"></div>',
 			returnNode: '#tmp-qa-holder'
 		}, function(rootnode) {
-			makeVue(rootnode, callback);
+			makeVue(rootnode, () => {
+				if(callback) callback();
+				setupKeyNav();
+			});
 		});
 	}
 
@@ -48,48 +54,110 @@ terafm.quickAccessController = {};
 				...(module),
 				el: rootnode,
 				methods: {
-					showAndPopulate: function() {
-						if(!terafm.focusedEditable) {
-							console.warn('No terafm.focusedEditable');
-							return;
+					showAndPopulate: function(ed, coord) {
+						if(!ed) {
+							throw new Error('No editable');
 						}
 						this.data = {sess:{}, recent: {}, empty: true};
-
 						this.data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
 						this.data.recent = terafm.db.getEntries(10-this.data.sess.length, terafm.focusedEditable.id);
 
 						this.isEmpty = (this.data.sess.length || this.data.recent.length) ? false : true;
-						
-						console.log(this.data);
+						this.editable = ed;
+						this.position(ed, coord);
+						this.unselect(); // In case previous selection is retained after populating
+						this.isVisible = true;
 					},
-					hoverPreview: function(e) {
+					hide: function() {
+						this.resetPreview();
+						this.isVisible = false;
+					},
+					position: function(ed, coord) {
+						let popupHeight = this.$el.clientHeight,
+							popupWidth = this.$el.clientWidth;
+
+						let pos = {x:0, y:0};
+						let edrect = ed.rect();
+
+						// Position by editable
+						if(ed && !coord) {
+							pos.x = edrect.x + edrect.width;
+							pos.y = edrect.y;
+
+						// Position by click coord
+						} else {
+							pos = coord;
+						}
+
+						// If width overflows, position by editable instead
+						if(document.body.scrollWidth > 0 && pos.x + popupWidth > Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth)) {
+							pos.x = edrect.x - popupWidth;
+						}
+
+						// If overflows height
+						if(document.body.scrollHeight > 0 && pos.y + popupHeight > Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight) ) {
+							pos.y -= popupHeight;
+						}
+
+						this.$el.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
+					},
+					preview: function(e) {
 						let li = getLI(e.path[0]);
 						if(this.selected !== li) {
+							this.resetPreview();
 							this.unselect();
 							this.select(li);
 
-							let entry = this.getEntryBySelected(li);
+							let torestore = this.getEntryBySelected(li);
+
+							if(torestore) {
+								if(li.dataset.group === 'sess') {
+									torestore.getSession().setPlaceholders();
+								} else if(li.dataset.group === 'recent') {
+									this.editable.applyPlaceholderEntry(torestore);
+								}
+							}
 						}
 					},
 					resetPreview: function() {
-						console.log('reset')
+						if(this.isVisible) terafm.editables.resetPlaceholders();
 					},
 					restore: function(e) {
+						this.resetPreview();
+						this.isVisible = false;
+
 						let li = getLI(e.path[0]);
+						let torestore = this.getEntryBySelected(li);
+
+						if(torestore) {
+							if(li.dataset.group === 'sess') {
+								torestore.getSession().restore();
+							} else if(li.dataset.group === 'recent') {
+								this.editable.applyEntry(torestore);
+							}
+						}
 					},
 
 
 					openRecovery: function() {
-						
+						terafm.recoveryDialogController.open();
+						this.hide();
 					},
 					openKeyboardShortcutsModal: function() {
-						
+						terafm.keyboardShortcutController.showShortcutDialog();
+						this.hide();
 					},
 					disableSite: function() {
-						
+						let ok = confirm(`Disable Typio completely on ${location.hostname}? The page will be refreshed.`);
+						if(ok) {
+							terafm.blacklist.block(window.location.hostname);
+							setTimeout(() => window.location.reload(), 50); // Give it some time to block
+						}
+						this.hide();
 					},
 
 					getEntryBySelected: function(li) {
+						if(!li.dataset.index) return false;
 						if(li.dataset.group === 'sess') {
 							return this.data.sess.entries[li.dataset.index];
 						} else if(li.dataset.group === 'recent') {
@@ -99,38 +167,88 @@ terafm.quickAccessController = {};
 
 					select: function(li) {
 						this.selected = li;
-						li.classList.add('selected');
+						this.selected.classList.add('selected');
 					},
 					unselect: function() {
 						this.selected && this.selected.classList.remove('selected');
 						this.selected = false;
-					},
-					selectNext: function() {
-
-					},
+					}
 				},
 				data: function() {
 					return {
+						isVisible: true,
 						data: {},
+						editable: false,
 						selected: false,
 						isEmpty: false
 					}
-				},
-				mounted: function() {
-					this.showAndPopulate();
 				}
 			});
 
 			if(callback) callback();
 		})
+	}
 
+	function setupKeyNav() {
+		keyboardShortcuts.on(['ArrowDown'], selNext);
+		keyboardShortcuts.on(['ArrowRight'], selNext);
+		function selNext(e) {
+			if(vue.isVisible) {
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
+				var lis = Array.prototype.slice.call(vue.$el.querySelectorAll('li')),
+					currI = lis.indexOf(vue.selected),
+					newli;
 
-
-		function getLI(el) {
-			if(el.nodeName.toLowerCase() === 'li') return el;
-			else return el.closest('li');
+				if(currI === -1 || currI === lis.length-1) {
+					newli = lis[0]
+				} else {
+					newli = lis[currI+1]
+				}
+				newli.dispatchEvent(new Event('mousemove'));
+			}
 		}
+
+		keyboardShortcuts.on(['ArrowUp'], keyPrev);
+		keyboardShortcuts.on(['ArrowLeft'], keyPrev);
+		function keyPrev(e) {
+			if(vue.isVisible) {
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+
+				var lis = Array.prototype.slice.call(vue.$el.querySelectorAll('li')),
+					currI = lis.indexOf(vue.selected),
+					newli;
+
+				if(currI < 1) {
+					newli = lis[lis.length-1];
+				} else {
+					newli = lis[currI-1];
+				}
+				newli.dispatchEvent(new Event('mousemove'));
+			}
+		}
+
+		keyboardShortcuts.on([' '], function(e) {
+			if(vue.isVisible) {
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+				if(vue.selected) vue.selected.dispatchEvent(new Event('click'));
+			}
+		})
+
+		keyboardShortcuts.on(['Escape'], hide);
+		keyboardShortcuts.on(['Tab'], hide);
+		function hide(e) {
+			if(vue.isVisible) {
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+				vue.hide();
+			}
+		}
+	}
+
+
+	function getLI(el) {
+		if(el.nodeName.toLowerCase() === 'li') return el;
+		else return el.closest('li');
 	}
 
 })(terafm.quickAccessController, terafm.initHandler, terafm.options, terafm.keyboardShortcuts);
