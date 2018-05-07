@@ -61,6 +61,14 @@ terafm.keyboardShortcutController = {};
 			returnNode: '#tmp-holder'
 		}, function(rootnode) {
 			makeVue(rootnode, callback);
+
+			keyboardShortcuts.on(['Escape'], hide);
+			function hide(e) {
+				if(vue.visible) {
+					if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+					vue.closeModal();
+				}
+			}
 		});
 	}
 
