@@ -22,7 +22,7 @@ terafm.editables = {};
 
 		if(el && editableCache.has(el)) {
 			let ed = editableCache.get(el);
-			return ed.isTextEditable() ? ed : false;
+			return !onlyTextEditable || (onlyTextEditable && ed.isTextEditable()) ? ed : false;
 
 		} else if(!onlyTextEditable && editables.isEditable(el) || onlyTextEditable && editables.isTextEditable(el)) {
 			let ed = new terafm.Editable(el);
