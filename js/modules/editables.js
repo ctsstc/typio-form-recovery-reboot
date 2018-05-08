@@ -98,18 +98,12 @@ terafm.editables = {};
 
 
 
+	editables.highlighted = new terafm.EditableList();
 
-
-
-	editables.highlighted = {};
-
-	editables.resetPlaceholders = () => {
-		for(let eid in editables.highlighted) {
-			editables.highlighted[eid].resetPlaceholder();
+	editables.removeHighlights = () => {
+		for(let eid in editables.highlighted.editables) {
+			editables.highlighted.editables[eid].remHighlight();
 		}
 	}
-
-	editables.isEditableType = type => editableTypes.includes(type);
-	editables.isTextEditableType = type => textEditableTypes.includes(type);
 
 })(terafm.editables);
