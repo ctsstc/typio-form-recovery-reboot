@@ -46,22 +46,22 @@ module.exports = function(grunt) {
                     dest: '../publish/img'
                 }],
             },
-            templates: {
-                files: [{
-                    expand: true,
-                    cwd: '../',
-                    src: 'templates/*.*',
-                    dest: '../publish/'
-                },
-                {
-                    expand: true,
-                    cwd: '../templates/',
-                    src: ['**/render.js'],
-                    rename: function(src, dest) {
-                        return '../publish/templates/' + dest.replace(/(.+)\/(.+)/g, '$1.js')
-                    }
-                }]
-            },
+            // templates: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: '../',
+            //         src: 'templates/*.*',
+            //         dest: '../publish/'
+            //     },
+            //     {
+            //         expand: true,
+            //         cwd: '../templates/',
+            //         src: ['**/render.js'],
+            //         rename: function(src, dest) {
+            //             return '../publish/templates/' + dest.replace(/(.+)\/(.+)/g, '$1.js')
+            //         }
+            //     }]
+            // },
             misc: {
                 files: [{
                     expand: true,
@@ -156,14 +156,14 @@ module.exports = function(grunt) {
                         '../js/modules/blacklist.js',
 
                         // Controllers
-                        '../js/controllers/content/contentController.js',
-                            '../js/controllers/content/inputSaverController.js',
-                            '../js/controllers/content/focusedEditableController.js',
-                            '../js/controllers/content/saveIndicatorController.js',
-                            '../js/controllers/content/quickAccessIconController.js',
-                            '../js/controllers/content/quickAccessController.js',
-                            '../js/controllers/content/keyboardShortcutController.js',
-                            '../js/controllers/content/recoveryDialogController.js',
+                        '../js/controllers/content/tmp/contentController.js',
+                            '../js/controllers/content/tmp/inputSaverController.js',
+                            '../js/controllers/content/tmp/focusedEditableController.js',
+                            '../js/controllers/content/tmp/saveIndicatorController.js',
+                            '../js/controllers/content/tmp/quickAccessIconController.js',
+                            '../js/controllers/content/tmp/quickAccessController.js',
+                            '../js/controllers/content/tmp/keyboardShortcutController.js',
+                            '../js/controllers/content/tmp/recoveryDialogController.js',
                     ],
 
                     // Runs on site context (not isolated)
@@ -208,7 +208,7 @@ module.exports = function(grunt) {
 
             js: {
                 files: ['../js/**/*.js'],
-                tasks: ['uglify:content'],
+                tasks: ['string-replace', 'uglify:content'],
                 options: {
                     spawn: false
                 }
@@ -248,7 +248,7 @@ module.exports = function(grunt) {
 
             copyTemplates: {
                 files: ['../templates/**/*.vue'],
-                tasks: ['vue_template_compiler', 'copy:templates'],
+                tasks: ['vue_template_compiler', 'string-replace', 'uglify'],
                 options: {
                     spawn: false
                 }
@@ -269,6 +269,53 @@ module.exports = function(grunt) {
             toast: { files : {src:'../templates/toast/toast.vue'} },
         },
 
+        'string-replace': {
+            inline: {
+                files: [{
+                    expand: true,
+                    cwd: '../js/controllers/content/',
+                    src: ['*.js'],
+                    dest: '../js/controllers/content/tmp/'
+                }],
+                options: {
+                    replacements: [
+                        // place files inline example
+                        {
+                            pattern: /'@import-vue (.*?)':0/,
+                            replacement: function(match, p1) {
+
+                                function requireFromString(src, filename) {
+                                  var Module = module.constructor;
+                                  var m = new Module();
+                                  m._compile(src, filename);
+                                  return m.exports;
+                                }
+                                let templatePath = '../templates/' + p1 +'/render.js';
+                                let templateCode = grunt.file.read(templatePath).replace(/^export\s/m, 'module.exports = ');
+
+                                if(!templateCode) {
+                                    throw new Error('@import-vue Could not read template file: ' + templatePath);
+                                }
+                                
+                                let fns = requireFromString(templateCode, '');
+
+                                let ret = '...{';
+                                if(fns.render) ret += 'render: ' + fns.render;
+                                if(fns.staticRenderFns.length) {
+                                    ret += ', staticRenderFns: [';
+                                    ret += fns.staticRenderFns.join(',');
+                                    ret += ']';
+                                }
+                                ret += '}'
+
+                                return ret;
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+
     });
 
 
@@ -278,8 +325,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-vue-template-compiler');
+    grunt.loadNpmTasks('grunt-string-replace');
     
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('compile', ['sass', 'uglify', 'htmlmin', 'vue_template_compiler', 'copy']);
+    grunt.registerTask('compile', ['sass', 'vue_template_compiler', 'string-replace', 'uglify', 'htmlmin', 'copy']);
 
 }
