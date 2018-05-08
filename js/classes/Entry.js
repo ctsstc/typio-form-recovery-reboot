@@ -1,11 +1,16 @@
 window.terafm = window.terafm || {};
 
 terafm.Entry = class Entry {
-	constructor(arg) {
+	constructor(arg, opts = {resolveUncheckedRadios: false}) {
 		this.obj = {};
 
 		// Make Entry from editable
 		if(arg instanceof terafm.Editable) {
+
+			if(opts.resolveUncheckedRadios && arg.type === 'radio') {
+				arg = this.resolveRadio(arg) || arg;
+			}
+
 			this._editable = arg;
 			this.editableId = this._editable.id;
 			this.sessionId = this._editable.sessionId;
@@ -22,8 +27,15 @@ terafm.Entry = class Entry {
 		}
 	}
 
-	copy() {
-		return new terafm.Entry(this.getEditable());
+	resolveRadio(ed) {
+		if(ed.type === 'radio' && ed.getValue() == false) {
+			let sel = ed.el.getRootNode().querySelector('input[type=radio][name="'+ ed.el.name +'"]:checked');
+			if(sel) return new terafm.Editable(sel);
+		}
+	}
+
+	copy(opts) {
+		return new terafm.Entry(this.getEditable(), opts);
 	}
 
 	isTextType() {

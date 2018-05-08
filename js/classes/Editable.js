@@ -207,8 +207,8 @@ terafm.Editable = class Editable {
 		return terafm.editables.isBigTextEditable(this.el);
 	}
 	
-	getEntry() {
-		return new terafm.Entry(this);
+	getEntry(opts) {
+		return new terafm.Entry(this, opts);
 	}
 
 	rect() {

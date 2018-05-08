@@ -116,10 +116,11 @@ terafm.quickAccessController = {};
 						let torestore = this.getEntryBySelected(sel);
 
 						if(torestore) {
-							// console.log('settin', this.placeholderSnapshot)
+							
 							if(sel.dataset.group === 'sess' && !sel.dataset.single) {
 								this.placeholderSnapshot.set(torestore.getSession());
 								torestore.getSession().setPlaceholders();
+
 							} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
 								this.placeholderSnapshot.set(this.editable);
 								this.editable.applyPlaceholderEntry(torestore);

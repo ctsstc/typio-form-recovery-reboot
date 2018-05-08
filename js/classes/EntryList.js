@@ -25,13 +25,13 @@ terafm.EntryList = class EntryList {
 	set(data) {
 		if(data instanceof terafm.Session) {
 			this.clear();
-			data.each(entry => this.push(entry.copy()))
+			data.each(entry => this.push(entry.copy({resolveUncheckedRadios: true})))
 		} else if(data instanceof terafm.Entry) {
 			this.clear();
-			this.push(data.copy());
+			this.push(data.copy({resolveUncheckedRadios: true}));
 		} else if(data instanceof terafm.Editable) {
 			this.clear();
-			this.push(data.getEntry());
+			this.push(data.getEntry({resolveUncheckedRadios: true}));
 		} else {
 			throw new Error('EntryList cannot convert supplied data type');
 		}
