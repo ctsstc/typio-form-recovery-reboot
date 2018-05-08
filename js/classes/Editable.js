@@ -33,7 +33,7 @@ terafm.Editable = class Editable {
 	}
 
 	isHighlighted() {
-		return Object.keys(terafm.editables.highlighted).indexOf(this.id) !== -1;
+		return terafm.editables.highlighted.contains(this)
 	}
 
 	highlight() {
@@ -42,36 +42,36 @@ terafm.Editable = class Editable {
 			this.el.terafmOrgStyle = attr;
 			this.el.style.background = 'rgb(255, 251, 153)';
 			this.el.style.color = '#222';
-			terafm.editables.highlighted[this.id] = this;
+			terafm.editables.highlighted.push(this);
 		}
 	}
 	remHighlight() {
 		if(this.isHighlighted() && this.el.terafmOrgStyle !== undefined) {
 			this.el.setAttribute('style', this.el.terafmOrgStyle);
 			delete this.el.terafmOrgStyle;
-			delete terafm.editables.highlighted[this.id];
+			terafm.editables.highlighted.delete(this);
 		}
 	}
 
-	resetPlaceholder() {
-		this.restoreCachedValue();
-		this.remHighlight()
-	}
+	// resetPlaceholder() {
+		// this.restoreCachedValue();
+		// this.remHighlight()
+	// }
 
-	cacheValue() {
-		if(!this.orgValue) {
-			this.orgValue = this.getValue();
-		}
-	}
-	restoreCachedValue() {
-		if(this.orgValue !== undefined) {
-			this.setValue(this.orgValue);
-			this.orgValue = undefined;
-		}
-	}
+	// cacheValue() {
+	// 	if(!this.orgValue) {
+	// 		this.orgValue = this.getValue();
+	// 	}
+	// }
+	// restoreCachedValue() {
+	// 	if(this.orgValue !== undefined) {
+	// 		this.setValue(this.orgValue);
+	// 		this.orgValue = undefined;
+	// 	}
+	// }
 
 	applyPlaceholderEntry(entry) {
-		this.cacheValue();
+		// this.cacheValue();
 		this.applyEntry(entry, {truncate: true});
 		this.highlight();
 	}
@@ -141,21 +141,18 @@ terafm.Editable = class Editable {
 
 			} else if(this.el.type === 'radio') {
 
-				console.log('radio restore?', val);
-
 				// Set by value
 				if(val == parseInt(val)) {
 					this.el.checked = true;
-
+				}
 				// Set by path
-				// Todo: What?? Also, change to deep selector?
-				} else {
+				/* else {
 					// var orgRadio = document.querySelector(val);
 					var orgRadio = this.el.getRootNode().querySelector(val);
 					if(orgRadio) {
 						orgRadio.checked = true;
 					}
-				}
+				}*/
 
 			} else {
 				this.el.value = val;

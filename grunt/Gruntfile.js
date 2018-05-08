@@ -131,10 +131,11 @@ module.exports = function(grunt) {
                         // Classes
                         '../js/classes/StorageBucket.js',
                         '../js/classes/Editable.js',
-                        '../js/classes/EntryList.js',
+                        '../js/classes/EditableList.js',
                         '../js/classes/Entry.js',
-                        '../js/classes/SessionList.js',
+                        '../js/classes/EntryList.js',
                         '../js/classes/Session.js',
+                        '../js/classes/SessionList.js',
 
                         // Modules
                         '../js/modules/initHandler.js',

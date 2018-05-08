@@ -22,6 +22,10 @@ terafm.Entry = class Entry {
 		}
 	}
 
+	copy() {
+		return new terafm.Entry(this.getEditable());
+	}
+
 	isTextType() {
 		return terafm.editables.isTextEditableType(this.obj.type);
 	}

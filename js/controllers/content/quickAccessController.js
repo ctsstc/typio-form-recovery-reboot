@@ -116,16 +116,23 @@ terafm.quickAccessController = {};
 						let torestore = this.getEntryBySelected(sel);
 
 						if(torestore) {
+							// console.log('settin', this.placeholderSnapshot)
 							if(sel.dataset.group === 'sess' && !sel.dataset.single) {
+								this.placeholderSnapshot.set(torestore.getSession());
 								torestore.getSession().setPlaceholders();
 							} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
+								this.placeholderSnapshot.set(this.editable);
 								this.editable.applyPlaceholderEntry(torestore);
 							}
 						}
 					}
 				},
 				resetPreview: function() {
-					if(this.isVisible) terafm.editables.resetPlaceholders();
+					if(this.isVisible) {
+						terafm.editables.removeHighlights();
+						this.placeholderSnapshot.applyEntries();
+						// console.log('clearin', this.placeholderSnapshot)
+					}
 				},
 				restore: function(e) {
 					this.resetPreview();
@@ -185,7 +192,8 @@ terafm.quickAccessController = {};
 					data: {},
 					editable: false,
 					selected: false,
-					isEmpty: false
+					isEmpty: false,
+					placeholderSnapshot: new terafm.EntryList()
 				}
 			}
 		});
