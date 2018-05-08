@@ -5,15 +5,16 @@
     "npm": "^6.0.0"
   },
   "devDependencies": {
-    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-    "grunt-vue-template-compiler": "https://nicklassandell@bitbucket.org/nicklassandell/grunt-vue-template-compiler.git",
     "connect": "~2.8.5",
     "grunt": "~0.4.5",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-htmlmin": "^2.4.0",
+    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-run": "^0.8.1",
     "grunt-sass": "^2.0.0",
+    "grunt-string-replace": "^1.3.1",
+    "grunt-vue-template-compiler": "https://nicklassandell@bitbucket.org/nicklassandell/grunt-vue-template-compiler.git",
     "parse5": "^4.0.0",
     "serve-static": "^1.13.1"
   }

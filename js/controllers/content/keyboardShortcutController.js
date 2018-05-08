@@ -73,50 +73,46 @@ terafm.keyboardShortcutController = {};
 	}
 
 	function makeVue(rootnode, callback) {
-		import( chrome.runtime.getURL('../templates/keyboardShortcutPopup.js') ).then(module => {
+		vue = new Vue({
+			'@import-vue keyboardShortcutPopup':0,
 
-			vue = new Vue({
-				...module,
-
-				el: rootnode,
-				data: function() {
-					return {
-						visible: true,
-						isDisabled : false,
-						keybindToggleRecDiag : 'false',
-						keybindRestorePreviousSession : 'false',
-						keybindOpenQuickAccess : 'false'
-					}
-				},
-				mounted: function() {
-					this.fetchOptions();
-				},
-				methods: {
-					show: function() {
-						document.activeElement.blur();
-						vue.visible = true;
-					},
-					fetchOptions: function() {
-						this.isDisabled = !options.get('keybindEnabled'),
-						this.keybindToggleRecDiag = terafm.keyboardShortcuts.printableKey(options.get('keybindToggleRecDiag')),
-						this.keybindRestorePreviousSession = terafm.keyboardShortcuts.printableKey(options.get('keybindRestorePreviousSession')),
-						this.keybindOpenQuickAccess = terafm.keyboardShortcuts.printableKey(options.get('keybindOpenQuickAccess'))
-					},
-					openSettings: function() {
-						chrome.runtime.sendMessage({action: 'openSettings'});
-					},
-					closeModal: function() {
-						this.visible = false;
-					},
-					backgroundClickHide: function(e) {
-						if(e.path[0].classList.contains('modal-container')) this.closeModal();
-					},
+			el: rootnode,
+			data: function() {
+				return {
+					visible: true,
+					isDisabled : false,
+					keybindToggleRecDiag : 'false',
+					keybindRestorePreviousSession : 'false',
+					keybindOpenQuickAccess : 'false'
 				}
-			});
-
-			if(callback) callback();
-
+			},
+			mounted: function() {
+				this.fetchOptions();
+			},
+			methods: {
+				show: function() {
+					document.activeElement.blur();
+					vue.visible = true;
+				},
+				fetchOptions: function() {
+					this.isDisabled = !options.get('keybindEnabled'),
+					this.keybindToggleRecDiag = terafm.keyboardShortcuts.printableKey(options.get('keybindToggleRecDiag')),
+					this.keybindRestorePreviousSession = terafm.keyboardShortcuts.printableKey(options.get('keybindRestorePreviousSession')),
+					this.keybindOpenQuickAccess = terafm.keyboardShortcuts.printableKey(options.get('keybindOpenQuickAccess'))
+				},
+				openSettings: function() {
+					chrome.runtime.sendMessage({action: 'openSettings'});
+				},
+				closeModal: function() {
+					this.visible = false;
+				},
+				backgroundClickHide: function(e) {
+					if(e.path[0].classList.contains('modal-container')) this.closeModal();
+				},
+			}
 		});
+
+		if(callback) callback();
 	}
 
 })(terafm.keyboardShortcutController, terafm.db, terafm.editableManager, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);

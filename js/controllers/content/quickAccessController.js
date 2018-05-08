@@ -49,150 +49,148 @@ terafm.quickAccessController = {};
 
 	function makeVue(rootnode, callback) {
 
-		import( chrome.runtime.getURL('../templates/quickAccess.js') ).then((module) => {
-			vue = new Vue({
-				...(module),
-				el: rootnode,
-				methods: {
-					showAndPopulate: function(ed, coord) {
-						if(!ed) {
-							throw new Error('No editable');
-						}
-						this.data = {sess:{}, recent: {}, empty: true};
-						this.data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
-						this.data.recent = terafm.db.getEntries(10-this.data.sess.length, terafm.focusedEditable.id, function(entry) {
-							return terafm.editables.isTextEditableType(entry.obj.type);
-						});
+		vue = new Vue({
+			'@import-vue quickAccess':0,
+			el: rootnode,
+			methods: {
+				showAndPopulate: function(ed, coord) {
+					if(!ed) {
+						throw new Error('No editable');
+					}
+					this.data = {sess:{}, recent: {}, empty: true};
+					this.data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
+					this.data.recent = terafm.db.getEntries(10-this.data.sess.length, terafm.focusedEditable.id, function(entry) {
+						return terafm.editables.isTextEditableType(entry.obj.type);
+					});
 
-						this.isEmpty = (this.data.sess.length || this.data.recent.length) ? false : true;
-						this.editable = ed;
-						this.position(ed, coord);
-						this.unselect(); // In case previous selection is retained after populating
-						this.isVisible = true;
-						terafm.pauseLogging = true;
-					},
-					hide: function() {
-						if(this.isVisible) {
-							this.resetPreview();
-							this.isVisible = false;
-							terafm.pauseLogging = false;
-						}
-					},
-					position: function(ed, coord) {
-						let popupHeight = this.$el.clientHeight,
-							popupWidth = this.$el.clientWidth;
-
-						let pos = {x:0, y:0};
-						let edrect = ed.rect();
-
-						// Position by editable
-						if(ed && !coord) {
-							pos.x = edrect.x + edrect.width;
-							pos.y = edrect.y;
-
-						// Position by click coord
-						} else {
-							pos = coord;
-						}
-
-						// If width overflows, position by editable instead
-						if(document.body.scrollWidth > 0 && pos.x + popupWidth > Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth)) {
-							pos.x = edrect.x - popupWidth;
-						}
-
-						// If overflows height
-						if(document.body.scrollHeight > 0 && pos.y + popupHeight > Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight) ) {
-							pos.y -= popupHeight;
-						}
-
-						this.$el.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
-					},
-					preview: function(e) {
-						let sel = getSelectable(e.path[0]);
-						if(this.selected !== sel) {
-							this.resetPreview();
-							this.unselect();
-							this.select(sel);
-
-							let torestore = this.getEntryBySelected(sel);
-
-							if(torestore) {
-								if(sel.dataset.group === 'sess' && !sel.dataset.single) {
-									torestore.getSession().setPlaceholders();
-								} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
-									this.editable.applyPlaceholderEntry(torestore);
-								}
-							}
-						}
-					},
-					resetPreview: function() {
-						if(this.isVisible) terafm.editables.resetPlaceholders();
-					},
-					restore: function(e) {
+					this.isEmpty = (this.data.sess.length || this.data.recent.length) ? false : true;
+					this.editable = ed;
+					this.position(ed, coord);
+					this.unselect(); // In case previous selection is retained after populating
+					this.isVisible = true;
+					terafm.pauseLogging = true;
+				},
+				hide: function() {
+					if(this.isVisible) {
 						this.resetPreview();
 						this.isVisible = false;
+						terafm.pauseLogging = false;
+					}
+				},
+				position: function(ed, coord) {
+					let popupHeight = this.$el.clientHeight,
+						popupWidth = this.$el.clientWidth;
 
-						let sel = getSelectable(e.path[0]);
+					let pos = {x:0, y:0};
+					let edrect = ed.rect();
+
+					// Position by editable
+					if(ed && !coord) {
+						pos.x = edrect.x + edrect.width;
+						pos.y = edrect.y;
+
+					// Position by click coord
+					} else {
+						pos = coord;
+					}
+
+					// If width overflows, position by editable instead
+					if(document.body.scrollWidth > 0 && pos.x + popupWidth > Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth)) {
+						pos.x = edrect.x - popupWidth;
+					}
+
+					// If overflows height
+					if(document.body.scrollHeight > 0 && pos.y + popupHeight > Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight) ) {
+						pos.y -= popupHeight;
+					}
+
+					this.$el.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
+				},
+				preview: function(e) {
+					let sel = getSelectable(e.path[0]);
+					if(this.selected !== sel) {
+						this.resetPreview();
+						this.unselect();
+						this.select(sel);
+
 						let torestore = this.getEntryBySelected(sel);
 
 						if(torestore) {
 							if(sel.dataset.group === 'sess' && !sel.dataset.single) {
-								torestore.getSession().restore();
+								torestore.getSession().setPlaceholders();
 							} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
-								this.editable.applyEntry(torestore);
+								this.editable.applyPlaceholderEntry(torestore);
 							}
 						}
-					},
-
-
-					openRecovery: function() {
-						terafm.recoveryDialogController.open();
-						this.hide();
-					},
-					openKeyboardShortcutsModal: function() {
-						terafm.keyboardShortcutController.showShortcutDialog();
-						this.hide();
-					},
-					disableSite: function() {
-						let ok = confirm(`Disable Typio completely on ${location.hostname}? The page will be refreshed.`);
-						if(ok) {
-							terafm.blacklist.block(window.location.hostname);
-							setTimeout(() => window.location.reload(), 50); // Give it some time to block
-						}
-						this.hide();
-					},
-
-					getEntryBySelected: function(li) {
-						if(!li.dataset.index) return false;
-						if(li.dataset.group === 'sess') {
-							return this.data.sess.entries[li.dataset.index];
-						} else if(li.dataset.group === 'recent') {
-							return this.data.recent.entries[li.dataset.index];
-						}
-					},
-
-					select: function(el) {
-						this.selected = el;
-						this.selected.classList.add('selected');
-					},
-					unselect: function() {
-						this.selected && this.selected.classList.remove('selected');
-						this.selected = false;
 					}
 				},
-				data: function() {
-					return {
-						isVisible: true,
-						data: {},
-						editable: false,
-						selected: false,
-						isEmpty: false
-					}
-				}
-			});
+				resetPreview: function() {
+					if(this.isVisible) terafm.editables.resetPlaceholders();
+				},
+				restore: function(e) {
+					this.resetPreview();
+					this.isVisible = false;
 
-			if(callback) callback();
-		})
+					let sel = getSelectable(e.path[0]);
+					let torestore = this.getEntryBySelected(sel);
+
+					if(torestore) {
+						if(sel.dataset.group === 'sess' && !sel.dataset.single) {
+							torestore.getSession().restore();
+						} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
+							this.editable.applyEntry(torestore);
+						}
+					}
+				},
+
+
+				openRecovery: function() {
+					terafm.recoveryDialogController.open();
+					this.hide();
+				},
+				openKeyboardShortcutsModal: function() {
+					terafm.keyboardShortcutController.showShortcutDialog();
+					this.hide();
+				},
+				disableSite: function() {
+					let ok = confirm(`Disable Typio completely on ${location.hostname}? The page will be refreshed.`);
+					if(ok) {
+						terafm.blacklist.block(window.location.hostname);
+						setTimeout(() => window.location.reload(), 50); // Give it some time to block
+					}
+					this.hide();
+				},
+
+				getEntryBySelected: function(li) {
+					if(!li.dataset.index) return false;
+					if(li.dataset.group === 'sess') {
+						return this.data.sess.entries[li.dataset.index];
+					} else if(li.dataset.group === 'recent') {
+						return this.data.recent.entries[li.dataset.index];
+					}
+				},
+
+				select: function(el) {
+					this.selected = el;
+					this.selected.classList.add('selected');
+				},
+				unselect: function() {
+					this.selected && this.selected.classList.remove('selected');
+					this.selected = false;
+				}
+			},
+			data: function() {
+				return {
+					isVisible: true,
+					data: {},
+					editable: false,
+					selected: false,
+					isEmpty: false
+				}
+			}
+		});
+
+		if(callback) callback();
 	}
 
 	function setupKeyNav() {

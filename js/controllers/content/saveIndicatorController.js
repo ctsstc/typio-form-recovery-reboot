@@ -51,43 +51,41 @@ window.terafm = window.terafm || {};
 	}
 
 	function makeVue(rootnode, callback) {
-		import( chrome.runtime.getURL('../templates/saveIndicator.js') ).then((module) => {
-			vue = new Vue({
-				...(module),
-				el: rootnode,
-				methods: {
-					show: function() {
-						this.isVisible = true;
-					},
-					hide: function() {
-						this.isVisible = false;
-					},
-					animate: function() {
-						if(this.isVisible) {
-							this.animator.style.animation = 'none';
-							this.animator.offsetHeight; // Trigger reflow
-							this.animator.style.animation = null;
-						}
-					},
+		vue = new Vue({
+			'@import-vue saveIndicator':0,
+			el: rootnode,
+			methods: {
+				show: function() {
+					this.isVisible = true;
 				},
-				data: function() {
-					return {
-						styleClass: '',
-						hexColor: '',
-
-						isVisible: true,
-						animator: null
+				hide: function() {
+					this.isVisible = false;
+				},
+				animate: function() {
+					if(this.isVisible) {
+						this.animator.style.animation = 'none';
+						this.animator.offsetHeight; // Trigger reflow
+						this.animator.style.animation = null;
 					}
 				},
-				mounted: function() {
-					this.styleClass = options.get('saveIndicator');
-					this.hexColor = options.get('saveIndicatorColor');
-					this.animator = this.$el.querySelector('.animator');
-				}
-			});
+			},
+			data: function() {
+				return {
+					styleClass: '',
+					hexColor: '',
 
-			if(callback) callback();
-		})
+					isVisible: true,
+					animator: null
+				}
+			},
+			mounted: function() {
+				this.styleClass = options.get('saveIndicator');
+				this.hexColor = options.get('saveIndicatorColor');
+				this.animator = this.$el.querySelector('.animator');
+			}
+		});
+
+		if(callback) callback();
 	}
 
 })(terafm.options, terafm.saveIndicator, terafm.editableManager, terafm.Events, terafm.initHandler);
