@@ -22,7 +22,7 @@ terafm.keyboardShortcutController = {};
 
 			var keybindRestorePreviousSession = options.get('keybindRestorePreviousSession');
 			if(keybindRestorePreviousSession.length) keyboardShortcuts.on(keybindRestorePreviousSession, function() {
-				toast.create('Restoring previous session')
+				toastController.create('Restoring previous session')
 				
 				var fields = db.getLatestSession(),
 					totalCount = Object.keys(fields).length,

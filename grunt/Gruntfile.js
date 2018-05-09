@@ -155,7 +155,6 @@ module.exports = function(grunt) {
                         '../js/modules/cache.js',
                         '../js/modules/events.js',
                         '../js/modules/keyboardShortcuts.js',
-                        '../js/modules/toast.js',
                         '../js/modules/blacklist.js',
 
                         // Controllers
@@ -167,6 +166,7 @@ module.exports = function(grunt) {
                             '../js/controllers/content/tmp/quickAccessController.js',
                             '../js/controllers/content/tmp/keyboardShortcutController.js',
                             '../js/controllers/content/tmp/recoveryDialogController.js',
+                            '../js/controllers/content/tmp/toastController.js',
                     ],
 
                     // Runs on site context (not isolated)

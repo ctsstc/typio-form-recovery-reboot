@@ -82,14 +82,14 @@ terafm.recoveryDialogController = {};
 					if(!this.currEntry) return;
 					terafm.defaults.restore();
 					this.currEntry.getSession().restore({flash: true});
-					terafm.toast.create('Session restored.');
+					terafm.toastController.create('Session restored.');
 					this.hide();
 				},
 				restoreEntry: function() {
 					if(!this.currEntry) return;
 					terafm.defaults.restore();
 					this.currEntry.restore({flash: true});
-					terafm.toast.create('Entry restored.');
+					terafm.toastController.create('Entry restored.');
 					this.hide();
 				},
 
@@ -169,11 +169,11 @@ terafm.recoveryDialogController = {};
 
 					if(format === 'plaintext') {
 						terafm.help.copyToClipboard(this.currEntry.getValue({stripTags: true, trim: true}));
-						terafm.toast.create('Copied plaintext to clipboard.');
+						terafm.toastController.create('Copied plaintext to clipboard.');
 
 					} else if(format === 'formatting') {
 						terafm.help.copyToClipboard(this.currEntry.getValue({trim: true}));
-						terafm.toast.create('Copied text with formatting to clipboard.');
+						terafm.toastController.create('Copied text with formatting to clipboard.');
 					}
 
 				},
@@ -183,7 +183,7 @@ terafm.recoveryDialogController = {};
 				},
 				disableSite: function() {
 					terafm.blacklist.block(window.location.hostname);
-					terafm.toast.create('Typio will be disabled on the next page load.');
+					terafm.toastController.create('Typio will be disabled on the next page load.');
 					this.hide();
 				}
 			},
