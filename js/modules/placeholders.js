@@ -15,7 +15,7 @@ terafm.placeholders = {};
 	function restore() {
 		entries.each(entry => {
 			entry.getEditable().remHighlight();
-			entry.restore();
+			entry.restore({clone: false});
 		}).clear();
 	}
 	
