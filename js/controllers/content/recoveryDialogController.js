@@ -182,9 +182,7 @@ terafm.recoveryDialogController = {};
 					chrome.runtime.sendMessage({action: 'openSettings'});
 				},
 				disableSite: function() {
-					terafm.blacklist.block(window.location.hostname);
-					terafm.toastController.create('Typio will be disabled on the next page load.');
-					this.hide();
+					if(terafm.blockController.block()) this.hide();
 				}
 			},
 			data: {
