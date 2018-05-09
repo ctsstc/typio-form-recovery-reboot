@@ -167,6 +167,7 @@ module.exports = function(grunt) {
                             '../js/controllers/content/tmp/keyboardShortcutController.js',
                             '../js/controllers/content/tmp/recoveryDialogController.js',
                             '../js/controllers/content/tmp/toastController.js',
+                            '../js/controllers/content/tmp/blockController.js',
                     ],
 
                     // Runs on site context (not isolated)

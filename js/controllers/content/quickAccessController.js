@@ -168,11 +168,7 @@ terafm.quickAccessController = {};
 					this.hide();
 				},
 				disableSite: function() {
-					let ok = confirm(`Disable Typio completely on ${location.hostname}? The page will be refreshed.`);
-					if(ok) {
-						terafm.blacklist.block(window.location.hostname);
-						setTimeout(() => window.location.reload(), 50); // Give it some time to block
-					}
+					terafm.blockController.block();
 					this.hide();
 				},
 
