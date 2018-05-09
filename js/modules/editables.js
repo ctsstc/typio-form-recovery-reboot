@@ -97,6 +97,18 @@ terafm.editables = {};
 
 
 
+	let logtmt;
+	editables.pauseLoggingForJustABit = () => {
+		terafm.pauseLogging = true;
+
+		clearTimeout(logtmt);
+		logtmt = setTimeout(function() {
+			terafm.pauseLogging = false;
+		}, 5);
+	}
+
+
+
 
 	editables.highlighted = new terafm.EditableList();
 
