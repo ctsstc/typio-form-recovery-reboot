@@ -3,6 +3,7 @@ window.terafm = window.terafm || {};
 terafm.Editable = class Editable {
 	constructor(el) {
 		this.el = el;
+		this.isHighlighed = false;
 	}
 
 	get path() {
@@ -32,24 +33,20 @@ terafm.Editable = class Editable {
 		setTimeout(this.remHighlight.bind(this), 	1000);
 	}
 
-	isHighlighted() {
-		return terafm.editables.highlighted.contains(this)
-	}
-
 	highlight() {
-		if(!this.isHighlighted()) {
+		if(!this.isHighlighed) {
 			var attr = this.el.getAttribute('style') || '';
 			this.el.terafmOrgStyle = attr;
 			this.el.style.background = 'rgb(255, 251, 153)';
 			this.el.style.color = '#222';
-			terafm.editables.highlighted.push(this);
+			this.isHighlighed = true;
 		}
 	}
 	remHighlight() {
-		if(this.isHighlighted() && this.el.terafmOrgStyle !== undefined) {
+		if(this.isHighlighed && this.el.terafmOrgStyle !== undefined) {
 			this.el.setAttribute('style', this.el.terafmOrgStyle);
 			delete this.el.terafmOrgStyle;
-			terafm.editables.highlighted.delete(this);
+			this.isHighlighed = false;
 		}
 	}
 
@@ -104,8 +101,8 @@ terafm.Editable = class Editable {
 		return value;
 	}
 	setValue(val) {
-		
 		terafm.editables.pauseLoggingForJustABit();
+		terafm.defaults.add(this);
 
 		if(terafm.editables.isNode(this.el, 'INPUT') || terafm.editables.isNode(this.el, 'TEXTAREA')) {
 

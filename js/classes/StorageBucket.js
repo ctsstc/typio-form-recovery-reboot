@@ -73,6 +73,7 @@ terafm.StorageBucket = class Bucket {
 			sess.each(entry => {
 				if(excludeEid && entry.editableId === excludeEid) return null;
 				if(filterFn && filterFn(entry) === false) return false;
+				console.log('bucket adding', entry);
 				entrylist.push(entry);
 				if(max > -1) max--; else return false;
 			})

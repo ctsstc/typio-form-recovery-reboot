@@ -107,15 +107,4 @@ terafm.editables = {};
 		}, 5);
 	}
 
-
-
-
-	editables.highlighted = new terafm.EditableList();
-
-	editables.removeHighlights = () => {
-		for(let eid in editables.highlighted.editables) {
-			editables.highlighted.editables[eid].remHighlight();
-		}
-	}
-
 })(terafm.editables);

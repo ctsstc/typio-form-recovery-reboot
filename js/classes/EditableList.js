@@ -1,8 +1,11 @@
 window.terafm = window.terafm || {};
 
 terafm.EditableList = class EditableList {
-	constructor() {
+	constructor(session) {
 		this.clear();
+		if(session instanceof terafm.Session) {
+			this.set(session);
+		}
 	}
 
 	get length() { return this.editables.length; }

@@ -2,7 +2,7 @@
 
 	<p v-if="isEmpty">I found nothing! :(</p>
 	
-	<template v-for="dataType in ['sess', 'recent']">
+	<template v-for="dataType in Object.keys(data)">
 		<ul v-if="data[dataType]" class="entry-list">
 			<li v-for="(entry, index) in data[dataType].entries">
 				<div :data-todo="entry.editableId + ' ' + entry.sessionId" v-on:click="restore($event)" v-on:mousemove="preview($event)" :data-group="dataType" :data-index="index" class="fill selectable">

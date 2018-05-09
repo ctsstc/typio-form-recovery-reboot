@@ -80,12 +80,14 @@ terafm.recoveryDialogController = {};
 				// Callback for failures?
 				restoreSession: function() {
 					if(!this.currEntry) return;
+					terafm.editables.defaults.applyEntries();
 					this.currEntry.getSession().restore({flash: true});
 					terafm.toast.create('Session restored.');
 					this.hide();
 				},
 				restoreEntry: function() {
 					if(!this.currEntry) return;
+					terafm.editables.defaults.applyEntries();
 					this.currEntry.restore({flash: true});
 					terafm.toast.create('Entry restored.');
 					this.hide();
