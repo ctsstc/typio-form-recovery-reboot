@@ -57,9 +57,11 @@ window.terafm = window.terafm || {};
 			methods: {
 				show: function() {
 					this.isVisible = true;
+					this.$el.classList.add('visible');
 				},
 				hide: function() {
 					this.isVisible = false;
+					this.$el.classList.remove('visible');
 				},
 				animate: function() {
 					if(this.isVisible) {
@@ -71,21 +73,26 @@ window.terafm = window.terafm || {};
 			},
 			data: function() {
 				return {
-					styleClass: '',
-					hexColor: '',
-
 					isVisible: true,
 					animator: null
 				}
 			},
 			mounted: function() {
-				this.styleClass = options.get('saveIndicator');
-				this.hexColor = options.get('saveIndicatorColor');
 				this.animator = this.$el.querySelector('.animator');
+
+				this.$el.classList.add( options.get('saveIndicator') );
+
+				let hexColor = options.get('saveIndicatorColor');
+				this.$el.style.backgroundColor = hexColor;
+				this.$el.style.color = hexColor;
+
+				// setTimeout(callback, 200);
+				// setTimeout(callback, 0);
+				setTimeout(callback, 10);
+				// callback();
 			}
 		});
 
-		if(callback) callback();
 	}
 
 })(terafm.options, terafm.saveIndicator, terafm.editableManager, terafm.Events, terafm.initHandler);
