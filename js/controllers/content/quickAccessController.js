@@ -57,13 +57,18 @@ terafm.quickAccessController = {};
 					if(!ed) {
 						throw new Error('No editable');
 					}
-					this.data = {sess:{}, recent: {}, empty: true};
-					this.data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
-					this.data.recent = terafm.db.getEntries(10-this.data.sess.length, terafm.focusedEditable.id, function(entry) {
+
+					let data = {};
+					data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
+					data.recent = terafm.db.getEntries(10-data.sess.length, terafm.focusedEditable.id, function(entry) {
 						return terafm.editables.isTextEditableType(entry.obj.type);
 					});
+					// console.log(data);
+					// return;
 
-					this.isEmpty = (this.data.sess.length || this.data.recent.length) ? false : true;
+					this.data = data;
+					this.isEmpty = (data.sess.length || data.recent.length) ? false : true;
+
 					this.editable = ed;
 					this.position(ed, coord);
 					this.unselect(); // In case previous selection is retained after populating
@@ -116,25 +121,29 @@ terafm.quickAccessController = {};
 						if(torestore) {
 							
 							if(sel.dataset.group === 'sess' && !sel.dataset.single) {
-								this.placeholderSnapshot.set(torestore.getSession());
-								torestore.getSession().setPlaceholders();
+								let sess = torestore.getSession();
+
+								terafm.placeholders.snapshot(sess.getEditables());
+								sess.setPlaceholders();
+								this.isPreviewing = true;
 
 							} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
-								this.placeholderSnapshot.set(this.editable);
+								terafm.placeholders.snapshot(this.editable);
 								this.editable.applyPlaceholderEntry(torestore);
+								this.isPreviewing = true;
 							}
 						}
 					}
 				},
 				resetPreview: function() {
-					if(this.isVisible) {
-						terafm.editables.removeHighlights();
-						this.placeholderSnapshot.applyEntries();
-						// console.log('clearin', this.placeholderSnapshot)
+					if(this.isVisible && this.isPreviewing) {
+						terafm.placeholders.restore();
+						this.isPreviewing = false;
 					}
 				},
 				restore: function(e) {
 					this.resetPreview();
+					terafm.defaults.restore();
 					this.isVisible = false;
 
 					let sel = getSelectable(e.path[0]);
@@ -188,11 +197,11 @@ terafm.quickAccessController = {};
 			data: function() {
 				return {
 					isVisible: true,
+					isEmpty: true,
 					data: {},
 					editable: false,
 					selected: false,
-					isEmpty: false,
-					placeholderSnapshot: new terafm.EntryList()
+					isEmpty: false
 				}
 			}
 		});

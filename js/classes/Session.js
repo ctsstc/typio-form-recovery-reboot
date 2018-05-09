@@ -10,6 +10,10 @@ terafm.Session = class Session {
 		return Object.keys(this.entries).length;
 	}
 
+	getEditables() {
+		return new terafm.EditableList(this);
+	}
+
 	contains(eid) {
 		return this.entries.hasOwnProperty(eid);
 	}

@@ -1,16 +1,69 @@
 window.terafm = window.terafm || {};
 
 terafm.EntryList = class EntryList {
-	constructor() {
+	constructor(opts = {uniqueEditables: false}) {
 		this.entries = [];
+		
+		this.uniqueEditables = opts.uniqueEditables;
+		
+		if(opts.uniqueEditables) {
+			this.indexes = {};
+		}
 	}
 
 	get length() { return this.entries.length; }
 
-	push(entry) {
-		if(!(entry instanceof terafm.Entry)) return;
-		// if(this.contains(entry)) return; // skip for performance
-		this.entries.push(entry);
+	update(data) {
+		this.set(data, {override: true});
+	}
+	set(data, opts={override: false}) {
+
+		// Sessions and entries will use supplied entry with static value
+		// Editables will always create a new entry with current value
+
+		if(data instanceof terafm.Entry) {
+			let entry = data;
+
+			if(this.uniqueEditables) {
+				let i = this.containsEditable(entry);
+
+				if(i === false) {
+					this.indexes[entry.editableId] = this.entries.push(entry);
+
+				} else if(opts.override) {
+					this.entries[i] = entry;
+				}
+
+			// Don't care about dupes or indexing
+			} else {
+				// console.log('saving', entry.getEditable().el, [entry.obj.value]);
+				this.entries.push(entry);
+			}
+
+
+		} if(data instanceof terafm.Session) {
+			data.each(entry => this.set(entry, opts));
+
+		} else if(data instanceof terafm.EditableList) {
+			for(let eid in data.editables) {
+				this.set(data.editables[eid], opts);
+			}
+
+		} else if(data instanceof terafm.Editable) {
+			let entry = data.getEntry({resolveUncheckedRadios: true});
+			this.set(entry, opts);
+
+
+		} else {
+			// console.trace()
+			console.error('WTF!?');
+			// throw new Error('EntryList cannot convert supplied data type');
+		}
+	}
+
+	// Alias for set()
+	push(data) {
+		return this.set(data)
 	}
 
 	filter(fn) {
@@ -22,36 +75,20 @@ terafm.EntryList = class EntryList {
 		return this;
 	}
 
-	set(data) {
-		if(data instanceof terafm.Session) {
-			this.clear();
-			data.each(entry => this.push( entry.copy({resolveUncheckedRadios: true}) ))
-
-		} else if(data instanceof terafm.Entry) {
-			this.clear();
-			this.push( data.copy({resolveUncheckedRadios: true}) );
-
-		} else if(data instanceof terafm.Editable) {
-			this.clear();
-			this.push( data.getEntry({resolveUncheckedRadios: true}) );
-
-		} else {
-			throw new Error('EntryList cannot convert supplied data type');
-		}
-	}
-
 	clear() {
 		this.entries = [];
+		this.indexes = {};
 	}
 
 
 	applyEntries() {
+		// console.log('applyEntries', this.entries, this.indexes)
 		for(let entry of this.entries) entry.restore();
+		return this;
 	}
 
-	// contains(checkEntry) {
-	// 	for(let entry of this.entries)
-	// 		if(entry.editableId === checkEntry.editableId && entry.sessionId === checkEntry.sessionId)
-	// 			return true;
-	// }
+	containsEditable(checkEntry) {
+		if(!this.uniqueEditables) throw new Error('Cannot check uniqueness for non-unique EntryList');
+		return this.indexes.hasOwnProperty(checkEntry.editableId) ? this.indexes[checkEntry.editableId] : false;
+	}
 }

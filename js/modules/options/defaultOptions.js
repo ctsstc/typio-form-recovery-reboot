@@ -17,6 +17,7 @@ window.terafm.defaultOptions = {};
 	def.quickAccessButtonEnabled = true;
 	def.quickAccessButtonTrigger = 'focus';
 	def.cloneOnRestore = false;
+	def.resetEditablesBetweenRestorations = true;
 
 	// Mac specific
 	if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {

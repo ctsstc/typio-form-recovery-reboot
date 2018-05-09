@@ -61,12 +61,22 @@
 
 			<div id="restore-options-group" class="opt-group">
 				<p class="opt-title">Restore options</p>
-
-				<div class="fancy-chk">
-					<input class="autosave" type="checkbox" data-option="cloneOnRestore" id="checkboxcloneOnRestore">
-					<span class="chk"></span>
-				</div>
-				<label for="checkboxcloneOnRestore">Clone entries on restoration <span data-tooltip="Entries will be copied into the current session upon restoration.">(info)</span></label>
+	
+				<p>
+					<div class="fancy-chk">
+						<input class="autosave" type="checkbox" data-option="cloneOnRestore" id="checkboxcloneOnRestore">
+						<span class="chk"></span>
+					</div>
+					<label for="checkboxcloneOnRestore">Clone entries on restoration <span data-tooltip="Entries will be copied into the current session upon restoration.">(info)</span></label>
+				</p>
+				
+				<p>
+					<div class="fancy-chk">
+						<input class="autosave" type="checkbox" data-option="resetEditablesBetweenRestorations" id="checkboxResetEditablesBetweenRestorations">
+						<span class="chk"></span>
+					</div>
+					<label for="checkboxResetEditablesBetweenRestorations">Reset inputs between restorations <span data-tooltip="Input fields will be reset to their default value before restoration. If an input field has been edited after a restoration it will not be reset on the next restoration.">(info)</span></label>
+				</p>
 			</div>
 
 			<div id="quickAccess-group" class="opt-group">

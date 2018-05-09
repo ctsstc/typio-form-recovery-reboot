@@ -1,7 +1,7 @@
 window.terafm = window.terafm || {};
 
 terafm.Entry = class Entry {
-	constructor(arg, opts = {resolveUncheckedRadios: false}) {
+	constructor(arg, opts = {resolveUncheckedRadios: false, context: null}) {
 		this.obj = {};
 
 		// Make Entry from editable
@@ -11,7 +11,13 @@ terafm.Entry = class Entry {
 				arg = this.resolveRadio(arg) || arg;
 			}
 
-			this._editable = arg;
+			if(opts.context) {
+				this.session = opts.context.session;
+				this._editable = opts.context._editable;
+			} else {
+				this._editable = arg;
+			}
+			
 			this.editableId = this._editable.id;
 			this.sessionId = this._editable.sessionId;
 
@@ -22,6 +28,7 @@ terafm.Entry = class Entry {
 			var meta = arg.getMeta();
 			if(meta) this.obj.meta = meta;
 
+		// From DB? Copy?
 		} else {
 			Object.assign(this, arg);
 		}
@@ -35,7 +42,8 @@ terafm.Entry = class Entry {
 	}
 
 	copy(opts) {
-		return new terafm.Entry(this.getEditable(), opts);
+		// return new terafm.Entry(this, opts);
+		return new terafm.Entry(this.getEditable(), {...opts, context: this});
 	}
 
 	isTextType() {
@@ -105,11 +113,11 @@ terafm.Entry = class Entry {
 		}
 	}
 
-	restore(opts={flash: false}) {
+	restore(opts={flash: false, noClone: false}) {
 		let editable = this.getEditable();
 		if(editable) {
 			editable.applyEntry(this);
-			if(terafm.options.get('cloneOnRestore') === true) editable.getEntry().save();
+			if(opts.noClone !== true && terafm.options.get('cloneOnRestore') === true) editable.getEntry().save();
 			if(opts.flash) editable.flashHighlight();
 		}
 	}

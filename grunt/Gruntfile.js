@@ -148,6 +148,8 @@ module.exports = function(grunt) {
                         '../js/modules/pathResolver.js',
                         '../js/modules/pathGenerator.js',
                         '../js/modules/editables.js',
+                        '../js/modules/defaults.js',
+                        '../js/modules/placeholders.js',
                         '../js/modules/validator.js',
                         '../js/modules/ui.js',
                         '../js/modules/cache.js',
