@@ -68,13 +68,11 @@ terafm.quickAccessController = {};
 					this.position(ed, coord);
 					this.unselect(); // In case previous selection is retained after populating
 					this.isVisible = true;
-					terafm.pauseLogging = true;
 				},
 				hide: function() {
 					if(this.isVisible) {
 						this.resetPreview();
 						this.isVisible = false;
-						terafm.pauseLogging = false;
 					}
 				},
 				position: function(ed, coord) {

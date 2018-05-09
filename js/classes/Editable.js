@@ -53,52 +53,24 @@ terafm.Editable = class Editable {
 		}
 	}
 
-	// resetPlaceholder() {
-		// this.restoreCachedValue();
-		// this.remHighlight()
-	// }
-
-	// cacheValue() {
-	// 	if(!this.orgValue) {
-	// 		this.orgValue = this.getValue();
-	// 	}
-	// }
-	// restoreCachedValue() {
-	// 	if(this.orgValue !== undefined) {
-	// 		this.setValue(this.orgValue);
-	// 		this.orgValue = undefined;
-	// 	}
-	// }
-
 	applyPlaceholderEntry(entry) {
-		// this.cacheValue();
 		this.applyEntry(entry, {truncate: true});
 		this.highlight();
 	}
 
 	applyEntry(entry, opts = {truncate: false}) {
 		if(!(entry instanceof terafm.Entry)) throw new Error('applyEntry requires an entry to set');
-
+		
 		let tmpVal = entry.obj.value;
 
 		// If restoring html into text field, strip html and trim
 		if(this.isContentEditable() === false && entry.obj.type === 'contenteditable') {
-			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts})
-			// tmpVal = terafm.help.stripTags(tmpVal);
-			// tmpVal = terafm.help.decodeHTMLEntities(tmpVal);
-			// tmpVal = terafm.help.trim(tmpVal);
+			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts});
 
 		// Restoring text into html field
 		} else if(this.isContentEditable() === true && entry.obj.type !== 'contenteditable') {
-			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts})
-			// tmpVal = terafm.help.encodeHTMLEntities(tmpVal);
+			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts});
 		}
-
-		// if(opts.truncate && tmpVal.length > 500) {
-		// 	if(!(this.isContentEditable() && entry.type === 'contenteditable')) {
-		// 		tmpVal = tmpVal.substring(0, 500) + '... (truncated)';
-		// 	}
-		// }
 
 		this.setValue(tmpVal);
 	}
@@ -132,27 +104,14 @@ terafm.Editable = class Editable {
 		return value;
 	}
 	setValue(val) {
+		
+		terafm.editables.pauseLoggingForJustABit();
+
 		if(terafm.editables.isNode(this.el, 'INPUT') || terafm.editables.isNode(this.el, 'TEXTAREA')) {
 
-			// Special care for checkable inputs
-			if(this.el.type === 'checkbox') {
+			if(this.el.type === 'checkbox' || this.el.type === 'radio') {
 				val = parseInt(val);
 				this.el.checked = val ? true : false;
-
-			} else if(this.el.type === 'radio') {
-
-				// Set by value
-				if(val == parseInt(val)) {
-					this.el.checked = true;
-				}
-				// Set by path
-				/* else {
-					// var orgRadio = document.querySelector(val);
-					var orgRadio = this.el.getRootNode().querySelector(val);
-					if(orgRadio) {
-						orgRadio.checked = true;
-					}
-				}*/
 
 			} else {
 				this.el.value = val;
