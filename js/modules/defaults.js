@@ -22,7 +22,7 @@ terafm.defaults = {};
 	}
 
 	function restore() {
-		entries.applyEntries();
+		entries.each(entry => entry.restore({clone: false}));
 	}
 	
 })(terafm.defaults);

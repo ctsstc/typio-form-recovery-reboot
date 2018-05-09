@@ -113,12 +113,15 @@ terafm.Entry = class Entry {
 		}
 	}
 
-	restore(opts={flash: false, noClone: false}) {
+	restore(opts = {flash: false, clone: true}) {
 		let editable = this.getEditable();
 		if(editable) {
 			editable.applyEntry(this);
-			if(opts.noClone !== true && terafm.options.get('cloneOnRestore') === true) editable.getEntry().save();
 			if(opts.flash) editable.flashHighlight();
+		}
+		if(opts.clone !== false && terafm.options.get('cloneOnRestore') === true) {
+			this.sessionId = terafm.db.getGlobalSessionId();
+			this.save();
 		}
 	}
 
