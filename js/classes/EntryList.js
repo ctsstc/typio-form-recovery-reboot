@@ -41,7 +41,7 @@ terafm.EntryList = class EntryList {
 			}
 
 
-		} if(data instanceof terafm.Session) {
+		} else if(data instanceof terafm.Session) {
 			data.each(entry => this.set(entry, opts));
 
 		} else if(data instanceof terafm.EditableList) {
@@ -55,9 +55,7 @@ terafm.EntryList = class EntryList {
 
 
 		} else {
-			// console.trace()
-			console.error('WTF!?');
-			// throw new Error('EntryList cannot convert supplied data type');
+			throw new Error('EntryList cannot convert supplied data type');
 		}
 	}
 
@@ -84,6 +82,11 @@ terafm.EntryList = class EntryList {
 	applyEntries() {
 		// console.log('applyEntries', this.entries, this.indexes)
 		for(let entry of this.entries) entry.restore();
+		return this;
+	}
+
+	each(fn) {
+		for(let ed of this.entries) fn(ed);
 		return this;
 	}
 

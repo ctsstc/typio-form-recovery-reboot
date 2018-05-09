@@ -9,16 +9,14 @@ terafm.placeholders = {};
 	placeholders.restore = () => restore();
 
 	function snapshot(data) {
-		console.log('snapshotting', data);
 		entries.set(data);
 	}
 
 	function restore() {
-		console.log('restoring and removing highlights');
-		for(let entry of entries.entries) {
+		entries.each(entry => {
 			entry.getEditable().remHighlight();
-		}
-		entries.applyEntries().clear();
+			entry.restore();
+		}).clear();
 	}
 	
 })(terafm.placeholders);
