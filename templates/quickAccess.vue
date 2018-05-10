@@ -1,6 +1,8 @@
-<div id="quickAccess" v-on:mouseleave="unselect(); resetPreview();" v-bind:class="[!isVisible ? 'hidden' : '']">
+<div id="quickAccess" v-on:mouseleave="unselect(); resetPreview();" v-bind:class="[!isVisible ? 'hidden' : '', ['boundary-' + submenuBoundary]]">
 
 	<p v-if="isEmpty">I found nothing! :(</p>
+
+	<some-component></some-component>
 	
 	<template v-for="dataType in Object.keys(data)">
 		<ul v-if="data[dataType]" class="entry-list">
@@ -9,10 +11,15 @@
 					{{ entry.getPrintableValue({truncate: 50}) }}
 				</div>
 				
-				<div v-if="dataType === 'sess'" v-on:click="restore($event)" v-on:mousemove="preview($event)" data-group="sess" data-single="true" :data-index="index" :title="'This entry belongs to a session with ' + entry.getSession().length + ' entries. Click this icon to restore only the entry that belongs to the field.'" data-keynav-skip="" class="flex-icon sess-count-icon selectable">
-					<span class="icon icon-square"></span>
-					<span class="num">{{ entry.getSession().length }}</span>
+				<div v-if="dataType === 'sess'" class="flex-icon">
+					<span class="icon icon-arrow-forward"></span>
 				</div>
+				
+				<ul class="submenu" v-if="dataType === 'sess'">
+					<li v-for="(subentry, subindex) in entry.getSession().entries" v-on:click="restore($event)" v-on:mousemove="preview($event)" data-group="sess" data-single="true" :data-index="subindex" data-keynav-skip="" class="selectable">
+						{{ subentry.getPrintableValue({truncate: 50}) }}
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</template>
@@ -26,3 +33,8 @@
 		</li>
 	</ul>
 </div>
+
+<!-- component template -->
+<script type="text/x-template" id="qa-list-item">
+	<p>Hello world! {{ testvar }}</p>
+</script>

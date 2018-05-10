@@ -50,6 +50,10 @@ terafm.quickAccessController = {};
 
 	function makeVue(rootnode, callback) {
 
+		let listItemComponent = {
+			'@import-vue quickAccessListItem':0,
+		}
+
 		vue = new Vue({
 			'@import-vue quickAccess':0,
 			el: rootnode,
@@ -98,6 +102,12 @@ terafm.quickAccessController = {};
 					// Position by click coord
 					} else {
 						pos = coord;
+					}
+
+					if(pos.x + (popupWidth*2) > docWidth()) {
+						this.submenuBoundary = 'right';
+					} else {
+						this.submenuBoundary = 'left';
 					}
 
 					// If width overflows, position by editable instead
@@ -207,8 +217,14 @@ terafm.quickAccessController = {};
 					data: {},
 					editable: false,
 					selected: false,
-					isEmpty: false
+					isEmpty: false,
+					submenuBoundary: 'left',
+
+					testvar: 'lalalalal! :D'
 				}
+			},
+			components: {
+				'some-component': listItemComponent
 			}
 		});
 
