@@ -145,7 +145,7 @@ terafm.recoveryDialogController = {};
 						target.classList.add('confirm');
 						target.querySelector('.text').innerText = 'Click to confirm';
 						
-						setTimeout(() => {
+						setTimeout(function() {
 							target.classList.remove('confirm');
 							target.querySelector('.text').innerText = 'Delete';
 						}, 4000);
