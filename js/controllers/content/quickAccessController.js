@@ -92,7 +92,7 @@ terafm.quickAccessController = {};
 					// Position by editable
 					if(ed && !coord) {
 						pos.x = edrect.x + edrect.width;
-						pos.y = edrect.y;
+						pos.y = edrect.y + 6;
 
 					// Position by click coord
 					} else {
