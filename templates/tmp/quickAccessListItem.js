@@ -1,3 +1,3 @@
-function render() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("hello! yay!")])}
+function render() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('li',{class:[_vm.selected ? 'selected' : '', 'selectable'],on:{"click":function($event){_vm.restore()},"mouseenter":function($event){_vm.preview()},"mouseleave":function($event){_vm.resetPreview()}}},[_c('div',{staticClass:"fill"},[_vm._v(_vm._s(_vm.entry.getPrintableValue({truncate: 50})))]),_vm._v(" "),(_vm.isSess)?_c('div',{staticClass:"flex-icon"},[_c('span',{staticClass:"icon icon-arrow-forward"})]):_vm._e(),_vm._v(" "),(_vm.isSess)?_c('ul',{staticClass:"submenu"},[_vm._l((_vm.entry.getSession().entries),function(subEntry){return [_c('entry-item',{attrs:{"entry":subEntry,"editable":_vm.editable,"isSess":false}})]})],2):_vm._e()])}
 var staticRenderFns = [];
 export {render, staticRenderFns}
