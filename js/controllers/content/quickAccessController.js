@@ -58,13 +58,12 @@ terafm.quickAccessController = {};
 						throw new Error('No editable');
 					}
 
+					let maxItems = 10;
 					let data = {};
-					data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id);
-					data.recent = terafm.db.getEntries(10-data.sess.length, terafm.focusedEditable.id, function(entry) {
+					data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id, maxItems);
+					data.recent = terafm.db.getEntries(maxItems-data.sess.length, terafm.focusedEditable.id, function(entry) {
 						return terafm.editables.isTextEditableType(entry.obj.type);
 					});
-					// console.log(data);
-					// return;
 
 					this.data = data;
 					this.isEmpty = (data.sess.length || data.recent.length) ? false : true;
