@@ -50,18 +50,59 @@ terafm.quickAccessController = {};
 
 	function makeVue(rootnode, callback) {
 
-		let listItemComponent = {
+		Vue.component('entry-item', {
 			'@import-vue quickAccessListItem':0,
-		}
+			props: ['entry', 'editable', 'isSess'],
+			data: function() {
+				return {
+					isPreviewing: false,
+					selected: false
+				}
+			},
+			methods: {
+				preview: function() {
+					if(this.isPreviewing) return;
+
+					this.isPreviewing = true;
+					this.selected = true;
+
+					if(this.isSess) {
+						let sess = this.entry.getSession();
+
+						terafm.placeholders.snapshot(sess.getEditables());
+						sess.setPlaceholders();
+					} else {
+						terafm.placeholders.snapshot(this.editable);
+						this.editable.applyPlaceholderEntry(this.entry);
+					}
+				},
+				resetPreview: function() {
+					if(!this.isPreviewing) return;
+
+					this.isPreviewing = false;
+					this.selected = false;
+					terafm.placeholders.restore();
+				},
+				restore: function() {
+					this.resetPreview();
+					terafm.defaults.restore();
+					this.$root.hide();
+
+					if(this.isSess) {
+						this.entry.getSession().restore();
+					} else {
+						this.editable.applyEntry(this.entry);
+					}
+				}
+			}
+		});
 
 		vue = new Vue({
 			'@import-vue quickAccess':0,
 			el: rootnode,
 			methods: {
 				showAndPopulate: function(ed, coord) {
-					if(!ed) {
-						throw new Error('No editable');
-					}
+					if(!ed) throw new Error('No editable');
 
 					let maxItems = 10;
 					let data = {};
@@ -74,18 +115,11 @@ terafm.quickAccessController = {};
 					this.isEmpty = (data.sess.length || data.recent.length) ? false : true;
 
 					this.editable = ed;
-					this.unselect(); // In case previous selection is retained after populating
 					this.isVisible = true;
 
 					requestAnimationFrame(() => {
 						this.position(ed, coord);
 					});
-				},
-				hide: function() {
-					if(this.isVisible) {
-						this.resetPreview();
-						this.isVisible = false;
-					}
 				},
 				position: function(ed, coord) {
 					let popupHeight = this.$el.clientHeight,
@@ -129,55 +163,9 @@ terafm.quickAccessController = {};
 						return document.documentElement.scrollWidth;
 					}
 				},
-				preview: function(e) {
-					let sel = getSelectable(e.path[0]);
-					if(this.selected !== sel) {
-						this.resetPreview();
-						this.unselect();
-						this.select(sel);
-
-						let torestore = this.getEntryBySelected(sel);
-
-						if(torestore) {
-							
-							if(sel.dataset.group === 'sess' && !sel.dataset.single) {
-								let sess = torestore.getSession();
-
-								terafm.placeholders.snapshot(sess.getEditables());
-								sess.setPlaceholders();
-								this.isPreviewing = true;
-
-							} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
-								terafm.placeholders.snapshot(this.editable);
-								this.editable.applyPlaceholderEntry(torestore);
-								this.isPreviewing = true;
-							}
-						}
-					}
-				},
-				resetPreview: function() {
-					if(this.isVisible && this.isPreviewing) {
-						terafm.placeholders.restore();
-						this.isPreviewing = false;
-					}
-				},
-				restore: function(e) {
-					this.resetPreview();
-					terafm.defaults.restore();
+				hide: function() {
 					this.isVisible = false;
-
-					let sel = getSelectable(e.path[0]);
-					let torestore = this.getEntryBySelected(sel);
-
-					if(torestore) {
-						if(sel.dataset.group === 'sess' && !sel.dataset.single) {
-							torestore.getSession().restore();
-						} else if(sel.dataset.group === 'recent' || sel.dataset.group === 'sess' && sel.dataset.single) {
-							this.editable.applyEntry(torestore);
-						}
-					}
 				},
-
 
 				openRecovery: function() {
 					terafm.recoveryDialogController.open();
@@ -191,24 +179,6 @@ terafm.quickAccessController = {};
 					terafm.blockController.block();
 					this.hide();
 				},
-
-				getEntryBySelected: function(li) {
-					if(!li.dataset.index) return false;
-					if(li.dataset.group === 'sess') {
-						return this.data.sess.entries[li.dataset.index];
-					} else if(li.dataset.group === 'recent') {
-						return this.data.recent.entries[li.dataset.index];
-					}
-				},
-
-				select: function(el) {
-					this.selected = el;
-					this.selected.classList.add('selected');
-				},
-				unselect: function() {
-					this.selected && this.selected.classList.remove('selected');
-					this.selected = false;
-				}
 			},
 			data: function() {
 				return {
@@ -216,15 +186,9 @@ terafm.quickAccessController = {};
 					isEmpty: true,
 					data: {},
 					editable: false,
-					selected: false,
 					isEmpty: false,
-					submenuBoundary: 'left',
-
-					testvar: 'lalalalal! :D'
+					submenuBoundary: 'left'
 				}
-			},
-			components: {
-				'some-component': listItemComponent
 			}
 		});
 
@@ -243,7 +207,7 @@ terafm.quickAccessController = {};
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
 				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable:not([data-keynav-skip])')),
-					currI = sels.indexOf(vue.selected),
+					currI = sels.indexOf(vue.$el.querySelector('.selectable.selected')),
 					newsel;
 
 				if(currI === -1 || currI === sels.length-1) {
@@ -251,6 +215,7 @@ terafm.quickAccessController = {};
 				} else {
 					newsel = sels[currI+1]
 				}
+				console.log(sels, newsel);
 				newsel.dispatchEvent(new Event('mousemove'));
 			}
 		}
@@ -262,7 +227,7 @@ terafm.quickAccessController = {};
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
 				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable:not([data-keynav-skip])')),
-					currI = sels.indexOf(vue.selected),
+					currI = sels.indexOf(vue.$el.querySelector('.selectable.selected')),
 					newsel;
 
 				if(currI < 1) {
