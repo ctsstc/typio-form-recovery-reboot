@@ -76,7 +76,7 @@ terafm.StorageBucket = class Bucket {
 				if(filterFn && filterFn(entry) === false) return false;
 				entrylist.set(entry);
 			})
-			if(max !== undefined && max < 1) else if(max !== undefined) return false;
+			if(max !== undefined && max < 1) return false;
 		});
 
 		return entrylist;
