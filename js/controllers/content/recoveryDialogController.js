@@ -76,6 +76,10 @@ terafm.recoveryDialogController = {};
 				setDefaultPage: function() {
 					this.currEntry = null;
 					this.page = 'default';
+					if(this.selectedListItem) {
+						this.selectedListItem.classList.remove('selected');
+						this.selectedListItem = null;
+					}
 				},
 
 				// Callback for failures?
