@@ -106,11 +106,12 @@ terafm.SessionList = class SessionList {
 		return entrylist;
 	}
 
-	getEntriesByEditable(eid) {
+	getEntriesByEditable(eid, max) {
 		let entrylist = new terafm.EntryList();
 		this.each(sess => {
 			entrylist.push(sess.getEntryByEditable(eid))
-		})
+			max--; if(max < 1) return false;
+		});
 		return entrylist;
 	}
 
