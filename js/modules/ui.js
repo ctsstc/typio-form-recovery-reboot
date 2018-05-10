@@ -5,8 +5,10 @@ terafm.ui = {};
 	'use strict';
 
 	let rootNode,
-		shadowRootNode;
+		shadowRootNode,
+		innerShadowRootNode,
 
+		iconFontInjected = false;
 
 	// Some sites override the entire DOM sometimes, this will check if the rootNode
 	// exists in the real DOM and append it if not
@@ -31,6 +33,10 @@ terafm.ui = {};
 		// Make sure shadow root has been created
 		if(!shadowRootNode) {
 			createShadowRoot();
+		}
+
+		if(dataObj.loadIcons) {
+			loadIconFont();
 		}
 
 		// Make replace arg optional
@@ -74,10 +80,10 @@ terafm.ui = {};
 	}
 
 	function addToShadowRoot(html, returnNode) {
-		shadowRootNode.querySelector('div').insertAdjacentHTML('beforeend', html);
+		innerShadowRootNode.insertAdjacentHTML('beforeend', html);
 
 		if(returnNode) {
-			return shadowRootNode.querySelector('div').querySelector(returnNode);
+			return innerShadowRootNode.querySelector(returnNode);
 		}
 	}
 
@@ -88,18 +94,23 @@ terafm.ui = {};
 		shadowRootNode = rootNode.attachShadow({mode: 'open'});
 
 		let html = '';
-		html += '<style>';
-			html += '@import "' + chrome.runtime.getURL('fonts/typio/styles.css') + '";' + `\n`;
-			html += '@import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '";';
-		html += '</style>';
+		html += '<style>@import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '";</style>';
 		html += '<div id="shadow-root"></div>';
 
 		shadowRootNode.innerHTML = html;
+		innerShadowRootNode = shadowRootNode.getElementById('shadow-root');
+	}
+
+	function loadIconFont() {
+		if(iconFontInjected) return;
+		
+		let html = '<style>@import "' + chrome.runtime.getURL('fonts/typio/styles.css') + '";</style>';
+		innerShadowRootNode.insertAdjacentHTML('afterbegin', html);
 
 		var iconfont = new FontFace("typio", 'url('+ chrome.extension.getURL('fonts/typio/fonts/typio.woff') +')');
 		document.fonts.add(iconfont);
 
-		return shadowRootNode;
+		iconFontInjected = true;
 	}
 
 })(terafm.ui);
