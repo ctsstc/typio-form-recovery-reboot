@@ -265,12 +265,12 @@ module.exports = function(grunt) {
                 validateOnly: false,
                 es2015: true
             },
-            opts: { files : {src:'../templates/options/options.vue'} },
-            dialog: { files : {src:'../templates/dialog/dialog.vue'} },
-            keyboardShortcutPopup: { files : {src:'../templates/keyboardShortcutPopup/keyboardShortcutPopup.vue'} },
-            quickAccess: { files : {src:'../templates/quickAccess/quickAccess.vue'} },
-            saveIndicator: { files : {src:'../templates/saveIndicator/saveIndicator.vue'} },
-            toast: { files : {src:'../templates/toast/toast.vue'} },
+            dialog: { files : {src:'../templates/dialog.vue'} },
+            keyboardShortcutPopup: { files : {src:'../templates/keyboardShortcutPopup.vue'} },
+            saveIndicator: { files : {src:'../templates/saveIndicator.vue'} },
+            toast: { files : {src:'../templates/toast.vue'} },
+            quickAccess: { files : {src:'../templates/quickAccess.vue'} },
+            quickAccessListItem: { files : {src:'../templates/quickAccessListItem.vue'} },
         },
 
         'string-replace': {
@@ -283,38 +283,9 @@ module.exports = function(grunt) {
                 }],
                 options: {
                     replacements: [
-                        // place files inline example
-                        {
-                            pattern: /'@import-vue (.*?)':0/,
-                            replacement: function(match, p1) {
-
-                                function requireFromString(src, filename) {
-                                  var Module = module.constructor;
-                                  var m = new Module();
-                                  m._compile(src, filename);
-                                  return m.exports;
-                                }
-                                let templatePath = '../templates/' + p1 +'/render.js';
-                                let templateCode = grunt.file.read(templatePath).replace(/^export\s/m, 'module.exports = ');
-
-                                if(!templateCode) {
-                                    throw new Error('@import-vue Could not read template file: ' + templatePath);
-                                }
-                                
-                                let fns = requireFromString(templateCode, '');
-
-                                let ret = '...{';
-                                if(fns.render) ret += 'render: ' + fns.render;
-                                if(fns.staticRenderFns.length) {
-                                    ret += ', staticRenderFns: [';
-                                    ret += fns.staticRenderFns.join(',');
-                                    ret += ']';
-                                }
-                                ret += '}'
-
-                                return ret;
-                            }
-                        }
+                        { pattern: /'@import-vue (.*?)':0/, replacement: vueStringReplaceFn },
+                        { pattern: /'@import-vue (.*?)':0/, replacement: vueStringReplaceFn },
+                        { pattern: /'@import-vue (.*?)':0/, replacement: vueStringReplaceFn }
                     ]
                 }
             }
@@ -322,6 +293,35 @@ module.exports = function(grunt) {
 
     });
 
+     
+    function vueStringReplaceFn(match, p1) {
+
+        function requireFromString(src, filename) {
+          var Module = module.constructor;
+          var m = new Module();
+          m._compile(src, filename);
+          return m.exports;
+        }
+        let templatePath = '../templates/tmp/' + p1 +'.js';
+        let templateCode = grunt.file.read(templatePath).replace(/^export\s/m, 'module.exports = ');
+
+        if(!templateCode) {
+            throw new Error('@import-vue Could not read template file: ' + templatePath);
+        }
+        
+        let fns = requireFromString(templateCode, '');
+
+        let ret = '...{';
+        if(fns.render) ret += 'render: ' + fns.render;
+        if(fns.staticRenderFns.length) {
+            ret += ', staticRenderFns: [';
+            ret += fns.staticRenderFns.join(',');
+            ret += ']';
+        }
+        ret += '}'
+
+        return ret;
+    }
 
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');

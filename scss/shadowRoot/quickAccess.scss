@@ -22,12 +22,31 @@
 		display: none;
 	}
 
+		
+	.submenu {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 100%;
+		width: 100%;
+		z-index: 2;
+		box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), 0 0 6px rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1); //1px 1px 3px rgba(0, 0, 0, .4), 0 0 6px rgba(0,0,0,.1);//0 1px 4px rgba(0,0,0,.5), 0 1px 10px rgba(0,0,0,.2);
+		background: #FFF;
+
+		li {
+			padding: 6px 8px;
+		}
+	}
+	&.boundary-right .submenu { left: auto; right: 100%; }
+	li:hover .submenu { display: block; }
+
 	ul {
 		margin: 0;
 		padding: 0;
 
 		li {
 			display: flex;
+			position: relative;
 		}
 
 		.selectable {position: relative; padding: 6px 0; cursor: default;}
@@ -52,27 +71,6 @@
 			span {
 				font-size: 18px;
 				line-height: 10px;
-			}
-		}
-
-		.sess-count-icon {
-			padding: 0;
-			position: relative;
-
-			.icon, .num {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translateX(-50%) translateY(-50%);
-			}
-			.icon {
-				font-size: 22px;
-				height: 18px;
-				transform: scaleX(1.2) translateX(-44%) translateY(-50%);
-			}
-			.num {
-				font-size: 11px;
-				line-height: 20px;
 			}
 		}
 	}
