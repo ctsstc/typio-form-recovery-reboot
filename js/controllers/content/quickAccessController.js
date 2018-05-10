@@ -38,7 +38,8 @@ terafm.quickAccessController = {};
 
 		terafm.ui.inject({
 			html: '<div id="tmp-qa-holder"></div>',
-			returnNode: '#tmp-qa-holder'
+			returnNode: '#tmp-qa-holder',
+			loadIcons: true
 		}, function(rootnode) {
 			makeVue(rootnode, () => {
 				if(callback) callback();

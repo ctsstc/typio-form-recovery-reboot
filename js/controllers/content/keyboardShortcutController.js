@@ -58,7 +58,8 @@ terafm.keyboardShortcutController = {};
 
 		terafm.ui.inject({
 			html: '<div id="tmp-holder"></div>',
-			returnNode: '#tmp-holder'
+			returnNode: '#tmp-holder',
+			loadIcons: true
 		}, function(rootnode) {
 			makeVue(rootnode, callback);
 

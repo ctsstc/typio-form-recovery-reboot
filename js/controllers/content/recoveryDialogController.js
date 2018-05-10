@@ -39,7 +39,8 @@ terafm.recoveryDialogController = {};
 
 		terafm.ui.inject({
 			html: '<div id="tmp-dialog-holder"></div>',
-			returnNode: '#tmp-dialog-holder'
+			returnNode: '#tmp-dialog-holder',
+			loadIcons: true
 		}, function(rootnode) {
 			makeVue(rootnode, callback);
 		});
