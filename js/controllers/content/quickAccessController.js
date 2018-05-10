@@ -69,9 +69,12 @@ terafm.quickAccessController = {};
 					this.isEmpty = (data.sess.length || data.recent.length) ? false : true;
 
 					this.editable = ed;
-					this.position(ed, coord);
 					this.unselect(); // In case previous selection is retained after populating
 					this.isVisible = true;
+
+					requestAnimationFrame(() => {
+						this.position(ed, coord);
+					});
 				},
 				hide: function() {
 					if(this.isVisible) {
@@ -97,16 +100,23 @@ terafm.quickAccessController = {};
 					}
 
 					// If width overflows, position by editable instead
-					if(document.body.scrollWidth > 0 && pos.x + popupWidth > Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth)) {
+					if(pos.x + popupWidth > docWidth()) {
 						pos.x = edrect.x - popupWidth;
 					}
 
 					// If overflows height
-					if(document.body.scrollHeight > 0 && pos.y + popupHeight > Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight) ) {
+					if(pos.y + popupHeight > docHeight()) {
 						pos.y -= popupHeight;
 					}
 
 					this.$el.style = 'top: '+ pos.y +'px; left: '+ pos.x +'px;';
+
+					function docHeight() {
+						return document.documentElement.scrollHeight; //return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight/*, document.documentElement.clientHeight*/);
+					}
+					function docWidth() {
+						return document.documentElement.scrollWidth;
+					}
 				},
 				preview: function(e) {
 					let sel = getSelectable(e.path[0]);
