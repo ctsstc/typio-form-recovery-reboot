@@ -52,7 +52,7 @@ terafm.quickAccessController = {};
 
 		Vue.component('entry-item', {
 			'@import-vue quickAccessListItem':0,
-			props: ['entry', 'editable', 'isSess'],
+			props: ['entry', 'editable', 'isSess', 'isSub'],
 			data: function() {
 				return {
 					isPreviewing: false,
@@ -62,6 +62,18 @@ terafm.quickAccessController = {};
 			methods: {
 				preview: function() {
 					if(this.isPreviewing) return;
+
+					if(this.isSess) {
+						vue.$emit('setsub', {
+							show: true,
+							posY: this.$el.offsetTop,
+							entryItem: this.$el,
+							entries: this.entry.getSession().entries,
+							editable: this.editable,
+						});
+					} else if(!this.isSub) {
+						vue.$emit('setsub', {show: false});
+					}
 
 					this.isPreviewing = true;
 					this.selected = true;
@@ -180,6 +192,12 @@ terafm.quickAccessController = {};
 					this.hide();
 				},
 			},
+			created: function() {
+				this.$on('setsub', function(data) {
+					this.submenu = {...this.submenu, ...data};
+					console.log('emit received, submenu now:', this.submenu)
+				})
+			},
 			data: function() {
 				return {
 					isVisible: true,
@@ -187,7 +205,8 @@ terafm.quickAccessController = {};
 					data: {},
 					editable: false,
 					isEmpty: false,
-					submenuBoundary: 'left'
+					submenuBoundary: 'left',
+					submenu: {}
 				}
 			}
 		});
