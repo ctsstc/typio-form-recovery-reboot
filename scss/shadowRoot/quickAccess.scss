@@ -22,9 +22,11 @@
 		display: none;
 	}
 
-		
+
+	.selectable {cursor: default;}
+	.selectable.selected { background: #E6E7E8; }
+
 	.submenu {
-		display: none;
 		position: absolute;
 		top: 0;
 		left: 100%;
@@ -32,13 +34,12 @@
 		z-index: 2;
 		box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), 0 0 6px rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1); //1px 1px 3px rgba(0, 0, 0, .4), 0 0 6px rgba(0,0,0,.1);//0 1px 4px rgba(0,0,0,.5), 0 1px 10px rgba(0,0,0,.2);
 		background: #FFF;
-
-		li {
-			padding: 6px 8px;
-		}
+		transition-duration: .2s;
+		transition-property: opacity;
+		opacity: 0;
 	}
+	.submenu.visible { opacity: 1; pointer-events: auto; }
 	&.boundary-right .submenu { left: auto; right: 100%; }
-	li:hover .submenu { display: block; }
 
 	ul {
 		margin: 0;
@@ -47,10 +48,8 @@
 		li {
 			display: flex;
 			position: relative;
+			padding: 4px 0;
 		}
-
-		.selectable {position: relative; /* padding: 6px 0; */ cursor: default;}
-		.selectable.selected { background: #E6E7E8; }
 
 		.fill {
 			padding-left: 8px;

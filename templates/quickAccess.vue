@@ -10,6 +10,12 @@
 			</template>
 		</ul>
 	</template>
+	
+	<ul v-bind:class="[submenu.show ? 'visible' : '', 'submenu']" :style="{ top: submenu.posY + 'px' }">
+		<template v-if="submenu.entries" v-for="subEntry in submenu.entries">
+			<entry-item :entry="subEntry" :editable="submenu.editable" :isSub=true></entry-item>
+		</template>
+	</ul>
 
 
 	<ul class="footer">
