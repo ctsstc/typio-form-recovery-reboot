@@ -186,25 +186,6 @@
 			}
 		}
 	}
-
-	.status:before {
-		content: '';
-		display: inline-block;
-		height: 7px;
-		width: 7px;
-		border-radius: 100px;
-		margin-right: 5px;
-		position: relative;
-		top: -1px;
-	}
-	.status.ok:before {
-		background: #3FB91E;
-		box-shadow: 0 0 0 2px #D6F2CE;
-	}
-	.status.bad:before {
-		background: #B91E1E;
-		box-shadow: 0 0 0 2px #F2CECE;
-	}
 }
 
 

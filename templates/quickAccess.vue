@@ -2,29 +2,34 @@
 
 	<p v-if="isEmpty">I found nothing! :(</p>
 	
-	<template v-for="dataType in Object.keys(data)">
-		<ul v-if="data[dataType]" class="entry-list">
-			
+	<ul class="entry-list">
+		<template v-for="dataType in Object.keys(data)">
 			<template v-for="entry in data[dataType].entries">
-				<entry-item :entry="entry" :editable="editable" :isSess="dataType === 'sess'"></entry-item>
+				<entry-item item-type="entry" sub-id="sess" :entry="entry" :editable="editable" :hasSub="dataType === 'sess'"></entry-item>
 			</template>
-		</ul>
-	</template>
-	
-	<ul v-bind:class="[submenu.show ? 'visible' : '', 'submenu']" :style="{ top: submenu.posY + 'px' }">
-		<template v-if="submenu.entries" v-for="subEntry in submenu.entries">
-			<entry-item :entry="subEntry" :editable="submenu.editable" :isSub=true></entry-item>
 		</template>
 	</ul>
 
 
 	<ul class="footer">
-		<li>
-			<div v-on:click="openRecovery()" class="fill selectable">Browse all entries</div>
-			<div v-on:click="openKeyboardShortcutsModal()" class="flex-icon selectable" data-tooltip="Show keyboard shortcuts"><span class="icon-keyboard"></span></div>
-			<div v-on:click="disableSite()" class="flex-icon selectable" data-tooltip="Disable Typio on this site"><span class="icon-block"></span></div>
-		</li>
+		<entry-item item-type="link" item-text="More..." has-sub=true sub-id="footer"></entry-item>
 	</ul>
+
+	
+	<div v-bind:class="[submenu.showId === 'sess' ? 'visible' : '', 'submenu']" :style="{ top: submenu.posY + 'px' }">
+		<p>Entries in this session</p>
+		<ul v-if="submenu.entries">
+			<entry-item v-for="subEntry in submenu.entries" item-type="entry" :entry="subEntry" :editable="submenu.editable" :is-sub=true></entry-item>
+		</ul>
+	</div>
+	
+	<div v-bind:class="[submenu.showId === 'footer' ? 'visible' : '', 'submenu']" :style="{ top: submenu.posY + 'px' }">
+		<ul>
+			<entry-item item-type="link" action="openRecovery" item-text="Browse all entries" is-sub=true></entry-item>
+			<entry-item item-type="link" action="openKeyboardModal" item-text="View keyboard shortcuts" is-sub=true></entry-item>
+			<entry-item item-type="link" action="disableTypio" item-text="Disable Typio on this site" is-sub=true></entry-item>
+		</ul>
+	</div>
 </div>
 
 <!-- component template -->

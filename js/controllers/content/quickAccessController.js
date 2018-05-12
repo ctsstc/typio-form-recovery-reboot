@@ -52,7 +52,7 @@ terafm.quickAccessController = {};
 
 		Vue.component('entry-item', {
 			'@import-vue quickAccessListItem':0,
-			props: ['entry', 'editable', 'isSess', 'isSub'],
+			props: ['itemType', 'action', 'hasSub', 'isSub', 'subId', 'itemText',		'entry', 'editable'],
 			data: function() {
 				return {
 					isPreviewing: false,
@@ -60,50 +60,67 @@ terafm.quickAccessController = {};
 				}
 			},
 			methods: {
-				preview: function() {
+				select() {
 					if(this.isPreviewing) return;
 
-					if(this.isSess) {
-						vue.$emit('setsub', {
-							show: true,
+					clearTimeout(this.$root.subTmt);
+
+					// Show sub
+					if(this.hasSub && this.subId === 'sess') {
+						this.$root.setsub({
+							showId: this.subId,
 							posY: this.$el.offsetTop,
-							entryItem: this.$el,
+							listItem: this.$el,
 							entries: this.entry.getSession().entries,
 							editable: this.editable,
 						});
+					} else if(this.hasSub && this.subId === 'footer') {
+						this.$root.setsub({
+							showId: this.subId,
+							posY: this.$el.offsetTop,
+							listItem: this.$el,
+						});
 					} else if(!this.isSub) {
-						vue.$emit('setsub', {show: false});
+						this.$root.setsub({showId: null});
 					}
 
 					this.isPreviewing = true;
 					this.selected = true;
 
-					if(this.isSess) {
+					if(this.itemType === 'entry' && this.hasSub) {
 						let sess = this.entry.getSession();
 
 						terafm.placeholders.snapshot(sess.getEditables());
 						sess.setPlaceholders();
-					} else {
+					} else if(this.itemType === 'entry') {
 						terafm.placeholders.snapshot(this.editable);
 						this.editable.applyPlaceholderEntry(this.entry);
 					}
 				},
-				resetPreview: function() {
+				unselect() {
 					if(!this.isPreviewing) return;
 
 					this.isPreviewing = false;
 					this.selected = false;
 					terafm.placeholders.restore();
 				},
-				restore: function() {
-					this.resetPreview();
-					terafm.defaults.restore();
+				commit() {
+					if(this.itemType === 'link') {
+						if(this.action === 'openRecovery') terafm.recoveryDialogController.open();
+						else if(this.action === 'openKeyboardModal') terafm.keyboardShortcutController.showShortcutDialog();
+						else if(this.action === 'disableTypio') terafm.blockController.block();
+						else return;
+					}
+
+					this.unselect();
 					this.$root.hide();
 
-					if(this.isSess) {
+					if(this.hasSub && this.subId === 'sess') {
 						this.entry.getSession().restore();
-					} else {
+
+					} else if(this.entry) {
 						this.editable.applyEntry(this.entry);
+
 					}
 				}
 			}
@@ -128,6 +145,7 @@ terafm.quickAccessController = {};
 
 					this.editable = ed;
 					this.isVisible = true;
+					this.submenu.show = false;
 
 					requestAnimationFrame(() => {
 						this.position(ed, coord);
@@ -177,26 +195,22 @@ terafm.quickAccessController = {};
 				},
 				hide: function() {
 					this.isVisible = false;
+					this.submenu.showId = null;
 				},
 
-				openRecovery: function() {
-					terafm.recoveryDialogController.open();
-					this.hide();
-				},
-				openKeyboardShortcutsModal: function() {
-					terafm.keyboardShortcutController.showShortcutDialog();
-					this.hide();
-				},
-				disableSite: function() {
-					terafm.blockController.block();
-					this.hide();
-				},
-			},
-			created: function() {
-				this.$on('setsub', function(data) {
-					this.submenu = {...this.submenu, ...data};
-					console.log('emit received, submenu now:', this.submenu)
-				})
+				setsub(data) {
+					clearTimeout(this.subTmt);
+					this.subTmt = setTimeout(function() {
+						if(data.hasOwnProperty('listItem')) {
+							let stillSelected = data.listItem.classList.contains('selected');
+							if(stillSelected) {
+								this.submenu = {...this.submenu, ...data};
+							}
+						} else {
+							this.submenu = {...this.submenu, ...data};
+						}
+					}.bind(this), 300);
+				}
 			},
 			data: function() {
 				return {
@@ -220,27 +234,30 @@ terafm.quickAccessController = {};
 		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
 
 		keyboardShortcuts.on(['ArrowDown'], selNext);
-		keyboardShortcuts.on(['ArrowRight'], selNext);
+		// keyboardShortcuts.on(['ArrowRight'], selNext);
 		function selNext(e) {
 			if(vue.isVisible) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
-				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable:not([data-keynav-skip])')),
-					currI = sels.indexOf(vue.$el.querySelector('.selectable.selected')),
-					newsel;
+				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
+					currSel = vue.$el.querySelector('.selectable.selected'),
+					currI = sels.indexOf(currSel),
+					newSel;
 
 				if(currI === -1 || currI === sels.length-1) {
-					newsel = sels[0]
+					newSel = sels[0]
 				} else {
-					newsel = sels[currI+1]
+					newSel = sels[currI+1]
 				}
-				console.log(sels, newsel);
-				newsel.dispatchEvent(new Event('mousemove'));
+
+				console.log(currSel, newSel);
+				if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
+				newSel.dispatchEvent(new Event('mouseenter'));
 			}
 		}
 
 		keyboardShortcuts.on(['ArrowUp'], keyPrev);
-		keyboardShortcuts.on(['ArrowLeft'], keyPrev);
+		// keyboardShortcuts.on(['ArrowLeft'], keyPrev);
 		function keyPrev(e) {
 			if(vue.isVisible) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
