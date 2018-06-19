@@ -42,7 +42,7 @@
 			let entry = editable.getEntry();
 			terafm.defaults.update(editable);
 
-			if(entry.obj.value.length > 0) entry.save();
+			if(entry.value.length > 0) entry.save();
 			if(editable.type === 'radio') deleteRadioSiblings(editable);
 
 		// Did not validate, delete if exists (if value validation failed)

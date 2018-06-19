@@ -65,6 +65,8 @@ terafm.quickAccessController = {};
 
 					clearTimeout(this.$root.subTmt);
 
+					console.log('sel', this);
+
 					// Show sub
 					if(this.hasSub && this.subId === 'sess') {
 						this.$root.setsub({
@@ -134,18 +136,21 @@ terafm.quickAccessController = {};
 					if(!ed) throw new Error('No editable');
 
 					let maxItems = 10;
-					let data = {};
-					data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id).getEntriesByEditable(terafm.focusedEditable.id, maxItems);
+					let data = { sess: [], recent: [] };
+
+					if(terafm.options.get('qaGroupSessions')) {
+						data.sess = terafm.db.getSessionsContainingEditable(terafm.focusedEditable.id, maxItems).getEntriesByEditable(terafm.focusedEditable.id, maxItems);
+					}
 					data.recent = terafm.db.getEntries(maxItems-data.sess.length, terafm.focusedEditable.id, function(entry) {
-						return terafm.editables.isTextEditableType(entry.obj.type);
+						return terafm.editables.isTextEditableType(entry.type);
 					});
 
 					this.data = data;
 					this.isEmpty = (data.sess.length || data.recent.length) ? false : true;
-
 					this.editable = ed;
 					this.isVisible = true;
 					this.submenu.show = false;
+					this.submenu.enable = terafm.options.get('qaEnableSessionSubmenu');
 
 					requestAnimationFrame(() => {
 						this.position(ed, coord);
