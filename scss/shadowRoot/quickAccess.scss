@@ -51,7 +51,12 @@
 
 	ul {
 		margin: 0;
-		padding: 6px 0;
+		padding: 2px 0;
+		border-bottom: 1px solid #EAEAEA;
+
+		&:last-child {
+			border-bottom: none;
+		}
 
 		li {
 			display: flex;
@@ -60,8 +65,8 @@
 		}
 
 		.fill {
-			padding-left: 8px;
-			padding-right: 8px;
+			padding-left: 10px;
+			padding-right: 10px;
 			flex: 1 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -75,6 +80,12 @@
 			align-items: center;
 			justify-content: center;
 
+			.sess-count {
+				position: relative;
+				font-size: 13px;
+				right: -12px;
+			}
+
 			span {
 				font-size: 18px;
 				line-height: 10px;
@@ -83,11 +94,10 @@
 			&.thin {
 				flex-basis: 28px;
 			}
+			&.thinner {
+				flex-basis: 20px;
+			}
 		}
-	}
-
-	.footer {
-		border-top: 1px solid #EAEAEA;
 	}
 
 	.footer {

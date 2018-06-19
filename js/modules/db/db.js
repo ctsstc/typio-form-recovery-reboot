@@ -31,15 +31,14 @@ terafm.db = terafm.db || {};
 			if(!f3.hasOwnProperty(eid)) {
 				f3[eid] = f2[eid];
 			} else {
-				for(let sid in f2[eid]) {
-					if(!f3[eid].hasOwnProperty(sid)) {
-						f3[eid][sid] = f2[eid][sid];
+				for(let sid in f2[eid].sess) {
+					if(!f3[eid].sess.hasOwnProperty(sid)) {
+						f3[eid].sess[sid] = f2[eid].sess[sid];
 					}
 				}
 			}
 		}
 
-		// b3.context[domainId].fields = f3;
 		return b3;
 	}
 
@@ -85,6 +84,8 @@ terafm.db = terafm.db || {};
 
 	db.init = function(done) {
 		// chrome.storage.local.clear();return;
+		// convertIndexedDB();return;
+
 		console.log(buckets);
 		sessionId = db.generateSessionId();
 		fetchSnapshot().then(done);
@@ -131,32 +132,51 @@ terafm.db = terafm.db || {};
 
 
 
-
-	function randomInput(id) {
-		buckets.inUse.set({
-			['dummyfield-' + id]: {
-				sess111: {something: id},
-				sess222: {something: id}
-			}
-		})
-	}
-
-
 	// Get data from indexeddb
 	function convertIndexedDB() {
 		return new Promise(done => {
 			getIndexedDBData().then((data) => {
-				data = new terafm.StorageBucket(domainId, data);
-				// buckets.snapshot.set(data);
-				chrome.storage.local.set(data.context, done);
+				if(!data || Object.keys(data).length < 1) return done();
+
+				console.log(data);
+				let newd = {};
+				for(let fid in data) {
+					for(let sid in data[fid]) {
+
+						// Clone first data to meta prop, exclude value
+						if(!newd.hasOwnProperty(fid)) {
+							newd[fid] = { sess: {}, meta: {}};
+							newd[fid].meta = data[fid][sid];
+							delete newd[fid].meta.value;
+						}
+
+						// Sometimes values are undefined in old storage
+						if(data[fid][sid].value !== undefined) {
+							newd[fid].sess[sid] = { value: data[fid][sid].value }
+						}
+					}
+					if(Object.keys(newd[fid].sess).length < 1) delete newd[fid];
+				}
+				console.log(newd);
+
+				let bucket = new terafm.StorageBucket(domainId);
+				bucket.setFieldObj(newd);
+				console.log(bucket)
+				// console.log(bucket)
+				chrome.storage.local.set(bucket.context, done);
 			})
 		})
 	}
+
 	function getIndexedDBData() {
 		return new Promise(done => {
 			terafm.indexedDB.init(() => {
 				terafm.indexedDB.load(res => {
-					done(JSON.parse(res) || {});
+					let json = false;
+					try {
+						json = JSON.parse(res);
+					} catch(e) {}
+					done(json);
 				})
 			})
 		})

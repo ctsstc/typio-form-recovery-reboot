@@ -7,22 +7,22 @@ window.terafm = window.terafm || {};
 
 	window.terafm.indexedDB = {
 
-		save: function(data, callback) {
+		// save: function(data, callback) {
 
-			if(!init) {
-				throw new Error('Typio: Cannot save before IndexedDB has been initialized.');
-				return false;
-			}
+			// 	if(!init) {
+			// 		throw new Error('Typio: Cannot save before IndexedDB has been initialized.');
+			// 		return false;
+			// 	}
 
-			var transaction = prepareTransaction(callback);
+			// 	var transaction = prepareTransaction(callback);
 
-			var objectStore = transaction.objectStore("storage"),
-				updateRequest = objectStore.put(data, 'inputs');
+			// 	var objectStore = transaction.objectStore("storage"),
+			// 		updateRequest = objectStore.put(data, 'inputs');
 
-			updateRequest.onerror = function() {
-				console.error('Typio Form Recovery: Could not save to database.');
-			}
-		},
+			// 	updateRequest.onerror = function() {
+			// 		console.error('Typio Form Recovery: Could not save to database.');
+			// 	}
+		// },
 
 		load: function(callback) {
 

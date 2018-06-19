@@ -108,7 +108,7 @@ terafm.recoveryDialogController = {};
 							var defCount = this.sesslist.countEntries();
 							this.sesslist = this.sesslist.filterEntries(entry => {
 								if(this.filterText.length > 1) {
-									if(entry.obj.value.toLowerCase().indexOf(this.filterText.toLowerCase()) === -1) return null;
+									if(entry.value.toLowerCase().indexOf(this.filterText.toLowerCase()) === -1) return null;
 								}
 
 								if(this.filterShowTextOnly) {

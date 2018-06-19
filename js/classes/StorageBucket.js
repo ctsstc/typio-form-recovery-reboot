@@ -1,20 +1,30 @@
 window.terafm = window.terafm || {};
 
 terafm.StorageBucket = class Bucket {
-	constructor(domainId, setObj={}) {
+	constructor(domainId, setObj) {
 		this.domainId = domainId;
-		this.set(setObj)
+
+		this.context = {
+			[this.domainId]: {
+				fields: {} 
+			}
+		};
+
+		if(setObj) this.set(setObj)
+	}
+
+	get fields() {
+		return this.context[this.domainId].fields;
 	}
 
 	get sessionIds() {
 		return this._sessionIds !== undefined ? this._sessionIds : this._sessionIds = this.generateSessionIds();
 	}
 
-	// Dels onlt from inUse memory. For snapshot deletion make new method similar to push()
 	del(sid, eid) {
-		if(this.fields.hasOwnProperty(eid) && this.fields[eid].hasOwnProperty(sid)) {
-			delete this.fields[eid][sid];
-			if(Object.keys(this.fields[eid]).length === 0) {
+		if(this.fields.hasOwnProperty(eid) && this.fields[eid].sess.hasOwnProperty(sid)) {
+			delete this.fields[eid].sess[sid];
+			if(Object.keys(this.fields[eid].sess).length === 0) {
 				delete this.fields[eid];
 			}
 			console.log('found to delete!')
@@ -22,43 +32,42 @@ terafm.StorageBucket = class Bucket {
 	}
 
 	set(obj) {
-		// if(!obj || Object.keys(obj) === 0) return;
+		let objk = Object.keys(obj);
 
-		// Set context
-		if(obj.hasOwnProperty(this.domainId)) {
+		// Create bucket from data read from storage (storage.local.get)
+		if(objk.length === 1 && objk[0].indexOf('###') === 0) {
 			this.context = obj;
-			this.fields = this.context[this.domainId].fields;
-
-		// Set fields
 		} else {
-			// Update fields within context
-			if(this.context !== undefined) {
-				this.context[this.domainId].fields = obj;
-				this.fields = this.context[this.domainId].fields;
-
-			// Create context (first time)
-			} else {
-				this.context = {[this.domainId]: {fields: {} }};
-				this.fields = this.context[this.domainId].fields;
-			}
+			this.setFieldObj(obj);
 		}
+	}
+
+	// Used when migrating from IndexedDB
+	setFieldObj(fieldsObj) {
+		this.context[this.domainId].fields = fieldsObj;
 	}
 
 	generateSessionIds() {
 		let ids = [];
 		for(let fid in this.fields) {
-			ids = ids.concat(Object.keys(this.fields[fid]));
+			ids = ids.concat(Object.keys(this.fields[fid].sess));
 		}
 		return ids.sort();
 	}
 
 	setEntry(entry) {
-		if(!(entry instanceof terafm.Entry)) throw new Error(`setEntry requires an actual entry, you goof!`);
+		if(!(entry instanceof terafm.Entry)) throw new Error();
+
+		// Editable is not already in bucket, create it
 		if(!this.fields.hasOwnProperty(entry.editableId)) {
-			this.fields[entry.editableId] = { [entry.sessionId] : entry.obj };
-		} else {
-			this.fields[entry.editableId][entry.sessionId] = entry.obj;
+			this.fields[entry.editableId] = {
+				meta: entry.meta,
+				sess: {}
+			};
 		}
+		
+		// Append entry to editable in bucket
+		this.fields[entry.editableId].sess[entry.sessionId] = { value: entry.value };
 	}
 
 	copy() {
@@ -90,12 +99,13 @@ terafm.StorageBucket = class Bucket {
 			let tmpsess = new terafm.Session(sid);
 
 			for(let fid in this.fields) {
-				if(this.fields[fid].hasOwnProperty(sid)) {
+				if(this.fields[fid].sess.hasOwnProperty(sid)) {
 					tmpsess.push(new terafm.Entry({
 						session: tmpsess,
 						sessionId: sid,
 						editableId: fid,
-						obj: this.fields[fid][sid]
+						value: this.fields[fid].sess[sid].value,
+						meta: this.fields[fid].meta,
 					}));
 				}
 			}
@@ -111,7 +121,7 @@ terafm.StorageBucket = class Bucket {
 	
 	getSessionsContainingEditable(eid, max) {
 		if(this.fields.hasOwnProperty(eid) !== true) return new terafm.SessionList();
-		const sids = Object.keys(this.fields[eid]);
+		const sids = Object.keys(this.fields[eid].sess);
 		return this.getSessions(sids, max);
 	}
 
@@ -120,13 +130,14 @@ terafm.StorageBucket = class Bucket {
 		let sess = new terafm.Session(sid);
 
 		for(let eid in this.fields) {
-			if(this.fields[eid].hasOwnProperty(sid)) {
+			if(this.fields[eid].sess.hasOwnProperty(sid)) {
 				sess.push(
 					new terafm.Entry({
 						session: sess,
 						sessionId: sid,
 						editableId: eid,
-						obj: this.fields[eid][sid]
+						value: this.fields[eid].sess[sid].value,
+						meta: this.fields[eid].meta
 					})
 				);
 			}
@@ -135,12 +146,13 @@ terafm.StorageBucket = class Bucket {
 		return sess;
 	}
 	getEntry(sid, eid) {
-		if(this.fields.hasOwnProperty(eid) && this.fields[eid].hasOwnProperty(sid)) {
+		if(this.fields.hasOwnProperty(eid) && this.fields[eid].sess.hasOwnProperty(sid)) {
 			return new terafm.Entry({
 				session: null,
 				sessionId: sid,
 				editableId: eid,
-				obj: this.fields[eid][sid]
+				value: this.fields[eid].sess[sid].value,
+				meta: this.fields[eid].meta
 			});;
 		}
 	}

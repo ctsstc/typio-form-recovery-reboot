@@ -45,6 +45,8 @@ window.terafm.optionSanitizer = {};
 		quickAccessButtonTrigger: sanitizers.quickAccessTrigger,
 		cloneOnRestore: sanitizers.bool,
 		resetEditablesBetweenRestorations: sanitizers.bool,
+		qaGroupSessions: sanitizers.bool,
+		qaEnableSessionSubmenu: sanitizers.bool,
 
 		keybindToggleRecDiag: sanitizers.keyBinding,
 		keybindRestorePreviousSession: sanitizers.keyBinding,

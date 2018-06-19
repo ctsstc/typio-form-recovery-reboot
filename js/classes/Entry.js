@@ -2,7 +2,7 @@ window.terafm = window.terafm || {};
 
 terafm.Entry = class Entry {
 	constructor(arg, opts = {resolveUncheckedRadios: false, context: null}) {
-		this.obj = {};
+		this.meta = {};
 
 		// Make Entry from editable
 		if(arg instanceof terafm.Editable) {
@@ -21,17 +21,28 @@ terafm.Entry = class Entry {
 			this.editableId = this._editable.id;
 			this.sessionId = this._editable.sessionId;
 
-			this.obj.value = arg.getValue();
-			this.obj.path = arg.path;
-			this.obj.type = arg.type;
-			
-			var meta = arg.getMeta();
-			if(meta) this.obj.meta = meta;
+			this.value = arg.getValue();
+			this.meta.path = arg.path;
+			this.meta.type = arg.type;
 
-		// From DB? Copy?
+			var metaStr = arg.metaString;
+			if(metaStr) this.meta.meta = metaStr;
+
+
+		// Straight from DB, see StorageBucket.getEntry()
 		} else {
 			Object.assign(this, arg);
 		}
+	}
+
+	get type() {
+		return this.meta.type;
+	}
+	get path() {
+		return this.meta.path;
+	}
+	get metaStr() {
+		return this.meta.meta || '';
 	}
 
 	resolveRadio(ed) {
@@ -47,12 +58,12 @@ terafm.Entry = class Entry {
 	}
 
 	isTextType() {
-		return terafm.editables.isTextEditableType(this.obj.type);
+		return terafm.editables.isTextEditableType(this.type);
 	}
 
 	getValue(opts = {encodeHTMLEntities: false, decodeHTMLEntities: false, stripTags: false, truncate: false, trim: false, retainLineBreaks: false}) {
 
-		var str = this.obj.value;
+		var str = this.value;
 
 		if(opts.stripTags) {
 			str = terafm.help.stripTags(str);
@@ -83,17 +94,17 @@ terafm.Entry = class Entry {
 
 	getPrintableValue(opts) {
 		let value = '';
-		let entry = this.obj;
+		let entry = this;
 
-		if(entry.type === 'radio' && entry.meta) {
-			value += entry.meta; // Meta contains name:value, we don't care about the value here (its always 1 because its selected)
+		if(entry.type === 'radio' && entry.meta.meta) {
+			value += entry.meta.meta; // Meta contains name:value, we don't care about the "checked" value here (its always 1 because its selected)
 
 		} else if(entry.type === 'checkbox' && entry.meta) {
-			value += entry.meta + (entry.value == '1' ? ' (checked)' : ' (unchecked)');
+			value += entry.meta.meta + (entry.value == '1' ? ' (checked)' : ' (unchecked)');
 
 		} else {
-			if(entry.meta) {
-				value = entry.meta + ': ';
+			if(entry.meta.meta) {
+				value = entry.meta.meta + ': ';
 			}
 
 			if(entry.type === 'contenteditable') {
@@ -130,7 +141,7 @@ terafm.Entry = class Entry {
 	}
 
 	getSession() {
-		return this.session;// = terafm.db.getSession(this.sessionId);
+		return this.session;
 	}
 
 	hasEditable() {
@@ -141,7 +152,7 @@ terafm.Entry = class Entry {
 		if(this._editable !== undefined) {
 			return this._editable;
 		} else {
-			this._editable = terafm.editables.get(this.obj.path);
+			this._editable = terafm.editables.get(this.path);
 			return this._editable;
 		}
 	}

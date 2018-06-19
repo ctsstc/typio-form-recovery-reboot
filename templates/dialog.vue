@@ -82,7 +82,7 @@
 							<button class="btn" v-on:click="restoreEntry()">Restore only this</button>
 						</template>
 						
-						<template v-if="currEntry.obj.type === 'contenteditable'">
+						<template v-if="currEntry.type === 'contenteditable'">
 							<div class="btn-drop-container" onclick="this.classList.toggle('open')">
 								<button class="btn" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : '' ]">Copy &#9662;</button>
 								<ul class="btn-drop">
@@ -100,7 +100,7 @@
 
 					<div id="entry-text" class="entry-text card-1" v-html="currEntry.getPrintableValue({retainLineBreaks: true})"></div>
 					<div id="entry-path" class="entry-meta card-1">
-						{{ currEntry.obj.path }} &nbsp; {{ currEntry.obj.type }}
+						{{ currEntry.path }} &nbsp; {{ currEntry.type }}
 					</div>
 				</div>
 			</div>	

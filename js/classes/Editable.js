@@ -19,6 +19,19 @@ terafm.Editable = class Editable {
 		return this._sessionId || terafm.db.getGlobalSessionId();
 	}
 
+	get metaString() {
+		if(this.isTextEditable()) return;
+
+		// Checkbox or radio
+		if(this.el.type && ['checkbox', 'radio'].includes(this.el.type) ) {
+			return this.el.name + ': ' + this.el.value;
+
+		// All other input types (select, range, color, date etc)
+		} else if(this.el.type) {
+			return this.el.name;
+		}
+	}
+
 	is(editable) {
 		if(!(editable instanceof terafm.Editable)) throw new Error('Editable.is requires an editable to compare.');
 		return this.el === editable.el;
@@ -58,14 +71,14 @@ terafm.Editable = class Editable {
 	applyEntry(entry, opts = {truncate: false}) {
 		if(!(entry instanceof terafm.Entry)) throw new Error('applyEntry requires an entry to set');
 		
-		let tmpVal = entry.obj.value;
+		let tmpVal = entry.value;
 
 		// If restoring html into text field, strip html and trim
-		if(this.isContentEditable() === false && entry.obj.type === 'contenteditable') {
+		if(this.isContentEditable() === false && entry.type === 'contenteditable') {
 			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts});
 
 		// Restoring text into html field
-		} else if(this.isContentEditable() === true && entry.obj.type !== 'contenteditable') {
+		} else if(this.isContentEditable() === true && entry.type !== 'contenteditable') {
 			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts});
 		}
 
@@ -94,7 +107,9 @@ terafm.Editable = class Editable {
 			}
 		}
 
-		if(trim && typeof value === 'string') {
+		value += '';
+
+		if(trim) {
 			return value.trim();
 		}
 
@@ -134,19 +149,6 @@ terafm.Editable = class Editable {
 			}
 
 			this.length = currLen;
-		}
-	}
-
-	getMeta() {
-		if(this.isTextEditable()) return;
-
-		// Checkbox or radio
-		if(this.el.type && ['checkbox', 'radio'].includes(this.el.type) ) {
-			return this.el.name + ': ' + this.el.value;
-
-		// All other input types (select, range, color, date etc)
-		} else if(this.el.type) {
-			return this.el.name;
 		}
 	}
 
