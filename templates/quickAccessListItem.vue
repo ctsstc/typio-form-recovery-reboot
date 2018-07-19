@@ -2,21 +2,13 @@
 	
 	<template v-if="itemType === 'entry'">
 		<div class="fill">{{ entry.getPrintableValue({truncate: 50}) }}</div>
-
-		<div v-if="isSub" class="flex-icon thin">
-			<span :class="[entry.hasEditable() ? 'status ok' : 'status bad']"></span>
-		</div>
 	</template>
 
 	<template v-if="itemType === 'link'">
 		<div class="fill">{{ itemText }}</div>
 	</template>
 	
-	<div v-if="subId === 'sess'" class="flex-icon thinner">
-		<span class="icon sess-count">{{ entry.session.length }}</span>
-	</div>
-	
-	<div v-if="hasSub" class="flex-icon thin">
-		<span class="icon icon-arrow-forward"></span>
+	<div v-if="isSess" class="flex-icon thin">
+		<span class="icon icon-arrow-forward"><!-- {{ entry.session.length }} --></span>
 	</div>
 </li>

@@ -49,6 +49,10 @@
 	.submenu.visible { opacity: 1; pointer-events: auto; }
 	&.boundary-right .submenu { left: auto; right: 99%; }
 
+	ul.entry-list:empty {
+		display: none;
+	}
+
 	ul {
 		margin: 0;
 		padding: 2px 0;
