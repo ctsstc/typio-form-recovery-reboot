@@ -83,6 +83,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			position: relative;
 
 			.sess-count {
 				position: relative;
@@ -90,9 +91,25 @@
 				right: -12px;
 			}
 
+			&:hover {
+				color: transparent;
+
+				span {
+					opacity: 1;
+				}
+			}
+
 			span {
 				font-size: 18px;
 				line-height: 10px;
+				pointer-events: none;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				text-align: center;
+				opacity: 0;
+				color: #444;
 			}
 
 			&.thin {
@@ -105,6 +122,22 @@
 	}
 
 	.footer {
+		position: relative;
+
+		[item-size="short"] {
+			position: absolute;
+			top: 2px;
+			bottom: 2px;
+			right: 0;
+			display: inline-block;
+			width: 30px;
+			text-align: center;
+			font-size: 17px;
+
+			&:nth-child(2n) {
+				right: 30px;
+			}
+		}
 
 		[data-tooltip]:before, [data-tooltip]:after {
 			position: absolute;

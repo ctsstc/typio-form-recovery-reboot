@@ -52,7 +52,7 @@ terafm.quickAccessController = {};
 
 		Vue.component('entry-item', {
 			'@import-vue quickAccessListItem':0,
-			props: ['itemType', 'action', 'hasSub', 'isSess', 'isSub', 'subId', 'itemText',		'entry', 'editable'],
+			props: ['itemType', 'action', 'isSess', 'itemText', 'itemImg',		'entry', 'editable'],
 			data: function() {
 				return {
 					isPreviewing: false,
@@ -61,22 +61,8 @@ terafm.quickAccessController = {};
 			},
 			methods: {
 				select() {
+					this.$root.currSel = this;
 					if(this.isPreviewing) return;
-
-					clearTimeout(this.$root.subTmt);
-
-					// console.log('sel', this);
-
-					// Show sub
-					if(this.subId === 'footer') {
-						this.$root.setsub({
-							showId: this.subId,
-							posY: this.$el.offsetTop,
-							listItem: this.$el,
-						});
-					} else if(!this.subId && !this.isSub) {
-						this.$root.setsub({showId: null});
-					}
 
 					this.isPreviewing = true;
 					this.selected = true;
@@ -91,7 +77,13 @@ terafm.quickAccessController = {};
 						this.editable.applyPlaceholderEntry(this.entry);
 					}
 				},
+				singleSelect() {
+					console.log('single select!')
+					this.unselect();
+					this.editable.applyPlaceholderEntry( this.entry );
+				},
 				unselect() {
+					this.$root.currSel = undefined;
 					if(!this.isPreviewing) return;
 
 					this.isPreviewing = false;
@@ -109,20 +101,23 @@ terafm.quickAccessController = {};
 					this.unselect();
 					this.$root.hide();
 
-					if(this.hasSub && this.subId === 'sess') {
-						this.entry.getSession().restore();
-
-					} else if(this.entry) {
+					if(this.entry) {
 						this.editable.applyEntry(this.entry);
-
 					}
-				}
+				},
 			}
 		});
 
 		vue = new Vue({
 			'@import-vue quickAccess':0,
 			el: rootnode,
+			mounted() {
+				this.$el.addEventListener('mouseover', (e) => {
+					if(e.path[0].classList.contains('flex-icon')) {
+						this.currSel && this.currSel.singleSelect();
+					}
+				})
+			},
 			methods: {
 				showAndPopulate: function(ed, coord) {
 					if(!ed) throw new Error('No editable');
@@ -141,8 +136,6 @@ terafm.quickAccessController = {};
 					this.isEmpty = (data.sess.length || data.recent.length) ? false : true;
 					this.editable = ed;
 					this.isVisible = true;
-					this.submenu.show = false;
-					this.submenu.enable = terafm.options.get('qaEnableSessionSubmenu');
 
 					requestAnimationFrame(() => {
 						this.position(ed, coord);
@@ -163,12 +156,6 @@ terafm.quickAccessController = {};
 					// Position by click coord
 					} else {
 						pos = coord;
-					}
-
-					if(pos.x + (popupWidth*2) > docWidth()) {
-						this.submenuBoundary = 'right';
-					} else {
-						this.submenuBoundary = 'left';
 					}
 
 					// If width overflows, position by editable instead
@@ -192,21 +179,6 @@ terafm.quickAccessController = {};
 				},
 				hide: function() {
 					this.isVisible = false;
-					this.submenu.showId = null;
-				},
-
-				setsub(data) {
-					clearTimeout(this.subTmt);
-					this.subTmt = setTimeout(function() {
-						if(data.hasOwnProperty('listItem')) {
-							let stillSelected = data.listItem.classList.contains('selected');
-							if(stillSelected) {
-								this.submenu = {...this.submenu, ...data};
-							}
-						} else {
-							this.submenu = {...this.submenu, ...data};
-						}
-					}.bind(this), 300);
 				}
 			},
 			data: function() {
@@ -215,9 +187,7 @@ terafm.quickAccessController = {};
 					isEmpty: true,
 					data: {},
 					editable: false,
-					isEmpty: false,
-					submenuBoundary: 'left',
-					submenu: {}
+					isEmpty: false
 				}
 			}
 		});
@@ -233,9 +203,9 @@ terafm.quickAccessController = {};
 		terafm.Events.on('mousedown', () => vue.hide());
 		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
 		
-		/*
+		
 		keyboardShortcuts.on(['ArrowDown'], selNext);
-		// keyboardShortcuts.on(['ArrowRight'], selNext);
+		keyboardShortcuts.on(['ArrowRight'], selNext);
 		function selNext(e) {
 			if(vue.isVisible) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
@@ -258,7 +228,7 @@ terafm.quickAccessController = {};
 		}
 
 		keyboardShortcuts.on(['ArrowUp'], keyPrev);
-		// keyboardShortcuts.on(['ArrowLeft'], keyPrev);
+		keyboardShortcuts.on(['ArrowLeft'], keyPrev);
 		function keyPrev(e) {
 			if(vue.isVisible) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
@@ -288,7 +258,7 @@ terafm.quickAccessController = {};
 				if(vue.selected) vue.selected.dispatchEvent(new Event('click'));
 			}
 		})
-		*/
+		
 
 		keyboardShortcuts.on(['Escape'], hide);
 		// keyboardShortcuts.on(['Tab'], hide);
