@@ -1,4 +1,4 @@
-<div id="quickAccess" v-bind:class="[!isVisible ? 'hidden' : '', ['boundary-' + submenuBoundary]]">
+<div id="quickAccess" v-bind:class="[!isVisible ? 'hidden' : '']">
 
 	<p v-if="isEmpty" style="margin: 10px; font-weight: bold;">No entries found.</p>
 	
@@ -11,14 +11,8 @@
 	</template>
 
 	<ul class="footer">
-		<entry-item item-type="link" item-text="More..." sub-id="footer"></entry-item>
+		<entry-item item-type="link" action="openRecovery" item-text="Browse all entries"></entry-item>
+		<entry-item item-size="short" item-type="link" action="openKeyboardModal" item-img="icon-keyboard"></entry-item>
+		<entry-item item-size="short" item-type="link" action="disableTypio"  item-img="icon-block"></entry-item>
 	</ul>
-	
-	<div v-bind:class="['submenu', submenu.showId === 'footer' ? 'visible' : '']" :style="{ top: submenu.posY + 'px' }">
-		<ul>
-			<entry-item is-sub=true item-type="link" action="openRecovery" item-text="Browse all entries"></entry-item>
-			<entry-item is-sub=true item-type="link" action="openKeyboardModal" item-text="View keyboard shortcuts"></entry-item>
-			<entry-item is-sub=true item-type="link" action="disableTypio" item-text="Disable Typio on this site"></entry-item>
-		</ul>
-	</div>
 </div>
