@@ -12,7 +12,7 @@
 
 	<ul class="footer">
 		<entry-item item-type="link" action="openRecovery" item-text="Browse all entries"></entry-item>
-		<entry-item item-size="short" item-type="link" action="openKeyboardModal" item-img="icon-keyboard"></entry-item>
-		<entry-item item-size="short" item-type="link" action="disableTypio"  item-img="icon-block"></entry-item>
+		<entry-item item-size="short" item-tooltip="Show keyboard shortcuts" item-type="link" action="openKeyboardModal" item-img="icon-keyboard"></entry-item>
+		<entry-item item-size="short" item-tooltip="Disable Typio on this domain" item-type="link" action="disableTypio"  item-img="icon-block"></entry-item>
 	</ul>
 </div>

@@ -52,19 +52,18 @@ terafm.quickAccessController = {};
 
 		Vue.component('entry-item', {
 			'@import-vue quickAccessListItem':0,
-			props: ['itemType', 'action', 'isSess', 'itemText', 'itemImg',		'entry', 'editable'],
+			props: ['itemType', 'action', 'isSess', 'itemText', 'itemTooltip', 'itemImg',		'entry', 'editable'],
 			data: function() {
 				return {
-					isPreviewing: false,
-					selected: false
+					selected: false,
+					singleSelected: false
 				}
 			},
 			methods: {
 				select() {
-					this.$root.currSel = this;
-					if(this.isPreviewing) return;
-
-					this.isPreviewing = true;
+					// this.$root.currSel = this;
+					if(this.selected) return;
+					this.unselect();
 					this.selected = true;
 
 					if(this.itemType === 'entry' && this.isSess) {
@@ -78,19 +77,24 @@ terafm.quickAccessController = {};
 					}
 				},
 				singleSelect() {
-					console.log('single select!')
+					// this.$root.currSel = this;
+					if(this.singleSelected) return;
 					this.unselect();
+					this.singleSelected = true;
+
 					this.editable.applyPlaceholderEntry( this.entry );
 				},
 				unselect() {
-					this.$root.currSel = undefined;
-					if(!this.isPreviewing) return;
+					// this.$root.currSel = undefined;
 
-					this.isPreviewing = false;
+					if(!this.selected && !this.singleSelected) return;
+
 					this.selected = false;
+					this.singleSelected = false;
+
 					terafm.placeholders.restore();
 				},
-				commit() {
+				commit(commitSingleFromSession) {
 					if(this.itemType === 'link') {
 						if(this.action === 'openRecovery') terafm.recoveryDialogController.open();
 						else if(this.action === 'openKeyboardModal') terafm.keyboardShortcutController.showShortcutDialog();
@@ -98,11 +102,16 @@ terafm.quickAccessController = {};
 						else return;
 					}
 
-					this.unselect();
+					terafm.placeholders.restore();
 					this.$root.hide();
 
 					if(this.entry) {
-						this.editable.applyEntry(this.entry);
+						if(!this.isSess || commitSingleFromSession) {
+							this.editable.applyEntry(this.entry);
+						
+						} else if(this.isSess) {
+							this.entry.getSession().restore();
+						}
 					}
 				},
 			}
@@ -111,13 +120,6 @@ terafm.quickAccessController = {};
 		vue = new Vue({
 			'@import-vue quickAccess':0,
 			el: rootnode,
-			mounted() {
-				this.$el.addEventListener('mouseover', (e) => {
-					if(e.path[0].classList.contains('flex-icon')) {
-						this.currSel && this.currSel.singleSelect();
-					}
-				})
-			},
 			methods: {
 				showAndPopulate: function(ed, coord) {
 					if(!ed) throw new Error('No editable');
@@ -204,60 +206,60 @@ terafm.quickAccessController = {};
 		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
 		
 		
-		keyboardShortcuts.on(['ArrowDown'], selNext);
-		keyboardShortcuts.on(['ArrowRight'], selNext);
-		function selNext(e) {
-			if(vue.isVisible) {
-				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+		// keyboardShortcuts.on(['ArrowDown'], selNext);
+		// keyboardShortcuts.on(['ArrowRight'], selNext);
+		// function selNext(e) {
+		// 	if(vue.isVisible) {
+		// 		if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
-				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
-					currSel = vue.$el.querySelector('.selectable.selected'),
-					currI = sels.indexOf(currSel),
-					newSel;
+		// 		var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
+		// 			currSel = vue.$el.querySelector('.selectable.selected'),
+		// 			currI = sels.indexOf(currSel),
+		// 			newSel;
 
-				if(currI === -1 || currI === sels.length-1) {
-					newSel = sels[0]
-				} else {
-					newSel = sels[currI+1]
-				}
+		// 		if(currI === -1 || currI === sels.length-1) {
+		// 			newSel = sels[0]
+		// 		} else {
+		// 			newSel = sels[currI+1]
+		// 		}
 
-				console.log(currSel, newSel);
-				if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
-				newSel.dispatchEvent(new Event('mouseenter'));
-			}
-		}
+		// 		console.log(currSel, newSel);
+		// 		if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
+		// 		newSel.dispatchEvent(new Event('mouseenter'));
+		// 	}
+		// }
 
-		keyboardShortcuts.on(['ArrowUp'], keyPrev);
-		keyboardShortcuts.on(['ArrowLeft'], keyPrev);
-		function keyPrev(e) {
-			if(vue.isVisible) {
-				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+		// keyboardShortcuts.on(['ArrowUp'], keyPrev);
+		// keyboardShortcuts.on(['ArrowLeft'], keyPrev);
+		// function keyPrev(e) {
+		// 	if(vue.isVisible) {
+		// 		if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
-				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
-					currSel = vue.$el.querySelector('.selectable.selected'),
-					currI = sels.indexOf(currSel),
-					newSel;
+		// 		var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
+		// 			currSel = vue.$el.querySelector('.selectable.selected'),
+		// 			currI = sels.indexOf(currSel),
+		// 			newSel;
 
-				if(currI < 1) {
-					newSel = sels[sels.length-1];
-				} else {
-					newSel = sels[currI-1];
-				}
+		// 		if(currI < 1) {
+		// 			newSel = sels[sels.length-1];
+		// 		} else {
+		// 			newSel = sels[currI-1];
+		// 		}
 
-				// console.log(currSel, newSel);
-				if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
-				newSel.dispatchEvent(new Event('mouseenter'));
+		// 		// console.log(currSel, newSel);
+		// 		if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
+		// 		newSel.dispatchEvent(new Event('mouseenter'));
 
-				if(newSel.closest('.submenu')) keyPrev({});
-			}
-		}
+		// 		if(newSel.closest('.submenu')) keyPrev({});
+		// 	}
+		// }
 
-		keyboardShortcuts.on([' '], function(e) {
-			if(vue.isVisible) {
-				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
-				if(vue.selected) vue.selected.dispatchEvent(new Event('click'));
-			}
-		})
+		// keyboardShortcuts.on([' '], function(e) {
+		// 	if(vue.isVisible) {
+		// 		if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+		// 		if(vue.selected) vue.selected.dispatchEvent(new Event('click'));
+		// 	}
+		// })
 		
 
 		keyboardShortcuts.on(['Escape'], hide);

@@ -65,7 +65,25 @@
 		li {
 			display: flex;
 			position: relative;
-			padding: 4px 0;
+		}
+
+		.inner-fake-arrow {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			bottom: 0px;
+			width: 26px;
+			font-size: 18px;
+			padding-top: 3px;
+			opacity: 0;
+		}
+		li:hover .inner-fake-arrow {
+			opacity: 1;
+		}
+
+		.fill, .flex-icon {
+			padding-top: 4px;
+			padding-bottom: 4px;
 		}
 
 		.fill {
@@ -104,7 +122,7 @@
 				line-height: 10px;
 				pointer-events: none;
 				position: absolute;
-				top: 0;
+				top: 4px;
 				left: 0;
 				right: 0;
 				text-align: center;
@@ -122,55 +140,59 @@
 	}
 
 	.footer {
-		position: relative;
+		display: flex;
+
+		li {
+			flex: auto;
+		}
 
 		[item-size="short"] {
-			position: absolute;
-			top: 2px;
-			bottom: 2px;
-			right: 0;
-			display: inline-block;
-			width: 30px;
-			text-align: center;
+			flex: 0;
 			font-size: 17px;
-
-			&:nth-child(2n) {
-				right: 30px;
-			}
+    		line-height: 10px;
 		}
+	}
 
-		[data-tooltip]:before, [data-tooltip]:after {
-			position: absolute;
-			opacity: 0;
-			pointer-events: none;
-			transition-duration: .2s;
-			transition-delay: .05s;
-		}
-		.selected[data-tooltip]:before, .selected[data-tooltip]:after {
+
+
+
+	[data-tooltip]:before, [data-tooltip]:after {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+		transition-duration: .2s;
+		transition-delay: .05s;
+	}
+	.selected[data-tooltip]:before, .selected[data-tooltip]:after {
+		opacity: 1;
+	}
+
+	span:hover > span[data-tooltip] {
+		&:before, &:after {
 			opacity: 1;
 		}
+	} 
 
-		[data-tooltip]:before {
-			content: attr(data-tooltip);
-			bottom: calc(100% + 5px);
-			right: calc(50% - 15px);
-			display: inline-block;
-			padding: 3px;
-			font-size: 12px;
-			background: #FFF;
-			color: #666;
-			border: 1px solid #666;
-			box-shadow: 2px 2px 1px rgba(0,0,0,.3);
-			line-height: 14px;
-			white-space: nowrap;
-		}
-		[data-tooltip]:after {
-			content: '';
-			bottom: calc(100% + 3px);
-			right: calc(50% - 2px);
-			border-top: 3px solid #FFF;
-			border-left: 3px solid transparent;
-			border-right: 3px solid transparent;
-		}
+	[data-tooltip]:before {
+		content: attr(data-tooltip);
+		bottom: calc(100% + 5px);
+		right: calc(50% - 15px);
+		display: inline-block;
+		padding: 3px;
+		font-size: 12px;
+		background: #FFF;
+		color: #666;
+		border: 1px solid #666;
+		box-shadow: 2px 2px 1px rgba(0,0,0,.3);
+		line-height: 14px;
+		white-space: nowrap;
+	}
+	[data-tooltip]:after {
+		content: '';
+		bottom: calc(100% + 3px);
+		right: calc(50% - 2px);
+		border-top: 3px solid #FFF;
+		border-left: 3px solid transparent;
+		border-right: 3px solid transparent;
 	}
 }
