@@ -206,65 +206,42 @@ terafm.quickAccessController = {};
 		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
 		
 		
-		// keyboardShortcuts.on(['ArrowDown'], selNext);
-		// keyboardShortcuts.on(['ArrowRight'], selNext);
-		// function selNext(e) {
-		// 	if(vue.isVisible) {
-		// 		if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
-
-		// 		var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
-		// 			currSel = vue.$el.querySelector('.selectable.selected'),
-		// 			currI = sels.indexOf(currSel),
-		// 			newSel;
-
-		// 		if(currI === -1 || currI === sels.length-1) {
-		// 			newSel = sels[0]
-		// 		} else {
-		// 			newSel = sels[currI+1]
-		// 		}
-
-		// 		console.log(currSel, newSel);
-		// 		if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
-		// 		newSel.dispatchEvent(new Event('mouseenter'));
-		// 	}
-		// }
-
-		// keyboardShortcuts.on(['ArrowUp'], keyPrev);
-		// keyboardShortcuts.on(['ArrowLeft'], keyPrev);
-		// function keyPrev(e) {
-		// 	if(vue.isVisible) {
-		// 		if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
-
-		// 		var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
-		// 			currSel = vue.$el.querySelector('.selectable.selected'),
-		// 			currI = sels.indexOf(currSel),
-		// 			newSel;
-
-		// 		if(currI < 1) {
-		// 			newSel = sels[sels.length-1];
-		// 		} else {
-		// 			newSel = sels[currI-1];
-		// 		}
-
-		// 		// console.log(currSel, newSel);
-		// 		if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
-		// 		newSel.dispatchEvent(new Event('mouseenter'));
-
-		// 		if(newSel.closest('.submenu')) keyPrev({});
-		// 	}
-		// }
-
-		// keyboardShortcuts.on([' '], function(e) {
-		// 	if(vue.isVisible) {
-		// 		if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
-		// 		if(vue.selected) vue.selected.dispatchEvent(new Event('click'));
-		// 	}
-		// })
+		keyboardShortcuts.on(['ArrowDown'], function(e) {sel('next', e)});
+		keyboardShortcuts.on(['ArrowRight'], function(e) {sel('next', e)});
+		keyboardShortcuts.on(['ArrowUp'], function(e) {sel('prev', e)});
+		keyboardShortcuts.on(['ArrowLeft'], function(e) {sel('prev', e)});
 		
+		function sel(direction, e) {
+			if(vue.isVisible) {
+				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
+
+				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
+					currSel = vue.$el.querySelector('.selectable.selected'),
+					currI = sels.indexOf(currSel),
+					newSel;
+
+				if(direction === 'prev') {
+					if(currI < 1) {
+						newSel = sels[sels.length-1]
+					} else {
+						newSel = sels[currI-1]
+					}
+
+				} else if(direction === 'next') {
+					if(currI === -1 || currI === sels.length-1) {
+						newSel = sels[0]
+					} else {
+						newSel = sels[currI+1]
+					}
+				}
+
+
+				if(currSel) currSel.dispatchEvent(new Event('mouseleave'));
+				newSel.dispatchEvent(new Event('mouseenter'));
+			}
+		}
 
 		keyboardShortcuts.on(['Escape'], hide);
-		// keyboardShortcuts.on(['Tab'], hide);
-		// keyboardShortcuts.on(['Shift', 'Tab'], hide);
 		function hide(e) {
 			if(vue.isVisible) {
 				vue.hide();
