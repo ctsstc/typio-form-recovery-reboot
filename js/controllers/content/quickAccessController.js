@@ -28,6 +28,7 @@ terafm.quickAccessController = {};
 	controller.show = (...args) => show(...args);
 
 	function show(editable, coord) {
+		if(!terafm.focusedEditable) return;
 		build(function() {
 			vue.showAndPopulate(editable, coord);
 		});
