@@ -41,7 +41,8 @@ module.exports = function(grunt) {
                         '../img/icon16.png',
                         '../img/icon38.png',
                         '../img/icon48.png',
-                        '../img/icon128.png'
+                        '../img/icon128.png',
+                        '../img/qa-icon.png',
                     ],
                     dest: '../publish/img'
                 }],
