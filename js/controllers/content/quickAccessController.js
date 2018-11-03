@@ -82,11 +82,11 @@ terafm.quickAccessController = {};
 					this.unselect();
 					this.singleSelected = true;
 
+					terafm.placeholders.snapshot(this.editable);
 					this.editable.applyPlaceholderEntry( this.entry );
 				},
 				unselect() {
 					// this.$root.currSel = undefined;
-
 					if(!this.selected && !this.singleSelected) return;
 
 					this.selected = false;
