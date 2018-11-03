@@ -84,11 +84,11 @@ terafm.db = terafm.db || {};
 
 	db.init = function(done) {
 		// chrome.storage.local.clear();return;
-		// convertIndexedDB();return;
-
-		console.log(buckets);
-		sessionId = db.generateSessionId();
-		fetchSnapshot().then(done);
+		convertIndexedDB().then(function() {
+			console.log(buckets);
+			sessionId = db.generateSessionId();
+			fetchSnapshot().then(done);
+		});
 	}
 	db.getGlobalSessionId = () => sessionId;
 	db.fetch = () => {
@@ -138,7 +138,6 @@ terafm.db = terafm.db || {};
 			getIndexedDBData().then((data) => {
 				if(!data || Object.keys(data).length < 1) return done();
 
-				console.log(data);
 				let newd = {};
 				for(let fid in data) {
 					for(let sid in data[fid]) {
@@ -146,7 +145,7 @@ terafm.db = terafm.db || {};
 						// Clone first data to meta prop, exclude value
 						if(!newd.hasOwnProperty(fid)) {
 							newd[fid] = { sess: {}, meta: {}};
-							newd[fid].meta = data[fid][sid];
+							newd[fid].meta = JSON.parse(JSON.stringify(data[fid][sid]));
 							delete newd[fid].meta.value;
 						}
 
@@ -157,27 +156,38 @@ terafm.db = terafm.db || {};
 					}
 					if(Object.keys(newd[fid].sess).length < 1) delete newd[fid];
 				}
-				console.log(newd);
+				console.log('converted into new object:', newd);
 
 				let bucket = new terafm.StorageBucket(domainId);
 				bucket.setFieldObj(newd);
-				console.log(bucket)
-				// console.log(bucket)
+				console.log('new bucket:', bucket)
 				chrome.storage.local.set(bucket.context, done);
+				console.log('finito!');
 			})
 		})
 	}
 
 	function getIndexedDBData() {
 		return new Promise(done => {
-			terafm.indexedDB.init(() => {
-				terafm.indexedDB.load(res => {
-					let json = false;
-					try {
-						json = JSON.parse(res);
-					} catch(e) {}
-					done(json);
-				})
+			terafm.indexedDB.init((exists) => {
+				console.log('exists:', exists)
+				if(exists === true) {
+
+					terafm.indexedDB.load(res => {
+						if(res === false) return done(false);
+						console.log('object store exists, data fetched, importing...')
+						let json = false;
+						try {
+							json = JSON.parse(res);
+						} catch(e) {}
+
+						terafm.indexedDB.destroy();
+						done(json);
+					})
+				} else {
+					console.log('no db, continuing as usual')
+					done(false);
+				}
 			})
 		})
 	}

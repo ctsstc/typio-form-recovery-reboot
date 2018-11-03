@@ -3,7 +3,7 @@ window.terafm = window.terafm || {};
 (function() {
 
 	var db,
-		init = false;
+		init = undefined;
 
 	window.terafm.indexedDB = {
 
@@ -26,7 +26,12 @@ window.terafm = window.terafm || {};
 
 		load: function(callback) {
 
-			var transaction = prepareTransaction();
+			try {
+				var transaction = prepareTransaction();
+			} catch(e) {
+				// DB exists but object store doesn't.
+				return callback(false);
+			}
 
 			var objectStore = transaction.objectStore("storage"),
 				request = objectStore.get('inputs');
@@ -38,9 +43,8 @@ window.terafm = window.terafm || {};
 		},
 
 		init: function(callback) {
-			if(init) {
-				callback();
-				return true;
+			if(init !== undefined) {
+				return callback(init);
 			}
 
 			var request = window.indexedDB.open("terafmStorage", 1);
@@ -48,16 +52,26 @@ window.terafm = window.terafm || {};
 			request.onsuccess = function(event) {
 				db = request.result;
 				init = true;
-				callback();
+				return callback(true);
 			};
 
-			request.onerror = function(event) {
-				console.error('Typio Form Recovery: Could not initiate database.');
-			}
+			// request.onerror = function(event) {
+			// 	return callback(false);
+			// }
 
 			request.onupgradeneeded = function(event) {
-				event.target.result.createObjectStore("storage");
+				event.target.transaction.abort();
+				return callback(false);
+				// event.target.result.createObjectStore("storage");
 			};
+		},
+
+
+		destroy: function() {
+			if(init) {
+				// Todo: uncomment!
+				indexedDB.deleteDatabase('terafmStorage');
+			}
 		}
 
 	}
