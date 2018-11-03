@@ -121,7 +121,7 @@ terafm.StorageBucket = class Bucket {
 	
 	getSessionsContainingEditable(eid, max) {
 		if(this.fields.hasOwnProperty(eid) !== true) return new terafm.SessionList();
-		const sids = Object.keys(this.fields[eid].sess);
+		const sids = Object.keys(this.fields[eid].sess).reverse();
 		return this.getSessions(sids, max);
 	}
 
