@@ -83,7 +83,7 @@ terafm.editables = {};
 	}
 
 	editables.isElement = (elem) => {
-		if(elem.ownerDocument && elem.ownerDocument.defaultView) {
+		if(elem && elem.ownerDocument && elem.ownerDocument.defaultView) {
 			if(elem instanceof elem.ownerDocument.defaultView.HTMLElement) {
 				return true;
 			}

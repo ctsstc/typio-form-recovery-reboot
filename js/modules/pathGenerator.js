@@ -56,19 +56,22 @@ window.terafm = window.terafm || {};
 
 
 			// If el has ID
-			if(el.id && el.id.match(/^[a-z0-9._-]+$/i) !== null) {
+			if(el.id && el.id.length > 1 /*&& el.id.match(/^[a-z0-9._-]+$/i) !== null*/) {
 
-				var idCount = el.ownerDocument.querySelectorAll('#' + el.id);
+				let escId = CSS.escape(el.id);
+
+				// var idCount = el.ownerDocument.querySelectorAll('#' + el.id);
+				var idCount = el.ownerDocument.querySelectorAll('#'+ escId );
 
 				// If not encapsulated, add to stack and stop
 				if(!isEncapsulated && idCount.length === 1) {
-					stack.unshift('#' + el.id);
+					stack.unshift('#' + escId);
 					break;
 				}
 
 				// If encapsulated, add to stack and break out
 				else if(idCount.length === 1) {
-					var nodeName = '#' + el.id;
+					var nodeName = '#' + escId;
 					if(isShadow) {
 						nodeName += '::shadow';
 						isShadow = false;
