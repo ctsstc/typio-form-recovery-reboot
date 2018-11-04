@@ -95,7 +95,7 @@
 							<button class="btn" v-on:click="copyEntry('plaintext')" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : '' ]">Copy</button>
 						</template>
 
-						<p class="message-warn" v-if="!currEntry.hasEditable()"><span class="icon-info"></span>This entry cannot be restored automatically. <a href="#">Why?</a></p>
+						<p onclick="alert(`The field this entry was typed in cannot be found on this page. Either the field does not exist, or it cannot be found in the same place (path has changed). You can manually restore the value by copying it.`)" class="message-warn" v-if="!currEntry.hasEditable()"><span class="icon-info"></span>This entry cannot be restored automatically. <a href="#">Why?</a></p>
 					</div>
 
 					<div id="entry-text" class="entry-text card-1" v-html="currEntry.getPrintableValue({retainLineBreaks: true})"></div>
