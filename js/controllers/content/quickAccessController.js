@@ -103,6 +103,7 @@ terafm.quickAccessController = {};
 					}
 
 					terafm.placeholders.restore();
+					terafm.defaults.restore();
 					this.$root.hide();
 
 					if(this.entry) {
