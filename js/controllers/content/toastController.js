@@ -32,13 +32,23 @@ terafm.toastController = {};
 			el: rootnode,
 			methods: {
 				showMessage: function(message) {
+
+					if(this.isVisible) {
+						this.isVisible = false;
+						clearTimeout(this.timeout);
+						setTimeout(() => {
+							this.showMessage(message);
+						}, 100);
+						return false;
+					}
+
 					this.message = message;
 					this.isVisible = true;
 
 					clearTimeout(this.timeout);
 					this.timeout = setTimeout(() => {
 						this.isVisible = false;
-					}, 3000);
+					}, 4000);
 				},
 			},
 			data: function() {
