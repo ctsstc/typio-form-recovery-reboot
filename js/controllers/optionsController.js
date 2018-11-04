@@ -102,6 +102,12 @@ function keyCapture() {
 
 
 		input.addEventListener('keydown', function(e) {
+			if(e.key === 'Escape') {
+				closeCapture();
+				input.blur();
+				return false;
+			}
+
 			if(shortcut.indexOf(e.key) === -1) {
 				shortcut.push(e.key);
 				var txt = shortcut.join(' + ')
