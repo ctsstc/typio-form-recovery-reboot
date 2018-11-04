@@ -156,13 +156,10 @@ terafm.db = terafm.db || {};
 					}
 					if(Object.keys(newd[fid].sess).length < 1) delete newd[fid];
 				}
-				console.log('converted into new object:', newd);
 
 				let bucket = new terafm.StorageBucket(domainId);
 				bucket.setFieldObj(newd);
-				console.log('new bucket:', bucket)
 				chrome.storage.local.set(bucket.context, done);
-				console.log('finito!');
 			})
 		})
 	}
@@ -170,12 +167,10 @@ terafm.db = terafm.db || {};
 	function getIndexedDBData() {
 		return new Promise(done => {
 			terafm.indexedDB.init((exists) => {
-				console.log('exists:', exists)
 				if(exists === true) {
 
 					terafm.indexedDB.load(res => {
 						if(res === false) return done(false);
-						console.log('object store exists, data fetched, importing...')
 						let json = false;
 						try {
 							json = JSON.parse(res);
@@ -185,7 +180,6 @@ terafm.db = terafm.db || {};
 						done(json);
 					})
 				} else {
-					console.log('no db, continuing as usual')
 					done(false);
 				}
 			})
