@@ -69,7 +69,6 @@ window.terafm = window.terafm || {};
 
 		destroy: function() {
 			if(init) {
-				// Todo: uncomment!
 				indexedDB.deleteDatabase('terafmStorage');
 			}
 		}
@@ -85,7 +84,6 @@ window.terafm = window.terafm || {};
 			transaction.onerror = function(event) {
 				console.error('Typio Form Recovery: Could not create database transaction.');
 			};
-			
 			return transaction;
 		}
 	}

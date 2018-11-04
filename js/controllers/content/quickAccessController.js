@@ -11,7 +11,6 @@ terafm.quickAccessController = {};
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
 				// Only pass editable
-				// Todo: Toggle show
 				show(terafm.focusedEditable);
 			});
 		}
