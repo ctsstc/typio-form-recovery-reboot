@@ -50,13 +50,31 @@ terafm.EntryList = class EntryList {
 			}
 
 		} else if(data instanceof terafm.Editable) {
+			if(this.uniqueEditables) {
+				if(this.containsRadio(data)) {
+					return false;
+				}
+			}
+
 			let entry = data.getEntry({resolveUncheckedRadios: true});
 			this.set(entry, opts);
-
 
 		} else {
 			throw new Error('EntryList cannot convert supplied data type');
 		}
+	}
+
+	containsRadio(editable) {
+		if(editable.el.type !== 'radio') return false;
+
+		for(let entry of this.entries) {
+			if(entry._editable.el.name === editable.el.name) {
+				if(entry._editable.el.rootNode === editable.el.rootNode) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	// Alias for set()
