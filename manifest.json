@@ -31,6 +31,7 @@
         "css/*.css",
         "fonts/*",
         "templates/*",
+        "html/faq.html",
         "js/content.frameInjector.js",
         "js/*.js.map"
     ],
