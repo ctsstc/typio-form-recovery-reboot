@@ -79,12 +79,12 @@
 					<div class="entry-header">
 						<template v-if="currEntry.hasEditable()">
 							<button class="btn btn-primary" v-on:click="restoreSession()">Restore session</button>
-							<button class="btn" v-on:click="restoreEntry()">Restore only this</button>
+							<button class="btn btn-flat" v-on:click="restoreEntry()">Restore only this</button>
 						</template>
 						
 						<template v-if="currEntry.type === 'contenteditable'">
-							<div class="btn-drop-container" onclick="this.classList.toggle('open')">
-								<button class="btn" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : '' ]">Copy &#9662;</button>
+							<div style="float: right;" class="btn-drop-container" onclick="this.classList.toggle('open')">
+								<button class="btn" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : 'btn-flat' ]">Copy&#9662;</button>
 								<ul class="btn-drop">
 									<li v-on:click="copyEntry('plaintext')">Copy plain text</li>
 									<li v-on:click="copyEntry('formatting')">Copy with formatting</li>
@@ -92,10 +92,10 @@
 							</div>
 						</template>
 						<template v-else>
-							<button class="btn" v-on:click="copyEntry('plaintext')" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : '' ]">Copy</button>
+							<button style="float: right;" class="btn" v-on:click="copyEntry('plaintext')" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : 'btn-flat' ]">Copy</button>
 						</template>
 
-						<p v-if="!currEntry.hasEditable()"><span class="icon-info"></span>This entry cannot be restored automatically. <a target="_blank" :href="noAutoRestoreHelpLink">Why?</a></p>
+						<p class="message-warn" v-if="!currEntry.hasEditable()"><span class="icon-info"></span> This entry cannot be restored automatically. <a target="_blank" :href="noAutoRestoreHelpLink">Why?</a></p>
 					</div>
 
 					<div id="entry-text" class="entry-text card-1" v-html="currEntry.getPrintableValue({retainLineBreaks: true})"></div>

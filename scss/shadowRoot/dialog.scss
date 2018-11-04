@@ -125,34 +125,39 @@
 
 		color: #48ae5f;
 		background: #f6f9fc;
-		box-shadow: 0 4px 6px rgba(23, 36, 87, 0.07), 0 1px 3px rgba(19, 46, 89, 0.23);
 
 		&:hover {
 			background: #f6f9fc;
-			box-shadow: 0 6px 6px rgba(23, 36, 87, 0.05), 0 2px 3px rgba(19, 46, 89, 0.23);
-			color: #50BA68;
 			transform: translateY(-1px);
 		}
 
 		&:active {
 			transform: translateY(1px);
-			box-shadow: 0 4px 6px rgba(23, 36, 87, 0.07), 0 1px 3px rgba(19, 46, 89, 0.23);
 		}
 	}
 
 	.btn-primary {
 		background: #48ae5f;
 		color: #EEFFF2;
-		// box-shadow: 0 7px 14px rgba(50,50,90,.1), 0 3px 6px rgba(0,0,0,.08);
+		box-shadow: 0 4px 6px rgba(23, 36, 87, 0.07), 0 1px 3px rgba(19, 46, 89, 0.23);
 
 		&:hover {
-			// box-shadow: 0 7px 18px rgba(50,50,90,.15), 0 3px 6px rgba(0,0,0,.08);
 			color: #FFF;
 			background: #53B569;
+			box-shadow: 0 6px 6px rgba(23, 36, 87, 0.05), 0 2px 3px rgba(19, 46, 89, 0.23);
 		}
 		&:active {
 			background: #44A359;
+			box-shadow: 0 4px 6px rgba(23, 36, 87, 0.07), 0 1px 3px rgba(19, 46, 89, 0.23);
 		}
+	}
+
+	.btn-flat {
+		background: none;
+		box-shadow: none;
+		padding-left: 0;
+		padding-right: 0;
+		color: #5271a3;
 	}
 
 	.btn-drop-container {
@@ -164,7 +169,7 @@
 		.btn-drop {
 			position: absolute;
 			top: calc(100% + 4px);
-			left: 0;
+			right: 0;
 			padding: 4px;
 			border-radius: 2px;
 			background: #FFF;
@@ -386,7 +391,8 @@
 		margin-bottom: 20px;
 
 		.message-warn {
-			margin: 20px 0 0;
+			margin: 10px 0 0;
+			color: #6e7682;
 
 			span {
 				position: relative;
