@@ -1,3 +1,3 @@
 <div id="toast-container" v-bind:class="[isVisible ? 'visible' : '']">
-	<p class="message">{{ message }}</p>
+	<p class="message" v-html="message"></p>
 </div>
