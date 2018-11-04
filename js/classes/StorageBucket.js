@@ -21,6 +21,10 @@ terafm.StorageBucket = class Bucket {
 		return this._sessionIds !== undefined ? this._sessionIds : this._sessionIds = this.generateSessionIds();
 	}
 
+	empty() {
+		this.context[this.domainId].fields = {};
+	}
+
 	del(sid, eid) {
 		if(this.fields.hasOwnProperty(eid) && this.fields[eid].sess.hasOwnProperty(sid)) {
 			delete this.fields[eid].sess[sid];

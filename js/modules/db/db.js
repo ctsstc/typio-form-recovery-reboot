@@ -126,6 +126,11 @@ terafm.db = terafm.db || {};
 			pushBucket(mergeBuck).then(fetchSnapshot).then(callback);
 		});
 	}
+	db.deleteAllDataForDomain = () => {
+		buckets.inUse.empty();
+		buckets.snapshot.empty();
+		pushBucket(buckets.snapshot).then(fetchSnapshot);
+	}
 
 	var debouncePush = terafm.help.throttle(sync, 1000, {leading: false});
 

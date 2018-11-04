@@ -24,8 +24,7 @@ var terafm = window.terafm;
 		
 		// Todo: ?
 		} else if(request.action === 'clearData') {
-			db.deleteAllSessions();
-			recoveryDialog.hide();
+			db.deleteAllDataForDomain();
 		}
 	});
 	
