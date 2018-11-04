@@ -12,7 +12,12 @@ window.terafm = window.terafm || {};
 		for(var pathIndex = 0; pathIndex < pathData.paths.length; ++pathIndex) {
 			var currSel = pathData.paths[pathIndex];
 
-			currNode = currNode.querySelector(currSel);
+			try {
+				currNode = currNode.querySelector(currSel);
+			} catch(e) {
+				throw new Error('Typio: querySelector failed on path:', currSel);
+				return false;
+			}
 
 			// If node was not found, abort
 			if(!currNode) {
