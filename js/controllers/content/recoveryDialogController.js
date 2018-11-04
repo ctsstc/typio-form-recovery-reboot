@@ -202,6 +202,7 @@ terafm.recoveryDialogController = {};
 				filteredCount: 0,
 				filterShowTextOnly: options.get('hideSmallEntries'),
 				filterText: '',
+				noAutoRestoreHelpLink: chrome.runtime.getURL('html/faq.html#no-auto-restore')
 			},
 			mounted: function() {
 				document.activeElement.blur();
