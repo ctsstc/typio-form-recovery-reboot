@@ -31,8 +31,8 @@ window.terafm = window.terafm || {};
 
 	// Click is fallback to "focus" because shadow dom is being a dick and
 	// will only bubble the first time. Tabbing still does not work correctly.
+	/*
 	Events.on('click', function(e) {
-		return;
 
 		// If focus has taken care of it, do nothing
 		if(e.path[0] !== target) {
@@ -49,6 +49,7 @@ window.terafm = window.terafm || {};
 			}
 		}
 	})
+	*/
 
 	Events.on('blur', function() {
 		terafm.focusedEditable = null;
