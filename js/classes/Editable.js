@@ -64,22 +64,26 @@ terafm.Editable = class Editable {
 	}
 
 	applyPlaceholderEntry(entry) {
-		this.applyEntry(entry, {truncate: true});
+		this.applyEntry(entry, {truncate: this.isContentEditable() ? false : 5000});
 		this.highlight();
 	}
 
-	applyEntry(entry, opts = {truncate: false}) {
+	applyEntry(entry, opts) {
 		if(!(entry instanceof terafm.Entry)) throw new Error('applyEntry requires an entry to set');
 		
-		let tmpVal = entry.value;
+		let tmpVal;
 
-		// If restoring html into text field, strip html and trim
+		// contenteditable into text
 		if(false === this.isContentEditable() && entry.type === 'contenteditable') {
 			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts});
 
-		// Restoring text into html field
+		// text into contenteditable
 		} else if(true === this.isContentEditable() && entry.type !== 'contenteditable') {
 			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts});
+
+		// anything else
+		} else {
+			tmpVal = entry.getValue(opts)
 		}
 
 		this.setValue(tmpVal);
