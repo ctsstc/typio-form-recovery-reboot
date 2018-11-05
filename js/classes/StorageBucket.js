@@ -78,6 +78,13 @@ terafm.StorageBucket = class Bucket {
 		return JSON.parse(JSON.stringify(this));
 	}
 
+	getLatestSession(excludeSid) {
+		let msid = Math.max(...this.sessionIds);
+		if(msid === excludeSid) msid = this.sessionIds.sort().reverse()[1];
+		return this.getSession(msid);
+
+	}
+
 	getEntries(max=-1, excludeEid, filterFn) {
 		let allsess = this.getSessions();
 		let entrylist = new terafm.EntryList();

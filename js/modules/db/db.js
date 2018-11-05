@@ -116,6 +116,9 @@ terafm.db = terafm.db || {};
 	db.getSessionsContainingEditable = (eid, max) => {
 		return buckets.applyBoth(buck => buck.getSessionsContainingEditable(eid, max));
 	}
+	db.getLatestSession = () => {
+		return buckets.snapshot.getLatestSession(sessionId);
+	}
 	db.getEntry = (...args) => {
 		return buckets.applyOne(buck => buck.getEntry(...args));
 	}
