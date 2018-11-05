@@ -2,7 +2,7 @@ window.terafm = window.terafm || {};
 
 terafm.keyboardShortcutController = {};
 
-(function(keyboardShortcutController, db, editableManager, initHandler, options, keyboardShortcuts, toast) {
+(function(keyboardShortcutController, db, editableManager, initHandler, options, keyboardShortcuts) {
 	// 'use strict';
 
 	let vue;
@@ -22,27 +22,16 @@ terafm.keyboardShortcutController = {};
 
 			var keybindRestorePreviousSession = options.get('keybindRestorePreviousSession');
 			if(keybindRestorePreviousSession.length) keyboardShortcuts.on(keybindRestorePreviousSession, function() {
-				toastController.create('Restoring previous session')
-				
-				var fields = db.getLatestSession(),
-					totalCount = Object.keys(fields).length,
-					fails = 0;
+				var sess = db.getLatestSession();
 
-				if(totalCount < 1) {
-					return false;
+				if(sess.length) {
+					terafm.defaults.restore();
+					sess.restore({flash: true});
+					terafm.toastController.create('Restoring previous session')
+				} else {
+					terafm.toastController.create('Nothing to restore')
 				}
 
-				for(var fieldId in fields) {
-					var editable = fields[fieldId];
-					var target = editableManager.resolvePath(editable.path);
-
-					if(target) {
-						editableManager.setEditableValue(target, editable.value);
-						editableManager.flashEditable(target);
-					} else {
-						fails++;
-					}
-				}
 			});
 		}
 	});
@@ -116,4 +105,4 @@ terafm.keyboardShortcutController = {};
 		if(callback) callback();
 	}
 
-})(terafm.keyboardShortcutController, terafm.db, terafm.editableManager, terafm.initHandler, terafm.options, terafm.keyboardShortcuts, terafm.toast);
+})(terafm.keyboardShortcutController, terafm.db, terafm.editableManager, terafm.initHandler, terafm.options, terafm.keyboardShortcuts);
