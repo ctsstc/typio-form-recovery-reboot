@@ -156,6 +156,15 @@ terafm.Editable = class Editable {
 		}
 	}
 
+	isEmpty() {
+		if(this.isContentEditable()) {
+			let txt = terafm.help.trim(this.el.innerText);
+			return txt.length < 1;
+		} else {
+			return (this.getValue() + '').trim().length < 1;
+		}
+	}
+
 	isEditable() {
 		return terafm.editables.isEditable(this.el)
 	}
