@@ -162,7 +162,7 @@ terafm.quickAccessController = {};
 					}
 
 					// If width overflows, position by editable instead
-					if(pos.x + popupWidth > docWidth()) {
+					if(pos.x + popupWidth > docWidth() && edrect.x - popupWidth > 0) {
 						pos.x = edrect.x - popupWidth;
 					}
 
