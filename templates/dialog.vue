@@ -38,7 +38,7 @@
 							<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
 							<ul v-if="sess.length" class="card-1">
 								<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">
-									<p>{{ entry.getPrintableValue({truncate: 300}) }}</p>
+									<p v-html="entry.getPrintableValue({truncate: 300})"></p>
 									<div class="meta">
 										<div class="left">
 											<span v-if="entry.hasEditable()" class="status ok">Input found</span>
