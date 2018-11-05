@@ -4,7 +4,7 @@
 		
 		<template v-if="itemType === 'entry'">
 			<span v-if="!isSess" class="icon inner-fake-arrow icon-arrow-forward"><span data-tooltip="Restore this entry (this entry was typed in another field)"></span></span>
-			{{ entry.getPrintableValue({truncate: 80}) }}
+			<span v-html="entry.getPrintableValue({truncate: 80})"></span>
 		</template>
 
 		<template v-if="itemType === 'link' && itemText">

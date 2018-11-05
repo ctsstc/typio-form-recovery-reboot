@@ -74,11 +74,11 @@ terafm.Editable = class Editable {
 		let tmpVal = entry.value;
 
 		// If restoring html into text field, strip html and trim
-		if(this.isContentEditable() === false && entry.type === 'contenteditable') {
+		if(false === this.isContentEditable() && entry.type === 'contenteditable') {
 			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts});
 
 		// Restoring text into html field
-		} else if(this.isContentEditable() === true && entry.type !== 'contenteditable') {
+		} else if(true === this.isContentEditable() && entry.type !== 'contenteditable') {
 			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts});
 		}
 

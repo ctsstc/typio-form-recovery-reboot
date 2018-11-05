@@ -71,7 +71,7 @@ terafm.Entry = class Entry {
 		}
 
 		if(opts.encodeHTMLEntities) {
-			str = terafm.help.encodeHTMLEntities(terafm.help.stripTags(str));
+			str = terafm.help.encodeHTMLEntities(str);
 		}
 
 		if(opts.decodeHTMLEntities) {
