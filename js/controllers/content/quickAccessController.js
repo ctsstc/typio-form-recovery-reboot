@@ -182,6 +182,10 @@ terafm.quickAccessController = {};
 				},
 				hide: function() {
 					this.isVisible = false;
+				},
+				abort() {
+					this.hide();
+					terafm.placeholders.restore();
 				}
 			},
 			data: function() {
@@ -194,16 +198,14 @@ terafm.quickAccessController = {};
 				}
 			}
 		});
-		terafm.Events.on('focus', (e) => {
-			vue.isVisible = false;
-		})
+		terafm.Events.on('focus', vue.abort)
 
 		if(callback) callback();
 	}
 
 	function setupKeyNav() {
 
-		terafm.Events.on('mousedown', () => vue.hide());
+		terafm.Events.on('mousedown', vue.abort);
 		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
 		
 		
@@ -242,12 +244,7 @@ terafm.quickAccessController = {};
 			}
 		}
 
-		keyboardShortcuts.on(['Escape'], hide);
-		function hide(e) {
-			if(vue.isVisible) {
-				vue.hide();
-			}
-		}
+		keyboardShortcuts.on(['Escape'], vue.abort);
 	}
 
 
