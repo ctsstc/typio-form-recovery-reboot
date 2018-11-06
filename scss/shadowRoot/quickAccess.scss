@@ -24,7 +24,7 @@
 
 
 	.selectable {cursor: default;}
-	.selectable.selected { background: #F0F1F1; color: #333; }
+	.selectable.selected, .selectable.selected + .selectable { background: #F0F1F1; color: #333; }
 
 	.submenu {
 		position: absolute;
@@ -76,6 +76,7 @@
 			font-size: 18px;
 			padding-top: 3px;
 			opacity: 0;
+			background: inherit;
 		}
 		li:hover .inner-fake-arrow {
 			opacity: 1;
