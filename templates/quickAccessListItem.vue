@@ -16,7 +16,7 @@
 			
 	</div>
 
-	<div data-tooltip="Restore just this entry." v-if="isSess" @click="commit(true)" @mouseenter="singleSelect" @mouseleave="unselect" v-bind:class="[singleSelected ? 'selected' : '', 'selectable', itemSize && 'size-' + itemSize, 'flex-icon']">
+	<div data-tooltip="Restore just this entry." v-if="isSess" @click="commit(true)" @mouseenter="singleSelect" @mouseleave="unselect" v-bind:class="[singleSelected ? 'selected' : '', 'selectable', itemSize && 'size-' + itemSize, 'flex-icon', 'keyboard-ignore']">
 		{{ entry.session.length }}
 		<span class="icon icon-arrow-forward"></span>
 	</div>

@@ -208,7 +208,6 @@ terafm.quickAccessController = {};
 		terafm.Events.on('mousedown', vue.abort);
 		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
 		
-		
 		keyboardShortcuts.on(['ArrowDown'], function(e) {sel('next', e)});
 		keyboardShortcuts.on(['ArrowRight'], function(e) {sel('next', e)});
 		keyboardShortcuts.on(['ArrowUp'], function(e) {sel('prev', e)});
@@ -218,7 +217,7 @@ terafm.quickAccessController = {};
 			if(vue.isVisible) {
 				if(e.preventDefault) {e.preventDefault(); e.stopPropagation();}
 
-				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable')),
+				var sels = Array.prototype.slice.call(vue.$el.querySelectorAll('.selectable:not(.keyboard-ignore)')),
 					currSel = vue.$el.querySelector('.selectable.selected'),
 					currI = sels.indexOf(currSel),
 					newSel;
