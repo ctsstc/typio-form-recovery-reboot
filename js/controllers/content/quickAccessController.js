@@ -61,8 +61,8 @@ terafm.quickAccessController = {};
 			},
 			methods: {
 				select() {
-					// this.$root.currSel = this;
 					if(this.selected) return;
+					this.$root.currSel = this;
 					this.unselect();
 					this.selected = true;
 
@@ -77,8 +77,8 @@ terafm.quickAccessController = {};
 					}
 				},
 				singleSelect() {
-					// this.$root.currSel = this;
 					if(this.singleSelected) return;
+					this.$root.currSel = this;
 					this.unselect();
 					this.singleSelected = true;
 
@@ -86,8 +86,12 @@ terafm.quickAccessController = {};
 					this.editable.applyPlaceholderEntry( this.entry );
 				},
 				unselect() {
-					// this.$root.currSel = undefined;
+					if(this.$root.currSel && this !== this.$root.currSel) {
+						console.log('unselect:', this.$root.currSel)
+						this.$root.currSel.unselect();
+					}
 					if(!this.selected && !this.singleSelected) return;
+					console.log('unselect', this)
 
 					this.selected = false;
 					this.singleSelected = false;
@@ -194,7 +198,8 @@ terafm.quickAccessController = {};
 					isEmpty: true,
 					data: {},
 					editable: false,
-					isEmpty: false
+					isEmpty: false,
+					currSel: false
 				}
 			}
 		});
