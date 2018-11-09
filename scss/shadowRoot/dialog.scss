@@ -368,6 +368,10 @@
 			text-decoration: none;
 			user-select: none;
 
+			&.confirm {
+				font-weight: bold;
+			}
+
 			.icon-trash {
 				font-size: 16px;
 				position: relative;

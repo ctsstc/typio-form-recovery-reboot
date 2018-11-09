@@ -136,10 +136,34 @@ terafm.recoveryDialogController = {};
 				},
 
 				deleteEntry: function(e) {
-					let target = e.path[0];
+					let target = e.path[0], li, entry;
 					if(!target.matches('.delete')) target = target.closest('.delete');
+					li = target.closest('li');
+					entry = this.sesslist.getEntry(li.dataset.sessionId, li.dataset.editableId);
+
+					if(!entry) return;
+					clearTimeout(this.tmpDelTimeout);
+
+					if(this.delConfirmEntry === entry) {
+						this.sesslist.deleteEntry(li.dataset.sessionId, li.dataset.editableId, () => {
+							this.populate();
+							this.delConfirmEntry = false;
+						});
+
+					} else {
+						this.delConfirmEntry = entry;
+						this.$forceUpdate();
+
+						this.tmpDelTimeout = setTimeout(() => {
+							this.delConfirmEntry = false;
+							this.$forceUpdate();
+						}, 4000);
+					}
 
 					e.stopPropagation();
+					return;
+
+
 
 					if(!target.classList.contains('confirm')) {
 						target.classList.add('confirm');
@@ -202,7 +226,9 @@ terafm.recoveryDialogController = {};
 				filteredCount: 0,
 				filterShowTextOnly: options.get('hideSmallEntries'),
 				filterText: '',
-				noAutoRestoreHelpLink: chrome.runtime.getURL('html/faq.html#no-auto-restore')
+				noAutoRestoreHelpLink: chrome.runtime.getURL('html/faq.html#no-auto-restore'),
+
+				delConfirmItem: false
 			},
 			mounted: function() {
 				document.activeElement.blur();
