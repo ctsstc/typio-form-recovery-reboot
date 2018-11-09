@@ -62,8 +62,8 @@ terafm.quickAccessController = {};
 			methods: {
 				select() {
 					if(this.selected) return;
-					this.$root.currSel = this;
-					this.unselect();
+					this.$root.unselect();
+					this.$root.select(this);
 					this.selected = true;
 
 					if(this.itemType === 'entry' && this.isSess) {
@@ -78,8 +78,8 @@ terafm.quickAccessController = {};
 				},
 				singleSelect() {
 					if(this.singleSelected) return;
-					this.$root.currSel = this;
-					this.unselect();
+					this.$root.unselect();
+					this.$root.select(this);
 					this.singleSelected = true;
 
 					terafm.placeholders.snapshot(this.editable);
@@ -87,11 +87,9 @@ terafm.quickAccessController = {};
 				},
 				unselect() {
 					if(this.$root.currSel && this !== this.$root.currSel) {
-						console.log('unselect:', this.$root.currSel)
 						this.$root.currSel.unselect();
 					}
 					if(!this.selected && !this.singleSelected) return;
-					console.log('unselect', this)
 
 					this.selected = false;
 					this.singleSelected = false;
@@ -148,6 +146,16 @@ terafm.quickAccessController = {};
 						this.position(ed, coord);
 					});
 				},
+				unselect: function() {
+					if(!this.currSel) return;
+					this.currSel.selected = false;
+					this.currSel.singleSelected = false;
+					this.currSel = false;
+					terafm.placeholders.restore();
+				},
+				select: function(obj) {
+					this.currSel = obj;
+				},
 				position: function(ed, coord) {
 					let popupHeight = this.$el.clientHeight,
 						popupWidth = this.$el.clientWidth;
@@ -185,6 +193,7 @@ terafm.quickAccessController = {};
 					}
 				},
 				hide: function() {
+					this.unselect();
 					this.isVisible = false;
 				},
 				abort() {
@@ -210,7 +219,11 @@ terafm.quickAccessController = {};
 
 	function setupKeyNav() {
 
-		terafm.Events.on('mousedown', vue.abort);
+		terafm.Events.on('mousedown', () => {
+			if(vue.isVisible) {
+				vue.abort();
+			}
+		});
 		vue.$el.addEventListener('mousedown', (e) => e.stopPropagation());
 		
 		keyboardShortcuts.on(['ArrowDown'], function(e) {sel('next', e)});
@@ -248,7 +261,17 @@ terafm.quickAccessController = {};
 			}
 		}
 
-		keyboardShortcuts.on(['Escape'], vue.abort);
+		keyboardShortcuts.on(['Escape'], () => {
+			if(vue.isVisible) {
+				vue.abort();
+			}
+		});
+		keyboardShortcuts.on([' '], (e) => {
+			if(vue.isVisible && vue.currSel) {
+				if(e.preventDefault) e.preventDefault();
+				vue.currSel.commit();
+			}
+		});
 	}
 
 
