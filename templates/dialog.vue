@@ -45,9 +45,7 @@
 											<span v-if="!entry.hasEditable()" class="status bad">Input not found</span>
 										</div>
 										<div class="right">
-											<a class="delete" v-on:click="deleteEntry($event)">
-												<span class="text">Delete</span>
-											</a>
+											<a class="delete" v-on:click="deleteEntry($event)" :class="delConfirmEntry === entry ? 'confirm' : ''">{{ delConfirmEntry === entry ? 'Click to confirm' : 'Delete' }}</a>
 										</div>
 									</div>
 								</li>
