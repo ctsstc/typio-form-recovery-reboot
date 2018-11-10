@@ -11,7 +11,7 @@ terafm.validator = terafm.validator || {};
 
 	validator.validate = function(editable, type) {
 
-		if(!(editable instanceof terafm.Editable)) throw new Error('Validator expects an Editable');
+		if(!(editable instanceof terafm.Editable)) return false;
 
 		// Check only a specific type
 		if(type) {
