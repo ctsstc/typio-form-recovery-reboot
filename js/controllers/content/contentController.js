@@ -22,9 +22,9 @@ var terafm = window.terafm;
 		if(request.action === 'ping') {
 			sendResponse(true);
 		
-		// Todo: ?
 		} else if(request.action === 'clearData') {
 			db.deleteAllDataForDomain();
+			terafm.toastController.create('Database cleared for ' + window.location.hostname);
 		}
 	});
 	
