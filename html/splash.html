@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Form Recovery</title>
+	<title>Update - Typio Form Recovery</title>
 	<link rel="stylesheet" href="../css/splash.css">
 </head>
 <body>
@@ -11,27 +11,29 @@
 		<p class="subtitle">Typio Form Recovery</p>
 		<p class="big">Here's whats new</p>
 		<p class="version">
-			v1.8
+			v2.0
 			<span class="bubble">Updated!</span>
 		</p>
 	</div>
 
 	<div class="content">
-		
-		<p>This update of Typio Form Recovery includes a much requested feature; a <strong>restore icon next to inputs</strong> for quick access. You can configure it to appear on input focus or double-click, or disable it completely. The restore icon will open the quick restore popup which has been updated to include <strong>keyboard support</strong> and more options! See a full change list below.</p>
+
+		<p>Typio 2.0 is here! This update brings lots of requested features and bug fixes, and under the hood the storage method has been changed which will make storage more reliable. Have a look and see what else is new!</p>
 
 		<ul>
-			<li><span class="new">New:</span> Restore icon next to inputs (configurable in options)</li>
-			<li><span class="new">New:</span> Quick Restore now has keyboard support</li>
-			<li><span class="new">New:</span> Added option to hide Typio in context menu (in favor of keyboard shortcuts)</li>
-			<li><span class="new">New:</span> Smarter restoration of entries that contain formatting</li>
-			<li><span class="new">New:</span> "You have disabled Typio on this site" message now gives you the option to enable Typio</li>
-			<li><span class="fix">Fix:</span> Keyboard shortcuts can now be pressed in any order</li>
-			<li><span class="fix">Fix:</span> Fix some positioning issues with Quick Restore popup</li>
-			<li><span class="fix">Fix:</span> "Delete all" now actually deletes all entries, including current session.</li>
+			<li><span class="new">New:</span> Regex support for blacklist (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/26/allow-wildcards-in-domain-blacklists">#26</a>, <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/43/whitelist">#43</a>)</li>
+			<li><span class="new">New:</span> Option to reset all fields between restorations (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/20/empty-fields-arent-stored-in-sessions">#20</a>, <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/47/wish-save-prefilled-data">#47</a>)</li>
+			<li><span class="new">New:</span> Option to clone entries upon restoration (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/20/empty-fields-arent-stored-in-sessions">#20</a>, <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/47/wish-save-prefilled-data">#47</a>)</li>
+			<li><span class="new">New:</span> Support for multiple concurrent same-domain tabs (previously did not work properly due to storage method restrictions) <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/21/multiple-same-domain-tabs-open-only-one">(#21)</a></li>
+			<li><span class="new">New:</span> Changed storage method, now much more reliable</li>
+			<li><span class="new">New:</span> UI refresh</li>
+			<li><span class="fix">Fix:</span> Error messages sometimes thrown by save indicator (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/60/uncaught-typeerror-cannot-read-property">#60</a>)</li>
+			<li><span class="fix">Fix:</span> Icon support for sites with strict CSP</li>
+			<li><span class="fix">Fix:</span> Typio now detects subtree changes in contenteditable fields (such as using modifier buttons in rich text fields) <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/34/links-in-rich-text-fields-not-restored">(#34)</a></li>
+			<li><span class="fix">Fix:</span> ...and lots more!</li>
 		</ul>
 
-		<p>If you want the nitty gritty details, head over to the <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">repository page</a> where you can see the full changelog with technical details. If you encounter any bugs or want to leave feedback, please submit a ticket <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new" target="_blank">in the bug tracker</a> or tweet me at <a href="https://twitter.com/typiorecovery" target="_blank">@TypioRecovery</a>.</p>
+		<p>If you want the nitty gritty details, head over to the <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">repository page</a> where you can see the full changelog with technical details. If you encounter any bugs or want to leave feedback, please submit a report <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new" target="_blank">in the bug tracker</a> or tweet me at <a href="https://twitter.com/typiorecovery" target="_blank">@TypioRecovery</a>.</p>
 		
 		<br>
 		<p class="center">Thanks for using Typio Form Recovery<br/><br/><a title="Show some love (leave a review)" target="_blank" href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews"><img width="16px" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIyNCIgdmVyc2lvbj0iMS4xIiB3aWR0aD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6Y2M9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL25zIyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTEwMjguNCkiPjxwYXRoIGQ9Im03IDEwMzEuNGMtMS41MzU1IDAtMy4wNzg0IDAuNS00LjI1IDEuNy0yLjM0MzEgMi40LTIuMjc4OCA2LjEgMCA4LjVsOS4yNSA5LjggOS4yNS05LjhjMi4yNzktMi40IDIuMzQzLTYuMSAwLTguNS0yLjM0My0yLjMtNi4xNTctMi4zLTguNSAwbC0wLjc1IDAuOC0wLjc1LTAuOGMtMS4xNzItMS4yLTIuNzE0NS0xLjctNC4yNS0xLjd6IiBmaWxsPSIjYzAzOTJiIi8+PC9nPjwvc3ZnPg==" alt="Heart" /></a></p>
