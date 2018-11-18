@@ -45,7 +45,6 @@
 
 	&:hover {
 		opacity: 1;
-		transform: scale(1.1);
 
 		span {
 			opacity: .8;
@@ -60,6 +59,7 @@
 
 	&:active {
 		transform: scale(0.8);
+		transition-duration: .15s;
 	}
 }
 
