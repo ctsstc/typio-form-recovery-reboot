@@ -12,4 +12,13 @@ terafm.blockController = {};
 		return ok;
 	}
 
+	controller.warn = function() {
+		var enable = confirm(`Uh oh! The action cannot be performed because you have disabled Typio on this domain.\n\nDo you want to enable Typio again? The page will be refreshed.`);
+		if(enable) {
+			terafm.blacklist.unblock(location.hostname, function() {
+				location.reload();
+			})
+		}
+	}
+
 })(terafm.blockController)

@@ -1,4 +1,4 @@
-(function() {
+/*(function() {
 	chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
 		// If not complete or invalid URL
@@ -30,3 +30,4 @@
 		});
 	});
 })();
+*/

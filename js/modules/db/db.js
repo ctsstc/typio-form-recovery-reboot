@@ -77,7 +77,7 @@ terafm.db = terafm.db || {};
 
 	// Fetch, merge, push
 	function sync() {
-		console.log('sync');
+		// console.log('sync');
 		return fetchAndMerge().then(pushBucket);
 	}
 
@@ -85,7 +85,7 @@ terafm.db = terafm.db || {};
 	db.init = function(done) {
 		// chrome.storage.local.clear();return;
 		convertIndexedDB().then(function() {
-			console.log(buckets);
+			// console.log(buckets);
 			sessionId = db.generateSessionId();
 			fetchSnapshot().then(done);
 		});

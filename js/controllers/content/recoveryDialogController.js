@@ -19,14 +19,15 @@ terafm.recoveryDialogController = {};
 			});
 		}
 
-		chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-			if(request.action === 'openRecoveryDialog') show();
-		});
+	});
+	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+		if(request.action === 'openRecoveryDialog') show();
 	});
 
 	recoveryDialogController.open = () => show();
 
 	function show() {
+		if(terafm.isBlocked) return terafm.blockController.warn();
 		if(vue) {
 			vue.show();
 		} else {

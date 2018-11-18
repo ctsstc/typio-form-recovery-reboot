@@ -29,6 +29,13 @@ terafm.editables = {};
 			}
 		}
 
+		// Element must have a parent node. Feedly breaks pathGenerator if this isn't here. I assume
+		// it has to do with the element being removed from the DOM before it reaches pathGen, and
+		// that breaks it.
+		if(!el || !el.parentNode) {
+			return;
+		}
+
 		if(el && editableCache.has(el)) {
 			let ed = editableCache.get(el);
 			return !onlyTextEditable || (onlyTextEditable && ed.isTextEditable()) ? ed : false;
@@ -92,7 +99,7 @@ terafm.editables = {};
 	}
 
 	editables.isElement = (elem) => {
-		if(elem && elem.ownerDocument && elem.ownerDocument.defaultView) {
+		if(elem && elem.ownerDocument && elem.ownerDocument.defaultView && elem.parentNode !== null) {
 			if(elem instanceof elem.ownerDocument.defaultView.HTMLElement) {
 				return true;
 			}

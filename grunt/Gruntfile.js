@@ -85,6 +85,9 @@ module.exports = function(grunt) {
                 // beautify: false,
                 // verbose: false,
                 // sourceMap: false,
+                // compress:{
+                //     pure_funcs: ['console.log']
+                // }
             },
             content: {
                 files: {
@@ -180,11 +183,6 @@ module.exports = function(grunt) {
                         '../js/controllers/content.frameInjector/frameInjectorController.js',
                             '../js/controllers/content.frameInjector/topOnlyController.js',
                             '../js/controllers/content.frameInjector/childOnlyController.js',
-                    ],
-
-                    '../publish/js/content.blacklisted.js' : [
-                        '../js/modules/blacklist.js',
-                        '../js/controllers/content.blacklisted/blacklistedController.js',
                     ]
                 }
             }
@@ -213,7 +211,7 @@ module.exports = function(grunt) {
 
             js: {
                 files: ['../js/**/*.js'],
-                tasks: ['string-replace', 'uglify:content'],
+                tasks: ['string-replace', 'uglify:content', 'exec:reloadExtension'],
                 options: {
                     spawn: false
                 }
@@ -258,6 +256,10 @@ module.exports = function(grunt) {
                     spawn: false
                 }
             }
+        },
+
+        exec: {
+          reloadExtension: 'start chrome http://reload.extensions/ --new-window'
         },
 
         vue_template_compiler: {
@@ -331,8 +333,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-vue-template-compiler');
     grunt.loadNpmTasks('grunt-string-replace');
+    grunt.loadNpmTasks('grunt-exec');
     
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('compile', ['sass', 'vue_template_compiler', 'string-replace', 'uglify', 'htmlmin', 'copy']);
+    grunt.registerTask('compile', ['sass', 'vue_template_compiler', 'string-replace', 'uglify', 'htmlmin', 'copy', 'exec:reloadExtension']);
 
 }
