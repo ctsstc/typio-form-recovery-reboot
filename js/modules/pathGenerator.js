@@ -125,6 +125,7 @@ window.terafm = window.terafm || {};
 	function getSiblingIndex(el) {
 		var sibCount = 0;
 		var sibIndex = 0;
+
 		// get sibling indexes
 		for ( var i = 0; i < el.parentNode.childNodes.length; i++ ) {
 			var sib = el.parentNode.childNodes[i];

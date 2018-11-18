@@ -149,7 +149,7 @@ terafm.Editable = class Editable {
 			// If input was cleared, set new ID
 			if(oldLen > 1 && currLen === 0) {
 				this._sessionId = terafm.db.generateSessionId();
-				console.log('new id yo!');
+				// console.log('new id yo!');
 			}
 
 			this.length = currLen;

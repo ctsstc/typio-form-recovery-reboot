@@ -26,6 +26,11 @@
         "persistent": true
     },
 
+    "content_scripts": [
+        {"matches": ["<all_urls>"], "run_at": "document_start", "all_frames": false, "js": ["js/vue.runtime.js", "js/content.js"]},
+        {"matches": ["<all_urls>"], "run_at": "document_end", "all_frames": true, "js": ["js/content.frameInjector.js"]}
+    ],
+
     "web_accessible_resources": [
         "img/*",
         "css/*.css",

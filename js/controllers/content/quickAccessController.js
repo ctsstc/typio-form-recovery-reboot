@@ -18,8 +18,7 @@ terafm.quickAccessController = {};
 
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if(request.action === 'openQuickAccess') {
-
-			// Also pass right click mouse coord
+			if(terafm.isBlocked) return terafm.blockController.warn();
 			show(terafm.focusedEditable);
 		}
 	});
