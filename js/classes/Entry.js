@@ -98,14 +98,14 @@ terafm.Entry = class Entry {
 		let entry = this;
 
 		if(entry.type === 'radio' && entry.meta.meta) {
-			value += entry.meta.meta; // Meta contains name:value, we don't care about the "checked" value here (its always 1 because its selected)
+			value += terafm.help.encodeHTMLEntities(entry.meta.meta); // Meta contains name:value, we don't care about the "checked" value here (its always 1 because its selected)
 
 		} else if(entry.type === 'checkbox' && entry.meta) {
-			value += entry.meta.meta + (entry.value == '1' ? ' (checked)' : ' (unchecked)');
+			value += terafm.help.encodeHTMLEntities(entry.meta.meta) + (entry.value == '1' ? ' (checked)' : ' (unchecked)');
 
 		} else {
 			if(entry.meta.meta) {
-				value = entry.meta.meta + ': ';
+				value = terafm.help.encodeHTMLEntities(entry.meta.meta) + ': ';
 			}
 
 			if(entry.type === 'contenteditable') {
