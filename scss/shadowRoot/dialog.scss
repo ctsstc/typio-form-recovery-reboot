@@ -327,6 +327,7 @@
 		border-bottom: 1px solid #ededed;
 		background: #FFF;
 		cursor: default;
+		overflow: hidden;
 		// transition-duration: .1s;
 		&:last-child {border-bottom: none;}
 
