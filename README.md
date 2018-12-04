@@ -3,11 +3,30 @@
 This is the repository for the Typio Form Recovery app found here:
 https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa
 
-Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open).
-
-Pull requests are welcome if you'd like to contribute.
+Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open) or email me at typiorecovery@gmail.com.
 
 # Changelog
+
+
+### Version 2.1.1 (4th Dec, 2018):
+- Fix: XSS security fix (report #67)
+- Fix: Minor design fixes
+
+### Version 2.1.0 (18th Nov, 2018):
+- Fix: Significantly improve loading speed for Typio (quicker initialisation)
+- Fix: Icon loading is no longer a blocking event
+- Fix: "Site is blacklisted" popup would sometimes pop up multiple times. It was a bit excessive, so I fixed it.
+
+### Version 2.0 (10 Nov, 2018):
+- New: Regex support for blacklist
+- New: Option to reset all fields between restorations
+- New: Option to clone entries upon restoration
+- New: Support for multiple concurrent same-domain tabs (previously did not work properly due to storage method restrictions)
+- New: Changed storage method, now much more reliable. (Moved from IndexedDB to chrome.local.storage)
+- New: UI updates
+- Fix: Error messages sometimes thrown by save indicator
+- Fix: Icon support for sites with strict CSP
+- Fix: Typio now detects subtree changes in contenteditable fields (such as using modifier buttons in rich text fields)
 
 ### Version 1.8.6 (23 Mar, 2018):
 - Fix: Fix broken scrolling in options page caused by recent Chrome update.
