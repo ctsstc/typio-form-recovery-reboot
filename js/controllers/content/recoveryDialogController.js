@@ -105,8 +105,11 @@ terafm.recoveryDialogController = {};
 					db.fetch().then(() => {
 						this.sesslist = db.getSessions();
 
+						this.stats.countTotSessions = this.sesslist.length;
+						this.stats.countTotEntries = this.sesslist.countEntries();
+						terafm.db.getDomainSize().then(bytes => this.stats.countTotSize = Number(bytes/1024/1024).toFixed(2));
+
 						if(this.filterShowTextOnly || this.filterText.length > 1) {
-							var defCount = this.sesslist.countEntries();
 							this.sesslist = this.sesslist.filterEntries(entry => {
 								if(this.filterText.length > 1) {
 									if(entry.value.toLowerCase().indexOf(this.filterText.toLowerCase()) === -1) return null;
@@ -116,12 +119,13 @@ terafm.recoveryDialogController = {};
 									if(!entry.isTextType()) return null;
 								}
 							});
-							this.filteredCount = defCount - this.sesslist.countEntries();
+							this.filteredCount = this.stats.countTotEntries - this.sesslist.countEntries();
 						} else {
 							this.filteredCount = 0;
 						}
 						
 						if(opts.scrollTop) this.scrollTop();
+
 					});
 				},
 				scrollTop: function() {
@@ -213,7 +217,7 @@ terafm.recoveryDialogController = {};
 				},
 				disableSite: function() {
 					if(terafm.blockController.block()) this.hide();
-				}
+				},
 			},
 			data: {
 				visible: true,
@@ -229,7 +233,13 @@ terafm.recoveryDialogController = {};
 				filterText: '',
 				noAutoRestoreHelpLink: chrome.runtime.getURL('html/faq.html#no-auto-restore'),
 
-				delConfirmItem: false
+				delConfirmItem: false,
+
+				stats: {
+					countTotSessions: 0,
+					countTotEntries: 0,
+					countTotSize: 0
+				}
 			},
 			mounted: function() {
 				document.activeElement.blur();
