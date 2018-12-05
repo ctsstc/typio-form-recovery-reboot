@@ -251,7 +251,7 @@ module.exports = function(grunt) {
 
             copyTemplates: {
                 files: ['../templates/**/*.vue'],
-                tasks: ['vue_template_compiler', 'string-replace', 'uglify'],
+                tasks: ['vue_template_compiler', 'string-replace', 'uglify', 'exec:reloadExtension'],
                 options: {
                     spawn: false
                 }
