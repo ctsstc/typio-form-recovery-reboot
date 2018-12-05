@@ -69,6 +69,8 @@
 						<p>Select an entry to the left.</p>
 						<br>
 						<p class="hint">Psst. Did you know about the <a v-on:click="openKeyboardShortcuts()">keyboard shortcuts</a>?</p>
+						
+						<p class="hint">Typio has saved {{ stats.countTotEntries }} entries in {{ stats.countTotSessions }} sessions with a total size of {{ stats.countTotSize }} megabytes.</p>
 					</div>
 				</div>
 
