@@ -86,7 +86,7 @@ module.exports = function(grunt) {
                 // verbose: false,
                 // sourceMap: false,
                 // compress:{
-                //     pure_funcs: ['console.log']
+                //     pure_funcs: ['console.log', 'console.time', 'console.timeEnd']
                 // }
             },
             content: {
