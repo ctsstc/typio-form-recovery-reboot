@@ -6,7 +6,10 @@ https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhja
 Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open) or email me at typiorecovery@gmail.com.
 
 # Changelog
-
+### Version 2.2.0 (6th Dec, 2018):
+- New: Storage statistics in recovery window
+- New: Added "loading" text in recovery window for large databases (previously displayed "no entries found" which is misleading)
+- Fix: Clarified text for "input found/not found" in recovery window and added tooltip text for explanation.
 
 ### Version 2.1.1 (4th Dec, 2018):
 - Fix: XSS security fix (report #67)
