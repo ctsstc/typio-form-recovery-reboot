@@ -33,6 +33,14 @@
 				</div>
 				<div class="session-data">
 
+					<template v-if="sesslist && sesslist.length < 1">
+						<p>No entries found.</p>
+					</template>
+
+					<template v-if="!sesslist">
+						<p>Loading entries...</p>
+					</template>
+
 					<div v-if="sesslist !== false">
 						<template v-for="sess in sesslist.getArray().reverse()">
 							<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
@@ -52,10 +60,6 @@
 							</ul>
 						</template>
 					</div>
-
-					<template v-if="!sesslist || !sesslist.length">
-						<p>No entries found.</p>
-					</template>
 
 				</div>
 			</div>
