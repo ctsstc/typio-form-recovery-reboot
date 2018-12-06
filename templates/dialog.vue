@@ -66,11 +66,9 @@
 					<div class="center">
 						<span class="icon icon-cloud"></span>
 
-						<p>Select an entry to the left.</p>
-						<br>
-						<p class="hint">Psst. Did you know about the <a v-on:click="openKeyboardShortcuts()">keyboard shortcuts</a>?</p>
-						
-						<p class="hint">Typio has saved {{ stats.countTotEntries }} entries in {{ stats.countTotSessions }} sessions with a total size of {{ stats.countTotSize }} megabytes.</p>
+						<p class="bold">Select an entry to the left.</p>
+						<p>Typio has saved <b>{{ stats.countTotEntries }} entries</b> in <b>{{ stats.countTotSessions }} sessions</b> with<br/>a total size of <b>{{ stats.countTotSize }} megabytes</b>.</p>
+						<p>Psst. Did you know about the <a v-on:click="openKeyboardShortcuts()">keyboard shortcuts</a>?</p>
 					</div>
 				</div>
 

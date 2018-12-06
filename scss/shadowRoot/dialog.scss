@@ -446,13 +446,16 @@
 		color: #c1c8d5;
 	}
 
-	p {
+	.bold {
 		font-weight: bold;
+		margin-bottom: 30px;
+		font-size: 14px;
 	}
 
-	.hint {
+	p {
 		font-size: 13px;
 		font-weight: normal;
+		line-height: 23px;
 	}
 }
 
