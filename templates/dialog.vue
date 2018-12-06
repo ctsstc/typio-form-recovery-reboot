@@ -41,8 +41,8 @@
 									<p v-html="entry.getPrintableValue({truncate: 300})"></p>
 									<div class="meta">
 										<div class="left">
-											<span v-if="entry.hasEditable()" class="status ok">Input found</span>
-											<span v-if="!entry.hasEditable()" class="status bad">Input not found</span>
+											<span v-if="entry.hasEditable()" class="status ok" title="This input entry can be automatically restored to its original input field.">Input field found</span>
+											<span v-if="!entry.hasEditable()" class="status bad" title="The input field the entry was typed in cannot be found on the current page. Either the field does not exist, or it cannot be found in the same place (path has changed). You can manually restore the entry by copying it.">Cannot be auto-restored</span>
 										</div>
 										<div class="right">
 											<a class="delete" v-on:click="deleteEntry($event)" :class="delConfirmEntry === entry ? 'confirm' : ''">{{ delConfirmEntry === entry ? 'Click to confirm' : 'Delete' }}</a>
