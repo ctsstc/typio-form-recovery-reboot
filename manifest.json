@@ -18,8 +18,8 @@
         "storage",
         "contextMenus",
         "unlimitedStorage",
-        "idle",
-        "downloads"
+        "idle"
+        // "downloads"
     ],
 
     "background": {
