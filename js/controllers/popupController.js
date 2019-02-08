@@ -2,7 +2,7 @@
 
 	let hostnamePlaceholder = document.querySelector('.js-hostname'),
 		blacklistToggleBtn = document.querySelector('.head-toggle'),
-		hostname;
+		urlObj;
 
 	document.addEventListener('click', function(e) {
 		e.preventDefault();
@@ -38,7 +38,7 @@
 				});
 			} else {
 				target.classList.add('confirm-click');
-				target.innerHTML = 'Click again to confirm deletion of all data on ' + hostname + '. Deletion cannot be undone.';
+				target.innerHTML = 'Click again to confirm deletion of all data on ' + urlObj.hostname + '. Deletion cannot be undone.';
 			}
 
 		}
@@ -49,13 +49,11 @@
 
 	// Get hostname for current tab
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		let url = new URL(tabs[0].url);
+		urlObj = new URL(tabs[0].url);
 
-		hostname = url.hostname;
+		hostnamePlaceholder.innerHTML = urlObj.hostname;
 
-		hostnamePlaceholder.innerHTML = hostname;
-
-		blacklist.isBlocked(hostname, function(bool) {
+		blacklist.isBlocked(urlObj.href, function(bool) {
 			if(bool) {
 				blacklistToggleBtn.classList.remove('is-enabled');
 			}
@@ -67,13 +65,13 @@
 	// Toggle blacklist button
 	blacklistToggleBtn.addEventListener('mousedown', function(e) {
 		
-		// Remove from blacklist
-		if(blacklistToggleBtn.classList.contains('is-enabled')) {
-			blacklist.block(hostname);
-
 		// Add to blacklist
+		if(blacklistToggleBtn.classList.contains('is-enabled')) {
+			blacklist.blockDomain(urlObj.hostname);
+
+		// Remove from blacklist
 		} else {
-			blacklist.unblock(hostname);
+			blacklist.unblock(urlObj.href);
 
 		}
 

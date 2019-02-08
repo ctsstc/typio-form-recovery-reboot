@@ -3,7 +3,7 @@ var terafm = window.terafm;
 (function(db, options, recoveryDialog, initHandler, Events, editableManager) {
 	'use strict';
 
-	terafm.blacklist.isBlocked(window.location.hostname, function(blocked) {
+	terafm.blacklist.isBlocked(window.location.href, function(blocked) {
 		if(blocked) {
 			terafm.isBlocked = true;
 		

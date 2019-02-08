@@ -6,6 +6,6 @@
 /grunt/.sass-cache
 /.sublime-project.sublime-workspace
 /todo.*
-/js/controllers/content/tmp/*
-/templates/tmp/*
+/js/controllers/**/tmp/*
+/templates/**/tmp/*
 .sublime-project

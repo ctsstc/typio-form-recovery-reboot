@@ -45,6 +45,10 @@ terafm.Entry = class Entry {
 		return this.meta.meta || '';
 	}
 
+	valueContains(string) {
+		return this.getValue({stripTags: this.type === 'contenteditable'}).replace(/\s/g, '').toLowerCase().indexOf( string.replace(/\s/g, '').toLowerCase() );
+	}
+
 	resolveRadio(ed) {
 		if(ed.type === 'radio' && ed.el.checked === false) {
 			let sel = ed.el.getRootNode().querySelector('input[type=radio][name="'+ ed.el.name +'"]:checked');

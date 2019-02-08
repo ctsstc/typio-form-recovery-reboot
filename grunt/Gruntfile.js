@@ -91,7 +91,24 @@ module.exports = function(grunt) {
             },
             content: {
                 files: {
+                    /*'../publish/js/dbManagerController.js' : [
 
+                        // Classes
+                        '../js/classes/StorageBucket.js',
+                        '../js/classes/Editable.js',
+                        '../js/classes/EditableList.js',
+                        '../js/classes/Entry.js',
+                        '../js/classes/EntryList.js',
+                        '../js/classes/Session.js',
+                        '../js/classes/SessionList.js',
+
+                        // Modules
+                        '../js/modules/helpers.js',
+
+                        // Controllers
+                        '../js/controllers/options/tmp/dbManagerController.js',
+
+                    ],*/
                     '../publish/js/options.js' : [
 
                         // Modules
@@ -100,7 +117,7 @@ module.exports = function(grunt) {
                         '../js/modules/options/defaultOptions.js',
 
                         // Controllers
-                        '../js/controllers/optionsController.js',
+                        '../js/controllers/options/tmp/optionsController.js',
                     ],
 
 
@@ -124,6 +141,7 @@ module.exports = function(grunt) {
                         // Controllers
                         '../js/controllers/background/backgroundController.js',
                         '../js/controllers/background/maintenanceController.js',
+                        '../js/controllers/background/dbStatsController.js',
                         '../js/controllers/background/injectController.js',
                         '../js/controllers/background/contextMenuController.js',
                         '../js/controllers/background/splashController.js',
@@ -268,12 +286,15 @@ module.exports = function(grunt) {
                 validateOnly: false,
                 es2015: true
             },
-            dialog: { files : {src:'../templates/dialog.vue'} },
-            keyboardShortcutPopup: { files : {src:'../templates/keyboardShortcutPopup.vue'} },
-            saveIndicator: { files : {src:'../templates/saveIndicator.vue'} },
-            toast: { files : {src:'../templates/toast.vue'} },
-            quickAccess: { files : {src:'../templates/quickAccess.vue'} },
-            quickAccessListItem: { files : {src:'../templates/quickAccessListItem.vue'} },
+            dialog: { files : {src:'../templates/content/dialog.vue'} },
+            keyboardShortcutPopup: { files : {src:'../templates/content/keyboardShortcutPopup.vue'} },
+            saveIndicator: { files : {src:'../templates/content/saveIndicator.vue'} },
+            toast: { files : {src:'../templates/content/toast.vue'} },
+            quickAccess: { files : {src:'../templates/content/quickAccess.vue'} },
+            quickAccessListItem: { files : {src:'../templates/content/quickAccessListItem.vue'} },
+
+            dbMan: { files : {src:'../templates/options/db-man.vue'} },
+            dbManager: { files : {src:'../templates/options/db-manager.vue'} },
         },
 
         'string-replace': {
@@ -283,6 +304,11 @@ module.exports = function(grunt) {
                     cwd: '../js/controllers/content/',
                     src: ['*.js'],
                     dest: '../js/controllers/content/tmp/'
+                },{
+                    expand: true,
+                    cwd: '../js/controllers/options/',
+                    src: ['*.js'],
+                    dest: '../js/controllers/options/tmp/'
                 }],
                 options: {
                     replacements: [
@@ -299,13 +325,18 @@ module.exports = function(grunt) {
      
     function vueStringReplaceFn(match, p1) {
 
+        console.log('LOOK:', p1);
+        p1 = p1.split('/');
+        let dirname = p1[0];
+        let filename = p1[1];
+
         function requireFromString(src, filename) {
           var Module = module.constructor;
           var m = new Module();
           m._compile(src, filename);
           return m.exports;
         }
-        let templatePath = '../templates/tmp/' + p1 +'.js';
+        let templatePath = '../templates/'+ dirname +'/tmp/' + filename +'.js';
         let templateCode = grunt.file.read(templatePath).replace(/^export\s/m, 'module.exports = ');
 
         if(!templateCode) {

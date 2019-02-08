@@ -1,3 +1,4 @@
+
 (function() {
 
 	let node,
@@ -138,7 +139,7 @@ keyCapture();
 
 (function() {
 
-	var saveOptsGrp = document.querySelector('#saving-options-group');
+	var saveOptsGrp = document.querySelector('#save-restore-group');
 
 	saveOptsGrp.addEventListener('change', function(e) {
 
@@ -154,13 +155,12 @@ keyCapture();
 
 	let listContainerNode = document.querySelector('#domainBlacklist'),
 		addForm = document.querySelector('#blacklist-add-form'),
-		errorMsgNode = document.querySelector('.blacklist-module .error'),
 
-		domainList = [];
+		blocks = [];
 
 	// Populate domain list
 	blacklist.getAll(function(list) {
-		domainList = list;
+		blocks = list;
 		let html = '';
 
 		for(id in list) {
@@ -174,29 +174,16 @@ keyCapture();
 	addForm.addEventListener('submit', function(e) {
 		e.preventDefault();
 
-		let domain = new FormData(addForm).get('domain');
+		let url = new FormData(addForm).get('domain');
 
-		let regex = isRegex(domain);
-
-		if(regex === false) {
-			domain = sanitizeHostname(domain);
-		}
-
-		if(!domain) {
-			errorMsgNode.classList.remove('hidden');
-			return false;
-		} else {
-			errorMsgNode.classList.add('hidden');
-		}
-
-		let id = domainList.push(domain) -1,
-			html = genListItem(id, domain, 'new-style');
+		let id = blocks.push(url) -1,
+			html = genListItem(id, url, 'new-style');
 
 		removeAnimationStyling();
 
 		listContainerNode.innerHTML += html;
 		listContainerNode.scrollTop = listContainerNode.scrollHeight;
-		blacklist.block(domain);
+		blacklist.blockDomain(url);
 
 		addForm.querySelector('input').value = '';
 	})
@@ -210,12 +197,12 @@ keyCapture();
 			// Use callback to make sure its actually deleted
 			// before deleting list node. If storage operation
 			// limit exceeds it can fail. Limit is 120 ops per minute.
-			blacklist.unblock(domainList[id], function() {
+			blacklist.unblock(blocks[id], function() {
 				// Do NOT splice it out of the array, it will
 				// shift the indexes and you'll end up deleting
 				// the wrong domains. Delete will leave the index
 				// as undefined but that's fine.
-				delete domainList[id];
+				delete blocks[id];
 
 				li.parentNode.removeChild(li);
 			});
@@ -243,30 +230,6 @@ keyCapture();
 			} catch(e) {}
 		}
 		return false;
-	}
-
-	function sanitizeHostname(domain, isSecondTry) {
-		domain = domain.trim();
-
-		try {
-			domain = new URL(domain);
-
-			if(domain.hostname.indexOf('%20') !== -1) {
-				return false;
-			}
-
-			return domain.hostname.replace('%2A', '*');
-
-		} catch(e) {
-
-			// If first try and no http in string, prepend http and try again
-			if(!isSecondTry && domain.indexOf('http') !== 0) {
-				return sanitizeHostname('http://' + domain, true)
-
-			} else {
-				return false;
-			}
-		}
 	}
 })(terafm.blacklist);
 
@@ -362,9 +325,5 @@ keyCapture();
 			chrome.storage.sync.set(data);
 		}
 	}
-
-
-	var closeBtn = document.getElementById('saveAndClose');
-	closeBtn.onclick = () => window.close();
 
 })();

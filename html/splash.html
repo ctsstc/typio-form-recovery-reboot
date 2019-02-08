@@ -11,26 +11,19 @@
 		<p class="subtitle">Typio Form Recovery</p>
 		<p class="big">Here's whats new</p>
 		<p class="version">
-			v2.0
+			v2.3
 			<span class="bubble">Updated!</span>
 		</p>
 	</div>
 
 	<div class="content">
 
-		<p>Typio 2.0 is here! This update brings lots of requested features and bug fixes, and under the hood the storage method has been changed which will make storage more reliable. Have a look and see what else is new!</p>
+		<p>Typio 2.3 is here!</p>
 
 		<ul>
-			<li><span class="new">New:</span> Regex support for blacklist (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/26/allow-wildcards-in-domain-blacklists">#26</a>, <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/43/whitelist">#43</a>)</li>
-			<li><span class="new">New:</span> Option to reset all fields between restorations (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/20/empty-fields-arent-stored-in-sessions">#20</a>, <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/47/wish-save-prefilled-data">#47</a>)</li>
-			<li><span class="new">New:</span> Option to clone entries upon restoration (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/20/empty-fields-arent-stored-in-sessions">#20</a>, <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/47/wish-save-prefilled-data">#47</a>)</li>
-			<li><span class="new">New:</span> Support for multiple concurrent same-domain tabs (previously did not work properly due to storage method restrictions) <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/21/multiple-same-domain-tabs-open-only-one">(#21)</a></li>
-			<li><span class="new">New:</span> Changed storage method, now much more reliable</li>
-			<li><span class="new">New:</span> UI refresh</li>
-			<li><span class="fix">Fix:</span> Error messages sometimes thrown by save indicator (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/60/uncaught-typeerror-cannot-read-property">#60</a>)</li>
-			<li><span class="fix">Fix:</span> Icon support for sites with strict CSP</li>
-			<li><span class="fix">Fix:</span> Typio now detects subtree changes in contenteditable fields (such as using modifier buttons in rich text fields) <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/34/links-in-rich-text-fields-not-restored">(#34)</a></li>
-			<li><span class="fix">Fix:</span> ...and lots more!</li>
+			<li><span class="new">New:</span> Blacklist now compares against full URL instead of hostname (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/73/blacklist-support-for-urls-path-component">#73</a>). If using regex for blacklisting, you might need to look it over.</li>
+			<li><span class="change">Change:</span> Save Indicator is now disabled by default (can be re-enabled in options).</li>
+			<li>Bug fixes and preparation for future release.</li>
 		</ul>
 
 		<p>If you want the nitty gritty details, head over to the <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">repository page</a> where you can see the full changelog with technical details. If you encounter any bugs or want to leave feedback, please submit a report <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new" target="_blank">in the bug tracker</a> or tweet me at <a href="https://twitter.com/typiorecovery" target="_blank">@TypioRecovery</a>.</p>

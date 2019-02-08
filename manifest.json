@@ -4,7 +4,7 @@
     "name": "Typio Form Recovery",
     "short_name": "Typio",
     "description": "Autosave, everywhere. Recover lost form input with ease!",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
@@ -18,7 +18,8 @@
         "storage",
         "contextMenus",
         "unlimitedStorage",
-        "idle"
+        "idle",
+        "downloads"
     ],
 
     "background": {
