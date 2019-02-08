@@ -49,7 +49,7 @@ terafm.recoveryDialogController = {};
 
 	function makeVue(rootnode, callback) {
 		vue = new Vue({
-			'@import-vue dialog':0,
+			'@import-vue content/dialog':0,
 			el: rootnode,
 			methods: {
 				hide: function() {

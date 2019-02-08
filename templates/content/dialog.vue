@@ -71,7 +71,7 @@
 						<span class="icon icon-cloud"></span>
 
 						<p class="bold">Select an entry to the left.</p>
-						<p>Typio has saved <b>{{ stats.countTotEntries }} entries</b> in <b>{{ stats.countTotSessions }} sessions</b> with<br/>a total size of <b>{{ stats.countTotSize }} megabytes</b>.</p>
+						<p>Typio has saved <b>{{ stats.countTotEntries }} entries</b> in <b>{{ stats.countTotSessions }} sessions</b> with<br/>a total size of <b>{{ stats.countTotSize }} megabytes</b> for this domain.</p>
 						<p>Psst. Did you know about the <a v-on:click="openKeyboardShortcuts()">keyboard shortcuts</a>?</p>
 					</div>
 				</div>

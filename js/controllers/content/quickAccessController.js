@@ -50,7 +50,7 @@ terafm.quickAccessController = {};
 	function makeVue(rootnode, callback) {
 
 		Vue.component('entry-item', {
-			'@import-vue quickAccessListItem':0,
+			'@import-vue content/quickAccessListItem':0,
 			props: ['itemType', 'action', 'isSess', 'itemText', 'itemTooltip', 'itemImg',		'entry', 'editable'],
 			data: function() {
 				return {
@@ -120,7 +120,7 @@ terafm.quickAccessController = {};
 		});
 
 		vue = new Vue({
-			'@import-vue quickAccess':0,
+			'@import-vue content/quickAccess':0,
 			el: rootnode,
 			methods: {
 				showAndPopulate: function(ed, coord) {

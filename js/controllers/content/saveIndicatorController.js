@@ -52,7 +52,7 @@ window.terafm = window.terafm || {};
 
 	function makeVue(rootnode, callback) {
 		vue = new Vue({
-			'@import-vue saveIndicator':0,
+			'@import-vue content/saveIndicator':0,
 			el: rootnode,
 			methods: {
 				show: function() {

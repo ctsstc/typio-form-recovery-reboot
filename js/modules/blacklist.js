@@ -7,18 +7,18 @@ terafm.blacklist = {};
 		getOptionData(callback)
 	}
 
-	blacklist.block = function(domain) {
+	blacklist.blockDomain = function(domain) {
 		getOptionData(function(list) {
-			if(domainInList(list, domain) === false) {
+			if(isBlocked(list, domain) === false) {
 				list.push(domain);
 				saveList(list);
 			}
 		});
 	}
 
-	blacklist.unblock = function(domain, callback) {
+	blacklist.unblock = function(url, callback) {
 		getOptionData(function(list) {
-			let index = domainInList(list, domain);
+			let index = isBlocked(list, url);
 			if(index !== false) {
 				list.splice(index, 1);
 				saveList(list, callback);
@@ -26,39 +26,76 @@ terafm.blacklist = {};
 		});
 	}
 
-	blacklist.isBlocked = function(domain, callback) {
+	blacklist.isBlocked = function(url, callback) {
 		getOptionData(function(list) {
-			callback(domainInList(list, domain) !== false );
+			callback(isBlocked(list, url) !== false );
 		});
 	}
 
-	function domainInList(list, domain) {
+	function isBlocked(list, url) {
+		// Can accept full URL or hostname
+		// If url, can check against everything
+		// If hostname, can check against hostnames and wildcards
 
-		// Check simple first
-		let index = list.indexOf(domain);
-		if(index !== -1) return index;
 
-		// Loop through regex and check
-		for(let pi in list) {
-			let pattern = list[pi];
+		try {
+			// Full URL was passed
+			let urlObj = new URL(url);
 
-			// Regex
-			let regex = isRegex(pattern);
-			if(regex !== false) {
-				if(regex.test(domain)) {
-					return pi;
-				}
+			// Check if hostname is blocked
+			let index = list.indexOf(urlObj.hostname);
+			if(index !== -1) return index;
 
-			// Wildcard
-			} else if(pattern.indexOf('*') !== -1) {
-				try {
-					let regex = new RegExp( pattern.replace('.', '\.?').replace('*', '.*?') )
-					if(regex.test(domain)) {
+
+			// Loop through items and compare individually
+			for(let pi in list) {
+				let pattern = list[pi];
+
+				// Regex
+				let regex = isRegex(pattern);
+				if(regex !== false) {
+					if(regex.test(url)) {
 						return pi;
 					}
-				} catch(e){}
+
+				// Wildcard
+				} else if(pattern.indexOf('*') !== -1) {
+					let wild = wildcardCheck(pattern, urlObj.hostname);
+					if(wild) return pi;
+				}
+			}
+
+		// Domain was passed instead of URL
+		} catch(e) {
+
+			let domain = url;
+
+			console.log(domain);
+
+			let index = list.indexOf(domain);
+			if(index !== -1) return index;
+
+			for(let pi in list) {
+				// Wildcard
+				if(list[pi].indexOf('*') !== -1) {
+					let wild = wildcardCheck(list[pi], domain);
+					if(wild) return pi;
+				}
 			}
 		}
+
+
+		function wildcardCheck(pattern, hostname) {
+			try {
+				let regex = new RegExp( pattern.replace('.', '\.?').replace('*', '.*?') );
+				if(regex.test(hostname)) {
+					console.log('caught by wildcard!', regex, hostname)
+					return true;
+				}
+			} catch(e){}
+		}
+
+		
 		return false;
 	}
 

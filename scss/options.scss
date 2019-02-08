@@ -91,8 +91,7 @@ input[type='color'] {
 }
 
 .opt-title {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 20px;
     color: #555;
 }
 
@@ -100,29 +99,40 @@ input[type='color'] {
 
 .menu-panel {
 	position: fixed;
-	top: 50px;
-	left: 50px;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	padding: 50px;
+	background: #486da7;
+	font-size: 13px;
 
 	* {
 		margin-bottom: 10px;
 		display: block;
 	}
 
+	.title {
+		text-transform: uppercase;
+		letter-spacing: 0.2px;
+		color: #8DA7D0;
+	}
+
 	a {
 		text-decoration: none;
+		color: #FFF;
 
 		&:hover {
-			text-decoration: underline;
+			color: #D6E6FF;
 		}
 	}
 }
 
 .container {
-    width: 780px;
+    width: 840px;
 }
 
 .options-panel {
-    padding: 50px 50px 200px 260px;
+    padding: 50px 50px 400px 300px;
 }
 
 

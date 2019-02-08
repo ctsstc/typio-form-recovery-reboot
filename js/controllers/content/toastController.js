@@ -28,7 +28,7 @@ terafm.toastController = {};
 	function makeVue(rootnode, callback) {
 
 		vue = new Vue({
-			'@import-vue toast':0,
+			'@import-vue content/toast':0,
 			el: rootnode,
 			methods: {
 				showMessage: function(message) {
