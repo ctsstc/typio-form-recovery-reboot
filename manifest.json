@@ -4,7 +4,7 @@
     "name": "Typio Form Recovery",
     "short_name": "Typio",
     "description": "Autosave, everywhere. Recover lost form input with ease!",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
@@ -13,13 +13,11 @@
 
     "permissions": [
         "tabs",
-        "http://*/",
-        "https://*/",
+        "<all_urls>",
         "storage",
         "contextMenus",
         "unlimitedStorage",
         "idle"
-        // "downloads"
     ],
 
     "background": {
@@ -28,8 +26,20 @@
     },
 
     "content_scripts": [
-        {"matches": ["<all_urls>"], "run_at": "document_start", "all_frames": false, "js": ["js/vue.runtime.js", "js/content.js"]},
-        {"matches": ["<all_urls>"], "run_at": "document_end", "all_frames": true, "js": ["js/content.frameInjector.js"]}
+        {
+            "matches": ["http://*/", "https://*/"],
+            "run_at": "document_start",
+            "all_frames": false,
+            "js": ["js/vue.runtime.js", "js/content.js"]
+        },
+       
+        {
+            "matches": ["<all_urls>"],
+            "match_about_blank": true,
+            "run_at": "document_end",
+            "all_frames": true,
+            "js": ["js/content.frameInjector.js"]
+        }
     ],
 
     "web_accessible_resources": [

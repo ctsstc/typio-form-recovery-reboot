@@ -199,8 +199,6 @@ module.exports = function(grunt) {
                         '../js/modules/cache.js',
 
                         '../js/controllers/content.frameInjector/frameInjectorController.js',
-                            '../js/controllers/content.frameInjector/topOnlyController.js',
-                            '../js/controllers/content.frameInjector/childOnlyController.js',
                     ]
                 }
             }

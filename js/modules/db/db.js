@@ -28,7 +28,7 @@ terafm.db = terafm.db || {};
 		let b3 = new terafm.StorageBucket(domainId, b1.copy().context),
 			[f2, f3] = [b2.fields, b3.fields];
 
-		console.time('Merge buckets');
+		// console.time('Merge buckets');
 		for(let eid in f2) {
 			if(!f3.hasOwnProperty(eid)) {
 				f3[eid] = f2[eid];
@@ -40,7 +40,7 @@ terafm.db = terafm.db || {};
 				}
 			}
 		}
-		console.timeEnd('Merge buckets');
+		// console.timeEnd('Merge buckets');
 
 		return b3;
 	}
