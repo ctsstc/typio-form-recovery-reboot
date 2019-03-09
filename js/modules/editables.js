@@ -18,7 +18,9 @@ terafm.editables = {};
 
 	function getEditable(el, onlyTextEditable=false) {
 		// If path, resolve it
-		if(typeof el === 'string') el = terafm.cache(el, () => terafm.resolvePath(el));
+		if(typeof el === 'string') {
+			el = terafm.cache(el, () => terafm.resolvePath(el));
+		}
 
 		// If within contenteditable, the el itself might not be editable, so find its parent.
 		// "input" event usually does this for you, but other events (like keyup or change) doesn't

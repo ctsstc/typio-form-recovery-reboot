@@ -7,10 +7,34 @@ terafm.Events = {};
 	let handlers = {},
 		shadowRootNode;
 
+
+	initHandler.onInit(function() {
+		document.addEventListener('input', (e) => 		Events.trigger(e.type, e) );
+		document.addEventListener('keyup', (e) => 		Events.trigger(e.type, e), true );
+		document.addEventListener('contextmenu', (e) => Events.trigger(e.type, e) );
+		document.addEventListener('mousedown', (e) => 	Events.trigger(e.type, e) );
+		document.addEventListener('dblclick', (e) => 	Events.trigger(e.type, e) );
+		document.addEventListener('click', (e) => 		Events.trigger(e.type, e) );
+		document.addEventListener('focus', (e) =>		Events.trigger(e.type, e), true);
+		document.addEventListener('blur', (e) =>		Events.trigger(e.type, e), true);
+		document.addEventListener('change', (e) => 		Events.trigger(e.type, e), true);
+		document.addEventListener('keydown', (e) => 	Events.trigger(e.type, e), true);
+
+		window.addEventListener('message', function(msg) {
+			if(msg.data.action && msg.data.action === 'terafmEventCatcher') {
+				msg = msg.data.event;
+				let target = terafm.resolvePath(msg.path[0]);
+
+				if(target) {
+					msg.path[0] = target;
+					Events.trigger(msg.type, msg);
+				}
+			}
+		})
+	});
+
+
 	Events.trigger = function(type, event) {
-		// console.log(type, event)
-		// Loop through handlers and call
-		// console.log('triggering', type, event);
 		if(type in handlers) {
 			for(let h =0; h < handlers[type].length; ++h) {
 				handlers[type][h](event);
@@ -31,22 +55,7 @@ terafm.Events = {};
 
 	function attachListener(type, callback) {
 		if(!Array.isArray(handlers[type])) handlers[type] = [];
-		// console.log('adding listener', type, callback)
 		handlers[type].push(callback);
 	}
-
-
-	initHandler.onInit(function() {
-		document.addEventListener('input', (e) => 		Events.trigger(e.type, e) );
-		document.addEventListener('keyup', (e) => 		Events.trigger(e.type, e), true );
-		document.addEventListener('contextmenu', (e) => Events.trigger(e.type, e) );
-		document.addEventListener('mousedown', (e) => 	Events.trigger(e.type, e) );
-		document.addEventListener('dblclick', (e) => 	Events.trigger(e.type, e) );
-		document.addEventListener('click', (e) => 		Events.trigger(e.type, e) );
-		document.addEventListener('focus', (e) =>		Events.trigger(e.type, e), true);
-		document.addEventListener('blur', (e) =>		Events.trigger(e.type, e), true);
-		document.addEventListener('change', (e) => 		Events.trigger(e.type, e), true);
-		document.addEventListener('keydown', (e) => 	Events.trigger(e.type, e), true);
-	})
 
 })(terafm.Events, terafm.ui, terafm.initHandler);

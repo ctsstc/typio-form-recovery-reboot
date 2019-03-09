@@ -76,9 +76,9 @@ terafm.StorageBucket = class Bucket {
 
 	copy() {
 		let res;
-		console.time('Copy bucket');
+		// console.time('Copy bucket');
 		res = JSON.parse(JSON.stringify(this));
-		console.timeEnd('Copy bucket');
+		// console.timeEnd('Copy bucket');
 		return res;
 	}
 

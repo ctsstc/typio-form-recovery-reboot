@@ -3,12 +3,13 @@ var terafm = window.terafm;
 (function(db, options, recoveryDialog, initHandler, Events, editableManager) {
 	'use strict';
 
+
+
 	terafm.blacklist.isBlocked(window.location.href, function(blocked) {
 		if(blocked) {
 			terafm.isBlocked = true;
 		
 		} else {
-			
 			// Load extension options into memory
 			options.loadFromChromeStorage(function() {
 				
@@ -17,7 +18,7 @@ var terafm = window.terafm;
 
 					// Run init handlers
 					initHandler.executeInitHandlers();
-					console.log('Typio is ready!')
+					console.log('Typio is ready!');
 				});
 			});
 		}
