@@ -33,10 +33,9 @@ terafm.blacklist = {};
 	}
 
 	function isBlocked(list, url) {
-		// Can accept full URL or hostname
-		// If url, can check against everything
-		// If hostname, can check against hostnames and wildcards
-
+		
+		let index = list.indexOf(url);
+		if(index !== -1) return index;
 
 		try {
 			// Full URL was passed
@@ -89,7 +88,6 @@ terafm.blacklist = {};
 			try {
 				let regex = new RegExp( pattern.replace('.', '\.?').replace('*', '.*?') );
 				if(regex.test(hostname)) {
-					console.log('caught by wildcard!', regex, hostname)
 					return true;
 				}
 			} catch(e){}

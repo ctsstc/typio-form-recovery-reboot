@@ -174,7 +174,20 @@ keyCapture();
 	addForm.addEventListener('submit', function(e) {
 		e.preventDefault();
 
-		let url = new FormData(addForm).get('domain');
+		let url = new FormData(addForm).get('domain').trim();
+
+		if(url.length < 3) return false;
+
+		// contains http/s and not regex
+		if(url.match(/^https?:\/\//) !== null && (url.charAt(0) === '/' && url.charAt(url.length-1) === '/') === false) {
+			try {
+				url = new URL(url).hostname;
+			} catch(e) {
+				return false;
+			}
+		} else {
+			url = url.toLowerCase();
+		}
 
 		let id = blocks.push(url) -1,
 			html = genListItem(id, url, 'new-style');
