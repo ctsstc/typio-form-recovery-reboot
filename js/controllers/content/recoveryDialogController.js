@@ -2,7 +2,7 @@ window.terafm = window.terafm || {};
 terafm.recoveryDialogController = {};
 
 (function(recoveryDialogController, recoveryDialog, db, help, editableManager, options, keyboardShortcuts, initHandler) {
-	'use strict';
+	//'use strict';
 
 	let vue;
 
