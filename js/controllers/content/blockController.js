@@ -18,7 +18,7 @@ terafm.blockController = {};
 			terafm.blacklist.unblock(location.hostname, function() {
 				location.reload();
 			})
-		}
+		};
 	}
 
 })(terafm.blockController)

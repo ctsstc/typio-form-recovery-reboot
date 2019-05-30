@@ -65,7 +65,6 @@ terafm.keyboardShortcutController = {};
 	function makeVue(rootnode, callback) {
 		vue = new Vue({
 			'@import-vue keyboardShortcutPopup':0,
-
 			el: rootnode,
 			data: function() {
 				return {
