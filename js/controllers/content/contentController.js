@@ -1,9 +1,7 @@
 var terafm = window.terafm;
 
-(function(db, options, recoveryDialog, initHandler, Events, editableManager) {
+(function(db, options, initHandler) {
 	'use strict';
-
-
 
 	terafm.blacklist.isBlocked(window.location.href, function(blocked) {
 		if(blocked) {
@@ -39,4 +37,4 @@ var terafm = window.terafm;
 
 	
 
-})(terafm.db, terafm.options, terafm.recoveryDialog, terafm.initHandler, terafm.Events, terafm.editableManager);
+})(terafm.db, terafm.options, terafm.initHandler);

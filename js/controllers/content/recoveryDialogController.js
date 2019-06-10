@@ -247,7 +247,6 @@ terafm.recoveryDialogController = {};
 			}
 		});
 
-
 		keyboardShortcuts.on(['Escape'], function() {
 			vue.hide();
 		});
