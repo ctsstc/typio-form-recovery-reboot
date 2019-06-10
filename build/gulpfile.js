@@ -12,7 +12,9 @@ exports.copy = copy_task
 exports.js = series(js_task, reload_extension_task)
 exports.reload = reload_extension_task
 
-exports.build = parallel(js_task, copy_task, sass_task, htmlmin_task, reload_extension_task)
+
+
+exports.build = parallel(js_task, copy_task, sass_task, htmlmin_task)
 exports.default = watch_task
 exports.watch = watch_task
 

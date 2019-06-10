@@ -19,7 +19,7 @@ const filedata = {
         '../js/modules/options/defaultOptions.js',
 
         // Controllers
-        '../js/controllers/optionsController.js',
+        '../js/controllers/options/optionsController.js',
     ],
 
 
@@ -100,8 +100,6 @@ const filedata = {
         '../js/modules/cache.js',
 
         '../js/controllers/content.frameInjector/frameInjectorController.js',
-        '../js/controllers/content.frameInjector/topOnlyController.js',
-        '../js/controllers/content.frameInjector/childOnlyController.js',
     ]
 };
 
@@ -140,7 +138,7 @@ function js_task(cb) {
 
 async function _vue_import(file, cb) {
     if (file.isBuffer()) {
-        let text = await asyncReplace(String(file.contents), /'@import-vue (\w+)':0,/g, async function(match, name) {
+        let text = await asyncReplace(String(file.contents), /'@import-vue ([\w\/]+)':0,/g, async function(match, name) {
             return await _get_template(name);
         });
 
@@ -155,6 +153,7 @@ async function _vue_import(file, cb) {
 async function _get_template(name) {
     return new Promise(function(resolve) {
         const path = '../templates/' + name + '.vue';
+        console.log(path)
         gulp.src(path)
             .pipe(through2.obj(function(file) {
                 let compiled = vueCompiler.compile(String(file.contents), {stripWith: true});
