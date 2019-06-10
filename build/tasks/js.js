@@ -7,6 +7,7 @@ const vueCompiler = require('vue-template-compiler');
 const vueEsCompiler = require('vue-template-es2015-compiler');
 const asyncReplace = require('string-replace-async');
 const plumber = require('gulp-plumber');
+const stripDebug = require('gulp-strip-debug');
 
 
 const filedata = {
@@ -107,7 +108,7 @@ const filedata = {
 function js_task(cb) {
     let promises = [];
 
-    for(targetName in filedata) {
+    for(const targetName in filedata) {
         promises.push(new Promise((resolve) => {
             gulp.src(filedata[targetName])
 
@@ -122,6 +123,8 @@ function js_task(cb) {
                         resolve();
                     })
                 }))
+
+                .pipe(gutil.env.production ? stripDebug() : gutil.noop())
 
                 .pipe(gutil.env.production ? terser() : gutil.noop())
 
@@ -138,8 +141,7 @@ function js_task(cb) {
 async function _vue_import(file, cb) {
     if (file.isBuffer()) {
         let text = await asyncReplace(String(file.contents), /'@import-vue (\w+)':0,/g, async function(match, name) {
-            let text = await _get_template(name);
-            return text;
+            return await _get_template(name);
         });
 
         file.contents = Buffer.from(text);
@@ -164,7 +166,7 @@ async function _get_template(name) {
                 // out after to make it work. Not very pretty.
 
                 text += vueEsCompiler('function render() {' + compiled.render + '}', {stripWith: true})
-                    .replace(/^function render\(\)/, 'render()')
+                    .replace(/^function render\(\)/, 'render()');
                 text += ',';
 
                 if(compiled.staticRenderFns.length) {
@@ -188,4 +190,4 @@ async function _get_template(name) {
     });
 }
 
-exports.js_task = js_task
+exports.js_task = js_task;

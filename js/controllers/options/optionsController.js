@@ -1,4 +1,3 @@
-
 (function() {
 
 	let node,
@@ -139,7 +138,7 @@ keyCapture();
 
 (function() {
 
-	var saveOptsGrp = document.querySelector('#save-restore-group');
+	var saveOptsGrp = document.querySelector('#saving-options-group');
 
 	saveOptsGrp.addEventListener('change', function(e) {
 
@@ -155,12 +154,13 @@ keyCapture();
 
 	let listContainerNode = document.querySelector('#domainBlacklist'),
 		addForm = document.querySelector('#blacklist-add-form'),
+		errorMsgNode = document.querySelector('.blacklist-module .error'),
 
-		blocks = [];
+		domainList = [];
 
 	// Populate domain list
 	blacklist.getAll(function(list) {
-		blocks = list;
+		domainList = list;
 		let html = '';
 
 		for(id in list) {
@@ -174,29 +174,29 @@ keyCapture();
 	addForm.addEventListener('submit', function(e) {
 		e.preventDefault();
 
-		let url = new FormData(addForm).get('domain').trim();
+		let domain = new FormData(addForm).get('domain');
 
-		if(url.length < 3) return false;
+		let regex = isRegex(domain);
 
-		// contains http/s and not regex
-		if(url.match(/^https?:\/\//) !== null && (url.charAt(0) === '/' && url.charAt(url.length-1) === '/') === false) {
-			try {
-				url = new URL(url).hostname;
-			} catch(e) {
-				return false;
-			}
-		} else {
-			url = url.toLowerCase();
+		if(regex === false) {
+			domain = sanitizeHostname(domain);
 		}
 
-		let id = blocks.push(url) -1,
-			html = genListItem(id, url, 'new-style');
+		if(!domain) {
+			errorMsgNode.classList.remove('hidden');
+			return false;
+		} else {
+			errorMsgNode.classList.add('hidden');
+		}
+
+		let id = domainList.push(domain) -1,
+			html = genListItem(id, domain, 'new-style');
 
 		removeAnimationStyling();
 
 		listContainerNode.innerHTML += html;
 		listContainerNode.scrollTop = listContainerNode.scrollHeight;
-		blacklist.blockDomain(url);
+		blacklist.block(domain);
 
 		addForm.querySelector('input').value = '';
 	})
@@ -210,12 +210,12 @@ keyCapture();
 			// Use callback to make sure its actually deleted
 			// before deleting list node. If storage operation
 			// limit exceeds it can fail. Limit is 120 ops per minute.
-			blacklist.unblock(blocks[id], function() {
+			blacklist.unblock(domainList[id], function() {
 				// Do NOT splice it out of the array, it will
 				// shift the indexes and you'll end up deleting
 				// the wrong domains. Delete will leave the index
 				// as undefined but that's fine.
-				delete blocks[id];
+				delete domainList[id];
 
 				li.parentNode.removeChild(li);
 			});
@@ -243,6 +243,30 @@ keyCapture();
 			} catch(e) {}
 		}
 		return false;
+	}
+
+	function sanitizeHostname(domain, isSecondTry) {
+		domain = domain.trim();
+
+		try {
+			domain = new URL(domain);
+
+			if(domain.hostname.indexOf('%20') !== -1) {
+				return false;
+			}
+
+			return domain.hostname.replace('%2A', '*');
+
+		} catch(e) {
+
+			// If first try and no http in string, prepend http and try again
+			if(!isSecondTry && domain.indexOf('http') !== 0) {
+				return sanitizeHostname('http://' + domain, true)
+
+			} else {
+				return false;
+			}
+		}
 	}
 })(terafm.blacklist);
 
@@ -338,5 +362,9 @@ keyCapture();
 			chrome.storage.sync.set(data);
 		}
 	}
+
+
+	var closeBtn = document.getElementById('saveAndClose');
+	closeBtn.onclick = () => window.close();
 
 })();
