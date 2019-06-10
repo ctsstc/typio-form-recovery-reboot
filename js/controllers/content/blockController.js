@@ -18,7 +18,7 @@ terafm.blockController = {};
 			terafm.blacklist.unblock(location.href, function() {
 				location.reload();
 			})
-		}
+		};
 	}
 
 })(terafm.blockController)
