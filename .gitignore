@@ -1,11 +1,5 @@
-/.sass-cache/*
 *.DS_Store
 /css/*
 /publish/*
-/grunt/node_modules/*
-/grunt/.sass-cache
-/.sublime-project.sublime-workspace
+/build/node_modules/*
 /todo.*
-/js/controllers/**/tmp/*
-/templates/**/tmp/*
-.sublime-project
