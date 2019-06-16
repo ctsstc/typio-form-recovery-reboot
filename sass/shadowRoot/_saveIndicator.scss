@@ -1,0 +1,83 @@
+
+#save-indicator {
+	background: #3CB720; // Default color
+
+	// Shared between all styles
+	position: fixed;
+	z-index: 9999999999999;
+}
+
+#save-indicator.topline {
+	top: -3px;
+	left: 0;
+	right: 0;
+	height: 3px;
+	text-align: center;
+	transition-duration: .2s;
+
+	&.visible {
+		transform: translateY(100%);
+	}
+
+	.animator {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		background: rgba(255,255,255,.6);
+		transform: scaleX(0);
+		opacity: 1;
+
+		animation-name: si-topline;
+		animation-duration: 1s;
+		animation-timing-function: ease;
+		animation-delay: .1s;
+	}
+
+	@keyframes si-topline {
+		from {
+		}
+		to {
+			transform: scaleX(1);
+			opacity: 0;
+		}
+	}
+}
+
+
+
+
+
+#save-indicator.cornertriag {
+	$size: 45px;
+    top: -$size;
+    right: -$size;
+	background: transparent !important;
+	transform: rotate(45deg);
+	transform-origin: center center;
+	transition-duration: .2s;
+
+	&.visible {
+		transform: rotate(45deg) translateX(0px) translateY(33px);
+
+		.animator {
+			animation-name: si-cornertriag;
+			animation-duration: .5s;
+		}
+	}
+
+	.animator {
+		height: $size;
+		width: $size;
+		background: currentColor;
+	}
+	@keyframes si-cornertriag {
+		25% {
+			transform: scale(1.3);
+		}
+		66% {
+			transform: scale(0.9);
+		}
+	}
+}
