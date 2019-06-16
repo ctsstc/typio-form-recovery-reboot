@@ -33,7 +33,7 @@ terafm.blacklist = {};
 	}
 
 	function isBlocked(list, url) {
-		
+
 		let index = list.indexOf(url);
 		if(index !== -1) return index;
 
@@ -57,14 +57,14 @@ terafm.blacklist = {};
 						return pi;
 					}
 
-				// Wildcard
+					// Wildcard
 				} else if(pattern.indexOf('*') !== -1) {
 					let wild = wildcardCheck(pattern, urlObj.hostname);
 					if(wild) return pi;
 				}
 			}
 
-		// Domain was passed instead of URL
+			// Domain was passed instead of URL
 		} catch(e) {
 
 			let domain = url;
@@ -93,7 +93,7 @@ terafm.blacklist = {};
 			} catch(e){}
 		}
 
-		
+
 		return false;
 	}
 
@@ -131,12 +131,12 @@ terafm.blacklist = {};
 		if(!blob) {
 			return [];
 
-		// If string, convert to array
+			// If string, convert to array
 		} else if(typeof blob === 'string') {
 			blob = (blob + "").split(/[\r|\n]+/g).filter(word => word.trim().length > 0);
 			return blob;
 
-		// Already array
+			// Already array
 		} else {
 			return blob;
 		}
