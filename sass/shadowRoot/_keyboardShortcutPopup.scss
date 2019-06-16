@@ -1,0 +1,81 @@
+
+#keyboardShortcutPopup {
+
+	.modal {
+		background: #FFF;
+		color: #333;
+		font-family: sans-serif;
+
+		.modal-header {
+			padding: 30px;
+			background: #486da7;
+			display: flex;
+
+			.title {
+				margin: 0;
+				flex: 1;
+				font-size: 20px;
+				color: #FFF;
+			}
+
+			.close {
+				font-size: 20px;
+				line-height: 0;
+				padding: 0;
+				border: none;
+				background: transparent;
+				cursor: pointer;
+				color: #FFF;
+				outline: none;
+
+				&:hover, &:active {
+					color: #D3EAFA;
+				}
+			}
+		}
+		.modal-content {
+			padding: 30px;
+		}
+	}
+}
+
+.error {
+	background: #FFD9D2;
+	padding: 10px;
+	text-align: center;
+}
+
+.group-title {
+	font-weight: bold;
+	margin-bottom: 10px;
+	// font-size: 13px;
+	text-align: center;
+	display: none;
+}
+.combo-group {
+	margin-bottom: 30px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	p {
+		margin: 0;
+	}
+	
+	.combo {
+		display: flex;
+		margin-bottom: 10px;
+		&:last-child {
+			margin-bottom: 0;
+		}
+		.description {
+			padding-right: 20px;
+			text-align: right;
+			width: 270px;
+		}
+		.keys {
+			width: 270px;
+		}
+	}
+}
