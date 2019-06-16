@@ -16,7 +16,7 @@ exports.reload = reload_extension_task
 
 exports.build = parallel(js_task, copy_task, sass_task, htmlmin_task)
 exports.default = watch_task
-exports.watch = watch_task
+exports.watch = series(exports.build, watch_task)
 
 function watch_task() {
     console.log("I'm watching you. Do something awesome.")
