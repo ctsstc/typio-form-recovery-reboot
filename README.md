@@ -6,6 +6,25 @@ https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhja
 Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open) or email me at typiorecovery@gmail.com.
 
 # Changelog
+### Version 2.3.4 (16th June, 2019):
+- Fix: Remove forgotten console.debug
+
+### Version 2.3.3 (29th May, 2019):
+- Fix: Scrollbar bug in Recovery Dialog.
+
+### Version 2.3.2 (9th March, 2019):
+- Fix: Performance improvements for frame injection.
+- Fix: Bug fixes for blacklist.
+
+### Version 2.3.1 (8th Feb, 2019):
+- New: Permissions description page.
+- Change: In the last update I accidentally included the "Downloads" permission which will be used in a future feature (database manager) that is being developed. The Downloads permission was not being used and was understandably causing confusion, so I removed it. (https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/75/extension-suddenly-asking-for-mange)
+
+### Version 2.3.0 (8th Feb, 2019):
+- New: Changed blacklist to match against full URL path instead of just hostname (useful with regex)
+- Change: Disabled Save Indicator by default (can be re-enabled in options)
+- Preparation for future release (DB manager).
+
 ### Version 2.2.0 (6th Dec, 2018):
 - New: Storage statistics in recovery window
 - New: Added "loading" text in recovery window for large databases (previously displayed "no entries found" which is misleading)
