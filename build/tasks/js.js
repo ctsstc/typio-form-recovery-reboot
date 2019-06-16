@@ -22,6 +22,23 @@ const filedata = {
         '../js/controllers/options/optionsController.js',
     ],
 
+    'db-manager.js' : [
+        // Classes
+        '../js/classes/StorageBucket.js',
+        '../js/classes/Editable.js',
+        '../js/classes/EditableList.js',
+        '../js/classes/Entry.js',
+        '../js/classes/EntryList.js',
+        '../js/classes/Session.js',
+        '../js/classes/SessionList.js',
+
+        // Modules
+        '../js/modules/helpers.js',
+
+        // Controllers
+        '../js/controllers/options/dbManagerController.js',
+    ],
+
 
     'popup.js' : [
 
@@ -138,7 +155,7 @@ function js_task(cb) {
 
 async function _vue_import(file, cb) {
     if (file.isBuffer()) {
-        let text = await asyncReplace(String(file.contents), /'@import-vue ([\w\/]+)':0,/g, async function(match, name) {
+        let text = await asyncReplace(String(file.contents), /'@import-vue ([\w\-\/]+)':0,/g, async function(match, name) {
             return await _get_template(name);
         });
 

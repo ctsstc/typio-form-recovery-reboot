@@ -20,6 +20,10 @@
         "idle"
     ],
 
+    "optional_permissions": [
+        "downloads"
+    ],
+
     "background": {
         "scripts": ["js/background.js"],
         "persistent": true

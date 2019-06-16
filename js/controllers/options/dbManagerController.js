@@ -1,17 +1,29 @@
-(function() {
+
+;(function() {
 
 	let vue = new Vue({
 		'@import-vue options/db-manager':0,
 		el: document.getElementById('root'),
 		methods: {
 			downloadDB() {
-				// console.log('download!', this.db);
-				// var blob = new Blob([JSON.stringify(this.db)], {type: "application/json"});
-				// var url = URL.createObjectURL(blob);
-				// chrome.downloads.download({
-				// 	url: url,  // The object URL can be used as download URL
-				// 	filename: 'typio-export.json'
-				// });
+
+				chrome.permissions.request({
+					permissions: ['downloads'],
+					//origins: ['http://www.google.com/']
+				}, function(granted) {
+					// The callback argument will be true if the user granted the permissions.
+					if (granted) {
+						console.log('download!', this.db);
+						const blob = new Blob([JSON.stringify(this.db)], {type: "application/json"});
+						const url = URL.createObjectURL(blob);
+						chrome.downloads.download({
+							url: url,  // The object URL can be used as download URL
+							filename: 'typio-export.json'
+						});
+					} else {
+						console.log('noo');
+					}
+				});
 			},
 			applyEntryFilter() {
 				// for(let bucket of this.buckets) {
@@ -43,7 +55,7 @@
 				totStats: {},
 				domainStats: [],
 				buckets: [],
-				entryFilter: 'a',
+				entryFilter: '',
 				entryList: null,
 				maxResults: 50
 			}
@@ -51,6 +63,8 @@
 		mounted: function() {
 			chrome.storage.local.get('dbTotStats', res => this.totStats = res.dbTotStats) || {};
 			chrome.storage.local.get('dbDomainStats', res => this.domainStats = res.dbDomainStats || []);
+
+			console.log(this.domainStats);
 
 			chrome.storage.local.get(null, storage => {
 				let doms = Object.keys(storage);

@@ -2,6 +2,7 @@
 	<div>
 		Hello! <br>
 		{{ totStats }}
+		<button @click="downloadDB">Download</button>
 	</div>
 	<div class="content">
 		
