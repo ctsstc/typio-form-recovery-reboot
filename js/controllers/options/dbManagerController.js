@@ -29,7 +29,7 @@
 				// for(let bucket of this.buckets) {
 
 				// }
-				// console.log(this.buckets[0]);
+ 				// console.log(this.buckets[0]);
 
 				let max = this.maxResults;
 
@@ -63,7 +63,7 @@
 		mounted: function() {
 			chrome.storage.local.get('dbTotStats', res => this.totStats = res.dbTotStats) || {};
 			chrome.storage.local.get('dbDomainStats', res => this.domainStats = res.dbDomainStats || []);
-
+1
 			console.log(this.domainStats);
 
 			chrome.storage.local.get(null, storage => {
