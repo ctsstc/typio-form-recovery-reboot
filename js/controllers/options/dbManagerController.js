@@ -26,27 +26,27 @@
 				});
 			},
 			applyEntryFilter() {
-				// for(let bucket of this.buckets) {
+				if(this.entryFilter) {
+					let max = this.maxResults;
 
-				// }
- 				// console.log(this.buckets[0]);
+					let res = [];
+					for(let buck of this.buckets) {
+						//if(max < 1) break;
 
-				let max = this.maxResults;
+						// Todo: Figure out why search does not return results correctly (max 1 result per domain?)
+						let list = buck.getEntries(null, null, entry => {
+							return entry.valueContains(this.entryFilter) !== -1;
+						});
+						list.domain = buck.domainId;
+						//max -= list.length;
+						res.push(list);
+					}
+					console.log(res);
 
-				let res = [];
-				for(let buck of this.buckets) {
-					if(max < 1) break;
-					console.log('max:', max);
-					let list = buck.getEntries(max, null, entry => {
-						return entry.valueContains(this.entryFilter) !== -1;
-					});
-					list.domain = buck.domainId;
-					max -= list.length;
-					res.push(list);
+					this.entryList = res;
+				} else {
+					this.entryList = null;
 				}
-				console.log(res);
-
-				this.entryList = res;
 
 			}
 		},
@@ -68,7 +68,6 @@
 
 			chrome.storage.local.get(null, storage => {
 				let doms = Object.keys(storage);
-				console.log(storage);
 				for(let dom of doms) {
 					if(dom.indexOf('###') === 0) {
 						this.buckets.push(new terafm.StorageBucket(dom, {[dom]: storage[dom]}));
@@ -79,10 +78,6 @@
 					}
 				}
 			});
-
-			setTimeout(() => {
-				this.applyEntryFilter();
-			}, 500);
 		}
 	});
 })();

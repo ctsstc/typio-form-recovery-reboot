@@ -1,11 +1,11 @@
 <div>
 	<div>
-		Hello! <br>
 		{{ totStats }}
 		<button @click="downloadDB">Download</button>
 	</div>
-	<div class="content">
-		
+	<div>
+
+		<!--
 		<div class="col">
 			<p>list of domains</p>
 			
@@ -17,9 +17,11 @@
 				</li>
 			</ul>
 		</div>
+		-->
 
-		<div class="col">
-			<p>list of entries</p>
+		<div class="content">
+			<h3>Global search</h3>
+			<p>Search across all domains you have visited.</p>
 			<p><input v-model="entryFilter" v-on:keyup="applyEntryFilter" type="text" placeholder="Search"></p>
 			<ul v-if="entryList">
 				<template v-for="list of entryList">
@@ -29,7 +31,9 @@
 					</template>
 				</template>
 			</ul>
+			<p v-if="entryFilter.length && !entryList">No entries matched your search. :(</p>
+			<p v-if="!entryFilter.length">Type something to search</p>
 		</div>
-		
+
 	</div>
 </div>

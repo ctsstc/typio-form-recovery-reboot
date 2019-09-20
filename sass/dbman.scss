@@ -1,16 +1,17 @@
 
 body {
-
+	background: #f0f0f1;
 }
 
 .content {
-	display: flex;
+	background: #FFF;
+	padding: 20px;
+	max-width: 1000px;
+	margin: 0 auto;
+	border: 1px solid #e2e2e2;
+	border-radius: 8px;
 }
 
-.col {
-	padding: 30px;
-	flex: 1;
-}
 .domain-list {
 	padding: 20px;
 	border: 1px solid #DDD;
