@@ -95,8 +95,9 @@ terafm.StorageBucket = class Bucket {
 
 		allsess.each(sess => {
 			sess.each(entry => {
+				//debugger;
 				if(excludeEid && entry.editableId === excludeEid) return null;
-				if(typeof filterFn === 'function' && filterFn(entry) == false) return false;
+				if(typeof filterFn === 'function' && filterFn.call(null, entry) == false) return false;
 				if(Number.isInteger(max) && max > 0) max--; else if(Number.isInteger(max)) return false;
 				entrylist.set(entry);
 			})

@@ -31,21 +31,24 @@
 
 					let res = [];
 					for(let buck of this.buckets) {
-						//if(max < 1) break;
+						if(max < 1) break;
 
 						// Todo: Figure out why search does not return results correctly (max 1 result per domain?)
 						let list = buck.getEntries(null, null, entry => {
 							return entry.valueContains(this.entryFilter) !== -1;
 						});
 						list.domain = buck.domainId;
-						//max -= list.length;
+						console.log(list.length);
+						max -= list.length;
 						res.push(list);
 					}
 					console.log(res);
 
 					this.entryList = res;
 				} else {
-					this.entryList = null;
+					this.entryList = [buck.getEntries(null, null, entry => {
+						return entry.valueContains(this.entryFilter) !== -1;
+					})];
 				}
 
 			}
@@ -57,7 +60,7 @@
 				buckets: [],
 				entryFilter: '',
 				entryList: null,
-				maxResults: 50
+				maxResults: 10
 			}
 		},
 		mounted: function() {
