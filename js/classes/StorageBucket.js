@@ -31,7 +31,7 @@ terafm.StorageBucket = class Bucket {
 			if(Object.keys(this.fields[eid].sess).length === 0) {
 				delete this.fields[eid];
 			}
-			// console.log('found to delete!')
+			console.log('found to delete!')
 		}
 	}
 
