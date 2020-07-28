@@ -34,6 +34,10 @@
 					<p class="description">Select item</p>
 					<p class="keys"><span class="key">Space</span></p>
 				</div>
+				<div class="combo">
+					<p class="description">Delete item</p>
+					<p class="keys"><span class="key">Shift</span> <span class="key">Delete</span></p>
+				</div>
 			</div>
 
 

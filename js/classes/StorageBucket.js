@@ -31,7 +31,7 @@ terafm.StorageBucket = class Bucket {
 			if(Object.keys(this.fields[eid].sess).length === 0) {
 				delete this.fields[eid];
 			}
-			console.log('found to delete!')
+			// console.log('found to delete!')
 		}
 	}
 
@@ -71,7 +71,7 @@ terafm.StorageBucket = class Bucket {
 		}
 		
 		// Append entry to editable in bucket
-		this.fields[entry.editableId].sess[entry.sessionId] = { value: entry.value };
+		this.fields[entry.editableId].sess[entry.sessionId] = { value: entry.value, origin: window.location.href };
 	}
 
 	copy() {
@@ -122,6 +122,7 @@ terafm.StorageBucket = class Bucket {
 						editableId: fid,
 						value: this.fields[fid].sess[sid].value,
 						meta: this.fields[fid].meta,
+						originURL: this.fields[fid].sess[sid].origin,
 					}));
 				}
 			}
@@ -153,7 +154,8 @@ terafm.StorageBucket = class Bucket {
 						sessionId: sid,
 						editableId: eid,
 						value: this.fields[eid].sess[sid].value,
-						meta: this.fields[eid].meta
+						meta: this.fields[eid].meta,
+						originURL: this.fields[eid].sess[sid].origin,
 					})
 				);
 			}
@@ -168,8 +170,9 @@ terafm.StorageBucket = class Bucket {
 				sessionId: sid,
 				editableId: eid,
 				value: this.fields[eid].sess[sid].value,
-				meta: this.fields[eid].meta
-			});;
+				meta: this.fields[eid].meta,
+				originURL: this.fields[eid].sess[sid].origin,
+			});
 		}
 	}
 }

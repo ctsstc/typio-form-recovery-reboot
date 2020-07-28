@@ -99,8 +99,6 @@ terafm.Entry = class Entry {
 			str = terafm.help.trim(str);
 		}
 
-		console.log(str);
-
 		return str;
 	}
 

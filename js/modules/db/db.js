@@ -132,6 +132,15 @@ terafm.db = terafm.db || {};
 			pushBucket(mergeBuck).then(fetchSnapshot).then(callback);
 		});
 	}
+	db.delMultiple = (toDelete, callback) => {
+		fetchAndMerge().then(mergeBuck => {
+			for(const [sid, eid] of toDelete) {
+				buckets.inUse.del(sid, eid);
+				mergeBuck.del(sid, eid);
+			}
+			pushBucket(mergeBuck).then(fetchSnapshot).then(callback);
+		});
+	}
 	db.deleteAllDataForDomain = () => {
 		buckets.inUse.empty();
 		buckets.snapshot.empty();

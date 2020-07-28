@@ -271,6 +271,20 @@ terafm.quickAccessController = {};
 				vue.currSel.commit();
 			}
 		});
+
+		keyboardShortcuts.on(['shift', 'Delete'], () => {
+			if(vue.isVisible && vue.currSel) {
+
+				if(vue.currSel.isSess) {
+					vue.currSel.entry.session.deleteAll();
+				} else {
+					vue.currSel.entry.delete();
+				}
+
+				const liEl = vue.currSel.$el;
+				liEl.outerHTML = '';
+			}
+		})
 	}
 
 
