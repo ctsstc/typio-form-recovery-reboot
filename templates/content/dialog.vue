@@ -43,7 +43,13 @@
 
 					<div v-if="sesslist !== false">
 						<template v-for="sess in sesslist.getArray().reverse()">
-							<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }} <a v-if="sess.getFirstEntry().originURL" :href="sess.getFirstEntry().originURL">#</a></p>
+							<p v-if="sess.length" class="date-stamp">
+								{{ sess.prettyDate() }}
+								<template v-if="sess.getFirstEntry().originURL">
+									&nbsp;&middot;&nbsp;
+									<a :href="sess.getFirstEntry().originURL" :title="sess.getFirstEntry().originURL">view page</a>
+								</template>
+							</p>
 							<ul v-if="sess.length" class="card-1">
 								<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">
 									<p v-html="entry.getPrintableValue({truncate: 300})"></p>
