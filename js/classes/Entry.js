@@ -46,7 +46,12 @@ terafm.Entry = class Entry {
 	}
 
 	valueContains(string) {
-		return this.getValue({stripTags: this.type === 'contenteditable'}).replace(/\s/g, '').toLowerCase().indexOf( string.replace(/\s/g, '').toLowerCase() );
+		return this.getValue({ stripTags: this.type === 'contenteditable' })
+			.replace(/\s/g, '')
+			.toLowerCase()
+			.indexOf(
+				string.replace(/\s/g, '').toLowerCase()
+			);
 	}
 
 	resolveRadio(ed) {

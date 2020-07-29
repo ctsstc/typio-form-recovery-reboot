@@ -23,6 +23,14 @@ terafm.Session = class Session {
 		this.entries[entry.editableId] = entry;
 	}
 
+	deleteAll(callback) {
+		const toDelete = [];
+		for(let eid in this.entries) {
+			toDelete.push([this.id, eid]);
+		}
+		terafm.db.delMultiple(toDelete, callback);
+	}
+
 	each(fn) {
 		for(let eid in this.entries) {
 			let tmp = fn(this.entries[eid], this.id, eid);
@@ -39,6 +47,12 @@ terafm.Session = class Session {
 			if(fn(this.entries[eid]) !== true) {
 				delete this.entries[eid];
 			}
+		}
+	}
+
+	getFirstEntry() {
+		for(const eid in this.entries) {
+			return this.entries[eid];
 		}
 	}
 

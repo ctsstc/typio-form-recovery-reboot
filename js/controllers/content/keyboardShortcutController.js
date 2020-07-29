@@ -20,11 +20,32 @@ terafm.keyboardShortcutController = {};
 
 		if(options.get('keybindEnabled')) {
 
-			var keybindRestorePreviousSession = options.get('keybindRestorePreviousSession');
+			const keybindRestorePreviousSession = options.get('keybindRestorePreviousSession');
 			if(keybindRestorePreviousSession.length) keyboardShortcuts.on(keybindRestorePreviousSession, function() {
-				var sess = db.getLatestSession();
+
+				let sess;
+
+				// First try and get prev sess for currently focused editable
+				const currFocusEl = terafm.focusedEditable;
+				if(currFocusEl) {
+					const sessList = terafm.db.getSessionsContainingEditable(currFocusEl.id, 10);
+					sess = sessList.getArray().pop();
+				}
+
+				// Fall back to global prev sess
+				if(!sess) {
+					sess = db.getLatestSession();
+				}
 
 				if(sess.length) {
+					// Some editors have issues with programmatic manipulation when the editor has focus
+					// Focus cannot always be restored (in iframes or shadow doms), but this is probably not an issue.
+					const focusEl = document.activeElement;
+					document.activeElement.blur();
+					setTimeout(() => {
+						focusEl.focus();
+					}, 200);
+
 					terafm.defaults.restore();
 					sess.restore({flash: true});
 					terafm.toastController.create('Restoring previous session')

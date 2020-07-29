@@ -72,6 +72,7 @@ terafm.Editable = class Editable {
 		if(!(entry instanceof terafm.Entry)) throw new Error('applyEntry requires an entry to set');
 		
 		let tmpVal;
+		let usePaste = false;
 
 		// contenteditable into text
 		if(false === this.isContentEditable() && entry.type === 'contenteditable') {
@@ -81,12 +82,19 @@ terafm.Editable = class Editable {
 		} else if(true === this.isContentEditable() && entry.type !== 'contenteditable') {
 			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts});
 
+
+		}/* else if(this.el.closest('.DraftEditor-root') || window.location.hostname.indexOf('facebook.com') !== -1) {
+			console.log('is probably draft editor');
+			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts});
+			// tmpVal = entry.getValue(opts)
+			usePaste = true;
+
 		// anything else
-		} else {
+		}*/ else {
 			tmpVal = entry.getValue(opts)
 		}
 
-		this.setValue(tmpVal);
+		this.setValue(tmpVal, usePaste);
 	}
 
 	getValue(trim) {
@@ -119,7 +127,7 @@ terafm.Editable = class Editable {
 
 		return value;
 	}
-	setValue(val) {
+	setValue(val, usePaste=false) {
 		terafm.editables.pauseLoggingForJustABit();
 		terafm.defaults.add(this);
 
@@ -136,7 +144,14 @@ terafm.Editable = class Editable {
 		} else if(terafm.editables.isNode(this.el, 'SELECT')) {
 			this.el.value = val;
 
-		} else {
+		}/* else if(this.isContentEditable() && usePaste) {
+			// setTimeout(() => {
+			// this.el.dispatchEvent(new Event('click'));
+			document.execCommand('selectAll', false, null);
+			document.execCommand('insertText', false, val);
+			// }, 20)
+
+		}*/ else {
 			this.el.innerHTML = val;
 		}
 	}
