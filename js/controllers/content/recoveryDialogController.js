@@ -103,6 +103,7 @@ terafm.recoveryDialogController = {};
 					this.setDefaultPage();
 
 					db.fetch().then(() => {
+						terafm.wipeCache();
 						this.sesslist = db.getSessions();
 
 						this.stats.countTotSessions = this.sesslist.length;
