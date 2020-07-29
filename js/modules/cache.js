@@ -18,4 +18,9 @@ window.terafm = window.terafm || {};
 		return storageData[keyId];
 	};
 
+	terafm.wipeCache = function() {
+		storageData = {};
+		storageKeys = [];
+	}
+
 })();
