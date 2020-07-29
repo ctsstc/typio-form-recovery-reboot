@@ -28,9 +28,8 @@ terafm.keyboardShortcutController = {};
 				// First try and get prev sess for currently focused editable
 				const currFocusEl = terafm.focusedEditable;
 				if(currFocusEl) {
-					const sessList = terafm.db.getSessionsContainingEditable(currFocusEl.id, 1);
-					sess = sessList.sessions[Object.keys(sessList.sessions)[0]];
-					console.log(sess);
+					const sessList = terafm.db.getSessionsContainingEditable(currFocusEl.id, 10);
+					sess = sessList.getArray().pop();
 				}
 
 				// Fall back to global prev sess
