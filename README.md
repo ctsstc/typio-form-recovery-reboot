@@ -7,11 +7,11 @@ Please submit feedback or bugs on the [issues page](https://bitbucket.org/nickla
 
 # Changelog
 ### Version 2.4.0 (29th July, 2020)
-New: You can now press Shift Delete to delete items in the Quick Access menu (from the icon).
-New: Typio now stores the origin URL for each session (see "View page" next to the timestamp in the recovery window).
-New: "Restore previous session" keyboard shortcut now tries to restore the previous session for the currently focused input field. If no input is focused Typio will restore the previous session (regardless if the inputs exist or not).
-Fix: "Restore previous session" keyboard shortcut is now more reliable.
-Fix: The Copy button sometimes didn't work in the recovery window when the entry was of type contenteditable. This is fixed now.
+- New: You can now press Shift Delete to delete items in the Quick Access menu (from the icon).
+- New: Typio now stores the origin URL for each session (see "View page" next to the timestamp in the recovery window).
+- New: "Restore previous session" keyboard shortcut now tries to restore the previous session for the currently focused input field. If no input is focused Typio will restore the previous session (regardless if the inputs exist or not).
+- Fix: "Restore previous session" keyboard shortcut is now more reliable.
+- Fix: The Copy button sometimes didn't work in the recovery window when the entry was of type contenteditable. This is fixed now.
 
 ### Version 2.3.4 (16th June, 2019):
 - Fix: Remove forgotten console.debug
