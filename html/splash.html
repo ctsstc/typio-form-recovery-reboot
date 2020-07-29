@@ -11,21 +11,21 @@
 		<p class="subtitle">Typio Form Recovery</p>
 		<p class="big">Here's whats new</p>
 		<p class="version">
-			v2.3
+			v2.4
 			<span class="bubble">Updated!</span>
 		</p>
 	</div>
 
 	<div class="content">
 
-		<p>Typio 2.3.1 is here!</p>
+		<p>Typio 2.4.0 is here!</p>
 
 		<ul>
-			<li><span class="new">New:</span> Blacklist now compares against full URL instead of hostname (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/73/blacklist-support-for-urls-path-component">#73</a>). If using regex for blacklisting, you might need to look it over.</li>
-			<li><span class="new">New:</span> <a target="blank" href="permissioninfo.html">Permissions description page.</a></li>
-			<li><span class="change">Change:</span> Save Indicator is now disabled by default (can be re-enabled in options).</li>
-			<li><span class="change">Change:</span> Removed "Downloads" permission. It was accidentally included ahead of time and was not being used. (<a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/75/extension-suddenly-asking-for-mange">#75</a>)</li>
-			<li>Bug fixes and preparation for future release.</li>
+			<li><span class="new">New:</span> You can now press <span class="key">Shift</span> <span class="key">Delete</span> to delete items in the Quick Access menu (from the icon).</li>
+			<li><span class="new">New:</span> Typio now stores the origin URL for each session (see "View page" next to the timestamp in the recovery window).</li>
+			<li><span class="new">New:</span> "Restore previous session" keyboard shortcut now tries to restore the previous session for the currently focused input field. If no input is focused Typio will restore the previous session (regardless if the inputs exist or not).</li>
+			<li><span class="fix">Fix:</span> "Restore previous session" keyboard shortcut is now more reliable.</li>
+			<li><span class="fix">Fix:</span> The Copy button sometimes didn't work in the recovery window when the entry was of type contenteditable. This is fixed now.</li>
 		</ul>
 
 		<p>If you want the nitty gritty details, head over to the <a target="_blank" href="https://bitbucket.org/nicklassandell/chrome-form-recovery/">repository page</a> where you can see the full changelog with technical details. If you encounter any bugs or want to leave feedback, please submit a report <a href="https://bitbucket.org/nicklassandell/chrome-form-recovery/issues/new" target="_blank">in the bug tracker</a> or tweet me at <a href="https://twitter.com/typiorecovery" target="_blank">@TypioRecovery</a>.</p>

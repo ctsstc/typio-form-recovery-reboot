@@ -43,7 +43,13 @@
 
 					<div v-if="sesslist !== false">
 						<template v-for="sess in sesslist.getArray().reverse()">
-							<p v-if="sess.length" class="date-stamp">{{ sess.prettyDate() }}</p>
+							<p v-if="sess.length" class="date-stamp">
+								{{ sess.prettyDate() }}
+								<template v-if="sess.getFirstEntry().originURL">
+									&nbsp;&middot;&nbsp;
+									<a :href="sess.getFirstEntry().originURL" :title="sess.getFirstEntry().originURL">view page</a>
+								</template>
+							</p>
 							<ul v-if="sess.length" class="card-1">
 								<li v-for="entry in sess.entries" :data-session-id="entry.sessionId" :data-editable-id="entry.editableId" v-on:click="setEntry($event)">
 									<p v-html="entry.getPrintableValue({truncate: 300})"></p>
@@ -85,7 +91,7 @@
 						</template>
 						
 						<template v-if="currEntry.type === 'contenteditable'">
-							<div style="float: right;" class="btn-drop-container" onclick="this.classList.toggle('open')">
+							<div style="float: right;" class="btn-drop-container" @click="$event.path[0].closest('.btn-drop-container').classList.toggle('open')">
 								<button class="btn" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : 'btn-flat' ]">Copy&#9662;</button>
 								<ul class="btn-drop">
 									<li v-on:click="copyEntry('plaintext')">Copy plain text</li>
