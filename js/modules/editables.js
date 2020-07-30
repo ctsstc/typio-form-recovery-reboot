@@ -25,8 +25,8 @@ terafm.editables = {};
 		// If within contenteditable, the el itself might not be editable, so find its parent.
 		// "input" event usually does this for you, but other events (like keyup or change) doesn't
 		if(!editables.isEditable(el) && editables.isElement(el)) {
-			let parentEditable = el.closest('[contenteditable]');
-			if(parentEditable) {
+			const parentEditable = el.closest('[contenteditable]');
+			if(parentEditable && parentEditable !== el) {
 				return getEditable(parentEditable, onlyTextEditable);
 			}
 		}
