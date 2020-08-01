@@ -102,6 +102,8 @@ terafm.quickAccessController = {};
 						else if(this.action === 'disableTypio') terafm.blockController.block();
 						else return;
 					}
+					const lastFocused = terafm.focusedEditable || terafm.lastFocusedEditable;
+					lastFocused.el.focus();
 
 					terafm.placeholders.restore();
 					terafm.defaults.restore();
