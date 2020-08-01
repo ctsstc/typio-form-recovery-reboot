@@ -83,7 +83,9 @@
 					}
 				});
 			},
-			changeDomainName() {
+			changeDomainName(e) {
+				e.preventDefault();
+
 				if(this.domainExists(this.domainChangeFrom) !== true) {
 					return alert('There is no data saved for the selected domain. Did you spell it correctly?');
 				}
