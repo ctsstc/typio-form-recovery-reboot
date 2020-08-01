@@ -6,11 +6,16 @@ https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhja
 Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open) or email me at typiorecovery@gmail.com.
 
 # Changelog
+### Version 2.4.1 (1st August, 2020)
+- Fix: In the Recovery Window, "Recover session" would not recover entries hidden hidden by the filters.
+- Fix: Editable cache is now cleared before opening the Quick Access popup (from icon) and the Recovery Window. This will resolve some edge case issues related to "Cannot be auto-restored" messages. It also fixes a bug where in some cases nothing would happen when hovering entries in the Quick Access popup.
+- Fix: "Maximum call stack size exceeded" error from Path Generator.
+
 ### Version 2.4.0 (29th July, 2020)
 - New: You can now press Shift Delete to delete items in the Quick Access menu (from the icon).
 - New: Typio now stores the origin URL for each session (see "View page" next to the timestamp in the recovery window).
-- New: "Restore previous session" keyboard shortcut now tries to restore the previous session for the currently focused input field. If no input is focused Typio will restore the previous session (regardless if the inputs exist or not).
-- Fix: "Restore previous session" keyboard shortcut is now more reliable.
+- New: The "Restore previous session" keyboard shortcut now tries to restore the previous session for the currently focused input field. If no input is focused Typio will restore the previous session (regardless if the inputs exist or not).
+- Fix: The "Restore previous session" keyboard shortcut is now more reliable.
 - Fix: The Copy button sometimes didn't work in the recovery window when the entry was of type contenteditable. This is fixed now.
 
 ### Version 2.3.4 (16th June, 2019):
