@@ -28,6 +28,7 @@ window.terafm = window.terafm || {};
 				disableForEditable();
 			} else {
 				requestAnimationFrame(function() {
+					terafm.wipeCache();
 					terafm.quickAccessController.show(terafm.focusedEditable, {x: e.layerX, y: e.layerY});
 				})
 

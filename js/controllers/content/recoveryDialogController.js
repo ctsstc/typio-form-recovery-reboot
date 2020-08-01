@@ -87,7 +87,9 @@ terafm.recoveryDialogController = {};
 				restoreSession: function() {
 					if(!this.currEntry) return;
 					terafm.defaults.restore();
-					this.currEntry.getSession().restore({flash: true});
+					// Don't use this.currEntry.getSession(), entries could be filtered out!
+					const sess = db.getSession(this.currEntry.sessionId);
+					sess.restore({flash: true});
 					terafm.toastController.create('Session restored.');
 					this.hide();
 				},
@@ -103,6 +105,7 @@ terafm.recoveryDialogController = {};
 					this.setDefaultPage();
 
 					db.fetch().then(() => {
+						terafm.wipeCache();
 						this.sesslist = db.getSessions();
 
 						this.stats.countTotSessions = this.sesslist.length;
