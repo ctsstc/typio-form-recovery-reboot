@@ -1,5 +1,4 @@
 *.DS_Store
-/css/*
-/publish/*
-/build/node_modules/*
-/todo.*
+dist
+node_modules
+todo.*
