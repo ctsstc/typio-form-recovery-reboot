@@ -1,4 +1,4 @@
-import '../../../sass/popup.scss';
+import '../../sass/popup.scss';
 import blacklist from '../modules/blacklist'
 
 let hostnamePlaceholder = document.querySelector('.js-hostname'),

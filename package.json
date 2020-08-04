@@ -22,6 +22,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.3.4"
   }
 }

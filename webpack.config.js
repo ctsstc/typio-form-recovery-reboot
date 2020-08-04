@@ -4,7 +4,6 @@ const MinifyHtmlWebpackPlugin = require('minify-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 
-
 module.exports = {
     mode: 'development',
     devtool: 'false', // Disable default "eval" due to browser restrictions
@@ -14,6 +13,7 @@ module.exports = {
         'content.frameInjector': './src/js/controllers/content.frameInjector/frameInjectorController.js',
         options: './src/js/controllers/options/optionsController.js',
         popup: './src/js/controllers/popupController.js',
+        backendApp: './src/js/controllers/backendApp.js',
     },
     output: {
         filename: '[name].js',
@@ -26,13 +26,25 @@ module.exports = {
                 loader: 'vue-loader'
             },
             {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].css',
+                            outputPath: '../css/',
+                        },
+                    },
+                ]
+            },
+            {
                 test: /\.s[ac]ss$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
                             name: '[name].css',
-                            outputPath: '../css/', // Relative to /js folder, because that's where it's imported
+                            outputPath: '../css/', // Relative to /js folder
                         },
                     },
                     {
@@ -44,7 +56,6 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin(),
-        /*
         new MinifyHtmlWebpackPlugin({
             src: './src/html',
             dest: './dist/html',
@@ -56,7 +67,6 @@ module.exports = {
                 minifyJS: true,
             },
         }),
-        */
         new CopyPlugin({
             patterns: [
                 {
@@ -69,9 +79,9 @@ module.exports = {
                     context: 'src/img/used',
                 },
                 {
-                    from: 'fonts/**/*',
+                    from: '**/*',
                     to: path.resolve(__dirname, './dist/fonts'),
-                    context: 'src/',
+                    context: 'src/fonts/',
                 },
             ],
         }),
