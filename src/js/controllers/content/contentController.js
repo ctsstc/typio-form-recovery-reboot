@@ -10,3 +10,5 @@ import './keyboardShortcutController.js';
 import './recoveryDialogController.js';
 import './toastController.js';
 import './blockController.js';
+
+import '../../../sass/contentShadowRoot.scss';
