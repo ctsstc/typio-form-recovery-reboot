@@ -37,6 +37,8 @@
                 </div>
             </div>
         </div>
+
+        <p>The Quick Restore Popup can be navigated with the up/down arrow keys. Press space to select, or Shift + Delete to delete the selected item.</p>
     </div>
 </template>
 

@@ -1,5 +1,10 @@
 <template>
     <div>
+
+        <h1>Options</h1>
+        <p>Make Typio yours.</p>
+        <br><br>
+
         <save-options-partial class="options-box"></save-options-partial>
 
         <restore-icon-partial class="options-box"></restore-icon-partial>

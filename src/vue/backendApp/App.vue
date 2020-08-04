@@ -15,7 +15,16 @@
 
         <div class="main">
 
-            <router-view></router-view>
+            <div class="top-bar">
+                <div class="left">
+                    Typio Form Recovery
+                </div>
+                <div class="right">
+                    <a target="_blank" href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">Review Typio</a>
+                </div>
+            </div>
+
+            <router-view class="page-container"></router-view>
 
         </div>
 
@@ -41,6 +50,7 @@
         margin: 0;
         overflow-y: scroll;
         background: #f9f9f9;
+        color: #333;
     }
 
     *, *::before, *::after {
@@ -48,10 +58,9 @@
     }
 
     .app {
-        margin: 0 auto;
-        max-width: 1200px;
+        /*max-width: 1200px;*/
         display: flex;
-        box-shadow: 0 1px 4px #c6d6e6, 0 1px 10px #eceded;
+        /*box-shadow: 0 1px 4px #c6d6e6, 0 1px 10px #eceded;*/
 
         .sidebar {
             flex: 0 1 auto;
@@ -79,9 +88,40 @@
         }
 
         .main {
+            position: relative;
             flex: 1 1 auto;
-            background: #FFF;
+            background: #f5f5f5;
             padding: 80px 60px;
+
+            .top-bar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: space-between;
+                padding: 15px 20px;
+                font-size: 14px;
+                border-bottom: 1px solid #e2e2e2;
+                color: #4a4a4a;
+                background: #FFF;
+
+                a {
+                    color: #486ca7;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }                
+            }
+
+            .page-container {
+                max-width: 800px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+            }
         }
     }
 
@@ -161,18 +201,54 @@
         }
     }
 
-    h2 {
+    h1 {
         font-weight: 300;
-        font-size: 25px;
+        font-size: 32px;
         margin: 0;
+    }
+    h2 {
+        font-weight: 400;
+        font-size: 22px;
+        margin: -30px 0 0;
+        padding: 30px 0 0;
+        color: #333;
+        position: relative;
+
+        &::after {
+            content: '';
+            height: 6px;
+            background: #f1f1f1;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
     }
 
     .options-box {
         padding: 30px;
         margin: -10px;
-        margin-bottom: 50px;
-        border: 1px solid #e2e2e2;
-        border-radius: 5px;
+        margin-bottom: 80px;
+        background: white;
+        position: relative;
+
+        &:hover::before {
+            transform: scaleX(1.01) rotate(2deg);
+            /*transition-duration: .1s;*/
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #00000008;
+            border-radius: inherit;
+            transform-origin: bottom left;
+            transition-duration: .3s;
+            pointer-events: none;
+        }
     }
 
 
