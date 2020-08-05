@@ -4,11 +4,12 @@ blacklist.getAll = function(callback) {
 	getOptionData(callback)
 }
 
-blacklist.blockDomain = function(domain) {
+blacklist.blockDomain = function(domain, callback) {
 	getOptionData(function(list) {
 		if(isBlocked(list, domain) === false) {
 			list.push(domain);
 			saveList(list);
+			if(callback) callback(list);
 		}
 	});
 }
@@ -66,8 +67,6 @@ function isBlocked(list, url) {
 
 		let domain = url;
 
-		console.log(domain);
-
 		let index = list.indexOf(domain);
 		if(index !== -1) return index;
 
@@ -106,7 +105,7 @@ function isRegex(string) {
 
 function saveList(list, callback) {
 	chrome.storage.sync.set({'domainBlacklist': list}, function(set) {
-		if(callback) callback();
+		if(callback) callback(list);
 	});
 }
 

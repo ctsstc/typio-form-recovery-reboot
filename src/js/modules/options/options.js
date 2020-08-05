@@ -48,7 +48,6 @@ options.loadFromChromeStorage = function(callback) {
 
 	// Override default options
 	chrome.storage.sync.get(null, function(options) {
-		console.log(options);
 		if(options) {
 			for(var opt in options) {
 

@@ -1,17 +1,16 @@
 <template>
     <div class="keyboard-shortcut-picker" @click="emitResponse('cancel')">
-        <p>{{ pressedKeys.join(' + ') || 'Enter keyboard combination on your keyboard' }}</p>
+        <p class="big">{{ pressedKeys.join(' + ') || 'Enter keyboard combination on your keyboard' }}</p>
 
-        <p>
+        <div class="actions">
             <button @click="emitResponse('disable') && $event.stopPropagation()">Disable keyboard shortcut</button>
             <button @click="emitResponse('reset') && $event.stopPropagation()">Reset to default</button>
             <button @click="emitResponse('cancel') && $event.stopPropagation()">Cancel</button>
-        </p>
+        </div>
     </div>
 </template>
 
 <script>
-
     export default {
         name: "KeyboardShortcutPicker",
         data() {
@@ -46,7 +45,7 @@
                 }
 
                 if(key === 'Escape') {
-                    return this.emitResponse(RESPONSE_CANCEL);
+                    return this.emitResponse('cancel');
                 }
 
                 this.pressedKeys.push(key);
@@ -61,3 +60,42 @@
         },
     }
 </script>
+
+<style lang="scss" scoped>
+    .keyboard-shortcut-picker {
+        position: fixed;
+        z-index: 10;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        color: #FFF;
+        animation: pickerIn .8s;
+        animation-timing-function: cubic-bezier(0.075, 0.820, 0.165, 1.000); /* easeOutCirc */
+
+        .big {
+            font-size: 40px;
+            font-weight: 300;
+            margin: 0 0 60px;
+        }
+
+        .actions {
+            margin-bottom: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        @keyframes pickerIn {
+            from {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+    }
+</style>

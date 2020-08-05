@@ -17,17 +17,58 @@
         methods: {
             onMouseEnter() {
                 this.isVisible = true;
+                const el = this.$refs.tooltip;
+
             },
             onMouseLeave() {
                 this.isVisible = false;
             },
             onMouseMove(e) {
                 const el = this.$refs.tooltip;
+
                 if(el) {
-                    el.style.top = window.scrollY + e.clientY - this.$el.offsetTop + 20 + 'px';
-                    el.style.left = window.scrollX + e.clientX - this.$el.offsetLeft + 'px';
+                    el.style.top = e.clientY + 20 + 'px';
+                    el.style.left = e.clientX + 'px';
                 }
             }
         },
     }
 </script>
+
+<style lang="scss">
+
+    .tooltip-wrapper {
+        display: inline;
+        position: relative;
+
+        .text {
+            display: inline;
+            color: #d5ae39;
+            cursor: help;
+        }
+
+        .tooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            background: white;
+            padding: 10px;
+            display: block;
+            top: 316px;
+            left: 464px;
+            font-size: 13px;
+            max-width: 250px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            color: #555;
+            width: 250px;
+            animation: tooltipIn .1s;
+
+            @keyframes tooltipIn {
+                from {
+                    opacity: 0;
+                    transform: scale(.9);
+                }
+            }
+        }
+    }
+</style>

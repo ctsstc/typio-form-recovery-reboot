@@ -2,6 +2,8 @@ const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MinifyHtmlWebpackPlugin = require('minify-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 
 
@@ -20,37 +22,30 @@ module.exports = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist/js'),
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                styles: {
+                    name: 'styles',
+                    test: /\.css$/,
+                    chunks: 'all',
+                    enforce: true,
+                },
+            },
+        },
+    },
     module: {
         rules: [
-            {
-                test: /\.css$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].css',
-                            outputPath: '../css/',
-                        },
-                    },
-                ]
-            },
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
             },
             {
-                test: /\.s[ac]ss$/,
+                test: /\.(css|sass|scss)$/,
                 use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].css',
-                            outputPath: '../css/', // Relative to /js folder
-                        },
-                    },
-                    {
-                        loader: 'sass-loader',
-                    }
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
                 ],
             },
         ],
@@ -85,6 +80,9 @@ module.exports = {
                     context: 'src/fonts/',
                 },
             ],
+        }),
+        new MiniCssExtractPlugin({
+            filename: '../css/[name].css',
         }),
     ]
 };

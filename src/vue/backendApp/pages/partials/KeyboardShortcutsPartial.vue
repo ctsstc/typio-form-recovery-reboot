@@ -3,13 +3,8 @@
         <h2>Keyboard Shorcuts</h2>
 
         <form @change="$store.dispatch('options/save')">
-            <div class="fancy-chk">
-                <input v-model="options.keybindEnabled" type="checkbox" id="checkboxKeybindEnabled">
-                <span class="chk"></span>
-            </div>
-            <label for="checkboxKeybindEnabled">Enable Enable keyboard shortcuts</label>
+            <fancy-check v-model="options.keybindEnabled">Enable Enable keyboard shortcuts</fancy-check>
 
-            <br>
             <br>
 
             <div class="keyboard-shortcut-list">
@@ -18,8 +13,9 @@
                         {{ option.label }}
                     </div>
                     <div>
-                        {{ options[option.key] || 'Disabled' }}
+                        <span class="keycombo">{{ options[option.key] || 'Disabled' }}</span>
                     </div>
+                    <div><a>Edit</a></div>
                 </div>
             </div>
 
@@ -33,12 +29,14 @@
 
 <script>
     import { mapState } from 'vuex';
+    import FancyCheck from '../../components/FancyCheck.vue';
     import KeyboardShortcutPicker from './KeyboardShortcutPicker.vue';
 
     export default {
         name: "KeyboardShortcutsPartial",
         components: {
             KeyboardShortcutPicker,
+            FancyCheck,
         },
         data() {
             return {
@@ -90,8 +88,42 @@
     }
 </script>
 
-<style lang="scss">
-    body {
-        background: darkseagreen;
+<style lang="scss" scoped>
+    .keyboard-shortcut-list {
+        border: 1px solid #d4d4d4;
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            cursor: pointer;
+
+            div:first-child {
+                flex-grow: 1;
+            }
+
+            div:last-child {
+                margin-left: 50px;
+            }
+
+            &:hover {
+                background: #f0f0f0;
+            }
+
+            input {
+                width: 160px;
+                text-align: center;
+                border: 1px solid #bfbfbf;
+            }
+        }
+    }
+
+    .keycombo {
+        padding: 3px 10px;
+        border: 1px solid #d4d4d4;
+        border-radius: 5px;
+        font-size: 15px;
+        background: #FFF;
+        white-space: nowrap;
     }
 </style>
