@@ -156,7 +156,7 @@ keyCapture();
 
 		blocks = [];
 
-// Populate domain list
+	// Populate domain list
 	blacklist.getAll(function(list) {
 		blocks = list;
 		let html = '';
@@ -168,7 +168,7 @@ keyCapture();
 		listContainerNode.innerHTML = html;
 	})
 
-// Add to blacklist
+	// Add to blacklist
 	addForm.addEventListener('submit', function(e) {
 		e.preventDefault();
 
@@ -199,7 +199,7 @@ keyCapture();
 		addForm.querySelector('input').value = '';
 	})
 
-// Delete from blacklist
+	// Delete from blacklist
 	listContainerNode.addEventListener('click', function(e) {
 		if(e.target.classList.contains('del')) {
 			let li = e.target.closest('li'),

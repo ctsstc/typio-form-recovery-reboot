@@ -4,6 +4,7 @@ const MinifyHtmlWebpackPlugin = require('minify-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 
+
 module.exports = {
     mode: 'development',
     devtool: 'false', // Disable default "eval" due to browser restrictions
@@ -22,10 +23,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
                 test: /\.css$/,
                 use: [
                     {
@@ -36,6 +33,10 @@ module.exports = {
                         },
                     },
                 ]
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
             },
             {
                 test: /\.s[ac]ss$/,

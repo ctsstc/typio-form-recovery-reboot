@@ -2,43 +2,17 @@
     <div>
         <h2>Blacklist</h2>
 
-        <div class="fancy-chk">
-            <input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
-            <span class="chk"></span>
-        </div>
-        <label for="checkboxSavePasswords">Enable Enable keyboard shortcuts</label>
+        <p>Typio will be completely disabled on these domains, autosave and restoration will not be available.</p>
+        <p>Use * as a wildcard to block all subdomains, e.g: *.bank.com</p>
+        <p>You can use Regex by wrapping the pattern in forward slashes /like this/. It will match against the hostname of the site.</p>
 
-        <br>
-        <br>
+        <form>
+            <input type="text">
+            <button>Add to blacklist</button>
+        </form>
 
-        <div class="keyboard-shortcut-list">
-            <div class="row">
-                <div>
-                    Open/Close Recovery Dialog:
-                </div>
-                <div>
-                    <input placeholder="disabled" type="text" value="Control + Backspace">
-                </div>
-            </div>
-            <div class="row">
-                <div>
-                    Auto restore last session:
-                </div>
-                <div>
-                    <input placeholder="disabled" type="text" value="Control + Alt + Backspace">
-                </div>
-            </div>
-            <div class="row">
-                <div>
-                    Open Quick Restore for selected field:
-                </div>
-                <div>
-                    <input placeholder="disabled" type="text" value="Control + r">
-                </div>
-            </div>
-        </div>
+        <div style="border: 1px solid rgba(0,0,0,.3); padding: 10px;">list...</div>
 
-        <p>The Quick Restore Popup can be navigated with the up/down arrow keys. Press space to select, or Shift + Delete to delete the selected item.</p>
     </div>
 </template>
 
