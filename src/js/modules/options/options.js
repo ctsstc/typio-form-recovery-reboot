@@ -10,11 +10,25 @@ var globalOptions = optionSanitizer.sanitize(defaultOptions.getAll())
 options.set = function(opt, val) {
 	var san = optionSanitizer.sanitize(opt, val)
 	if(san !== undefined) {
+		console.log('Writing to storage.sync');
 		chrome.storage.sync.set({ [opt] : val });
 		globalOptions[opt] = val
 	} else {
 		throw new Error('Option could not be sanitized', opt, val);
 	}
+}
+
+options.setMany = function(options) {
+	const keys = Object.keys(options);
+	for(const key of keys) {
+		if(optionSanitizer.sanitize(key, options[key]) === undefined) {
+			console.error(key, ' was not saved because its value did not pass the sanitizer')
+			delete options[key];
+		}
+	}
+	console.log('Writing to storage.sync');
+	chrome.storage.sync.set(options);
+	globalOptions = { ...globalOptions, ...options };
 }
 
 options.get = function(opt) {

@@ -6,7 +6,6 @@ import App from '../../vue/backendApp/App.vue';
 import store from '../../vue/backendApp/store/Store';
 
 Vue.use(VueRouter);
-Vue.use(Vuex);
 
 new Vue({
     el: '#app',

@@ -2,32 +2,34 @@
     <div>
         <h2>Save &amp; Restore</h2>
 
-        <p>Save data for &nbsp;<input style="width: 40px; padding: 5px; font-size: 15px; text-align: center;" maxlength="4" type="text">&nbsp; days</p>
+        <form @change="$store.dispatch('options/save')">
 
-        <br>
+            <p>Save data for &nbsp;<input v-model="options.storageTimeDays" style="width: 40px; padding: 5px; font-size: 15px; text-align: center;" maxlength="4" type="text">&nbsp; days</p>
 
-        <div class="fancy-chk">
-            <input class="autosave" type="checkbox" data-option="savePasswords" id="checkboxSavePasswords">
-            <span class="chk"></span>
-        </div>
-        <label for="checkboxSavePasswords">Save password fields</label>
+            <br>
 
-        <br>
+            <div class="fancy-chk">
+                <input v-model="options.savePasswords" type="checkbox" id="checkboxSavePasswords">
+                <span class="chk"></span>
+            </div>
+            <label for="checkboxSavePasswords">Save password fields</label>
 
-        <div class="fancy-chk">
-            <input class="autosave" type="checkbox" data-option="saveCreditCards" id="checkboxSaveCreditCards">
-            <span class="chk"></span>
-        </div>
-        <label for="checkboxSaveCreditCards">
-            Save credit card numbers
-            <tooltip text="Typio will attempt to ignore credit card numbers based on the length and structure of the number. Numbers similar to credit cards will also be ignored.">(info)</tooltip>
-        </label>
+            <br>
 
-        <br>
+            <div class="fancy-chk">
+                <input v-model="options.saveCreditCards" type="checkbox" id="checkboxSaveCreditCards">
+                <span class="chk"></span>
+            </div>
+            <label for="checkboxSaveCreditCards">
+                Save credit card numbers
+                <tooltip text="Typio will attempt to ignore credit card numbers based on the length and structure of the number. Numbers similar to credit cards will also be ignored.">(info)</tooltip>
+            </label>
+
+            <br>
             <p class="note change-msg hidden">Psst. Disabling these options will not delete any currently saved data.</p>
 
             <div class="fancy-chk">
-                <input class="autosave" type="checkbox" data-option="cloneOnRestore" id="checkboxcloneOnRestore">
+                <input v-model="options.cloneOnRestore" type="checkbox" id="checkboxcloneOnRestore">
                 <span class="chk"></span>
             </div>
             <label for="checkboxcloneOnRestore">
@@ -38,7 +40,7 @@
             <br>
 
             <div class="fancy-chk">
-                <input class="autosave" type="checkbox" data-option="resetEditablesBetweenRestorations" id="checkboxResetEditablesBetweenRestorations">
+                <input v-model="options.resetEditablesBetweenRestorations" type="checkbox" id="checkboxResetEditablesBetweenRestorations">
                 <span class="chk"></span>
             </div>
             <label for="checkboxResetEditablesBetweenRestorations">
@@ -46,16 +48,22 @@
                 <tooltip text="All input fields will be reset to their default value before restoration. When recovering multiple sessions, fields will be cleared inbetween.">(info)</tooltip>
             </label>
 
+        </form>
+
     </div>
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import Tooltip from '../../../partials/Tooltip.vue';
 
     export default {
         name: "SaveOptionsPartial",
         components: {
             Tooltip,
+        },
+        computed: {
+            ...mapState('options', ['options']),
         },
     }
 </script>
