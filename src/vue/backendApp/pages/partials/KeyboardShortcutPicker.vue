@@ -1,11 +1,11 @@
 <template>
-    <div class="keyboard-shortcut-picker">
+    <div class="keyboard-shortcut-picker" @click="emitResponse('cancel')">
         <p>{{ pressedKeys.join(' + ') || 'Enter keyboard combination on your keyboard' }}</p>
 
         <p>
-            <button @click="emitResponse('disable')">Disable keyboard shortcut</button>
-            <button @click="emitResponse('reset')">Reset to default</button>
-            <button @click="emitResponse('cancel')">Cancel</button>
+            <button @click="emitResponse('disable') && $event.stopPropagation()">Disable keyboard shortcut</button>
+            <button @click="emitResponse('reset') && $event.stopPropagation()">Reset to default</button>
+            <button @click="emitResponse('cancel') && $event.stopPropagation()">Cancel</button>
         </p>
     </div>
 </template>

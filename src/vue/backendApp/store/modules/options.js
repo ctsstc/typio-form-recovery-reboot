@@ -20,7 +20,6 @@ export default {
     mutations: {
         resetSingleOption(state, key) {
             state.options[key] = defaultOptionsModule.get(key);
-            console.log(state.options[key]);
         },
         setOptions(state, options) {
             state.options = options;
