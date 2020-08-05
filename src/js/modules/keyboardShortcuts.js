@@ -6,6 +6,10 @@ var pressed = [],
 	combos = []
 
 keyboardShortcuts.on = function(keycombo, callback) {
+
+	// Backwards compatibility
+	keycombo = comoStrToArray(keycombo);
+
 	if(keycombo.length < 2 && keycombo[0] === '') return;
 
 	var combo = JSON.parse(JSON.stringify(keycombo)).map(key => key.toLowerCase())
@@ -16,11 +20,23 @@ keyboardShortcuts.on = function(keycombo, callback) {
 }
 
 keyboardShortcuts.printableKey = function(keycombo) {
+
+	// Backwards compatibility
+	keycombo = comoStrToArray(keycombo);
+
 	if(keycombo.length === 1 && keycombo[0] === '') {
 		return '<span class="key disabled">disabled</span>'
 	} else {
 		return '<span class="key">' + keycombo.join('</span> <span class="key">') + '</span>';
 	}
+}
+
+function comoStrToArray(keycombo) {
+	if(typeof keycombo === 'string') {
+		keycombo = keycombo.replace(/[^a-z+]/gi, '').split('+');
+	}
+
+	return keycombo;
 }
 
 

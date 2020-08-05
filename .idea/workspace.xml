@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment=".idea">
-      <change afterPath="$PROJECT_DIR$/src/vue/backendApp/OptionsPartialMixin.js" afterDir="false" />
+    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutPicker.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveIndicatorPartial.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/controllers/backendApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/backendApp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/modules/keyboardShortcuts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/modules/keyboardShortcuts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/modules/options/defaultOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/modules/options/defaultOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/js/modules/options/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/modules/options/options.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vue/backendApp/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/vue/backendApp/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveOptionsPartial.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveOptionsPartial.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vue/backendApp/store/Store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/vue/backendApp/store/Store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vue/backendApp/OptionsPartialMixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vue/backendApp/pages/OptionsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/vue/backendApp/pages/OptionsPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vue/backendApp/store/modules/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/vue/backendApp/store/modules/options.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/js/" />
@@ -41,94 +45,13 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/controllers/backendApp.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vue/backendApp/store/Store.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vue/backendApp/store/modules/options.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vue/backendApp/App.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="44" column="42" selection-start-line="44" selection-start-column="42" selection-end-line="44" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveOptionsPartial.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="55" column="8" selection-start-line="55" selection-start-column="8" selection-end-line="56" selection-end-column="36" />
+            <state relative-caret-position="286">
+              <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
               <folding>
-                <element signature="e#42#47#0" expanded="true" />
-                <element signature="e#83#89#0" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#2339#2371#0" expanded="true" />
+                <element signature="e#0#66#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vue/backendApp/OptionsPartialMixin.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="25" selection-end-line="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/modules/options/options.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
-              <folding>
-                <element signature="e#0#48#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-98">
-              <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -136,21 +59,92 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/js/modules/options/defaultOptions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="11" column="28" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="28" />
+            <state relative-caret-position="260">
+              <caret line="10" column="18" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="20" column="63" lean-forward="true" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
+              <folding>
+                <element signature="e#1053#1085#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/controllers/content/keyboardShortcutController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="122">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/modules/keyboardShortcuts.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="428">
+              <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutPicker.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/modules/options/options.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="7" column="63" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="63" />
+              <folding>
+                <element signature="e#0#48#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>vuex</find>
       <find>loadFromChromeStorage</find>
-      <find>keyBinding</find>
       <find>= this.$store.state.options.options.</find>
       <find>nable Restore Ico</find>
+      <find>ecognizes and animates on sav</find>
+      <find>saveIndicator</find>
+      <find>The save indicator will appear</find>
+      <find>options.set</find>
+      <find>keyboardShortcutOptions</find>
+      <find>keyBinding</find>
+      <find>shortcutToText</find>
+      <find>keyboardShortcuts.on</find>
+      <find>checkForCombo</find>
+      <find>defaultOptionsModule</find>
+      <find>onsole.log</find>
+      <find>resetSingleOption</find>
+      <find>nable Enable keyboard shor</find>
+      <find>eybind</find>
     </findStrings>
     <replaceStrings>
       <replace>isVisible</replace>
@@ -171,14 +165,21 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/js/controllers/backendApp.js" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/store/Store.js" />
-        <option value="$PROJECT_DIR$/src/vue/backendApp/store/modules/options.js" />
-        <option value="$PROJECT_DIR$/src/vue/backendApp/App.vue" />
-        <option value="$PROJECT_DIR$/src/js/modules/options/options.js" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/OptionsPartialMixin.js" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveOptionsPartial.vue" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue" />
+        <option value="$PROJECT_DIR$/src/vue/backendApp/pages/OptionsPage.vue" />
+        <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveIndicatorPartial.vue" />
+        <option value="$PROJECT_DIR$/src/vue/backendApp/App.vue" />
+        <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutPicker.vue" />
+        <option value="$PROJECT_DIR$/src/js/modules/options/options.js" />
+        <option value="$PROJECT_DIR$/src/js/controllers/backendApp.js" />
+        <option value="$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js" />
+        <option value="$PROJECT_DIR$/src/js/modules/keyboardShortcuts.js" />
+        <option value="$PROJECT_DIR$/src/js/modules/options/defaultOptions.js" />
+        <option value="$PROJECT_DIR$/src/vue/backendApp/store/modules/options.js" />
+        <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" />
       </list>
     </option>
   </component>
@@ -213,6 +214,12 @@
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="html" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -221,6 +228,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
@@ -249,6 +264,23 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="vue" type="462c0819:PsiDirectoryNode" />
               <item name="backendApp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
+              <item name="backendApp" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
+              <item name="backendApp" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="partials" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -303,14 +335,14 @@
       <workItem from="1596383929303" duration="3221000" />
       <workItem from="1596446729656" duration="28933000" />
       <workItem from="1596620079867" duration="5000" />
-      <workItem from="1596620109036" duration="4450000" />
+      <workItem from="1596620109036" duration="12083000" />
     </task>
-    <task id="LOCAL-00001" summary="Implemented gulp build system">
-      <created>1559247137269</created>
+    <task id="LOCAL-00001" summary="Options page work">
+      <created>1596624742680</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1559247137269</updated>
+      <updated>1596624742680</updated>
     </task>
     <task id="LOCAL-00002" summary="Implemented gulp build system">
       <created>1560172849629</created>
@@ -592,10 +624,11 @@
       <option name="project" value="LOCAL" />
       <updated>1596617836407</updated>
     </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6153000" />
+    <option name="totallyTimeSpent" value="13786000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
@@ -606,7 +639,7 @@
       <window_info id="Favorites" order="2" sideWeight="0.38302502" side_tool="true" weight="0.22649573" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3297062" />
       <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.3297062" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.6898803" />
       <window_info anchor="bottom" id="Run" order="3" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
@@ -615,7 +648,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4993895" weight="0.51033735" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.26115343" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.25571272" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50305253" side_tool="true" weight="0.2665941" />
       <window_info anchor="bottom" id="TypeScript" order="13" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.35150167" />
@@ -647,7 +680,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Clean up gitignore, remove old sass folder" />
     <MESSAGE value="Readme update" />
     <MESSAGE value="Work" />
     <MESSAGE value="Add some FAQ to faq page" />
@@ -672,7 +704,8 @@
     <MESSAGE value="Work on vue rollup" />
     <MESSAGE value="Webpack conversion" />
     <MESSAGE value=".idea" />
-    <option name="LAST_COMMIT_MESSAGE" value=".idea" />
+    <MESSAGE value="Options page work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Options page work" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/js/modules/db/db.js" />
@@ -685,62 +718,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/backendApp.js">
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveOptionsPartial.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/options/optionsController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="962">
-          <caret line="310" selection-start-line="310" selection-end-line="310" />
+        <state relative-caret-position="111">
+          <caret line="55" column="8" lean-forward="true" selection-start-line="55" selection-start-column="8" selection-end-line="67" selection-end-column="5" />
           <folding>
-            <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#127#768#0" />
-            <element signature="n#!!block;n#keyCapture#0" />
-            <element signature="e#2981#3247#0" />
-            <element signature="e#3293#5667#0" />
+            <element signature="e#42#47#0" expanded="true" />
+            <element signature="e#83#89#0" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#2339#2371#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/store/Store.js">
+    <entry file="file://$PROJECT_DIR$/dist/html/options.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+        <state>
+          <caret column="3614" selection-start-column="3614" selection-end-column="3614" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#1110#1116#0" expanded="true" />
+            <element signature="e#1201#1207#0" expanded="true" />
+            <element signature="n#style#0;n#p#7;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#3655#3661#0" expanded="true" />
+            <element signature="e#3847#3853#0" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/App.vue">
+    <entry file="file://$PROJECT_DIR$/src/html/options.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="44" column="42" selection-start-line="44" selection-start-column="42" selection-end-line="44" selection-end-column="42" />
+        <state relative-caret-position="157">
+          <caret line="125" selection-start-line="125" selection-end-line="134" selection-end-column="86" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js">
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveIndicatorPartial.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-98">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        <state>
+          <caret column="10" lean-forward="true" selection-start-column="10" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/store/modules/options.js">
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/OptionsPage.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/options/defaultOptions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="28" />
+        <state relative-caret-position="-87">
+          <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+          <folding>
+            <element signature="e#440#507#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -751,33 +777,123 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="23" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/html/db-manager.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/html/app.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="1" column="16" lean-forward="true" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="315" column="5" selection-start-line="315" selection-start-column="5" selection-end-line="315" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/controllers/options/optionsController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+            <element signature="e#127#768#0" />
+            <element signature="e#2981#3247#0" />
+            <element signature="e#3293#5667#0" />
+            <element signature="e#5782#7647#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutPicker.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/modules/options/options.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+        <state relative-caret-position="182">
+          <caret line="7" column="63" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="63" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveOptionsPartial.vue">
+    <entry file="file://$PROJECT_DIR$/src/js/controllers/backendApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="55" column="8" selection-start-line="55" selection-start-column="8" selection-end-line="56" selection-end-column="36" />
+        <state relative-caret-position="104">
+          <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/store/Store.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
           <folding>
-            <element signature="e#42#47#0" expanded="true" />
-            <element signature="e#83#89#0" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#2339#2371#0" expanded="true" />
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue">
+    <entry file="file://$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="31" column="9" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
+        <state relative-caret-position="234">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/store/modules/options.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/modules/options/defaultOptions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="18" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/modules/keyboardShortcuts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/controllers/content/keyboardShortcutController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="20" column="63" lean-forward="true" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
+          <folding>
+            <element signature="e#1053#1085#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

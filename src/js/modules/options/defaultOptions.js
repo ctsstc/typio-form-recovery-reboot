@@ -37,7 +37,7 @@ defaultOptions.get = function(opt) {
 }
 
 defaultOptions.getAll = function() {
-	return def
+	return JSON.parse(JSON.stringify(def))
 }
 
 

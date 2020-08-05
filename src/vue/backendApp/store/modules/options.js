@@ -1,4 +1,5 @@
 import optionsModule from '../../../../js/modules/options/options'
+import defaultOptionsModule from '../../../../js/modules/options/defaultOptions'
 
 export default {
     namespaced: true,
@@ -17,15 +18,13 @@ export default {
         },
     },
     mutations: {
-        setOptionValue(state, [key, value]) {
-            if(!state.options.hasOwnProperty(key)) {
-                throw new Error('Option does not exist.');
-            }
-            state.options[key] = value;
+        resetSingleOption(state, key) {
+            state.options[key] = defaultOptionsModule.get(key);
+            console.log(state.options[key]);
         },
         setOptions(state, options) {
             state.options = options;
-        }
+        },
     },
     actions: {
         loadOptionsFromStorage(context) {
@@ -35,17 +34,6 @@ export default {
             });
         },
         save(context) {
-            let options = context.state.options;
-
-            // Apparently the past version of me thought it was a good idea to store key combos as strings and then automatically "sanitize" (actually transform) them into arrays. Now I have to deal with this shit.
-            const keysToTransform = ['keybindToggleRecDiag', 'keybindRestorePreviousSession', 'keybindOpenQuickAccess'];
-
-            for(const key of keysToTransform) {
-                if(options.hasOwnProperty(key) && Array.isArray(options[key])) {
-                    options[key] = options[key].join(' + ');
-                }
-            }
-
             optionsModule.setMany(context.state.options);
         },
     }

@@ -8,25 +8,28 @@ var hasLoadedFromStorage;
 var globalOptions = optionSanitizer.sanitize(defaultOptions.getAll())
 
 options.set = function(opt, val) {
-	var san = optionSanitizer.sanitize(opt, val)
-	if(san !== undefined) {
-		console.log('Writing to storage.sync');
-		chrome.storage.sync.set({ [opt] : val });
-		globalOptions[opt] = val
-	} else {
-		throw new Error('Option could not be sanitized', opt, val);
+	console.log('Writing to storage.sync');
+
+	if(!globalOptions.hasOwnProperty(opt)) {
+		console.error(opt, ' was not saved because the option does not exist')
+		delete options[key];
 	}
+
+	chrome.storage.sync.set({ [opt] : val });
+	globalOptions[opt] = val
 }
 
 options.setMany = function(options) {
+	console.log('Writing to storage.sync');
+
 	const keys = Object.keys(options);
 	for(const key of keys) {
-		if(optionSanitizer.sanitize(key, options[key]) === undefined) {
-			console.error(key, ' was not saved because its value did not pass the sanitizer')
+		if(!globalOptions.hasOwnProperty(key)) {
+			console.error(key, ' was not saved because the option does not exist')
 			delete options[key];
 		}
 	}
-	console.log('Writing to storage.sync');
+
 	chrome.storage.sync.set(options);
 	globalOptions = { ...globalOptions, ...options };
 }
@@ -45,6 +48,7 @@ options.loadFromChromeStorage = function(callback) {
 
 	// Override default options
 	chrome.storage.sync.get(null, function(options) {
+		console.log(options);
 		if(options) {
 			for(var opt in options) {
 

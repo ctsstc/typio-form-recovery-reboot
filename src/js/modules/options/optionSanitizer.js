@@ -19,16 +19,19 @@ const sanitizers = {
 	},
 
 	// Specific ones
-	keyBinding: function(value) {
-		return value.replace(/\s/g, '').split('+');
+	// keyBinding: function(value) {
+	// 	return value.replace(/\s/g, '').split('+');
 		// return value.replace(/[^a-z+]/gi, '').split('+');
-	},
+	// },
 	saveIndicator: function(value) {
 		return ['topline', 'cornertriag', 'disable'].includes(value) ? value : undefined;
 	},
 	quickAccessTrigger: function(value) {
 		return ['focus', 'doubleclick'].includes(value) ? value : undefined;
-	}
+	},
+	string: function(value) {
+		return String(value);
+	},
 };
 
 
@@ -45,10 +48,10 @@ var pointers = {
 	qaGroupSessions: sanitizers.bool,
 	qaEnableSessionSubmenu: sanitizers.bool,
 
-	keybindToggleRecDiag: sanitizers.keyBinding,
-	keybindRestorePreviousSession: sanitizers.keyBinding,
-	keybindOpenQuickAccess: sanitizers.keyBinding,
-	keybindEnabled: sanitizers.bool
+	keybindToggleRecDiag: sanitizers.string,
+	keybindRestorePreviousSession: sanitizers.string,
+	keybindOpenQuickAccess: sanitizers.string,
+	keybindEnabled: sanitizers.bool,
 }
 
 optionSanitizer.sanitize = function(name, value) {
