@@ -19,7 +19,6 @@
 
 <script>
     import { mapState } from 'vuex';
-    import Tooltip from '../../../partials/Tooltip.vue';
 
     export default {
         name: "SaveIndicatorPartial",

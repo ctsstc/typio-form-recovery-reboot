@@ -9,7 +9,7 @@ import keyboardShortcuts from '../../modules/keyboardShortcuts';
 import Editables from '../../modules/Editables';
 import toastController from './toastController';
 import Vue from 'vue';
-import QuickAccessPopup from '../../../vue/QuickAccessPopup.vue';
+import QuickAccessPopup from '../../vue/content/QuickAccessPopup.vue';
 
 let controller = {};
 

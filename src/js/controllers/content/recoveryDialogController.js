@@ -4,7 +4,7 @@ import KeyboardShortcuts from '../../modules/keyboardShortcuts';
 import initHandler from '../../modules/initHandler';
 import ui from '../../modules/ui';
 import Options from '../../modules/options/options';
-import RecoveryDialog from '../../../vue/RecoveryDialog.vue';
+import RecoveryDialog from '../../vue/content/RecoveryDialog.vue';
 import Vue from "vue";
 
 let recoveryDialogController = {};

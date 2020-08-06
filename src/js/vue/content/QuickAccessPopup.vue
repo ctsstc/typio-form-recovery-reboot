@@ -16,10 +16,10 @@
 </template>
 
 <script>
-    import Options from '../js/modules/options/options';
-    import Editables from '../js/modules/Editables';
-    import db from '../js/modules/db/db';
-    import placeholders from '../js/modules/placeholders';
+    import Options from '../../modules/options/options';
+    import Editables from '../../modules/Editables';
+    import db from '../../modules/db/db';
+    import placeholders from '../../modules/placeholders';
 
     import QuickAccessPopupItem from './QuickAccessPopupItem.vue';
 

@@ -1,10 +1,7 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import router from './routes';
-import App from '../../vue/backendApp/App.vue';
-import store from '../../vue/backendApp/store/Store';
-
-Vue.use(VueRouter);
+import router from '../vue/backendApp/routes';
+import App from '../vue/backendApp/App.vue';
+import store from '../vue/backendApp/store/Store';
 
 new Vue({
     el: '#app',

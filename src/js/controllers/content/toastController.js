@@ -1,5 +1,5 @@
 import ui from '../../modules/ui';
-import ToastComponent from '../../../vue/backendApp/components/Toast.vue';
+import ToastComponent from '../../vue/backendApp/components/Toast.vue';
 import Vue from 'vue';
 let controller = {};
 

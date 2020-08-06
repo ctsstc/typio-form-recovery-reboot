@@ -1,5 +1,5 @@
-import optionsModule from '../../../../js/modules/options/options'
-import defaultOptionsModule from '../../../../js/modules/options/defaultOptions'
+import optionsModule from '../../../../modules/options/options'
+import defaultOptionsModule from '../../../../modules/options/defaultOptions'
 
 export default {
     namespaced: true,

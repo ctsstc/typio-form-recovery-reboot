@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import blacklist from '../../../../js/modules/blacklist';
+    import blacklist from '../../../../modules/blacklist';
 
     export default {
         name: "BlacklistPartial",

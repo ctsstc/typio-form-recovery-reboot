@@ -5,7 +5,7 @@ import db from '../../modules/db/db';
 import EditableDefaults from '../../modules/EditableDefaults';
 import ui from '../../modules/ui';
 import toastController from './toastController';
-import KeyboardShortcutPopup from '../../../vue/KeyboardShortcutPopup.vue';
+import KeyboardShortcutPopup from '../../vue/content/KeyboardShortcutPopup.vue';
 import Vue from 'vue';
 
 let keyboardShortcutController = {};

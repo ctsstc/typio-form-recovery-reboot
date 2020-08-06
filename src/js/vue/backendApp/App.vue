@@ -2,32 +2,19 @@
     <div class="app">
 
         <div class="sidebar">
-            <div class="navigation">
-                <p class="title">Typio Form Recovery</p>
-
-                <p><router-link :to="{ name: 'options' }">Options</router-link></p>
-                <p><router-link :to="{ name: 'options', hash: '#save-options' }">- Save-options</router-link></p>
-                <p><router-link :to="{ name: 'options', hash: '#restore-icon' }">- Restore Icon</router-link></p>
-                <p><router-link :to="{ name: 'options', hash: '#save-indicator' }">- Save Indicator</router-link></p>
-                <p><router-link :to="{ name: 'options', hash: '#blacklist' }">- Blacklist</router-link></p>
-                <p><router-link :to="{ name: 'options', hash: '#keyboard-shortcuts' }">- Keyboard Shortcuts</router-link></p>
-                <p><router-link :to="{ name: 'feedback' }">Feedback</router-link></p>
-                <p><router-link :to="{ name: 'faq' }">Frequently Asked Questions</router-link></p>
-                <p><router-link :to="{ name: 'permissions' }">Permission Information</router-link></p>
-                <p><router-link :to="{ name: 'privacyPolicy' }">Privacy Policy</router-link></p>
-            </div>
+            <navigation class="navigation"></navigation>
         </div>
 
         <div class="main">
 
-            <div class="top-bar">
-                <div class="left">
-                    Typio Form Recovery
-                </div>
-                <div class="right">
-                    <a target="_blank" href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">Review Typio</a>
-                </div>
-            </div>
+            <!--<div class="top-bar">-->
+                <!--<div class="left">-->
+                    <!--Typio Form Recovery-->
+                <!--</div>-->
+                <!--<div class="right">-->
+                    <!--<a target="_blank" href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">Review Typio</a>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <router-view class="page-container"></router-view>
 
@@ -42,7 +29,7 @@
     export default {
         name: "App",
         components: {
-            Navigation
+            Navigation,
         },
         mounted() {
             this.$store.dispatch('options/loadOptionsFromStorage');
@@ -117,13 +104,6 @@
             .navigation {
                 position: sticky;
                 top: 0;
-                padding: 80px 80px 80px 30px;
-            }
-
-            .title {
-                color: #b6c9e4;
-                margin-bottom: 30px;
-                font-size: 20px;
             }
 
             a {
@@ -204,7 +184,7 @@
 
     .card {
         padding: 30px;
-        margin-bottom: 80px;
+        margin-bottom: 50px;
         background: white;
         position: relative;
         border: 1px solid #e4e4e4;

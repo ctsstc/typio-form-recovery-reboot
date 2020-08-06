@@ -50,8 +50,8 @@
 </template>
 
 <script>
-    import keyboardShortcuts from '../js/modules/keyboardShortcuts';
-    import Options from '../js/modules/options/options';
+    import keyboardShortcuts from '../../modules/keyboardShortcuts';
+    import Options from '../../modules/options/options';
 
     export default {
         name: "KeyboardShortcutPopup",

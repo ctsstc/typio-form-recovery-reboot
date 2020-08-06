@@ -26,11 +26,11 @@
 </template>
 
 <script>
-    import placeholders from '../js/modules/placeholders';
-    import EditableDefaults from '../js/modules/EditableDefaults';
-    import recoveryDialogController from '../js/controllers/content/recoveryDialogController';
-    import keyboardShortcutController from '../js/controllers/content/keyboardShortcutController';
-    import blockController from '../js/controllers/content/blockController';
+    import placeholders from '../../modules/placeholders';
+    import EditableDefaults from '../../modules/EditableDefaults';
+    import recoveryDialogController from '../../controllers/content/recoveryDialogController';
+    import keyboardShortcutController from '../../controllers/content/keyboardShortcutController';
+    import blockController from '../../controllers/content/blockController';
 
     export default {
         name: "QuickAccessPopupItem",

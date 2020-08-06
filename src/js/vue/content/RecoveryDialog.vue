@@ -119,14 +119,14 @@
 </template>
 
 <script>
-    import Options from '../js/modules/options/options';
-    import db from '../js/modules/db/db';
-    import Helpers from '../js/modules/Helpers';
-    import EditableDefaults from '../js/modules/EditableDefaults';
-    import Cache from '../js/modules/Cache';
-    import toastController from '../js/controllers/content/toastController';
-    import keyboardShortcutController from '../js/controllers/content/keyboardShortcutController';
-    import blockController from '../js/controllers/content/blockController';
+    import Options from '../../modules/options/options';
+    import db from '../../modules/db/db';
+    import Helpers from '../../modules/Helpers';
+    import EditableDefaults from '../../modules/EditableDefaults';
+    import Cache from '../../modules/Cache';
+    import toastController from '../../controllers/content/toastController';
+    import keyboardShortcutController from '../../controllers/content/keyboardShortcutController';
+    import blockController from '../../controllers/content/blockController';
 
     export default {
         name: "RecoveryDialog",

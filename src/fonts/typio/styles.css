@@ -9,7 +9,6 @@
     url("fonts/typio.svg#typio") format("svg");
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
 
 }
 
@@ -68,4 +67,22 @@
 }
 .icon-cloud:before {
   content: "\69";
+}
+.icon-cog:before {
+  content: "\6b";
+}
+.icon-megaphone:before {
+  content: "\6c";
+}
+.icon-ios-locked:before {
+  content: "\6d";
+}
+.icon-lock:before {
+  content: "\6e";
+}
+.icon-lock-1:before {
+  content: "\6f";
+}
+.icon-help-circled:before {
+  content: "\71";
 }

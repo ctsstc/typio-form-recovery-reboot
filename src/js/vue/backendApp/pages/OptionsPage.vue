@@ -14,6 +14,8 @@
         <blacklist-partial id="blacklist" class="card"></blacklist-partial>
 
         <keyboard-shortcuts-partial id="keyboard-shortcuts" class="card"></keyboard-shortcuts-partial>
+
+        <context-menu-partial id="context-menu" class="card"></context-menu-partial>
     </div>
 </template>
 
@@ -23,6 +25,7 @@
     import SaveIndicatorPartial from './partials/SaveIndicatorPartial.vue';
     import BlacklistPartial from './partials/BlacklistPartial.vue';
     import KeyboardShortcutsPartial from './partials/KeyboardShortcutsPartial.vue';
+    import ContextMenuPartial from './partials/ContextMenuPartial.vue';
 
     function handleRouteChange(to, from, next) {
         next();
@@ -53,6 +56,7 @@
             SaveIndicatorPartial,
             BlacklistPartial,
             KeyboardShortcutsPartial,
+            ContextMenuPartial,
         },
         beforeRouteEnter(to, from, next) {
             handleRouteChange(to, from, next);

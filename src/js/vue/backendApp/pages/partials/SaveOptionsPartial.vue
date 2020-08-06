@@ -33,7 +33,7 @@
 
 <script>
     import { mapState } from 'vuex';
-    import Tooltip from '../../../partials/Tooltip.vue';
+    import Tooltip from '../../../common/Tooltip.vue';
     import FancyCheck from '../../components/FancyCheck.vue';
 
     export default {
