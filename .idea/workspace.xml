@@ -2,41 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dist2/css/backendApp.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/css/content.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/css/popup.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/fonts/typio/fonts/typio.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/fonts/typio/fonts/typio.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/fonts/typio/fonts/typio.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/fonts/typio/fonts/typio.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/fonts/typio/icons-reference.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/fonts/typio/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/app.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/db-manager.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/faq.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/feedback.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/options.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/permissioninfo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/popup.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/privacypolicy.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/html/splash.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/img/icon128.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/img/icon16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/img/icon38.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/img/icon48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/img/qa-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/js/backendApp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/js/background.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/js/content.frameInjector.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/js/content.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/js/options.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/js/popup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist2/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/backendApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/backendApp/backendApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/content/contentController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/content/contentController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/popupController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/popupController/popupController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/1400x560.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/1400x560.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/1400x560.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/1400x560.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/440x280 BETA.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/440x280 BETA.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/440x280.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/440x280.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/920x680.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/920x680.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/920x680.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/920x680.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/beta-screenshot.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/beta-screenshot.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/beta-screenshot.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/beta-screenshot.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/icon.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icon.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/icon128.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icon128.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/icon16.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icon16.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/icon400.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icon400.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/idkwhatsize.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/idkwhatsize.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/qa-icon.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/qa-icon.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/scrn1.psd" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scrn1.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/used/icon128.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/img/icon128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/used/icon16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/img/icon16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/used/icon38.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/img/icon38.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/used/icon48.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/img/icon48.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/used/qa-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/img/qa-icon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/js/" />
@@ -68,22 +54,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/controllers/content/contentController.js">
+        <entry file="file://$PROJECT_DIR$/webpack.config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-              <folding>
-                <element signature="e#21#67#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="395">
+              <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/js/modules/ui.js">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="86" selection-start-line="86" selection-end-line="86" />
+            <state relative-caret-position="260">
+              <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -191,11 +174,12 @@
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/PrivacyPage.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" />
-        <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/popupController/popupController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content.frameInjector/frameInjectorController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/contentController.js" />
         <option value="$PROJECT_DIR$/src/js/modules/ui.js" />
+        <option value="$PROJECT_DIR$/webpack.config.js" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -231,50 +215,7 @@
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="fonts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="fonts" type="462c0819:PsiDirectoryNode" />
-              <item name="typio" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="content.frameInjector" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="popupController" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="vue" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -293,11 +234,11 @@
       <recent name="$PROJECT_DIR$/src/fonts/typio" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/img" />
+      <recent name="$PROJECT_DIR$/assets" />
       <recent name="$PROJECT_DIR$/src/js/controllers/popupController" />
       <recent name="$PROJECT_DIR$/src/js/controllers/backendApp" />
       <recent name="$PROJECT_DIR$/src/fonts/typio" />
-      <recent name="$PROJECT_DIR$/src/js/vue/backendApp/components" />
-      <recent name="$PROJECT_DIR$/src/js/vue/content" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -344,7 +285,7 @@
       <workItem from="1596383929303" duration="3221000" />
       <workItem from="1596446729656" duration="28933000" />
       <workItem from="1596620079867" duration="5000" />
-      <workItem from="1596620109036" duration="33067000" />
+      <workItem from="1596620109036" duration="33367000" />
     </task>
     <task id="LOCAL-00001" summary="Options page work">
       <created>1596624742680</created>
@@ -388,12 +329,12 @@
       <option name="project" value="LOCAL" />
       <updated>1596733946520</updated>
     </task>
-    <task id="LOCAL-00007" summary="Version bump">
-      <created>1560672595474</created>
+    <task id="LOCAL-00007" summary="Refactoring, clean up">
+      <created>1596739651251</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1560672595474</updated>
+      <updated>1596739651251</updated>
     </task>
     <task id="LOCAL-00008" summary="Clean up gitignore, remove old sass folder">
       <created>1560673212396</created>
@@ -633,17 +574,26 @@
       <option name="project" value="LOCAL" />
       <updated>1596617836407</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34770000" />
+    <option name="totallyTimeSpent" value="35070000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="1679" y="23" width="1920" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.24387646" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.24387646" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.38302502" side_tool="true" weight="0.22649573" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3297062" />
@@ -653,11 +603,11 @@
       <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="7" />
+      <window_info anchor="bottom" id="TODO" order="7" weight="0.32982087" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4993895" weight="0.51033735" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.33719704" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.33719704" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50305253" side_tool="true" weight="0.2665941" />
       <window_info anchor="bottom" id="TypeScript" order="13" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.35150167" />
@@ -689,7 +639,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Readme update" />
     <MESSAGE value="Work" />
     <MESSAGE value="Add some FAQ to faq page" />
     <MESSAGE value="Continued work on db manager, try to fix search" />
@@ -714,50 +663,10 @@
     <MESSAGE value="Webpack conversion" />
     <MESSAGE value=".idea" />
     <MESSAGE value="Options page work" />
-    <option name="LAST_COMMIT_MESSAGE" value="Options page work" />
+    <MESSAGE value="Refactoring, clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring, clean up" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dist/js/backendApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/html/options.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="3614" selection-start-column="3614" selection-end-column="3614" />
-          <folding>
-            <element signature="e#1110#1116#0" expanded="true" />
-            <element signature="e#1201#1207#0" expanded="true" />
-            <element signature="n#style#0;n#p#7;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#3655#3661#0" expanded="true" />
-            <element signature="e#3847#3853#0" expanded="true" />
-            <element signature="n#style#0;n#p#1;n#div#3;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vue/backendApp/OptionsPartialMixin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/html/db-manager.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/controllers/content/keyboardShortcutController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
@@ -1066,13 +975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/controllers/popupController/popupController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
@@ -1105,6 +1007,20 @@
         <state relative-caret-position="-665" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build_legacy/tasks/reloadExtension.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/modules/ui.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="86" selection-start-line="86" selection-end-line="86" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/controllers/content/contentController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="364">
@@ -1115,10 +1031,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/ui.js">
+    <entry file="file://$PROJECT_DIR$/license.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="86" selection-start-line="86" selection-end-line="86" />
+        <state relative-caret-position="78">
+          <caret line="3" column="6" lean-forward="true" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_legacy/tasks/copy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="5" column="75" selection-start-line="5" selection-start-column="75" selection-end-line="5" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
         </state>
       </provider>
     </entry>

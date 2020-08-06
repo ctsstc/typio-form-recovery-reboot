@@ -72,7 +72,7 @@ module.exports = {
                 {
                     from: '*',
                     to: path.resolve(__dirname, './dist/img'),
-                    context: 'src/img/used',
+                    context: 'src/img',
                 },
                 {
                     from: '**/*',
