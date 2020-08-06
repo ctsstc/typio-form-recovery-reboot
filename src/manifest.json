@@ -57,7 +57,7 @@
     ],
 
     "options_ui" : {
-        "page": "html/options.html",
+        "page": "html/app.html",
         "chrome_style": true,
         "open_in_tab": true
     },

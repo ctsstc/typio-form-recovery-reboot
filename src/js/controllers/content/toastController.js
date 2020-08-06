@@ -31,7 +31,7 @@ function makeVue(rootnode, callback) {
 		el: rootnode,
 		render(h) { return h(ToastComponent) },
 	});
-	vue = vue.$children[0]; // Todo: 🤮
+	vue = vue.$children[0];
 
 	if(callback) requestAnimationFrame(() => requestAnimationFrame(callback));
 }

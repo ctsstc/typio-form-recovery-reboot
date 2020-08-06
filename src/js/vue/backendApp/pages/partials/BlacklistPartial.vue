@@ -135,7 +135,10 @@
 
             @keyframes blockItemIn {
                 from {
-                    background: #fffda4;
+                    background: #cccccc;
+                }
+                to {
+                    background: transparent;
                 }
             }
 

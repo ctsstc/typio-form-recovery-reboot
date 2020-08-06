@@ -65,7 +65,7 @@ function makeVue(rootnode, callback) {
 		el: rootnode,
 		render(h) { return h(QuickAccessPopup) },
 	});
-	vue = vue.$children[0]; // Todo: Oh god no
+	vue = vue.$children[0];
 	Events.on('focus', vue.abort)
 
 	if(callback) callback();

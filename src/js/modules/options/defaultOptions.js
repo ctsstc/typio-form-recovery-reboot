@@ -4,7 +4,7 @@ var def = {}
 
 def.savePasswords = false;
 def.saveCreditCards = false;
-def.storageTimeDays = 7;
+def.storageTimeDays = 30;
 def.saveIndicator = 'disable';
 def.saveIndicatorColor = '#3CB720';
 def.hideSmallEntries = true;

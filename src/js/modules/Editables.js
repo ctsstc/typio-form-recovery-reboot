@@ -119,7 +119,6 @@ editables.isNode = (elem, compare) => {
 
 let logtmt;
 editables.pauseLoggingForJustABit = () => {
-	// Todo: Test
 	window.terafm.pauseLogging = true;
 
 	clearTimeout(logtmt);

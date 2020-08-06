@@ -87,7 +87,6 @@ function sync() {
 
 db.init = function(done) {
 	// chrome.storage.local.clear();return;
-	// Todo: Test (removed indexeddb stuff)
 	// console.log(buckets);
 	sessionId = db.generateSessionId();
 	fetchSnapshot().then(done);

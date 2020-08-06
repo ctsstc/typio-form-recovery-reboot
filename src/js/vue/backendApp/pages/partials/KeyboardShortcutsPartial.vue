@@ -3,23 +3,17 @@
         <h2>Keyboard Shorcuts</h2>
 
         <form @change="$store.dispatch('options/save')">
-            <fancy-check v-model="options.keybindEnabled">Enable Enable keyboard shortcuts</fancy-check>
 
+            <p>You may configure the keyboard shortcuts to your liking, but Typio cannot detect collisions with other existing keyboard shortcuts. If you encounter issues after changing the keyboard shortcuts, please change or disable them.</p>
+
+            <fancy-check v-model="options.keybindEnabled">Enable Enable keyboard shortcuts</fancy-check>
             <br>
 
             <div class="keyboard-shortcut-list">
-                <div v-for="option of keyboardShortcutOptions" @click="openPicker(option)" class="row">
-                    <div>
-                        {{ option.label }}
-                    </div>
-                    <div>
-                        <span class="keycombo">{{ options[option.key] || 'Disabled' }}</span>
-                    </div>
-                    <div><a>Edit</a></div>
-                </div>
+                <keyboard-shortcut-item v-for="option of keyboardShortcutOptions" :key="option.key" :option="option" :value="options[option.key]" @click.native="openPicker(option)"></keyboard-shortcut-item>
             </div>
 
-            <p>The Quick Restore Popup can be navigated with the up/down arrow keys. Press space to select, or Shift + Delete to delete the selected item.</p>
+            <p>The Quick Restore Popup can be navigated with the up/down arrow keys. Press space to select, or <span style="white-space: nowrap">Shift + Delete</span> to delete the selected item.</p>
         </form>
 
         <keyboard-shortcut-picker v-if="pickerIsOpen" @change="onPick"></keyboard-shortcut-picker>
@@ -31,11 +25,13 @@
     import { mapState } from 'vuex';
     import FancyCheck from '../../components/FancyCheck.vue';
     import KeyboardShortcutPicker from './KeyboardShortcutPicker.vue';
+    import KeyboardShortcutItem from './KeyboardShortcutItem.vue';
 
     export default {
         name: "KeyboardShortcutsPartial",
         components: {
             KeyboardShortcutPicker,
+            KeyboardShortcutItem,
             FancyCheck,
         },
         data() {
@@ -91,39 +87,5 @@
 <style lang="scss" scoped>
     .keyboard-shortcut-list {
         border: 1px solid #d4d4d4;
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 15px;
-            cursor: pointer;
-
-            div:first-child {
-                flex-grow: 1;
-            }
-
-            div:last-child {
-                margin-left: 50px;
-            }
-
-            &:hover {
-                background: #f0f0f0;
-            }
-
-            input {
-                width: 160px;
-                text-align: center;
-                border: 1px solid #bfbfbf;
-            }
-        }
-    }
-
-    .keycombo {
-        padding: 3px 10px;
-        border: 1px solid #d4d4d4;
-        border-radius: 5px;
-        font-size: 15px;
-        background: #FFF;
-        white-space: nowrap;
     }
 </style>

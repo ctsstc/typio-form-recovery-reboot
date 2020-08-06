@@ -93,7 +93,7 @@ function makeVue(rootnode, callback) {
 		el: rootnode,
 		render(h) { return h(KeyboardShortcutPopup) },
 	});
-	vue = vue.$children[0]; // Todo: Oh god no
+	vue = vue.$children[0];
 
 	if(callback) callback();
 }

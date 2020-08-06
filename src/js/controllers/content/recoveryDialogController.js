@@ -58,7 +58,7 @@ function makeVue(rootnode, callback) {
 		el: rootnode,
 		render(h) { return h(RecoveryDialog) },
 	});
-	vue = vue.$children[0]; // Todo: 🤮
+	vue = vue.$children[0];
 
 	KeyboardShortcuts.on(['Escape'], function() {
 		vue.hide();

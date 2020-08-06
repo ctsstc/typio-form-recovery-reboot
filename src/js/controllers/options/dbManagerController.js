@@ -122,7 +122,6 @@
 					for(let buck of buckets) {
 						if(max < 1) break;
 
-						// Todo: Figure out why search does not return results correctly (max 1 result per domain?)
 						let list = buck.getEntries(null, null, entry => {
 							return entry.valueContains(this.entryFilter) !== -1;
 						});

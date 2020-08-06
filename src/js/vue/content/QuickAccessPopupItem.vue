@@ -41,7 +41,7 @@
                 singleSelected: false
             }
         },
-        // Todo: 🤮
+        // 🤮
         computed: {
             rootInstance() {
                 return this.$root.$children[0];

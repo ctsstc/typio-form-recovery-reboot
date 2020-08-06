@@ -33,35 +33,6 @@
         },
         mounted() {
             this.$store.dispatch('options/loadOptionsFromStorage');
-
-            // Todo: Remove this
-            setTimeout(updateGlobals, 50);
-            window.tmpGlobOpts = {};
-            const store = this.$store;
-            function updateGlobals() {
-                window.tmpGlobOpts.savePasswords = store.state.options.options.savePasswords;
-                window.tmpGlobOpts.saveCreditCards = store.state.options.options.saveCreditCards;
-                window.tmpGlobOpts.storageTimeDays = store.state.options.options.storageTimeDays;
-                window.tmpGlobOpts.saveIndicator = store.state.options.options.saveIndicator;
-                window.tmpGlobOpts.saveIndicatorColor = store.state.options.options.saveIndicatorColor;
-                window.tmpGlobOpts.hideSmallEntries = store.state.options.options.hideSmallEntries;
-                window.tmpGlobOpts.keybindEnabled = store.state.options.options.keybindEnabled;
-                window.tmpGlobOpts.quickAccessButtonEnabled = store.state.options.options.quickAccessButtonEnabled;
-                window.tmpGlobOpts.quickAccessButtonTrigger = store.state.options.options.quickAccessButtonTrigger;
-                window.tmpGlobOpts.cloneOnRestore = store.state.options.options.cloneOnRestore;
-                window.tmpGlobOpts.resetEditablesBetweenRestorations = store.state.options.options.resetEditablesBetweenRestorations;
-                window.tmpGlobOpts.qaGroupSessions = store.state.options.options.qaGroupSessions;
-                window.tmpGlobOpts.qaEnableSessionSubmenu = store.state.options.options.qaEnableSessionSubmenu;
-                window.tmpGlobOpts.keybindToggleRecDiag = store.state.options.options.keybindToggleRecDiag;
-                window.tmpGlobOpts.keybindRestorePreviousSession = store.state.options.options.keybindRestorePreviousSession;
-                window.tmpGlobOpts.keybindOpenQuickAccess = store.state.options.options.keybindOpenQuickAccess;
-            }
-
-            this.$store.subscribeAction((action, state) => {
-                if(action.type === 'options/save') {
-                    updateGlobals();
-                }
-            });
         }
     }
 </script>

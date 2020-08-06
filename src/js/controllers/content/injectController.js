@@ -5,7 +5,6 @@ import db from '../../modules/db/db';
 
 blacklist.isBlocked(window.location.href, function(blocked) {
     if(blocked) {
-        // Todo: Test
         window.terafm.isBlocked = true;
 
     } else {
