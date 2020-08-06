@@ -1,5 +1,5 @@
-import '../../sass/popup.scss';
-import blacklist from '../modules/blacklist'
+import '../../../sass/popup.scss';
+import blacklist from '../../modules/blacklist'
 
 let hostnamePlaceholder = document.querySelector('.js-hostname'),
 	blacklistToggleBtn = document.querySelector('.head-toggle'),
