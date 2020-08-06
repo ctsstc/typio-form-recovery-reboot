@@ -5,15 +5,15 @@
         <p>Make Typio yours.</p>
         <br><br>
 
-        <save-options-partial class="options-box"></save-options-partial>
+        <save-options-partial id="save-options" class="card"></save-options-partial>
 
-        <restore-icon-partial class="options-box"></restore-icon-partial>
+        <restore-icon-partial id="restore-icon" class="card"></restore-icon-partial>
 
-        <save-indicator-partial class="options-box"></save-indicator-partial>
+        <save-indicator-partial id="save-indicator" class="card"></save-indicator-partial>
 
-        <blacklist-partial class="options-box"></blacklist-partial>
+        <blacklist-partial id="blacklist" class="card"></blacklist-partial>
 
-        <keyboard-shortcuts-partial class="options-box"></keyboard-shortcuts-partial>
+        <keyboard-shortcuts-partial id="keyboard-shortcuts" class="card"></keyboard-shortcuts-partial>
     </div>
 </template>
 
@@ -24,6 +24,27 @@
     import BlacklistPartial from './partials/BlacklistPartial.vue';
     import KeyboardShortcutsPartial from './partials/KeyboardShortcutsPartial.vue';
 
+    function handleRouteChange(to, from, next) {
+        next();
+
+        setTimeout(() => {
+            if (to.hash) {
+                const el = document.querySelector(to.hash);
+                if(el) {
+                    window.scrollTo({
+                        top: el.getBoundingClientRect().top + window.scrollY + -30,
+                        behavior: 'smooth',
+                    })
+                    // el.scrollIntoView(true);
+                    // el.classList.add('navigated-to');
+                    // setTimeout(() => {
+                    //     el.classList.remove('navigated-to');
+                    // }, 1000)
+                }
+            }
+        })
+    }
+
     export default {
         name: "OptionsPage",
         components: {
@@ -32,32 +53,15 @@
             SaveIndicatorPartial,
             BlacklistPartial,
             KeyboardShortcutsPartial,
-        }
+        },
+        beforeRouteEnter(to, from, next) {
+            handleRouteChange(to, from, next);
+        },
+        beforeRouteUpdate(to, from, next) {
+            handleRouteChange(to, from, next);
+        },
     }
 </script>
 
 <style lang="scss" scoped>
-    .options-box {
-        padding: 30px;
-        margin: -10px;
-        margin-bottom: 80px;
-        background: white;
-        position: relative;
-
-        &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: #00000008;
-            border-radius: inherit;
-            transform-origin: bottom left;
-            transition-duration: .3s;
-            pointer-events: none;
-            transform: scaleX(1.01) rotate(2deg);
-        }
-    }
 </style>

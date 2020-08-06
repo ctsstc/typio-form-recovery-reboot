@@ -15,4 +15,11 @@ const routes = [
     { path: '/privacy-policy', name: 'privacyPolicy', component: PrivacyPolicyPage },
 ];
 
-export default new VueRouter({ routes });
+export default new VueRouter({
+    routes,
+    scrollBehavior (to, from, savedPosition) {
+        if (!to.hash) {
+            return { x: 0, y: 0 }
+        }
+    }
+});
