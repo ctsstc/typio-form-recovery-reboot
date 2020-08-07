@@ -2,20 +2,32 @@
     <div>
 
         <h1>Options</h1>
-        <p>Make Typio yours.</p>
-        <br><br>
 
-        <save-options-partial id="save-options" class="card"></save-options-partial>
+        <!-- top padding for anchor links -->
 
-        <restore-icon-partial id="restore-icon" class="card"></restore-icon-partial>
+        <div style="margin-top: -30px; padding-top: 30px" id="save-options">
+            <save-options-partial class="card"></save-options-partial>
+        </div>
 
-        <save-indicator-partial id="save-indicator" class="card"></save-indicator-partial>
+        <div style="padding-top: 30px" id="restore-icon">
+            <restore-icon-partial class="card"></restore-icon-partial>
+        </div>
 
-        <blacklist-partial id="blacklist" class="card"></blacklist-partial>
+        <div style="padding-top: 30px" id="save-indicator">
+            <save-indicator-partial class="card"></save-indicator-partial>
+        </div>
 
-        <keyboard-shortcuts-partial id="keyboard-shortcuts" class="card"></keyboard-shortcuts-partial>
+        <div style="padding-top: 30px" id="blacklist">
+            <blacklist-partial class="card"></blacklist-partial>
+        </div>
 
-        <context-menu-partial id="context-menu" class="card"></context-menu-partial>
+        <div style="padding-top: 30px" id="keyboard-shortcuts">
+            <keyboard-shortcuts-partial class="card"></keyboard-shortcuts-partial>
+        </div>
+
+        <div style="padding-top: 30px" id="context-menu">
+            <context-menu-partial class="card"></context-menu-partial>
+        </div>
     </div>
 </template>
 

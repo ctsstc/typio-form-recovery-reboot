@@ -19,7 +19,6 @@ const routes = [
 export default new VueRouter({
     routes,
     scrollBehavior (to, from, savedPosition) {
-        console.log(to);
         if (to.hash) {
             return { selector: to.hash }
         } else if (savedPosition) {

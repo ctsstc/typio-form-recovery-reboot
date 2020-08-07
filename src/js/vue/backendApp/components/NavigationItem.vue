@@ -5,7 +5,7 @@
             {{ item.label }}
         </router-link>
 
-        <ul v-if="isHovering && item.children" class="sub-level">
+        <ul v-show="isHovering && item.children" class="sub-level">
             <navigation-item v-for="childItem of item.children" :key="childItem.label" :item="childItem"></navigation-item>
         </ul>
     </li>
@@ -57,18 +57,33 @@
 
     .root-level > li {
         position: relative;
+        transition-duration: .2s;
 
         &.hover-state {
-            background: #385177;
+            background: #597eb7;
         }
 
         & > a {
             display: block;
             padding: 8px 25px 8px 20px;
-            border-left: 5px solid transparent;
+            transition-duration: inherit;
 
-            &.router-link-active {
-                border-left-color: #FFF;
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 5px;
+                background: #FFF;
+                transform: scaleX(0);
+                transform-origin: top left;
+                transition-duration: .2s;
+            }
+
+            &.router-link-active::before {
+                transform: none;
+                transition-duration: 1s;
             }
 
             i {
@@ -78,6 +93,10 @@
                 font-size: 20px;
                 margin-right: 5px;
                 line-height: 1;
+
+                // Set sizes to avoid jumpiness on load
+                width: 20px;
+                height: 24px;
             }
         }
 
@@ -85,15 +104,28 @@
             position: absolute;
             top: 0;
             left: 100%;
-            background: #385177;
+            background: #ffffff;
             padding: 15px 0;
+            box-shadow: 0 0 30px #0000000d, 0 1px 5px #00000021;
+            animation: subIn .8s;
+            animation-timing-function: cubic-bezier(0.075, 0.820, 0.165, 1.000); /* easeOutCirc */
+            transform-origin: left center;
+
+            @keyframes subIn {
+                from {
+                    opacity: 0;
+                    transform: scale(.97);
+                }
+            }
 
             li a {
                 display: block;
                 padding: 5px 25px;
+                color: #2e3746;
+                transition-duration: .2s;
 
                 &:hover {
-                    background: #42628f;
+                    background: #e2e6ec;
                 }
             }
         }

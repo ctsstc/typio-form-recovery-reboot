@@ -27,7 +27,7 @@
                 const el = this.$refs.tooltip;
 
                 if(el) {
-                    el.style.top = e.clientY + 20 + 'px';
+                    el.style.top = e.clientY + 15 + 'px';
                     el.style.left = e.clientX + 'px';
                 }
             }
@@ -35,7 +35,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
     .tooltip-wrapper {
         display: inline;
@@ -52,15 +52,14 @@
             pointer-events: none;
             z-index: 100;
             background: white;
-            padding: 10px;
+            padding: 15px;
             display: block;
             top: 316px;
             left: 464px;
-            font-size: 13px;
-            max-width: 250px;
+            font-size: 15px;
+            max-width: 300px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
             color: #555;
-            width: 250px;
             animation: tooltipIn .1s;
 
             @keyframes tooltipIn {
