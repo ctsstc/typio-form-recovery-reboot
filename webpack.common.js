@@ -4,12 +4,7 @@ const MinifyHtmlWebpackPlugin = require('minify-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-
-
-
 module.exports = {
-    mode: 'development',
-    devtool: 'false', // Disable default "eval" due to browser restrictions
     entry: {
         background: './src/js/controllers/background/backgroundController.js',
         content: './src/js/controllers/content/contentController.js',

@@ -1,29 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutItem.vue" afterDir="false" />
+    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="Work, refactoring, clean up">
+      <change afterPath="$PROJECT_DIR$/webpack.dev.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webpack.prod.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/html/faq.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/html/feedback.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/html/options.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/html/permissioninfo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/html/privacypolicy.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/background/maintenanceController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/background/maintenanceController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/content/injectController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/content/injectController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/content/keyboardShortcutController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/content/keyboardShortcutController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/content/recoveryDialogController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/content/recoveryDialogController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/content/toastController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/content/toastController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/options/dbManagerController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/options/dbManagerController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/modules/Editables.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/modules/Editables.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/modules/db/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/modules/db/db.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/modules/options/defaultOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/modules/options/defaultOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/BlacklistPartial.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/BlacklistPartial.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/vue/content/QuickAccessPopupItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/content/QuickAccessPopupItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build_legacy/tasks/js.js" beforeDir="false" afterPath="$PROJECT_DIR$/build_legacy/tasks/js.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.common.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/js/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -54,32 +39,28 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue">
+        <entry file="file://$PROJECT_DIR$/webpack.common.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="639">
-              <caret line="61" selection-start-line="61" selection-end-line="61" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#p#1;n#form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#1043#1075#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="69">
+              <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutItem.vue">
+        <entry file="file://$PROJECT_DIR$/webpack.prod.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="50" selection-end-column="9" />
+            <state relative-caret-position="234">
+              <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/BlacklistPartial.vue">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="135" selection-start-line="135" selection-end-line="135" />
+            <state relative-caret-position="441">
+              <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -95,8 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>onsole.log(this.blockedDomain</find>
-      <find>console.log(options);</find>
       <find>chk</find>
       <find>box-shadow</find>
       <find>min-w</find>
@@ -125,6 +104,8 @@
       <find>will be completely disabled on these domain</find>
       <find>yah</find>
       <find>console.</find>
+      <find>stripDebug</find>
+      <find>yaa</find>
     </findStrings>
     <replaceStrings>
       <replace>isVisible</replace>
@@ -150,10 +131,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/js/modules/options/options.js" />
-        <option value="$PROJECT_DIR$/src/vue/backendApp/components/FancyCheck.vue" />
-        <option value="$PROJECT_DIR$/src/vue/partials/Tooltip.vue" />
-        <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/SaveOptionsPartial.vue" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutPicker.vue" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" />
@@ -181,10 +158,8 @@
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/PrivacyPage.vue" />
         <option value="$PROJECT_DIR$/src/js/controllers/popupController/popupController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content.frameInjector/frameInjectorController.js" />
-        <option value="$PROJECT_DIR$/src/js/controllers/content/contentController.js" />
         <option value="$PROJECT_DIR$/src/js/modules/ui.js" />
         <option value="$PROJECT_DIR$/webpack.config.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/js/modules/options/defaultOptions.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/injectController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/keyboardShortcutController.js" />
@@ -193,7 +168,6 @@
         <option value="$PROJECT_DIR$/src/js/controllers/content/toastController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/background/maintenanceController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/options/dbManagerController.js" />
-        <option value="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/content/QuickAccessPopupItem.vue" />
         <option value="$PROJECT_DIR$/src/js/modules/Editables.js" />
         <option value="$PROJECT_DIR$/src/js/modules/db/db.js" />
@@ -201,6 +175,13 @@
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutItem.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/BlacklistPartial.vue" />
+        <option value="$PROJECT_DIR$/webpack.dev.js" />
+        <option value="$PROJECT_DIR$/webpack.common.js" />
+        <option value="$PROJECT_DIR$/build_legacy/tasks/js.js" />
+        <option value="$PROJECT_DIR$/src/js/controllers/content/contentController.js" />
+        <option value="$PROJECT_DIR$/webpack.prod.js" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -230,7 +211,13 @@
             <path>
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="build_legacy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="build_legacy" type="462c0819:PsiDirectoryNode" />
+              <item name="tasks" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
@@ -262,30 +249,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="background" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="options" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="options" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
@@ -301,25 +265,6 @@
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="vue" type="462c0819:PsiDirectoryNode" />
               <item name="backendApp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="vue" type="462c0819:PsiDirectoryNode" />
-              <item name="backendApp" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="vue" type="462c0819:PsiDirectoryNode" />
-              <item name="backendApp" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="partials" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -389,7 +334,7 @@
       <workItem from="1596383929303" duration="3221000" />
       <workItem from="1596446729656" duration="28933000" />
       <workItem from="1596620079867" duration="5000" />
-      <workItem from="1596620109036" duration="35670000" />
+      <workItem from="1596620109036" duration="37829000" />
     </task>
     <task id="LOCAL-00001" summary="Options page work">
       <created>1596624742680</created>
@@ -447,12 +392,12 @@
       <option name="project" value="LOCAL" />
       <updated>1596739945743</updated>
     </task>
-    <task id="LOCAL-00009" summary="Readme update">
-      <created>1560674135119</created>
+    <task id="LOCAL-00009" summary="Work, refactoring, clean up">
+      <created>1596742231549</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1560674135119</updated>
+      <updated>1596742231549</updated>
     </task>
     <task id="LOCAL-00010" summary="Work">
       <created>1560685752606</created>
@@ -678,11 +623,11 @@
       <option name="project" value="LOCAL" />
       <updated>1596617836407</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37373000" />
+    <option name="totallyTimeSpent" value="39532000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -695,9 +640,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1679" y="23" width="1920" height="1057" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.20766774" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.20766774" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.38302502" side_tool="true" weight="0.22649573" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3297062" />
@@ -711,7 +655,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4993895" weight="0.51033735" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.31717598" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.37618545" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50305253" side_tool="true" weight="0.2665941" />
       <window_info anchor="bottom" id="TypeScript" order="13" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.35150167" />
@@ -743,7 +687,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Work" />
     <MESSAGE value="Add some FAQ to faq page" />
     <MESSAGE value="Continued work on db manager, try to fix search" />
     <MESSAGE value="wat" />
@@ -768,110 +711,10 @@
     <MESSAGE value=".idea" />
     <MESSAGE value="Options page work" />
     <MESSAGE value="Refactoring, clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring, clean up" />
+    <MESSAGE value="Work, refactoring, clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="Work, refactoring, clean up" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutPicker.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/FeedbackPage.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-332">
-          <caret line="1" column="28" lean-forward="true" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fonts/typio/icons-reference.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/css/backendApp.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/html/app.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fonts/typio/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="14" column="20" lean-forward="true" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/fonts/typio/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/ContextMenuPartial.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding>
-            <element signature="e#891#923#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="7" column="20" lean-forward="true" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
-          <folding>
-            <element signature="e#579#646#0" expanded="true" />
-            <element signature="e#995#1633#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/PrivacyPage.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5">
-          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="18" column="100" selection-start-line="18" selection-start-column="100" selection-end-line="18" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/PermissionsInfoPage.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26">
@@ -933,16 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/content/contentController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-          <folding>
-            <element signature="e#21#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/license.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -955,20 +788,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/img/icon16.png">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/beta-screenshot.jpg">
       <provider selected="true" editor-type-id="images" />
@@ -1063,13 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/App.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="43" column="24" lean-forward="true" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/vue/content/QuickAccessPopupItem.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -1105,13 +917,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dist/js/options.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="28" selection-start-column="28" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/js/backendApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="15" lean-forward="true" selection-start-line="10" selection-start-column="15" selection-end-line="10" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/css/backendApp.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/css/content.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#10373#10652#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/js/content.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/js/background.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/html/db-manager.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/fonts/typio/icons-reference.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.dev.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="6" column="3" lean-forward="true" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="639">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
+        <state relative-caret-position="348">
+          <caret line="25" column="19" lean-forward="true" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
           <folding>
             <element signature="n#style#0;n#span#0;n#p#1;n#form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#1043#1075#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1119,14 +989,59 @@
     <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutItem.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="271">
-          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="50" selection-end-column="9" />
+          <caret line="42" selection-start-line="42" selection-end-line="50" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/BlacklistPartial.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="135" selection-start-line="135" selection-end-line="135" />
+        <state relative-caret-position="436">
+          <caret line="140" column="44" selection-start-line="140" selection-start-column="44" selection-end-line="140" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_legacy/tasks/js.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="124" column="18" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_legacy/tasks/htmlmin.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/controllers/content/contentController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="1" column="21" lean-forward="true" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.prod.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
         </state>
       </provider>
     </entry>
