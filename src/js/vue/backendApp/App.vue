@@ -67,6 +67,8 @@
         display: flex;
 
         .sidebar {
+            position: relative;
+            z-index: 1;
             flex: 0 1 auto;
             background: #486da7;
             color: #FFF;
@@ -88,7 +90,7 @@
             position: relative;
             flex: 1 1 auto;
             background: #f5f5f5;
-            padding: 80px 60px;
+            padding: 80px 60px 50vh;
 
             .top-bar {
                 position: absolute;
@@ -116,8 +118,6 @@
             .page-container {
                 max-width: 800px;
                 margin: 0 auto;
-                position: relative;
-                z-index: 1;
             }
         }
     }

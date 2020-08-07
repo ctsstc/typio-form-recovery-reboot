@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="Work, refactoring, clean up">
-      <change afterPath="$PROJECT_DIR$/webpack.dev.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webpack.prod.js" afterDir="false" />
+    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/js/vue/backendApp/components/NavigationItem.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_legacy/tasks/js.js" beforeDir="false" afterPath="$PROJECT_DIR$/build_legacy/tasks/js.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/pages/FAQPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/pages/FAQPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/routes.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/js/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -39,28 +39,61 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.common.js">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
+            <state relative-caret-position="-11">
+              <caret line="45" column="19" lean-forward="true" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
+              <folding>
+                <element signature="e#98#2139#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.prod.js">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/NavigationItem.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+            <state relative-caret-position="433">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/App.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1719">
+              <caret line="92" column="32" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="146">
+              <caret line="59" column="10" lean-forward="true" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/package.json">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
+            <state relative-caret-position="211">
+              <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/FAQPage.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -76,11 +109,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>chk</find>
-      <find>box-shadow</find>
-      <find>min-w</find>
-      <find>h2</find>
-      <find>addForm</find>
       <find>length</find>
       <find>onsole.log(domain);</find>
       <find>ble-animati</find>
@@ -93,7 +121,6 @@
       <find>backendApp</find>
       <find>u can also reach me on</find>
       <find>Open a ticket</find>
-      <find>.naviga</find>
       <find>typio</find>
       <find>.card</find>
       <find>terafm</find>
@@ -106,6 +133,12 @@
       <find>console.</find>
       <find>stripDebug</find>
       <find>yaa</find>
+      <find>.naviga</find>
+      <find>ul li</find>
+      <find>page-container</find>
+      <find>.hov</find>
+      <find>.hover</find>
+      <find>.main</find>
     </findStrings>
     <replaceStrings>
       <replace>isVisible</replace>
@@ -131,8 +164,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/RestoreIconPartial.vue" />
-        <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutPicker.vue" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" />
         <option value="$PROJECT_DIR$/src/js/modules/blacklist.js" />
         <option value="$PROJECT_DIR$/src/vue/backendApp/pages/partials/BlacklistPartial.vue" />
@@ -151,10 +182,7 @@
         <option value="$PROJECT_DIR$/src/fonts/typio/styles.css" />
         <option value="$PROJECT_DIR$/src/js/controllers/backendApp.js" />
         <option value="$PROJECT_DIR$/src/html/app.html" />
-        <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/ContextMenuPartial.vue" />
-        <option value="$PROJECT_DIR$/src/js/vue/backendApp/routes.js" />
-        <option value="$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/PrivacyPage.vue" />
         <option value="$PROJECT_DIR$/src/js/controllers/popupController/popupController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content.frameInjector/frameInjectorController.js" />
@@ -180,8 +208,13 @@
         <option value="$PROJECT_DIR$/build_legacy/tasks/js.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/contentController.js" />
         <option value="$PROJECT_DIR$/webpack.prod.js" />
-        <option value="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/components/NavigationItem.vue" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/FAQPage.vue" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/routes.js" />
       </list>
     </option>
   </component>
@@ -266,6 +299,15 @@
               <item name="vue" type="462c0819:PsiDirectoryNode" />
               <item name="backendApp" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
+              <item name="backendApp" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -274,6 +316,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
@@ -334,7 +377,7 @@
       <workItem from="1596383929303" duration="3221000" />
       <workItem from="1596446729656" duration="28933000" />
       <workItem from="1596620079867" duration="5000" />
-      <workItem from="1596620109036" duration="37829000" />
+      <workItem from="1596620109036" duration="41547000" />
     </task>
     <task id="LOCAL-00001" summary="Options page work">
       <created>1596624742680</created>
@@ -399,12 +442,12 @@
       <option name="project" value="LOCAL" />
       <updated>1596742231549</updated>
     </task>
-    <task id="LOCAL-00010" summary="Work">
-      <created>1560685752606</created>
+    <task id="LOCAL-00010" summary="Improve build process, enable prod build">
+      <created>1596794079981</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1560685752606</updated>
+      <updated>1596794079981</updated>
     </task>
     <task id="LOCAL-00011" summary="Work">
       <created>1569002144643</created>
@@ -623,11 +666,11 @@
       <option name="project" value="LOCAL" />
       <updated>1596617836407</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39532000" />
+    <option name="totallyTimeSpent" value="43250000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -640,8 +683,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1679" y="23" width="1920" height="1057" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.20766774" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.20766774" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.38302502" side_tool="true" weight="0.22649573" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3297062" />
@@ -655,7 +699,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4993895" weight="0.51033735" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.37618545" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.3308746" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50305253" side_tool="true" weight="0.2665941" />
       <window_info anchor="bottom" id="TypeScript" order="13" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.35150167" />
@@ -687,7 +731,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Add some FAQ to faq page" />
     <MESSAGE value="Continued work on db manager, try to fix search" />
     <MESSAGE value="wat" />
     <MESSAGE value="Bugfixes, add import/export/name change" />
@@ -712,63 +755,10 @@
     <MESSAGE value="Options page work" />
     <MESSAGE value="Refactoring, clean up" />
     <MESSAGE value="Work, refactoring, clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="Work, refactoring, clean up" />
+    <MESSAGE value="Improve build process, enable prod build" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve build process, enable prod build" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/PermissionsInfoPage.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="1" column="9" lean-forward="true" selection-start-line="1" selection-start-column="9" selection-end-line="30" selection-end-column="14" />
-          <folding>
-            <element signature="n#div#0;n#div#0;n#template#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/backendApp/backendApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="8" column="11" lean-forward="true" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/popupController/popupController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="45" selection-start-line="3" selection-start-column="45" selection-end-line="3" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist2/js/popup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" column="34" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/content.frameInjector/frameInjectorController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_legacy/tasks/reloadExtension.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/modules/ui.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
@@ -1017,17 +1007,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.common.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/App.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="1" column="21" lean-forward="true" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="21" />
+        <state relative-caret-position="441">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -1038,10 +1021,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
+    <entry file="file://$PROJECT_DIR$/webpack.common.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
+        <state relative-caret-position="69">
+          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/FeedbackPage.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/NavigationItem.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/Navigation.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11">
+          <caret line="45" column="19" lean-forward="true" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
+          <folding>
+            <element signature="e#98#2139#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/FAQPage.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="59" column="10" lean-forward="true" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1719">
+          <caret line="92" column="32" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

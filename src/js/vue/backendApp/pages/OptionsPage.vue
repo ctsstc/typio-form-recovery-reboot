@@ -58,12 +58,14 @@
             KeyboardShortcutsPartial,
             ContextMenuPartial,
         },
+        /*
         beforeRouteEnter(to, from, next) {
             handleRouteChange(to, from, next);
         },
         beforeRouteUpdate(to, from, next) {
             handleRouteChange(to, from, next);
         },
+        */
     }
 </script>
 

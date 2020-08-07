@@ -2,13 +2,13 @@
     <div>
         <h1>Frequently Asked Questions</h1>
 
-        <div class="card">
+        <div id="save-frequency" class="card">
             <h2>How frequently does Typio save my input?</h2>
             <p>Typio does not save your data in a fixed interval, but rather saves it as you are typing with a one second throttle (meaning it will trigger a save maximum once every second, regardless of your typing speed). It also saves before navigating away from every page.</p>
             <p>If your form input is lost it is likely due to something else.</p>
         </div>
 
-        <div class="card">
+        <div id="input-not-saved" class="card">
             <h2>Why wasn't input wasn't saved?</h2>
             <p>Typio does its best to save all of your form data, and in most cases it does a great job. There are however a few edge cases Typio is unable to deal with due to browser restrictions.</p><br>
 
@@ -22,12 +22,12 @@
             <p>If you still can't find the data, try to reproduce the steps and <a href="feedback.html">file a bug report</a>.</p>
         </div>
 
-        <div class="card">
+        <div id="error-input-not-found" class="card">
             <h2>Error: Cannot find a focused input field</h2>
             <p>You might encounter this error when attempting to open Quick Access with the icon or with the keyboard shortcut. This problem occurs when the input field is of a custom type (contenteditable) and the website manipulates the field. Typio is still active and working, but the Quick Access popup cannot show. You can access your data through the recovery dialog (right click anywhere &gt; Open form recovery).</p>
         </div>
 
-        <div class="card">
+        <div id="error-cannot-auto-restore" class="card">
             <h2>Error: Entry cannot be restored automatically</h2>
             <p>The field the entry was typed in cannot be found on the current page. Either the field does not exist, or it cannot be found in the same place (path has changed). You can manually restore the entry by copying it.</p>
         </div>
