@@ -90,7 +90,7 @@ function createShadowRoot() {
 	shadowRootNode = rootNode.attachShadow({mode: 'open'});
 
 	let html = '';
-	html += '<style>@import "' + chrome.runtime.getURL('css/contentShadowRoot.css') + '";</style>';
+	html += '<style>@import "' + chrome.runtime.getURL('css/content.css') + '";</style>';
 	html += '<div id="shadow-root"></div>';
 
 	shadowRootNode.innerHTML = html;

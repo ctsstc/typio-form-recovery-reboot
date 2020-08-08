@@ -143,7 +143,7 @@
                 filteredCount: 0,
                 filterShowTextOnly: Options.get('hideSmallEntries'),
                 filterText: '',
-                noAutoRestoreHelpLink: chrome.runtime.getURL('html/faq.html#no-auto-restore'),
+                noAutoRestoreHelpLink: chrome.runtime.getURL('/html/app.html#/faq#error-cannot-auto-restore'),
 
                 delConfirmEntry: false,
 
