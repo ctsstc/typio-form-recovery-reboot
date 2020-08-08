@@ -17,7 +17,6 @@
         methods: {
             onMouseEnter() {
                 this.isVisible = true;
-                const el = this.$refs.tooltip;
 
             },
             onMouseLeave() {

@@ -1,46 +1,48 @@
 <template>
-    <li @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" :class="isHovering ? 'hover-state' : ''">
-        <router-link :to="{ name: item.routeName, hash: item.routeHash }">
-            <i v-if="item.icon" :class="item.icon"></i>
-            {{ item.label }}
-        </router-link>
+    <ul :class="[parent ? 'sub-level' : 'root-level']">
+        <li class="parent-link" v-if="parent">
+            <router-link :to="{ name: parent.routeName, hash: parent.routeHash }">
+                {{ parent.label }}
+            </router-link>
+        </li>
 
-        <ul v-show="isHovering && item.children" class="sub-level">
-            <navigation-item v-for="childItem of item.children" :key="childItem.label" :item="childItem"></navigation-item>
-        </ul>
-    </li>
+        <li v-for="item of items" :key="item.label" :item="item" @mouseenter="onMouseEnter(item)" @mouseleave="onMouseLeave(item)" :class="item.isHovered ? 'hover-state' : ''">
+            <router-link :to="{ name: item.routeName, hash: item.routeHash }">
+                <i v-if="item.icon" :class="item.icon"></i>
+                {{ item.label }}
+            </router-link>
+
+            <template v-if="item.isHovered && item.children">
+                <navigation-renderer :items="item.children" :parent="item"></navigation-renderer>
+            </template>
+        </li>
+    </ul>
 </template>
 
 <script>
-    import NavigationItem from './NavigationItem.vue';
+    import NavigationRenderer from './NavigationRenderer.vue';
 
     export default {
-        name: "NavigationItem",
-        props: ['item'],
+        name: "NavigationRenderer",
+        props: ['items', 'parent'],
         data() {
             return {
-                isHovering: false,
                 hideTimeout: null,
             }
         },
         components: {
-            NavigationItem,
+            NavigationRenderer,
         },
         methods: {
-            onMouseEnter() {
-                this.isHovering = true;
-                clearTimeout(this.hideTimeout);
+            onMouseEnter(item) {
+                this.$set(item, 'isHovered', 'true');
+                clearTimeout(item.hideTimeout);
             },
-            onMouseLeave() {
-                if(!this.item.children) {
-                    this.isHovering = false;
-                    return;
-                }
-
-                clearTimeout(this.hideTimeout);
-                this.hideTimeout = setTimeout(() => {
-                    this.isHovering = false;
-                }, 100)
+            onMouseLeave(item) {
+                clearTimeout(item.hideTimeout);
+                this.$set(item, 'hideTimeout', setTimeout(() => {
+                    item.isHovered = false;
+                }, 100));
             },
         },
     }
@@ -78,7 +80,7 @@
                 background: #FFF;
                 transform: scaleX(0);
                 transform-origin: top left;
-                transition-duration: .2s;
+                transition-duration: .5s;
             }
 
             &.router-link-active::before {
@@ -116,6 +118,11 @@
                     opacity: 0;
                     transform: scale(.97);
                 }
+            }
+
+            li.parent-link {
+                padding-bottom: 5px;
+                margin-bottom: 5px;
             }
 
             li a {
