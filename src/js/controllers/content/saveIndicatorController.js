@@ -2,6 +2,9 @@ import Options from '../../modules/options/options';
 import Events from '../../modules/Events';
 import initHandler from '../../modules/initHandler';
 import validator from '../../modules/validator';
+import ui from '../../modules/ui';
+import Vue from 'vue';
+import SaveIndicator from '../../vue/content/SaveIndicator.vue';
 
 
 let vue;
@@ -42,7 +45,7 @@ function addEventListeners() {
 function build(callback) {
 	if(vue) return callback && callback();
 
-	terafm.ui.inject({
+	ui.inject({
 		html: '<div id="tmp-si-holder"></div>',
 		returnNode: '#tmp-si-holder'
 	}, function(rootnode) {
@@ -54,45 +57,8 @@ function build(callback) {
 
 function makeVue(rootnode, callback) {
 	vue = new Vue({
-		'@import-vue content/saveIndicator':0,
 		el: rootnode,
-		methods: {
-			show: function() {
-				this.isVisible = true;
-				this.$el.classList.add('visible');
-			},
-			hide: function() {
-				this.isVisible = false;
-				this.$el.classList.remove('visible');
-			},
-			animate: function() {
-				if(this.isVisible) {
-					this.animator.style.animation = 'none';
-					this.animator.offsetHeight; // Trigger reflow
-					this.animator.style.animation = null;
-				}
-			},
-		},
-		data: function() {
-			return {
-				isVisible: true,
-				animator: null
-			}
-		},
-		mounted: function() {
-			this.animator = this.$el.querySelector('.animator');
-
-			this.$el.classList.add( Options.get('saveIndicator') );
-
-			let hexColor = Options.get('saveIndicatorColor');
-			this.$el.style.backgroundColor = hexColor;
-			this.$el.style.color = hexColor;
-
-			// setTimeout(callback, 200);
-			// setTimeout(callback, 0);
-			setTimeout(callback, 10);
-			// callback();
-		}
+		render(h) { return h(SaveIndicator) },
 	});
-
+	vue = vue.$children[0];
 }

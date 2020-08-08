@@ -1,9 +1,8 @@
-import db from '../../modules/db/db';
-import Helpers from '../../modules/Helpers';
 import KeyboardShortcuts from '../../modules/keyboardShortcuts';
 import initHandler from '../../modules/initHandler';
 import ui from '../../modules/ui';
 import Options from '../../modules/options/options';
+import blockController from './blockController';
 import RecoveryDialog from '../../vue/content/RecoveryDialog.vue';
 import Vue from "vue";
 
@@ -32,7 +31,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 recoveryDialogController.open = () => show();
 
 function show() {
-	if(terafm.isBlocked) return terafm.blockController.warn();
+	if(terafm.isBlocked) return blockController.warn();
 	if(vue) {
 		vue.show();
 	} else {

@@ -15,6 +15,7 @@ def.cloneOnRestore = false;
 def.resetEditablesBetweenRestorations = false;
 def.qaGroupSessions = true;
 def.qaEnableSessionSubmenu = true;
+def.hideContextItems = false;
 
 // Mac specific
 if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {

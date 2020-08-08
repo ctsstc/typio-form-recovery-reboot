@@ -2,12 +2,9 @@ import Options from '../../modules/options/options';
 import initHandler from '../../modules/initHandler';
 import ui from '../../modules/ui';
 import Events from '../../modules/Events';
-import db from '../../modules/db/db';
-import placeholders from '../../modules/placeholders';
-import EditableDefaults from '../../modules/EditableDefaults';
 import keyboardShortcuts from '../../modules/keyboardShortcuts';
-import Editables from '../../modules/Editables';
 import toastController from './toastController';
+import blockController from './blockController';
 import Vue from 'vue';
 import QuickAccessPopup from '../../vue/content/QuickAccessPopup.vue';
 
@@ -30,7 +27,7 @@ initHandler.onInit(function() {
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	if(request.action === 'openQuickAccess') {
-		if(window.terafm.isBlocked) return terafm.blockController.warn();
+		if(window.terafm.isBlocked) return blockController.warn();
 		show(window.terafm.focusedEditable);
 	}
 });

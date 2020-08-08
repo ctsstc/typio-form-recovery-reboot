@@ -1,4 +1,5 @@
 import Helpers from '../modules/Helpers';
+import db from '../modules/db/db';
 import Entry from './Entry';
 import EditableList from './EditableList';
 

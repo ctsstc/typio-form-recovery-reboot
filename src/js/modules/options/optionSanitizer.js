@@ -47,6 +47,7 @@ var pointers = {
 	resetEditablesBetweenRestorations: sanitizers.bool,
 	qaGroupSessions: sanitizers.bool,
 	qaEnableSessionSubmenu: sanitizers.bool,
+	hideContextItems: sanitizers.bool,
 
 	keybindToggleRecDiag: sanitizers.string,
 	keybindRestorePreviousSession: sanitizers.string,
