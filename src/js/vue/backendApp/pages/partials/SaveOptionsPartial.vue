@@ -4,7 +4,7 @@
 
         <form @change="$store.dispatch('options/save')">
 
-            <p>Save data for &nbsp;<input v-model="options.storageTimeDays" style="width: 40px; padding: 5px; font-size: 15px; text-align: center;" maxlength="4" type="text">&nbsp; days</p>
+            <p>Save data for &nbsp;<input v-model="options.storageTimeDays" class="inline-input" style="width: 45px" maxlength="4" type="text">&nbsp; days</p>
 
             <fancy-check v-model="options.savePasswords">Save password fields</fancy-check>
 
@@ -47,3 +47,12 @@
         },
     }
 </script>
+
+<style lang="scss" scoped>
+
+    .inline-input {
+        padding: 5px;
+        font-size: 15px;
+        text-align: center;
+    }
+</style>

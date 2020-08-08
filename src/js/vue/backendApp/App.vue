@@ -6,18 +6,7 @@
         </div>
 
         <div class="main">
-
-            <!--<div class="top-bar">-->
-                <!--<div class="left">-->
-                    <!--Typio Form Recovery-->
-                <!--</div>-->
-                <!--<div class="right">-->
-                    <!--<a target="_blank" href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">Review Typio</a>-->
-                <!--</div>-->
-            <!--</div>-->
-
             <router-view class="page-container"></router-view>
-
         </div>
 
     </div>
@@ -185,11 +174,27 @@
         font-size: 15px;
     }
 
+    button {
+        border: 1px solid #adadad;
+        border-radius: 3px;
+        padding: 5px 20px;
+        cursor: pointer;
+
+        &:hover {
+            background: #e2e2e2;
+        }
+    }
+
+    input[type=text]{
+        border: 1px solid #adadad;
+        border-radius: 3px;
+    }
+
     input[type=color] {
-        height: 35px;
+        height: 37px;
         position: relative;
-        top: 5px;
-        margin-top: -5px;
+        top: 7px;
+        margin-top: -7px;
     }
 
 </style>
