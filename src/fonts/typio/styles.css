@@ -62,9 +62,6 @@
 .icon-trash:before {
   content: "\63";
 }
-.icon-square:before {
-  content: "\61";
-}
 .icon-cloud:before {
   content: "\69";
 }
@@ -74,14 +71,8 @@
 .icon-megaphone:before {
   content: "\6c";
 }
-.icon-ios-locked:before {
-  content: "\6d";
-}
 .icon-lock:before {
   content: "\6e";
-}
-.icon-lock-1:before {
-  content: "\6f";
 }
 .icon-help-circled:before {
   content: "\71";
