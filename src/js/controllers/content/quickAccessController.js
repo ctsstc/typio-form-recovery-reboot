@@ -1,6 +1,7 @@
 import Options from '../../modules/options/options';
 import initHandler from '../../modules/initHandler';
 import ui from '../../modules/ui';
+import db from '../../modules/db/db';
 import Events from '../../modules/Events';
 import keyboardShortcuts from '../../modules/keyboardShortcuts';
 import toastController from './toastController';
@@ -128,9 +129,10 @@ function setupKeyNav() {
 		if(vue.isVisible && vue.currSel) {
 
 			if(vue.currSel.isSess) {
-				vue.currSel.entry.session.deleteAll();
+				const entries = vue.currSel.entry.session.getEntries();
+				db.deleteEntries(vue.currSel.entry);
 			} else {
-				vue.currSel.entry.delete();
+				db.deleteEntry(vue.currSel.entry);
 			}
 
 			const liEl = vue.currSel.$el;

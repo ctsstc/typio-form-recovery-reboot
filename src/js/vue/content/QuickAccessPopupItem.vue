@@ -27,6 +27,7 @@
 
 <script>
     import placeholders from '../../modules/placeholders';
+    import db from '../../modules/db/db';
     import EditableDefaults from '../../modules/EditableDefaults';
     import recoveryDialogController from '../../controllers/content/recoveryDialogController';
     import keyboardShortcutController from '../../controllers/content/keyboardShortcutController';
@@ -100,10 +101,11 @@
 
                 if(this.entry) {
                     if(!this.isSess || commitSingleFromSession) {
-                        this.editable.applyEntry(this.entry);
+                        this.entry.restore({ clone: true, }, db);
+                        this.editable.applyEntry(this.entry, { clone: true }, db);
 
                     } else if(this.isSess) {
-                        this.entry.getSession().restore();
+                        this.entry.getSession().restore({ clone: true, }, db);
                     }
                 }
             },

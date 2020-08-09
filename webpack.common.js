@@ -9,7 +9,6 @@ module.exports = {
         background: './src/js/controllers/background/backgroundController.js',
         content: './src/js/controllers/content/contentController.js',
         'content.frameInjector': './src/js/controllers/content.frameInjector/frameInjectorController.js',
-        options: './src/js/controllers/options/optionsController.js',
         popup: './src/js/controllers/popupController/popupController.js',
         backendApp: './src/js/controllers/backendApp/backendApp.js',
     },

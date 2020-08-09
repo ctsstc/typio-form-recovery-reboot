@@ -44,9 +44,9 @@ exp.decodeHTMLEntities = function(str) {
 	return dom.body.textContent.trim();
 }
 
-exp.escapeRegExp = function(str) {
-	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
+// exp.escapeRegExp = function(str) {
+// 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+// }
 
 exp.cloneObject = function(orgObj) {
 	return Object.assign({}, orgObj);
@@ -103,6 +103,7 @@ exp.copyToClipboard = function(text) {
 // be triggered. The exp.will = function be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the exp.on = function the
 // leading edge, instead of the trailing.
+/*
 exp.debounce = function(func, wait, immediate, after) {
 	var timeout;
 	return function() {
@@ -117,6 +118,7 @@ exp.debounce = function(func, wait, immediate, after) {
 		if (callNow) func.apply(context, args);
 	};
 }
+*/
 
 // From underscore.js
 // Found here: https://stackoverflow.com/a/27078401/290790
@@ -151,13 +153,6 @@ exp.throttle = function(func, wait, options) {
 		return result;
 	};
 };
-
-
-exp.parentElem = function(elem, cb) {
-	var parent = elem.parentElement;
-	if (!parent) return undefined;
-	return fn(parent) ? parent : parentElem(parent, cb);
-}
 
 exp.prettyKeys = function(keyarr) {
 

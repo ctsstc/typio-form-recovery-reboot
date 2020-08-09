@@ -125,14 +125,6 @@ export default class SessionList {
 		return this.sessions[sid].entries.hasOwnProperty(eid) ? this.sessions[sid].entries[eid] : null;
 	}
 
-	deleteEntry(sid, eid, callback) {
-		if (!this.contains(sid)) return false;
-		this.getEntry(sid, eid).delete(() => {
-			if (this.sessions[sid].entries.hasOwnProperty(eid)) delete this.sessions[sid].entries[eid];
-			if (callback) callback();
-		});
-	}
-
 	merge(list) {
 		if (!(list instanceof SessionList)) throw new Error('Merge requires another ' + this.constructor.name + ' to merge.');
 

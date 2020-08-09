@@ -1,10 +1,10 @@
 import Entry from './Entry';
-
 import GeneratePath from '../modules/PathGenerator';
 import Editables from '../modules/Editables';
 import Helpers from '../modules/Helpers';
+import SessionHandler from '../modules/SessionHandler';
 import EditableDefaults from '../modules/EditableDefaults';
-import db from '../modules/db/db';
+import Options from "../modules/options/options";
 
 export default class Editable {
 	constructor(el) {
@@ -22,7 +22,7 @@ export default class Editable {
 		return this._type ? this._type : this._type = Editables.getType(this.el);
 	}
 	get sessionId() {
-		return this._sessionId || db.getGlobalSessionId();
+		return this._sessionId || SessionHandler.getGlobalSessionId();
 	}
 
 	get metaString() {
@@ -74,7 +74,7 @@ export default class Editable {
 		this.highlight();
 	}
 
-	applyEntry(entry, opts) {
+	applyEntry(entry, opts, dbRef) {
 		if(!(entry instanceof Entry)) throw new Error('applyEntry requires an entry to set');
 		
 		let tmpVal;
@@ -98,6 +98,10 @@ export default class Editable {
 		// anything else
 		}*/ else {
 			tmpVal = entry.getValue(opts)
+		}
+
+		if(opts && opts.clone === true && dbRef && Options.get('cloneOnRestore') === true) {
+			entry.cloneToCurrentSession(dbRef);
 		}
 
 		this.setValue(tmpVal, usePaste);
@@ -169,8 +173,7 @@ export default class Editable {
 
 			// If input was cleared, set new ID
 			if(oldLen > 1 && currLen === 0) {
-				this._sessionId = db.generateSessionId();
-				// console.log('new id yo!');
+				this._sessionId = SessionHandler.generateSessionId();
 			}
 
 			this.length = currLen;

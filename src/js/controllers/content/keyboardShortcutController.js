@@ -52,7 +52,7 @@ initHandler.onInit(function() {
 				}, 200);
 
 				EditableDefaults.restore();
-				sess.restore({flash: true});
+				sess.restore({ flash: true, clone: true }, db);
 				toastController.create('Restoring previous session')
 			} else {
 				toastController.create('Nothing to restore')

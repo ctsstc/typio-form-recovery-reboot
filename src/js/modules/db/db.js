@@ -1,11 +1,11 @@
 import StorageBucket from '../../classes/StorageBucket';
 import Helpers from '../../modules/Helpers';
 import Events from '../../modules/Events';
+import Entry from "../../classes/Entry";
 
 const db = {};
 
 const domainId = '###' + window.location.hostname;
-let sessionId;
 
 let buckets = {
 	inUse: new StorageBucket(domainId),
@@ -85,65 +85,86 @@ function sync() {
 }
 
 
+
 db.init = function(done) {
 	// chrome.storage.local.clear();return;
 	// console.log(buckets);
-	sessionId = db.generateSessionId();
 	fetchSnapshot().then(done);
 }
-db.getGlobalSessionId = () => sessionId;
+
 db.fetch = () => {
 	return fetchSnapshot();
 }
+
 db.push = () => {
 	return sync();
 }
-db.generateSessionId = function() {
-	return Math.round(Date.now()/1000) + '';
-}
+
 db.saveEntry = (entry) => {
 	buckets.inUse.setEntry(entry);
 	debouncePush();
 }
+
 db.getSessions = (max) => {
 	return buckets.applyBoth(buck => buck.getSessions(false, max));
 }
+
 db.getSession = (sid) => {
 	return buckets.applyOne(buck => buck.getSession(sid));
 }
+
 db.getEntries = (max, excludeEid, filterFn) => {
 	return buckets.applyBoth(buck => buck.getEntries(max, excludeEid, filterFn));
 }
+
 db.getSessionsContainingEditable = (eid, max) => {
 	return buckets.applyBoth(buck => buck.getSessionsContainingEditable(eid, max));
 }
+
 db.getLatestSession = () => {
 	return buckets.snapshot.getLatestSession(sessionId);
 }
+
 db.getEntry = (...args) => {
 	return buckets.applyOne(buck => buck.getEntry(...args));
 }
-db.del = (sid, eid, callback) => {
+
+db.deleteEntry = (arg1, arg2, arg3) => {
+	let sessionId, editableId, callback;
+
+	if(arg1 instanceof Entry) {
+		sessionId =  arg1.sessionId;
+		editableId =  arg1.editableId;
+		callback =  arg2;
+	} else {
+		sessionId =  arg1;
+		editableId =  arg2;
+		callback =  arg3;
+	}
+
 	fetchAndMerge().then(mergeBuck => {
-		buckets.inUse.del(sid, eid);
-		mergeBuck.del(sid, eid);
+		buckets.inUse.del(sessionId, editableId);
+		mergeBuck.del(sessionId, editableId);
 		pushBucket(mergeBuck).then(fetchSnapshot).then(callback);
 	});
 }
-db.delMultiple = (toDelete, callback) => {
+
+db.deleteEntries = (entriesToDelete, callback) => {
 	fetchAndMerge().then(mergeBuck => {
-		for(const [sid, eid] of toDelete) {
-			buckets.inUse.del(sid, eid);
-			mergeBuck.del(sid, eid);
+		for(const entry of entriesToDelete) {
+			buckets.inUse.del(entry.sessionId, entry.editableId);
+			mergeBuck.del(entry.sessionId, entry.editableId);
 		}
 		pushBucket(mergeBuck).then(fetchSnapshot).then(callback);
 	});
 }
+
 db.deleteAllDataForDomain = () => {
 	buckets.inUse.empty();
 	buckets.snapshot.empty();
 	pushBucket(buckets.snapshot).then(fetchSnapshot);
 }
+
 db.getDomainSize = () => {
 	return new Promise(done => {
 		chrome.storage.local.getBytesInUse(domainId, done);

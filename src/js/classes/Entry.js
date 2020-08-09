@@ -1,9 +1,8 @@
-import db from '../modules/db/db';
+import Editable from './Editable';
 import Options from '../modules/options/options';
 import Helpers from '../modules/Helpers';
 import Editables from '../modules/Editables';
-
-import Editable from './Editable';
+import SessionHandler from '../modules/SessionHandler';
 
 export default class Entry {
 	constructor(arg, opts = {resolveUncheckedRadios: false, context: null}) {
@@ -139,20 +138,22 @@ export default class Entry {
 		}
 	}
 
-	restore(opts = {flash: false, clone: true}) {
+	restore(opts = { flash: false, clone: true }, dbRef=null) {
 		let editable = this.getEditable();
+
 		if(editable) {
 			editable.applyEntry(this);
 			if(opts.flash) editable.flashHighlight();
 		}
-		if(opts.clone !== false && Options.get('cloneOnRestore') === true) {
-			this.sessionId = db.getGlobalSessionId();
-			this.save();
+
+		if(opts.clone === true && dbRef && Options.get('cloneOnRestore') === true) {
+			this.cloneToCurrentSession(dbRef);
 		}
 	}
 
-	save() {
-		db.saveEntry(this);
+	cloneToCurrentSession(dbRef) {
+		this.sessionId = SessionHandler.getGlobalSessionId();
+		dbRef.saveEntry(this);
 	}
 
 	getSession() {
@@ -170,9 +171,5 @@ export default class Entry {
 			this._editable = Editables.get(this.path);
 			return this._editable;
 		}
-	}
-
-	delete(callback) {
-		db.del(this.sessionId, this.editableId, callback);
 	}
 }

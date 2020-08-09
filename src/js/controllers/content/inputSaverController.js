@@ -35,7 +35,6 @@ initHandler.onInit(function() {
 })
 
 function changeHandler(el) {
-
 	if(window.terafm.pauseLogging) return;
 
 	const editable = Editables.get(el);
@@ -48,12 +47,12 @@ function changeHandler(el) {
 		let entry = editable.getEntry();
 		EditableDefaults.update(editable);
 
-		if(false === editable.isEmpty()) entry.save();
+		if(false === editable.isEmpty()) db.saveEntry(entry);
 		if(editable.type === 'radio') deleteRadioSiblings(editable);
 
 	// Did not validate, delete if exists (if value validation failed)
 	} else {
-		db.del(editable.sessionId, editable.id);
+		db.deleteEntry(editable.sessionId, editable.id);
 	}
 }
 
@@ -66,7 +65,7 @@ function deleteRadioSiblings(editable) {
 		radios.forEach(function(rad) {
 			if(rad !== editable.el) {
 				let sib = new Editable(rad);
-				db.del(editable.sessionId, sib.id);
+				db.deleteEntry(editable.sessionId, sib.id);
 			}
 		});
 	}

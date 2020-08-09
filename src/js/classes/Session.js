@@ -1,5 +1,4 @@
 import Helpers from '../modules/Helpers';
-import db from '../modules/db/db';
 import Entry from './Entry';
 import EditableList from './EditableList';
 
@@ -26,12 +25,8 @@ export default class Session {
 		this.entries[entry.editableId] = entry;
 	}
 
-	deleteAll(callback) {
-		const toDelete = [];
-		for(let eid in this.entries) {
-			toDelete.push([this.id, eid]);
-		}
-		db.delMultiple(toDelete, callback);
+	getEntries() {
+		return Object.values(this.entries);
 	}
 
 	each(fn) {
@@ -67,8 +62,8 @@ export default class Session {
 		this.each((entry) => entry.setPlaceholder());
 	}
 
-	restore(opts) {
-		this.each((entry) => entry.restore(opts));
+	restore(opts, dbRef=null) {
+		this.each((entry) => entry.restore(opts, dbRef));
 	}
 
 	getEntryByEditable(eid) {

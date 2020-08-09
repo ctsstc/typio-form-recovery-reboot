@@ -196,14 +196,14 @@
                 EditableDefaults.restore();
                 // Don't use this.currEntry.getSession(), entries could be filtered out!
                 const sess = db.getSession(this.currEntry.sessionId);
-                sess.restore({flash: true});
+                sess.restore({ flash: true }, db);
                 toastController.create('Session restored.');
                 this.hide();
             },
             restoreEntry: function() {
                 if(!this.currEntry) return;
                 EditableDefaults.restore();
-                this.currEntry.restore({flash: true});
+                this.currEntry.restore({ flash: true }, db);
                 toastController.create('Entry restored.');
                 this.hide();
             },
@@ -260,7 +260,7 @@
                 clearTimeout(this.tmpDelTimeout);
 
                 if(this.delConfirmEntry === entry) {
-                    this.sesslist.deleteEntry(li.dataset.sessionId, li.dataset.editableId, () => {
+                    db.deleteEntry(li.dataset.sessionId, li.dataset.editableId, () => {
                         this.populate();
                         this.delConfirmEntry = false;
                     });
@@ -291,7 +291,7 @@
                 } else {
                     let li = target.closest('li');
 
-                    this.sesslist.deleteEntry(li.dataset.sessionId, li.dataset.editableId, () => {
+                    db.deleteEntry(li.dataset.sessionId, li.dataset.editableId, () => {
                         this.populate();
 
                         // Vue will re-use other elements and change the text in them
