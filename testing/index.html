@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Typio form testing</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+	<a href="#bottom" id="top">Anchor link bottom</a>
+	<div id="shadow"></div>
+
+	<form>
+		<input placeholder="Password field" type="password"> <input placeholder="Text input" type="text"> <input style="background: #616161;" placeholder="URL input" type="url"> <input placeholder="Number input" type="number"> <input placeholder="Email input" type="email" style="padding: 10px;"> <input placeholder="Search" type="search"> 
+		<textarea placeholder="Textarea"></textarea><textarea>Textarea with scrollbar...............................................................</textarea>
+	</form>
+
+	<iframe id="ifr"></iframe>
+
+	<div>
+		<div id="test">
+			<div class="testing">
+				<input placeholder="Input in ID WITHOUT ID" type="text"> <input id="inIdWithId" placeholder="Input in ID WITH WITH WITH ID" type="text">
+			</div>
+		</div>
+	</div>
+
+	<div class="editable" contenteditable="true">
+		<p>test</p>
+		<div style="background: rgba(255,255,255,.2); height: 20px; margin-top: 10px"></div>
+		<div style="background: rgba(255,255,255,.3); height: 20px">
+			text
+			<div style="display: inline; background: rgba(255,0,0,.3); padding: 3px">
+				div inside div
+			</div>more text
+		</div>nothing
+	</div>
+
+	<p></p>
+
+	<form>
+		<input type="range" name="rangeSliderOpt">
+		<input checked="checked" name="chk" type="checkbox" value="1">
+		<input name="chk" type="checkbox" value="99999999999099999999999">
+		<input name="chk" type="checkbox" value="2">
+		<input name="chk" type="checkbox" value="3">
+		<span class="frame">
+			<input checked="checked" name="rdio" type="radio" value="1">
+			<input name="rdio" type="radio" value="2">
+			<input name="rdio" type="radio" value="3">
+		</span>
+
+		<span class="frame">
+			<input name="rdio2" type="radio" value="919">
+			<input name="rdio2" type="radio" value="534">
+			<input checked="checked" name="rdio2" type="radio" value="000">
+			<input name="rdio2" type="radio" value="234">
+		</span>
+		<input type="color">
+		<input type="month">
+		<input type="datetime-local">
+		<input style="width: 80px" id=":324" placeholder="Invalid ID" type="text">
+		<input id="fdsdsf-24" placeholder="Valid ID" type="text">
+		<select name="sel">
+			<option value="opt1">Option 111</option>
+			<option selected="selected" value="opt2">Option 222</option>
+			<option value="opt3">Option 333</option>
+			<option value="opt4">Option 444</option>
+		</select>
+
+		<input list="browsers" name="myBrowser" placeholder="Browsers" type="text">
+		<datalist id="browsers">
+			<option value="Chrome">Chrome</option>
+			<option value="Firefox">Firefox</option>
+			<option value="Internet Explorer">Internet Explorer</option>
+			<option value="Opera">Opera</option>
+			<option value="Safari">Safari</option>
+			<option value="Microsoft Edge">Microsoft Edge</option>
+		</datalist>
+	</form>
+	<div></div>or
+	<a id="bottom" href="#top">Anchor link top</a>
+	<script src="javascript.js"></script>
+</body>
+</html>

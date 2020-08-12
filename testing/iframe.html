@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<iframe style="width: 600px; height: 100px;" src="/iframeContents.html"></iframe>
+
+	<script>
+		setTimeout(function() {
+			document.body.insertAdjacentHTML('beforeend', '<iframe style="width: 600px; height: 100px;" src="/iframeContents.html"></iframe>');
+		}, 300);
+
+	</script>
+
+</body>
+</html>
