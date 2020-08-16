@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="Decouple classes from modules, lots of bugfixes and likely new bugs introduces">
+    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/controllers/content/saveIndicatorController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/controllers/content/saveIndicatorController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/classes/Entry.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/classes/Entry.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/js/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -34,57 +34,12 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/js/controllers/content/saveIndicatorController.js">
+        <entry file="file://$PROJECT_DIR$/src/js/classes/Entry.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="63" column="28" lean-forward="true" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+            <state relative-caret-position="255">
+              <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
               <folding>
-                <element signature="e#0#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/modules/ui.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1201">
-              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/controllers/content/contentController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-              <folding>
-                <element signature="e#21#67#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/controllers/content/focusedEditableController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#42#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/modules/Events.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
-              <folding>
-                <element signature="e#0#40#0" expanded="true" />
+                <element signature="e#0#34#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -101,9 +56,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.save(</find>
-      <find>f(window.terafm.pauseLogging) retur</find>
-      <find>(false === editable.isEmpty())</find>
       <find>.save(entry)</find>
       <find>editable.touch();</find>
       <find>exp.prettyDate(date.toISOString</find>
@@ -131,6 +83,9 @@
       <find>.restore(</find>
       <find>editable-text-focus</find>
       <find>inith</find>
+      <find>t entry of entriesToDelete</find>
+      <find>deleteEntries</find>
+      <find>return new terafm.Editable(sel);</find>
     </findStrings>
     <replaceStrings>
       <replace>isVisible</replace>
@@ -193,7 +148,6 @@
         <option value="$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/options/dbManagerController.js" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/routes.js" />
-        <option value="$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js" />
         <option value="$PROJECT_DIR$/src/js/classes/SessionList.js" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/DatabaseManager.vue" />
         <option value="$PROJECT_DIR$/webpack.common.js" />
@@ -205,13 +159,14 @@
         <option value="$PROJECT_DIR$/src/js/classes/Session.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/keyboardShortcutController.js" />
         <option value="$PROJECT_DIR$/src/js/vue/content/RecoveryDialog.vue" />
-        <option value="$PROJECT_DIR$/src/js/classes/Entry.js" />
         <option value="$PROJECT_DIR$/src/js/vue/content/QuickAccessPopupItem.vue" />
         <option value="$PROJECT_DIR$/src/js/classes/Editable.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/contentController.js" />
         <option value="$PROJECT_DIR$/src/js/modules/Events.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/focusedEditableController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/saveIndicatorController.js" />
+        <option value="$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js" />
+        <option value="$PROJECT_DIR$/src/js/classes/Entry.js" />
       </list>
     </option>
   </component>
@@ -273,7 +228,6 @@
             <path>
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="testing" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -346,7 +300,7 @@
       <workItem from="1596446729656" duration="28933000" />
       <workItem from="1596620079867" duration="5000" />
       <workItem from="1596620109036" duration="61202000" />
-      <workItem from="1597423357108" duration="1503000" />
+      <workItem from="1597423357108" duration="2086000" />
     </task>
     <task id="LOCAL-00001" summary="Options page work">
       <created>1596624742680</created>
@@ -474,19 +428,19 @@
       <option name="project" value="LOCAL" />
       <updated>1596974194643</updated>
     </task>
-    <task id="LOCAL-00019" summary="Write splash, update manifest version">
-      <created>1595956541403</created>
+    <task id="LOCAL-00019" summary="Fix save indicator bug where it would not display on first focus">
+      <created>1597570715382</created>
       <option name="number" value="00019" />
       <option name="presentableId" value="LOCAL-00019" />
       <option name="project" value="LOCAL" />
-      <updated>1595956541403</updated>
+      <updated>1597570715382</updated>
     </task>
-    <task id="LOCAL-00020" summary="Experiment with DraftJS support">
-      <created>1595956557848</created>
+    <task id="LOCAL-00020" summary="Fix QA delete issue">
+      <created>1597571279501</created>
       <option name="number" value="00020" />
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
-      <updated>1595956557848</updated>
+      <updated>1597571279501</updated>
     </task>
     <task id="LOCAL-00021" summary="Update splash">
       <created>1596017855971</created>
@@ -635,11 +589,11 @@
       <option name="project" value="LOCAL" />
       <updated>1596617836407</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64408000" />
+    <option name="totallyTimeSpent" value="64991000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -654,7 +608,7 @@
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.24114774" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.61697495" visible="true" weight="0.2045177" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.38302502" side_tool="true" weight="0.22649573" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3297062" />
@@ -668,7 +622,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4993895" weight="0.51033735" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.20674646" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.20565833" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50305253" side_tool="true" weight="0.2665941" />
       <window_info anchor="bottom" id="TypeScript" order="13" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.35150167" />
@@ -724,8 +678,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Revert console.log" />
-    <MESSAGE value="Write splash, update manifest version" />
     <MESSAGE value="Experiment with DraftJS support" />
     <MESSAGE value="Fix &quot;Restore prev sess&quot; bug" />
     <MESSAGE value="Update faq &amp; feedback pages" />
@@ -749,18 +701,11 @@
     <MESSAGE value="Correct link to faq page" />
     <MESSAGE value="Bugfixes" />
     <MESSAGE value="Decouple classes from modules, lots of bugfixes and likely new bugs introduces " />
-    <option name="LAST_COMMIT_MESSAGE" value="Decouple classes from modules, lots of bugfixes and likely new bugs introduces " />
+    <MESSAGE value="Fix save indicator bug where it would not display on first focus" />
+    <MESSAGE value="Fix QA delete issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix QA delete issue" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/testing/iframe.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#style#0;n#iframe#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/controllers/background/contextMenuController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
@@ -888,16 +833,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="132" column="32" selection-start-line="132" selection-start-column="32" selection-end-line="132" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/classes/SessionList.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26">
@@ -976,16 +911,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/db/db.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="111" selection-start-line="111" selection-end-line="111" />
-          <folding>
-            <element signature="e#0#56#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/modules/EditableDefaults.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="424">
@@ -1024,13 +949,6 @@
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/classes/Entry.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="150" column="9" selection-start-line="150" selection-start-column="9" selection-end-line="150" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -1106,13 +1024,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/Events.js">
+    <entry file="file://$PROJECT_DIR$/src/js/modules/ui.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="395">
+          <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -1120,16 +1035,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
           <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#21#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/ui.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1201">
-          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
         </state>
       </provider>
     </entry>
@@ -1143,12 +1048,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/modules/Events.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/controllers/content/saveIndicatorController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="63" column="28" lean-forward="true" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+        <state relative-caret-position="518">
+          <caret line="64" column="1" lean-forward="true" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="1" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/modules/db/db.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="151" column="16" selection-start-line="151" selection-start-column="3" selection-end-line="151" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="133" column="20" lean-forward="true" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/classes/Entry.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
