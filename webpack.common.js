@@ -11,6 +11,7 @@ module.exports = {
         'content.frameInjector': './src/js/controllers/content.frameInjector/frameInjectorController.js',
         popup: './src/js/controllers/popupController/popupController.js',
         backendApp: './src/js/controllers/backendApp/backendApp.js',
+        splash: './src/sass/splash.scss',
     },
     output: {
         filename: '[name].js',
