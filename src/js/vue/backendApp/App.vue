@@ -9,16 +9,20 @@
             <router-view class="page-container"></router-view>
         </div>
 
+        <donate-hint></donate-hint>
+
     </div>
 </template>
 
 <script>
     import Navigation from './components/Navigation.vue';
+    import DonateHint from './components/DonateHint.vue';
 
     export default {
         name: "App",
         components: {
             Navigation,
+            DonateHint,
         },
         mounted() {
             this.$store.dispatch('options/loadOptionsFromStorage');

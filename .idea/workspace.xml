@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="Fix deleteRadioSiblings bug, improve deletion handling in db">
+    <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/js/vue/backendApp/components/DonateHint.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/html/splash.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/html/splash.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sass/splash.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/sass/splash.scss" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/js/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -33,20 +36,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/html/splash.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="39" selection-start-line="39" selection-end-line="39" />
+            <state relative-caret-position="351">
+              <caret line="43" selection-start-line="43" selection-end-line="50" selection-end-column="12" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testing/index.html">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/App.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="4" column="61" lean-forward="true" selection-start-line="4" selection-start-column="61" selection-end-line="4" selection-end-column="61" />
+            <state relative-caret-position="355">
+              <caret line="18" column="57" lean-forward="true" selection-start-line="18" selection-start-column="57" selection-end-line="18" selection-end-column="57" />
+              <folding>
+                <element signature="e#317#370#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/DonateHint.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="536">
+              <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+              <folding>
+                <element signature="e#2304#2771#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sass/splash.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="237" column="1" lean-forward="true" selection-start-line="142" selection-end-line="237" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -62,7 +89,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>db</find>
       <find>.restore(</find>
       <find>editable-text-focus</find>
       <find>inith</find>
@@ -92,6 +118,7 @@
       <find>callback = replaceObj;</find>
       <find>insertAdja</find>
       <find>insertAdjace</find>
+      <find>popupIn</find>
     </findStrings>
     <replaceStrings>
       <replace>isVisible</replace>
@@ -123,8 +150,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/js/modules/Editables.js" />
-        <option value="$PROJECT_DIR$/src/manifest.json" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutsPartial.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/KeyboardShortcutItem.vue" />
         <option value="$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/BlacklistPartial.vue" />
@@ -145,7 +170,6 @@
         <option value="$PROJECT_DIR$/src/js/vue/content/SaveIndicator.vue" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/recoveryDialogController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/blockController.js" />
-        <option value="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" />
         <option value="$PROJECT_DIR$/src/js/modules/options/defaultOptions.js" />
         <option value="$PROJECT_DIR$/src/js/modules/options/optionSanitizer.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/options/dbManagerController.js" />
@@ -173,7 +197,10 @@
         <option value="$PROJECT_DIR$/src/js/controllers/content/injectController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/splashController/splashController.js" />
         <option value="$PROJECT_DIR$/webpack.common.js" />
+        <option value="$PROJECT_DIR$/src/sass/splash.scss" />
         <option value="$PROJECT_DIR$/src/html/splash.html" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/App.vue" />
+        <option value="$PROJECT_DIR$/src/js/vue/backendApp/components/DonateHint.vue" />
       </list>
     </option>
   </component>
@@ -208,7 +235,37 @@
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
               <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="html" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
+              <item name="backendApp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
+              <item name="backendApp" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chrome-form-recovery" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sass" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="chrome-form-recovery" type="b2602c69:ProjectViewProjectNode" />
@@ -455,12 +512,12 @@
       <option name="project" value="LOCAL" />
       <updated>1597578177057</updated>
     </task>
-    <task id="LOCAL-00025" summary="Update readme">
-      <created>1596043945493</created>
+    <task id="LOCAL-00025" summary="Update splash">
+      <created>1597594900855</created>
       <option name="number" value="00025" />
       <option name="presentableId" value="LOCAL-00025" />
       <option name="project" value="LOCAL" />
-      <updated>1596043945494</updated>
+      <updated>1597594900855</updated>
     </task>
     <task id="LOCAL-00026" summary="Update readme">
       <created>1596044023117</created>
@@ -574,11 +631,11 @@
       <option name="project" value="LOCAL" />
       <updated>1596617836407</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76218000" />
+    <option name="totallyTimeSpent" value="79314000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -607,7 +664,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4993895" weight="0.51033735" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.28400436" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4969475" visible="true" weight="0.26224157" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50305253" side_tool="true" weight="0.2665941" />
       <window_info anchor="bottom" id="TypeScript" order="13" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.35150167" />
@@ -667,7 +724,6 @@
     <MESSAGE value="Fix never ending recursion" />
     <MESSAGE value="Fix restore sess bug" />
     <MESSAGE value="Minor improvements to db manager" />
-    <MESSAGE value="Update splash" />
     <MESSAGE value="Bump manifest version" />
     <MESSAGE value="Update readme" />
     <MESSAGE value="Restore focus to editable after restoring from QA" />
@@ -688,34 +744,10 @@
     <MESSAGE value="Fix db.getEntries filter bug" />
     <MESSAGE value="Fix QA single restore bug" />
     <MESSAGE value="Fix deleteRadioSiblings bug, improve deletion handling in db" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix deleteRadioSiblings bug, improve deletion handling in db" />
+    <MESSAGE value="Update splash" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update splash" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/js/controllers/options/dbManagerController.js" />
-    <entry file="file://$PROJECT_DIR$/src/templates/options/db-manager.vue" />
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/OptionsPage.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="39" column="71" lean-forward="true" selection-start-line="39" selection-start-column="71" selection-end-line="39" selection-end-column="71" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#1035#1102#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/partials/ContextMenuPartial.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="1" column="9" lean-forward="true" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/modules/options/defaultOptions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="362">
@@ -1079,10 +1111,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sass/popup.scss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/html/splash.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
+        <state relative-caret-position="351">
+          <caret line="43" selection-start-line="43" selection-end-line="50" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="18" column="57" lean-forward="true" selection-start-line="18" selection-start-column="57" selection-end-line="18" selection-end-column="57" />
+          <folding>
+            <element signature="e#317#370#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sass/splash.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="237" column="1" lean-forward="true" selection-start-line="142" selection-end-line="237" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/components/DonateHint.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="536">
+          <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+          <folding>
+            <element signature="e#2304#2771#0" />
+          </folding>
         </state>
       </provider>
     </entry>
