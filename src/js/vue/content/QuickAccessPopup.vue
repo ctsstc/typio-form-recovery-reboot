@@ -47,7 +47,8 @@
                 if(Options.get('qaGroupSessions')) {
                     data.sess = db.getSessionsContainingEditable(window.terafm.focusedEditable.id, maxItems).getEntriesByEditable(window.terafm.focusedEditable.id, maxItems);
                 }
-                data.recent = db.getEntries(maxItems-data.sess.length, window.terafm.focusedEditable.id, function(entry) {
+                const numberOfRecentsToFetch = maxItems - data.sess.length;
+                data.recent = db.getEntries(numberOfRecentsToFetch, window.terafm.focusedEditable.id, function(entry) {
                     return Editables.isTextEditableType(entry.type);
                 });
 

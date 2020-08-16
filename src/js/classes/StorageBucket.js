@@ -98,13 +98,29 @@ export default class StorageBucket {
 
 		allsess.each(sess => {
 			sess.each(entry => {
-				//debugger;
-				if(excludeEid && entry.editableId === excludeEid) return null;
-				if(typeof filterFn === 'function' && filterFn.call(null, entry) == false) return false;
-				if(Number.isInteger(max) && max > 0) max--; else if(Number.isInteger(max)) return false;
+
+				// Skip if editable id is excluded
+				if(excludeEid && entry.editableId === excludeEid) {
+					return null;
+				}
+
+				// Skip if filter function returns false
+				if(typeof filterFn === 'function' && filterFn.call(null, entry) === false) {
+					return null;
+				}
+
+				if(Number.isInteger(max) && max > 0) {
+					max--;
+				} else if(Number.isInteger(max)) {
+					return false;
+				}
+
 				entrylist.set(entry);
 			})
-			if(Number.isInteger(max) && max < 1) return false;
+
+			if(Number.isInteger(max) && max < 1) {
+				return false; // Break
+			}
 		});
 
 		return entrylist;

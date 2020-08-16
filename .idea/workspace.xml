@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="86db7327-6030-4ebb-9029-6a4eba567f47" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/js/classes/Entry.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/classes/Entry.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/classes/StorageBucket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/classes/StorageBucket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/vue/content/QuickAccessPopup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/vue/content/QuickAccessPopup.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/js/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -33,13 +34,70 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/js/classes/Entry.js">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
+            <state relative-caret-position="218">
+              <caret line="131" column="57" selection-start-line="131" selection-start-column="57" selection-end-line="131" selection-end-column="57" />
               <folding>
-                <element signature="e#0#34#0" expanded="true" />
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/DatabaseManager.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="77">
+              <caret line="152" column="32" lean-forward="true" selection-start-line="152" selection-start-column="32" selection-end-line="152" selection-end-column="32" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/vue/content/QuickAccessPopup.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="407">
+              <caret line="51" column="43" lean-forward="true" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/classes/Session.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="301">
+              <caret line="34" column="36" lean-forward="true" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/js/modules/db/db.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="278">
+              <caret line="117" column="1" lean-forward="true" selection-start-line="117" selection-start-column="1" selection-end-line="117" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#56#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/js/classes/StorageBucket.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="485">
+              <caret line="114" column="33" lean-forward="true" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -56,9 +114,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.save(entry)</find>
-      <find>editable.touch();</find>
-      <find>exp.prettyDate(date.toISOString</find>
       <find>prettyDateFromTimestamp</find>
       <find>new Session(</find>
       <find>getSessions(</find>
@@ -86,6 +141,9 @@
       <find>t entry of entriesToDelete</find>
       <find>deleteEntries</find>
       <find>return new terafm.Editable(sel);</find>
+      <find>resolveRadio</find>
+      <find>resolveRadio(</find>
+      <find>.getEntries(</find>
     </findStrings>
     <replaceStrings>
       <replace>isVisible</replace>
@@ -116,8 +174,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/js/controllers/content.frameInjector/frameInjectorController.js" />
-        <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/injectController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/toastController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/background/maintenanceController.js" />
@@ -167,6 +223,8 @@
         <option value="$PROJECT_DIR$/src/js/controllers/content/saveIndicatorController.js" />
         <option value="$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js" />
         <option value="$PROJECT_DIR$/src/js/classes/Entry.js" />
+        <option value="$PROJECT_DIR$/src/js/vue/content/QuickAccessPopup.vue" />
+        <option value="$PROJECT_DIR$/src/js/classes/StorageBucket.js" />
       </list>
     </option>
   </component>
@@ -300,7 +358,7 @@
       <workItem from="1596446729656" duration="28933000" />
       <workItem from="1596620079867" duration="5000" />
       <workItem from="1596620109036" duration="61202000" />
-      <workItem from="1597423357108" duration="2086000" />
+      <workItem from="1597423357108" duration="3127000" />
     </task>
     <task id="LOCAL-00001" summary="Options page work">
       <created>1596624742680</created>
@@ -442,12 +500,12 @@
       <option name="project" value="LOCAL" />
       <updated>1597571279501</updated>
     </task>
-    <task id="LOCAL-00021" summary="Update splash">
-      <created>1596017855971</created>
+    <task id="LOCAL-00021" summary="Fix resolveRadio bug">
+      <created>1597571603140</created>
       <option name="number" value="00021" />
       <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1596017855971</updated>
+      <updated>1597571603140</updated>
     </task>
     <task id="LOCAL-00022" summary="Fix &quot;Restore prev sess&quot; bug">
       <created>1596018340266</created>
@@ -589,11 +647,11 @@
       <option name="project" value="LOCAL" />
       <updated>1596617836407</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64991000" />
+    <option name="totallyTimeSpent" value="66032000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -678,7 +736,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Experiment with DraftJS support" />
     <MESSAGE value="Fix &quot;Restore prev sess&quot; bug" />
     <MESSAGE value="Update faq &amp; feedback pages" />
     <MESSAGE value="Enable splash screen" />
@@ -703,7 +760,8 @@
     <MESSAGE value="Decouple classes from modules, lots of bugfixes and likely new bugs introduces " />
     <MESSAGE value="Fix save indicator bug where it would not display on first focus" />
     <MESSAGE value="Fix QA delete issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix QA delete issue" />
+    <MESSAGE value="Fix resolveRadio bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix resolveRadio bug" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/js/controllers/background/contextMenuController.js">
@@ -860,16 +918,6 @@
     <entry file="file://$PROJECT_DIR$/src/js/modules/PathGenerator.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/DatabaseManager.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/modules/Helpers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
@@ -894,16 +942,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/classes/StorageBucket.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="130" column="13" lean-forward="true" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/modules/SessionHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -915,13 +953,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="424">
           <caret line="25" column="57" lean-forward="true" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/vue/content/QuickAccessPopup.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="114" column="39" lean-forward="true" selection-start-line="114" selection-start-column="39" selection-end-line="114" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -952,16 +983,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/classes/Session.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="64" column="31" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/classes/EntryList.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="52">
@@ -988,17 +1009,6 @@
           <caret line="196" column="88" selection-start-line="196" selection-start-column="88" selection-end-line="196" selection-end-column="88" />
           <folding>
             <element signature="e#7723#7775#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/modules/Editables.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="20" column="49" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-            <element signature="n#!!block;n#getEditable#0" />
           </folding>
         </state>
       </provider>
@@ -1071,10 +1081,38 @@
     <entry file="file://$PROJECT_DIR$/testing/index.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/classes/Entry.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="64" column="9" lean-forward="true" selection-start-line="64" selection-start-column="9" selection-end-line="64" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/vue/content/QuickAccessPopup.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="51" column="43" lean-forward="true" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/modules/Editables.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+            <element signature="n#!!block;n#getEditable#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/js/modules/db/db.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="151" column="16" selection-start-line="151" selection-start-column="3" selection-end-line="151" selection-end-column="16" />
+        <state relative-caret-position="278">
+          <caret line="117" column="1" lean-forward="true" selection-start-line="117" selection-start-column="1" selection-end-line="117" selection-end-column="1" />
           <folding>
             <element signature="e#0#56#0" expanded="true" />
           </folding>
@@ -1083,20 +1121,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/js/controllers/content/quickAccessController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="133" column="20" lean-forward="true" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="20" />
+        <state relative-caret-position="218">
+          <caret line="131" column="57" selection-start-line="131" selection-start-column="57" selection-end-line="131" selection-end-column="57" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/js/classes/Entry.js">
+    <entry file="file://$PROJECT_DIR$/src/js/vue/backendApp/pages/DatabaseManager.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
+        <state relative-caret-position="77">
+          <caret line="152" column="32" lean-forward="true" selection-start-line="152" selection-start-column="32" selection-end-line="152" selection-end-column="32" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/classes/Session.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="34" column="36" lean-forward="true" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/js/classes/StorageBucket.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="485">
+          <caret line="114" column="33" lean-forward="true" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
