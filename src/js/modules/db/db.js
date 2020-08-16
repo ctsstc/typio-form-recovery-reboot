@@ -122,24 +122,24 @@ db.getSessionsContainingEditable = (eid, max) => {
 }
 
 db.getLatestSession = () => {
-	return buckets.snapshot.getLatestSession(sessionId);
+	return buckets.snapshot.getLatestSession();
 }
 
 db.getEntry = (...args) => {
 	return buckets.applyOne(buck => buck.getEntry(...args));
 }
 
-db.deleteEntry = (arg1, arg2, arg3) => {
+db.deleteEntry = (...args) => {
 	let sessionId, editableId, callback;
 
-	if(arg1 instanceof Entry) {
-		sessionId =  arg1.sessionId;
-		editableId =  arg1.editableId;
-		callback =  arg2;
+	if(args[0] instanceof Entry) {
+		sessionId =  args[0].sessionId;
+		editableId =  args[0].editableId;
+		callback =  args[1];
 	} else {
-		sessionId =  arg1;
-		editableId =  arg2;
-		callback =  arg3;
+		sessionId =  args[0];
+		editableId =  args[1];
+		callback =  args[2];
 	}
 
 	fetchAndMerge().then(mergeBuck => {
@@ -149,11 +149,22 @@ db.deleteEntry = (arg1, arg2, arg3) => {
 	});
 }
 
+// Array of entries, or array of [sessionId, editableId]
 db.deleteEntries = (entriesToDelete, callback) => {
 	fetchAndMerge().then(mergeBuck => {
-		for(const entry of entriesToDelete) {
-			buckets.inUse.del(entry.sessionId, entry.editableId);
-			mergeBuck.del(entry.sessionId, entry.editableId);
+		for(const entryData of entriesToDelete) {
+			let sessionId, editableId;
+
+			if(entryData instanceof Entry) {
+				sessionId = entryData.sessionId;
+				editableId = entryData.editableId;
+			} else {
+				sessionId = entryData[0];
+				editableId = entryData[1];
+			}
+
+			buckets.inUse.del(sessionId, editableId);
+			mergeBuck.del(sessionId, editableId);
 		}
 		pushBucket(mergeBuck).then(fetchSnapshot).then(callback);
 	});
