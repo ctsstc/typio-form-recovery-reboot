@@ -79,8 +79,8 @@
                 this.keybindOpenQuickAccess = keyboardShortcuts.printableKey(Options.get('keybindOpenQuickAccess'));
             },
             openSettings: function() {
-                chrome.runtime.sendMessage({action: 'openSettings'});
-            },
+                chrome.runtime.sendMessage({ action: 'openSettings', hash: '#/options#keyboard-shortcuts' });
+            }, 
             closeModal: function() {
                 this.visible = false;
             },
