@@ -61,9 +61,11 @@ export default class Entry {
 	resolveRadio(ed) {
 		if(ed.type === 'radio' && ed.el.checked === false) {
 			let sel = ed.el.getRootNode().querySelector('input[type=radio][name="'+ ed.el.name +'"]:checked');
-			if(sel) return new terafm.Editable(sel);
+			if(sel) return new Editable(sel);
 		}
-		else return ed;
+		else {
+			return ed;
+		}
 	}
 
 	copy(opts) {

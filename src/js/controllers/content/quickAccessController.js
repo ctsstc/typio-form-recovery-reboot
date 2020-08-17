@@ -130,7 +130,7 @@ function setupKeyNav() {
 
 			if(vue.currSel.isSess) {
 				const entries = vue.currSel.entry.session.getEntries();
-				db.deleteEntries(vue.currSel.entry);
+				db.deleteEntries(entries);
 			} else {
 				db.deleteEntry(vue.currSel.entry);
 			}

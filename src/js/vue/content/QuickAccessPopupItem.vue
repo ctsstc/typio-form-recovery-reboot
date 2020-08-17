@@ -101,7 +101,6 @@
 
                 if(this.entry) {
                     if(!this.isSess || commitSingleFromSession) {
-                        this.entry.restore({ clone: true, }, db);
                         this.editable.applyEntry(this.entry, { clone: true }, db);
 
                     } else if(this.isSess) {

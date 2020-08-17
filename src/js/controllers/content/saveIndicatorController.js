@@ -61,4 +61,5 @@ function makeVue(rootnode, callback) {
 		render(h) { return h(SaveIndicator) },
 	});
 	vue = vue.$children[0];
+	if(callback) callback();
 }

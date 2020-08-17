@@ -13,7 +13,7 @@ initHandler.onInit(function() {
 	window.addEventListener('beforeunload', db.push);
 
 	Events.on('input', e => changeHandler(e.path[0]));
-	Events.on('change', e => changeHandler(e.path[0]));
+	Events.on('change', e => changeHandler(e.path[0], 'change'));
 
 	// Hack for facebook messenger
 	if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host)) {
@@ -34,12 +34,15 @@ initHandler.onInit(function() {
 	});
 })
 
-function changeHandler(el) {
+function changeHandler(el, changeEvent) {
 	if(window.terafm.pauseLogging) return;
 
 	const editable = Editables.get(el);
 
 	if(!editable) return;
+
+	// Radios and checkboxes will be saved twice due to the change and input events, but we only need to save them once.
+	if(changeEvent !== 'change' && ['radio', 'checkbox'].includes(editable.el.type)) return false;
 
 	editable.touch();
 
@@ -47,8 +50,15 @@ function changeHandler(el) {
 		let entry = editable.getEntry();
 		EditableDefaults.update(editable);
 
-		if(false === editable.isEmpty()) db.saveEntry(entry);
-		if(editable.type === 'radio') deleteRadioSiblings(editable);
+		if(editable.type === 'radio') {
+			deleteRadioSiblings(editable, () => {
+				db.saveEntry(entry);
+			});
+
+		} else if(editable.isEmpty() === false) {
+			db.saveEntry(entry);
+		}
+
 
 	// Did not validate, delete if exists (if value validation failed)
 	} else {
@@ -57,16 +67,16 @@ function changeHandler(el) {
 }
 
 
+function deleteRadioSiblings(editable, callback) {
+	const radios = editable.el.getRootNode().querySelectorAll('input[type="radio"][name="'+ editable.el.name +'"]');
 
-function deleteRadioSiblings(editable) {
-	if(editable.type === 'radio' && editable.el.name) {
-		
-		const radios = editable.el.getRootNode().querySelectorAll('input[type="radio"][name="'+ editable.el.name +'"]');
-		radios.forEach(function(rad) {
-			if(rad !== editable.el) {
-				let sib = new Editable(rad);
-				db.deleteEntry(editable.sessionId, sib.id);
-			}
-		});
+	let entriesToDelete = [];
+	for(const radio of radios) {
+		if(radio !== editable.el) {
+			let sib = new Editable(radio);
+			entriesToDelete.push([editable.sessionId, sib.id])
+		}
 	}
+
+	db.deleteEntries(entriesToDelete, callback);
 }
