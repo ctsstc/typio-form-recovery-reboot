@@ -164,6 +164,9 @@ export default class Editable {
 		}*/ else {
 			this.el.innerHTML = val;
 		}
+
+		// Needed in order for state based editors to recognize the update (e.g. Vue or React)
+		this.el.dispatchEvent(new Event('input'));
 	}
 
 	touch() {
