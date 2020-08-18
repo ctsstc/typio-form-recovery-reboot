@@ -89,14 +89,7 @@ export default class Editable {
 			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts});
 
 
-		}/* else if(this.el.closest('.DraftEditor-root') || window.location.hostname.indexOf('facebook.com') !== -1) {
-			console.log('is probably draft editor');
-			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts});
-			// tmpVal = entry.getValue(opts)
-			usePaste = true;
-
-		// anything else
-		}*/ else {
+		} else {
 			tmpVal = entry.getValue(opts)
 		}
 
@@ -154,15 +147,11 @@ export default class Editable {
 		} else if(Editables.isNode(this.el, 'SELECT')) {
 			this.el.value = val;
 
-		}/* else if(this.isContentEditable() && usePaste) {
-			// setTimeout(() => {
-			// this.el.dispatchEvent(new Event('click'));
+		} else {
+			// this.el.innerHTML = val;
+			this.el.focus();
 			document.execCommand('selectAll', false, null);
-			document.execCommand('insertText', false, val);
-			// }, 20)
-
-		}*/ else {
-			this.el.innerHTML = val;
+			document.execCommand('insertHTML', false, val);
 		}
 
 		// Needed in order for state based editors to recognize the update (e.g. Vue or React)
