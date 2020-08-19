@@ -150,6 +150,14 @@ export default class Editable {
 		} else {
 			// this.el.innerHTML = val;
 			this.el.focus();
+
+			// DraftJS hack. If empty, simulate a keystroke first.
+			if (!this.el.textContent) {
+				const event = document.createEvent('TextEvent');
+				event.initTextEvent('textInput', true, true, window, '_', 0, '');
+				this.el.dispatchEvent(event);
+			}
+
 			document.execCommand('selectAll', false, null);
 			document.execCommand('insertHTML', false, val);
 		}
