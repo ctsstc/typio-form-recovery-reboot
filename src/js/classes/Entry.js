@@ -77,7 +77,7 @@ export default class Entry {
 		return Editables.isTextEditableType(this.type);
 	}
 
-	getValue(opts = {encodeHTMLEntities: false, decodeHTMLEntities: false, stripTags: false, truncate: false, trim: false, retainLineBreaks: false}) {
+	getValue(opts = {encodeHTMLEntities: false, decodeHTMLEntities: false, stripTags: false, truncate: false, trim: false, trimNewLines: false, newLineToBr: false, brToNewLine: false,}) {
 
 		var str = this.value;
 
@@ -97,12 +97,20 @@ export default class Entry {
 			str = str.substring(0, opts.truncate) + '...';
 		}
 
-		if(opts.retainLineBreaks) {
+		if(opts.newLineToBr) {
 			str = str.replace(/[\r\n]/gm, '<br/>');
+		}
+
+		if(opts.brToNewLine) {
+			str = str.replace(/<br[^>]*>/gi, "\r\n");
 		}
 
 		if(opts.trim) {
 			str = Helpers.trim(str);
+		}
+
+		if(opts.trimNewLines) {
+			str = Helpers.trimNewLines(str);
 		}
 
 		return str;

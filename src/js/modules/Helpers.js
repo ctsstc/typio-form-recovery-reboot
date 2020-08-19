@@ -11,9 +11,13 @@ exp.hashStr = function(str) {
 	return hash;
 }
 
-
 exp.trim = function(str) {
-	return str.replace(/[\s\n\r]+/g, ' ').trim();
+	str = str.replace(/[^\S\r\n]+/g, ' ').replace(/[\r\n]+/g, '\r\n');
+	return str.trim();
+}
+
+exp.trimNewLines = function(str) {
+	return str.replace(/[\r\n]/g, '');
 }
 
 exp.stripTags = (() => {
@@ -86,13 +90,14 @@ exp.prettyDate = function(time) {
 
 
 exp.copyToClipboard = function(text) {
-	var input = document.createElement('input');
-	input.setAttribute('value', text);
-	input.setAttribute('class', 'typioIgnoreField');
-	document.body.appendChild(input);
-	input.select();
+	var textarea = document.createElement('textarea');
+	textarea.innerHTML = text;
+	textarea.setAttribute('class', 'typioIgnoreField');
+	document.body.appendChild(textarea);
+	textarea.select();
+
 	var result = document.execCommand('copy');
-	document.body.removeChild(input)
+	document.body.removeChild(textarea)
 	return result;
 }
 

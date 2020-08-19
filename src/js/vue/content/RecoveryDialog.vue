@@ -96,7 +96,6 @@
                                     <button class="btn" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : 'btn-flat' ]">Copy &#9662;</button>
                                     <ul class="btn-drop">
                                         <li v-on:click="copyEntry('plaintext')">Copy plain text</li>
-                                        <li v-on:click="copyEntry('formatting')">Copy with <b>formatting</b></li>
                                         <li v-on:click="copyEntry('html')">Copy as &lt;/HTML&gt;</li>
                                     </ul>
                                 </div>
@@ -108,7 +107,7 @@
                             <p class="message-warn" v-if="!currEntry.hasEditable()"><span class="icon-info"></span> This entry cannot be restored automatically. <a target="_blank" :href="noAutoRestoreHelpLink">Why?</a></p>
                         </div>
 
-                        <iframe ref="entryContentFrame" class="entry-text card-1"></iframe>
+                        <iframe class="entry-text card-1" :srcdoc="iframeSrc"></iframe>
                         <div id="entry-path" class="entry-meta card-1">
                             {{ currEntry.path }} &nbsp; {{ currEntry.type }}
                         </div>
@@ -159,6 +158,12 @@
             document.activeElement.blur();
             this.populate();
         },
+        computed: {
+            iframeSrc() {
+                const style = '<style>body { margin: 0; font-fanily: sans-serif; }</style>';
+                return style + this.currEntry.getValue();
+            }
+        },
         methods: {
             hide: function() {
                 this.visible = false;
@@ -177,11 +182,6 @@
 
                 this.currEntry = this.sesslist.getEntry(target.dataset.sessionId, target.dataset.editableId);
                 this.page = 'entry';
-
-                setTimeout(() => {
-                    const style = '<style>body { margin: 0; font-fanily: sans-serif; }</style>';
-                    this.$refs.entryContentFrame.contentWindow.document.body.innerHTML = style + this.currEntry.getValue();
-                }, 50) 
 
                 if(this.selectedListItem) this.selectedListItem.classList.remove('selected');
                 this.selectedListItem = target;
@@ -318,17 +318,11 @@
                 if(!this.currEntry) return;
 
                 if(format === 'plaintext') {
-                    Helpers.copyToClipboard(this.currEntry.getValue({stripTags: true, trim: true}));
+                    Helpers.copyToClipboard(this.currEntry.getValue({ stripTags: true, trim: true, brToNewLine: true }));
                     toastController.create('Copied plaintext to clipboard');
 
-                } else if(format === 'formatting') {
-                    const frameDocument = this.$refs.entryContentFrame.contentWindow.document;
-                    frameDocument.execCommand('selectAll');
-                    frameDocument.execCommand('copy');
-                    frameDocument.getSelection().empty()
-                    toastController.create('Copied text with formatting to clipboad');
                 } else if(format === 'html') {
-                    Helpers.copyToClipboard(this.currEntry.getValue({trim: true}));
+                    Helpers.copyToClipboard(this.currEntry.getValue({trim: true, trimNewLines: true}));
                     toastController.create('Copied HTML to clipboard');
                 }
 
