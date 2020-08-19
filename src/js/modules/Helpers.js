@@ -24,6 +24,13 @@ exp.stripTags = (() => {
 	var tmp = document.createElement('div');
 	return (html) => {
 		tmp.innerHTML = html;
+		
+		// Delete <noscript> tags, they can contain HTML and it is not removed by this method
+		const noscripts = tmp.querySelectorAll('noscript');
+		for(const noscript of noscripts) {
+			noscript.parentNode.removeChild(noscript);
+		}
+
 		return tmp.textContent;
 	}
 })();
