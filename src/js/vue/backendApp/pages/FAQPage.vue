@@ -26,6 +26,14 @@
             </div>
         </div>
 
+        <div style="padding-top: 30px" id="input-broken-after-restoration">
+            <div class="card">
+                <h2>Why do some input fields break after restoring into them?</h2>
+                <p>In order for Typio to restore input, it needs to manipulate the value of input fields programatically. Unfortunately, some input fields are not built to understand changes that happen programatically. Typio does its best to support as many input types as possible, but due to technical limitations there is only so much that can be done.</p>
+                <p>If an input field doesn't work like it should after restoring into it, please restore the value manually by copying it from the recovery window (right click anywhere -> Open recovery). You might need to refresh the page in order for the broken input field to function as it should again.</p>
+            </div>
+        </div>
+
         <div style="padding-top: 30px" id="error-input-not-found">
             <div class="card">
                 <h2>Error: Cannot find a focused input field</h2>
