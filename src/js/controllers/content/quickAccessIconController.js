@@ -10,7 +10,10 @@ import quickAccessController from './quickAccessController';
 let node,
 	triggerAction,
 	disabledEditables = [],
-	iconDelayTimeout;
+	iconDelayTimeout,
+	isVisible = false,
+	rePositionIntervalFn,
+	stopRepositionTimeoutFn;
 
 initHandler.onInit(function() {
 	if(Options.get('quickAccessButtonEnabled')) {
@@ -82,6 +85,9 @@ function build(callback) {
 
 function hide() {
 	if(node) node.style.display = 'none';
+	isVisible = false;
+	clearInterval(rePositionIntervalFn);
+	clearTimeout(stopRepositionTimeoutFn);
 }
 
 function disableForEditable() {
@@ -112,30 +118,43 @@ function show(trigger) {
 		if (isDisabled(editable.el)) return;
 		if (triggerAction === 'focus' && !(parseInt(edStyle.width) > 80 && parseInt(edStyle.height) > 10)) return;
 
-		var rect = editable.rect(),
-			pos = {
-				x: rect.x + rect.width - 18,
-				y: rect.y
-			},
-			offset = 4;
-
-		// Calculate edge offset
-		if (!editable.isBigTextEditable()) { // if(rect.height < 50 && rect.width > 150) {
-			offset = (rect.height / 2) - (18 / 2);
-		}
-
-		// Vertical scrollbar check
-		if (editable.el.scrollHeight > editable.el.clientHeight || ['search', 'number'].includes(editable.type)) {
-			pos.x -= 17;
-		}
-
-		pos.x -= (offset > 15 ? 15 : offset);
-		pos.y += offset;
-
-		node.style.top = pos.y + 'px';
-		node.style.left = pos.x + 'px';
+		positionIcon(editable);
 		node.style.display = 'block';
+		isVisible = true;
+
+		rePositionIntervalFn = setInterval(() => {
+			positionIcon(editable);
+		}, 200)
+
+		stopRepositionTimeoutFn = setTimeout(() => {
+			clearInterval(rePositionIntervalFn);
+		}, 1500);
 
 		ui.touch();
 	})
+}
+
+function positionIcon(editable) {
+	var rect = editable.rect(),
+	pos = {
+		x: rect.x + rect.width - 18,
+		y: rect.y
+	},
+	offset = 4;
+
+	// Calculate edge offset
+	if (!editable.isBigTextEditable()) { // if(rect.height < 50 && rect.width > 150) {
+		offset = (rect.height / 2) - (18 / 2);
+	}
+
+	// Vertical scrollbar check
+	if (editable.el.scrollHeight > editable.el.clientHeight || ['search', 'number'].includes(editable.type)) {
+		pos.x -= 17;
+	}
+
+	pos.x -= (offset > 15 ? 15 : offset);
+	pos.y += offset;
+
+	node.style.top = pos.y + 'px';
+	node.style.left = pos.x + 'px';
 }

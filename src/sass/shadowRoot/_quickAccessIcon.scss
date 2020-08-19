@@ -10,7 +10,7 @@
 	background-size: cover;
 	cursor: default;
 	opacity: .5;
-	transition-duration: .1s;
+	transition-duration: .3s;
 	animation: quickAccessIconIn .3s;
 
 	span {
@@ -43,6 +43,7 @@
 	}
 
 	&:hover {
+		transition-duration: .1s;
 		opacity: 1;
 
 		span {
