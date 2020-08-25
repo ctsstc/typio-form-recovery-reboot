@@ -160,7 +160,7 @@
         },
         computed: {
             iframeSrc() {
-                const style = '<style>body { margin: 0; font-family: sans-serif; }</style>';
+                const style = '<style>body { margin: 0; font-family: sans-serif; font-size: 15px; color: #333; }</style>';
                 return style + this.currEntry.getValue();
             }
         },
