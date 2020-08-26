@@ -3,7 +3,6 @@ import Events from '../../modules/Events';
 import initHandler from '../../modules/initHandler';
 import validator from '../../modules/validator';
 import ui from '../../modules/ui';
-import Cache from '../../modules/Cache';
 import quickAccessController from './quickAccessController';
 
 
@@ -35,7 +34,6 @@ function addDeepEventListeners() {
 			disableForEditable();
 		} else {
 			requestAnimationFrame(function() {
-				Cache.wipeCache();
 				quickAccessController.show(terafm.focusedEditable, {x: e.layerX, y: e.layerY});
 			})
 

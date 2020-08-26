@@ -92,21 +92,22 @@
                     else if(this.action === 'disableTypio') blockController.block();
                     else return;
                 }
-                const lastFocused = window.terafm.focusedEditable || terafm.lastFocusedEditable;
-                lastFocused.el.focus();
 
                 placeholders.restore();
                 EditableDefaults.restore();
                 this.rootInstance.hide();
-
+        
                 if(this.entry) {
                     if(!this.isSess || commitSingleFromSession) {
                         this.editable.applyEntry(this.entry, { clone: true }, db);
 
                     } else if(this.isSess) {
                         this.entry.getSession().restore({ clone: true, }, db);
+                        const editables = Object.values(this.entry.getSession().getEditables().editables);
                     }
                 }
+
+                this.$parent.$emit('afterRestore');
             },
         },
     }
