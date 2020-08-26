@@ -132,7 +132,7 @@ export default class Entry {
 			}
 
 			if(entry.type === 'contenteditable') {
-				value += this.getValue({stripTags: true, trim: true, ...opts});
+				value += this.getValue({stripTags: true, encodeHTMLEntities: true, trim: true, ...opts});
 			} else {
 				value += this.getValue({encodeHTMLEntities: true, trim: true, ...opts});
 			}
