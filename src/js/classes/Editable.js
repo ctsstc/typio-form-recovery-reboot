@@ -137,6 +137,11 @@ export default class Editable {
 
 		window.terafm.isRestoring = true;
 
+		clearTimeout(window.terafm.isRestoringTmt);
+		window.terafm.isRestoringTmt = setTimeout(() => {
+			window.terafm.isRestoring = false;
+		}, 10)
+
 		if(Editables.isNode(this.el, 'INPUT') || Editables.isNode(this.el, 'TEXTAREA')) {
 
 			if(this.el.type === 'checkbox' || this.el.type === 'radio') {
@@ -172,8 +177,6 @@ export default class Editable {
 		// Needed in order for state based editors to recognize the update (e.g. Vue or React)
 		this.el.dispatchEvent(new Event('input', { bubbles: true }));
 		this.el.dispatchEvent(new Event('change', { bubbles: true }));
-
-		window.terafm.isRestoring = false;
 	}
 
 	touch() {
