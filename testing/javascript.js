@@ -31,7 +31,7 @@ setTimeout(function() {
 	var shadowElm = document.querySelector('.dyno'),
 		shroot = shadowElm.attachShadow({mode: 'open'});
 
-	shroot.innerHTML = '<input placeholder="Input dynamic shadow DOM" /><input placeholder="Input2 dynamic shadow DOM" /><iframe height="180"></iframe>';
+	shroot.innerHTML = '<input placeholder="Input dynamic shadow DOM" /><div style="display: inline-block; border: 1px solid blue; padding: 4px;" contenteditable>contenteditable</div><input placeholder="Input2 dynamic shadow DOM" /><iframe height="180"></iframe>';
 
 	shroot.querySelector('iframe').contentWindow.document.body.innerHTML = '<input placeholder="placeholder dynamic" />';
 
@@ -67,6 +67,6 @@ shroot3.innerHTML = '<input placeholder="Input nested shadow doms and iframe" />
 
 
 var ifr = document.querySelector('#ifr');
-ifr.contentDocument.body.innerHTML = 'Hello says iframe! <input type="text" style="width: 80px"/><iframe id="ifr2"></iframe>';
+ifr.contentDocument.body.innerHTML = 'Hello says iframe! <input type="text" style="width: 80px"/><iframe id="ifr2"></iframe><div style="display: inline-block; border: 1px solid blue; padding: 4px;" contenteditable>contenteditable</div>';
 var ifr2 = ifr.contentDocument.body.querySelector('#ifr2');
 ifr2.contentDocument.body.innerHTML = 'Hello from nested! <input style="position: absolute; left: 120px;" type="text"/>';

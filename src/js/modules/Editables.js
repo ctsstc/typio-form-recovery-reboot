@@ -74,7 +74,7 @@ editables.isEditable = (elem) => {
 	} else if(editables.isNode(elem, 'SELECT')) {
 		return true;
 
-	} else if(elem.getAttribute('contenteditable') == 'true') {
+	} else if(elem.getAttribute('contenteditable')) {
 		return true;
 	}
 
@@ -86,7 +86,7 @@ editables.isTextEditable = (elem) => {
 	if(editables.isNode(elem, 'INPUT') && editables.isTextEditableType(elem.type)) {
 		return true;
 
-	} else if(elem.getAttribute('contenteditable') == 'true') {
+	} else if(elem.getAttribute('contenteditable')) {
 		return true;
 
 	} else if(editables.isNode(elem, 'TEXTAREA')) {
