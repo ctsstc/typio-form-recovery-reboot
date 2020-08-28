@@ -31,7 +31,7 @@
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     this.isVisible = false;
-                }, 4000);
+                }, 5000);
             },
         },
     }
