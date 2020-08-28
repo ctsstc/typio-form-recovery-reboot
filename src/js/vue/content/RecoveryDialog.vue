@@ -56,8 +56,8 @@
                                         <p v-html="entry.getPrintableValue({truncate: 300})"></p>
                                         <div class="meta">
                                             <div class="left">
-                                                <span v-if="entry.hasEditable()" class="status ok" title="This input entry can be automatically restored to its original input field.">Input field found</span>
-                                                <span v-if="!entry.hasEditable()" class="status bad" title="The input field the entry was typed in cannot be found on the current page. Either the field does not exist, or it cannot be found in the same place (path has changed). You can manually restore the entry by copying it.">Cannot be auto-restored</span>
+                                                <span v-if="entry.canBeAutoRestored()" class="status ok" title="This input entry can be automatically restored to its original input field.">Can be auto-restored</span>
+                                                <span v-if="!entry.canBeAutoRestored()" class="status bad" title="The input field the entry was typed in cannot be found on the current page. Either the field does not exist, or it cannot be found in the same place (path has changed). You can manually restore the entry by copying it.">Cannot be auto-restored</span>
                                             </div>
                                             <div class="right">
                                                 <a class="delete" v-on:click="deleteEntry($event)" :class="delConfirmEntry === entry ? 'confirm' : ''">{{ delConfirmEntry === entry ? 'Click to confirm' : 'Delete' }}</a>
@@ -86,7 +86,7 @@
                     <div class="page page-entry" v-bind:class="[(page === 'entry') ? 'page-current' : '' ]" v-if="currEntry">
 
                         <div class="entry-header">
-                            <template v-if="currEntry.hasEditable()">
+                            <template v-if="currEntry.canBeAutoRestored()">
                                 <button class="btn btn-primary" v-on:click="restoreSession()">Restore session</button>
                                 <button class="btn btn-flat" v-on:click="restoreEntry()">Restore only this</button>
                             </template>
@@ -104,12 +104,12 @@
                                 <button style="float: right;" class="btn" v-on:click="copyEntry('plaintext')" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : 'btn-flat' ]">Copy</button>
                             </template>
 
-                            <p class="message-warn" v-if="!currEntry.hasEditable()"><span class="icon-info"></span> This entry cannot be restored automatically. <a target="_blank" :href="noAutoRestoreHelpLink">Why?</a></p>
+                            <p class="message-warn" v-if="!currEntry.canBeAutoRestored()"><span class="icon-info"></span> This entry cannot be restored automatically. <a target="_blank" :href="noAutoRestoreHelpLink">Why?</a></p>
                         </div>
 
-                        <iframe class="entry-text card-1" :srcdoc="iframeSrc"></iframe>
+                        <iframe class="entry-text card-1" :srcdoc="iframeSrc" sandbox=""></iframe>
                         <div id="entry-path" class="entry-meta card-1">
-                            {{ currEntry.path }} &nbsp; {{ currEntry.type }}
+                            {{ currEntry.path }} &nbsp; (type {{ currEntry.type }}, input {{ currEntry.hasEditable() ? 'found' : 'not found' }})
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
         },
         computed: {
             iframeSrc() {
-                const style = '<style>body { margin: 0; font-family: sans-serif; font-size: 15px; color: #333; }</style>';
+                const style = '<style>body { margin: 0; font-family: sans-serif; font-size: 15px; color: #333; } body > *:first-child { margin-top: 0; }</style>';
                 return style + this.currEntry.getValue();
             }
         },

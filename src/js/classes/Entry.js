@@ -77,6 +77,10 @@ export default class Entry {
 		return Editables.isTextEditableType(this.type);
 	}
 
+	isContentEditableType() {
+		return Editables.isContentEditableType(this.type);
+	}
+
 	getValue(opts = {encodeHTMLEntities: false, decodeHTMLEntities: false, stripTags: false, truncate: false, trim: false, trimNewLines: false, newLineToBr: false, brToNewLine: false,}) {
 
 		var str = this.value;
@@ -168,6 +172,10 @@ export default class Entry {
 
 	getSession() {
 		return this.session;
+	}
+
+	canBeAutoRestored() {
+		return this.hasEditable() && !this.isContentEditableType();
 	}
 
 	hasEditable() {

@@ -16,6 +16,7 @@ editables.getTextEditable = (el) => getEditable(el, true);
 
 editables.isEditableType = (type) => editableTypes.includes(type);
 editables.isTextEditableType = (type) => textEditableTypes.includes(type);
+editables.isContentEditableType = (type) => type === 'contenteditable';
 
 
 function getEditable(el, onlyTextEditable=false) {

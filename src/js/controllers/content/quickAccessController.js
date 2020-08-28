@@ -8,6 +8,7 @@ import toastController from './toastController';
 import blockController from './blockController';
 import Cache from '../../modules/Cache';
 import QuickAccessPopup from '../../vue/content/QuickAccessPopup.vue';
+import recoveryDialogController from './recoveryDialogController';
 import Vue from 'vue';
 
 let controller = {};
@@ -37,12 +38,11 @@ controller.show = (...args) => show(...args);
 function show(editable, coord) {
 	if(!window.terafm.focusedEditable) return toastController.create('Typio could not detect a focused input field. <a target="_blank" href="'+ chrome.runtime.getURL('html/faq.html#no-field-focus') +'">Read more.</a>');
 	
-	// console.log(editable.el, window.terafm.focusedEditable.el);
-	// if(terafm.focusedEditable.el.closest('.DraftEditor-root')) {
-	// 	if(!confirm('This editor is known to not work as expected after restoring into it. Would you like to continue?')) {
-	// 		return;
-	// 	}
-	// }
+	if(editable.isContentEditable()) {
+		recoveryDialogController.open();
+		toastController.create('Cannot open Quick Restore Popup for selected input type (contentEditable)');
+		return;
+	}
 
 	Cache.wipeCache();
 
