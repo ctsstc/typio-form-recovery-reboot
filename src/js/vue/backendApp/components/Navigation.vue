@@ -29,7 +29,7 @@
                     { label: 'Frequently Asked Questions', routeName: 'faq', routeHash: '', icon: 'icon-help-circled', children: [
                         { label: 'How frequently does Typio save my input?', routeName: 'faq', routeHash: '#save-frequency' },
                         { label: 'Why wasn\'t input wasn\'t saved?', routeName: 'faq', routeHash: '#input-not-saved' },
-                        { label: 'Why can\'t Typio automatically restore some entries?', routeName: 'faq', routeHash: '#cannot-auto-restore' },
+                        { label: 'Why can some entries not be automatically restored?', routeName: 'faq', routeHash: '#cannot-auto-restore' },
                         { label: 'Why do some input fields break after restoring into them?', routeName: 'faq', routeHash: '#input-broken-after-restoration' },
                         { label: 'Error: Cannot find a focused input field', routeName: 'faq', routeHash: '#error-input-not-found' },
                     ] },

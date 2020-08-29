@@ -28,10 +28,10 @@
 
         <div style="padding-top: 30px" id="cannot-auto-restore">
             <div class="card">
-                <h2>Why can't Typio automatically restore some entries?</h2>
+                <h2>Why can some entries not be automatically restored?</h2>
                 <p>Typio does its best to make the process of restoring data as easy as possible. There are however cases when Typio is unable to do so. In those cases, you can restore an entry manually by copying and pasting it from the recovery window.</p>
 
-                <p>Typio is unable to automatically restore an entry in the following cases.</p>
+                <p>Typio is unable to automatically restore an entry in the following cases:</p>
                 
                 <h3>The original input field cannot be found</h3>
                 <p>In order for Typio to automatically restore an entry, it needs to find the original input field on the page. If the input field does not exist on the current page, or if it cannot be found in the same place (path has changed), Typio won't be able to auto-restore the entry.</p>
