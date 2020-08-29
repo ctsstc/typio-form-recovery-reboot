@@ -11,6 +11,7 @@
                     <div class="left">
                         Recover {{ hostname }}
                     </div>
+                    <button class="toolbar-icon" v-on:click="wipeData()"><span class="icon-trash"></span>Delete all data</button>
                     <button class="toolbar-icon" v-on:click="disableSite()"><span class="icon-block"></span>Disable on this site</button>
                     <button class="toolbar-icon" v-on:click="openOptions()"><span class="icon-gear"></span>Open settings</button>
                 </div>
@@ -341,6 +342,13 @@
             disableSite: function() {
                 if(blockController.block()) this.hide();
             },
+            wipeData: function() {
+                if(confirm('Press OK to delete data for ' + window.location.host + '. You cannot undo this action.')) {
+                    db.deleteAllDataForDomain();
+                    toastController.create('Database cleared for ' + window.location.hostname);
+                    this.hide();
+                }
+            }
         },
     }
 </script>

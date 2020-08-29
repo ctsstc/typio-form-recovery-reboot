@@ -65,7 +65,7 @@
 				flex: 0 1;
 				height: 40px;
 				padding: 0 10px 0 32px;
-				margin-left: 10px;
+				margin-left: 5px;
 				border-radius: 3px;
 				color: #FFF;
 				border: none;
@@ -75,15 +75,15 @@
 				cursor: pointer;
 
 				span {
-					font-size: 22px;
+					font-size: 17px;
 					position: absolute;
-					top: 8px;
-					left: 5px;
-					color: rgba(255,255,255,.4);
+					top: 12px;
+					left: 10px;
+					color: rgba(255,255,255,.5);
 				}
 
 				&:hover {
-					background: rgba(200,200,255,.15);
+					background: rgba(200,200,255,.07);
 				}
 			}
 		}
