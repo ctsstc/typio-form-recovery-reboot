@@ -364,6 +364,14 @@
 			flex: 1 0;
 		}
 
+		a {
+			color: #555;
+
+			&:hover {
+				color: #2583c6;
+			}
+		}
+
 		.delete {
 			color: #555;
 			text-decoration: none;
@@ -420,6 +428,11 @@
 		position: relative;
 		z-index: 1;
 		border-radius: 0 0 2px 2px;
+		transition-duration: .3s;
+
+		&:hover {
+			color: #333;
+		}
 	}
 }
 

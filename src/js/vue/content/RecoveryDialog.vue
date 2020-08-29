@@ -58,8 +58,8 @@
                                         <p v-html="entry.getPrintableValue({truncate: 300})"></p>
                                         <div class="meta">
                                             <div class="left">
-                                                <span v-if="entry.canBeAutoRestored()" class="status ok" title="This input entry can be automatically restored to its original input field.">Can be auto-restored</span>
-                                                <span v-if="!entry.canBeAutoRestored()" class="status bad" title="The input field the entry was typed in cannot be found on the current page. Either the field does not exist, or it cannot be found in the same place (path has changed). You can manually restore the entry by copying it.">Cannot be auto-restored</span>
+                                                <span v-if="entry.canBeAutoRestored()" class="status ok">Can be automatically restored</span>
+                                                <span v-if="!entry.canBeAutoRestored()" class="status bad">Cannot be automatically restored <a target="_blank" :href="noAutoRestoreHelpLink">(info)</a></span>
                                             </div>
                                             <div class="right">
                                                 <a class="delete" v-on:click="deleteEntry($event)" :class="delConfirmEntry === entry ? 'confirm' : ''">{{ delConfirmEntry === entry ? 'Click to confirm' : 'Delete' }}</a>
@@ -208,7 +208,7 @@
 
                 const autoRestorableCount = sess.getAutoRestorableCount();
                 if(sess.length !== autoRestorableCount) {
-                    toastController.create('Some entries could not be auto-restored (restored '+ autoRestorableCount +' of '+ sess.length +')');
+                    toastController.create('Some entries could not be automatically restored (restored '+ autoRestorableCount +' of '+ sess.length +')');
                 } else {
                     toastController.create('Session restored');
                 }
