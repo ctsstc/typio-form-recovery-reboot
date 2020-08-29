@@ -29,6 +29,18 @@ export default class Session {
 		return Object.values(this.entries);
 	}
 
+	getAutoRestorableCount() {
+		let restorableCount = 0;
+		
+		for(const entry of this.getEntries()) {
+			if(entry.canBeAutoRestored()) {
+				restorableCount++;
+			}
+		}
+
+		return restorableCount;
+	}
+
 	each(fn) {
 		for(let eid in this.entries) {
 			let tmp = fn(this.entries[eid], this.id, eid);

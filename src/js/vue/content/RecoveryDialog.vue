@@ -203,7 +203,14 @@
                 // Don't use this.currEntry.getSession(), entries could be filtered out!
                 const sess = db.getSession(this.currEntry.sessionId);
                 sess.restore({ flash: true }, db);
-                toastController.create('Session restored.');
+
+                const autoRestorableCount = sess.getAutoRestorableCount();
+                if(sess.length !== autoRestorableCount) {
+                    toastController.create('Some entries could not be auto-restored (restored '+ autoRestorableCount +' of '+ sess.length +')');
+                } else {
+                    toastController.create('Session restored');
+                }
+
                 this.hide();
             },
             restoreEntry: function() {

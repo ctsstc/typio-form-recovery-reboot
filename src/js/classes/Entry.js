@@ -147,7 +147,7 @@ export default class Entry {
 
 	setPlaceholder() {
 		let editable = this.getEditable();
-		if(editable) {
+		if(this.canBeAutoRestored() && editable) {
 			editable.applyPlaceholderEntry(this);
 		}
 	}
@@ -155,7 +155,7 @@ export default class Entry {
 	restore(opts = { flash: false, clone: true }, dbRef=null) {
 		let editable = this.getEditable();
 
-		if(editable) {
+		if(this.canBeAutoRestored() && editable) {
 			editable.applyEntry(this);
 			if(opts.flash) editable.flashHighlight();
 		}
