@@ -406,9 +406,6 @@
 			}
 		}
 	}
-	.entry-text, .entry-meta {
-		padding: 20px;
-	}
 	.entry-text {
 		border: none;
 		flex: 1 0;
@@ -417,8 +414,7 @@
 	}
 	.entry-meta {
 		border-top: 1px solid #e3e3e3;
-		padding-top: 10px;
-		padding-bottom: 10px;
+		padding: 10px 20px;
 		font-size: 12px;
 		color: #a5a5a5;
 		position: relative;
