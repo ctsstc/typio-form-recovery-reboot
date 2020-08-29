@@ -18,12 +18,12 @@
             return {
                 menuItems: [
                     { label: 'Options', routeName: 'options', icon: 'icon-cog', children: [
-                        { label: 'Save-options', routeName: 'options', routeHash: '#save-options' },
-                        { label: 'Restore Icon', routeName: 'options', routeHash: '#restore-icon' },
-                        { label: 'Save Indicator', routeName: 'options', routeHash: '#save-indicator' },
-                        { label: 'Blacklist', routeName: 'options', routeHash: '#blacklist' },
-                        { label: 'Keyboard Shortcuts', routeName: 'options', routeHash: '#keyboard-shortcuts' },
-                        { label: 'Context Menu', routeName: 'options', routeHash: '#context-menu' },
+                        { label: 'Save & restore', routeName: 'options', routeHash: '#save-options' },
+                        { label: 'Restore icon', routeName: 'options', routeHash: '#restore-icon' },
+                        { label: 'Save indicator', routeName: 'options', routeHash: '#save-indicator' },
+                        { label: 'Domain blacklist', routeName: 'options', routeHash: '#blacklist' },
+                        { label: 'Keyboard shortcuts', routeName: 'options', routeHash: '#keyboard-shortcuts' },
+                        { label: 'Context menu', routeName: 'options', routeHash: '#context-menu' },
                     ] },
                     { label: 'Feedback', routeName: 'feedback', routeHash: '', icon: 'icon-megaphone' },
                     { label: 'Frequently Asked Questions', routeName: 'faq', routeHash: '', icon: 'icon-help-circled', children: [
