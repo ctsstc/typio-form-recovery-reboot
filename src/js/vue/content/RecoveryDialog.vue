@@ -11,9 +11,10 @@
                     <div class="left">
                         Recover {{ hostname }}
                     </div>
+                    <button class="toolbar-icon" v-on:click="openDonationLink()"><span class="icon-heart"></span>Support development</button>
                     <button class="toolbar-icon" v-on:click="wipeData()"><span class="icon-trash"></span>Delete all data</button>
                     <button class="toolbar-icon" v-on:click="disableSite()"><span class="icon-block"></span>Disable on this site</button>
-                    <button class="toolbar-icon" v-on:click="openOptions()"><span class="icon-gear"></span>Open settings</button>
+                    <button class="toolbar-icon" v-on:click="openOptions()"><span class="icon-gear"></span>Open options</button>
                 </div>
             </div>
 
@@ -348,7 +349,10 @@
                     toastController.create('Database cleared for ' + window.location.hostname);
                     this.hide();
                 }
-            }
+            },
+            openDonationLink: function() {
+                window.open('https://www.buymeacoffee.com/typio');
+            },
         },
     }
 </script>

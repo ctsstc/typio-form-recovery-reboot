@@ -73,7 +73,7 @@ body {
 			font-size: 13px;
 
 			.green {
-				color: #60bd56;
+				color: #37a92a;
 			}
 			.red {
 				color: #ff5050;
@@ -113,8 +113,28 @@ body {
 	}
 }
 
-a {
-	color: #4b82d8;
+.link-list {
+	a {
+		color: #444;
+		text-decoration: none;
+		border: 1px solid transparent;
+		display: block;
+		padding: 5px;
+		margin: 0 -5px;
+		border-radius: 4px;
+		cursor: pointer;
+		margin-bottom: 2px;
+	
+		span {
+			position: relative;
+			top: 2px;
+			margin-right: 5px;
+		}
+	
+		&:hover {
+			border-color: #dadada;
+		}
+	}
 }
 
 a.confirm-click {

@@ -41,7 +41,8 @@ document.addEventListener('click', function(e) {
 			target.classList.add('confirm-click');
 			target.innerHTML = 'Click again to confirm deletion of all data on ' + urlObj.hostname + '. Deletion cannot be undone.';
 		}
-
+	} else if(target.classList.contains('donate-link')) {
+		window.open('https://www.buymeacoffee.com/typio');
 	}
 })
 
