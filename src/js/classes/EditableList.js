@@ -10,7 +10,7 @@ export default class EditableList {
 		}
 	}
 
-	get length() { return this.editables.length; }
+	get length() { return Object.keys(this.editables).length; }
 
 	contains(checkEditable) {
 		return Object.keys(this.editables).indexOf(checkEditable.id) !== -1;

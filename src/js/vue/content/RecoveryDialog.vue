@@ -11,8 +11,10 @@
                     <div class="left">
                         Recover {{ hostname }}
                     </div>
+                    <button class="toolbar-icon" v-on:click="openDonationLink()"><span class="icon-heart"></span>Support development</button>
+                    <button class="toolbar-icon" v-on:click="wipeData()"><span class="icon-trash"></span>Delete all data</button>
                     <button class="toolbar-icon" v-on:click="disableSite()"><span class="icon-block"></span>Disable on this site</button>
-                    <button class="toolbar-icon" v-on:click="openOptions()"><span class="icon-gear"></span>Open settings</button>
+                    <button class="toolbar-icon" v-on:click="openOptions()"><span class="icon-gear"></span>Open options</button>
                 </div>
             </div>
 
@@ -56,8 +58,8 @@
                                         <p v-html="entry.getPrintableValue({truncate: 300})"></p>
                                         <div class="meta">
                                             <div class="left">
-                                                <span v-if="entry.hasEditable()" class="status ok" title="This input entry can be automatically restored to its original input field.">Input field found</span>
-                                                <span v-if="!entry.hasEditable()" class="status bad" title="The input field the entry was typed in cannot be found on the current page. Either the field does not exist, or it cannot be found in the same place (path has changed). You can manually restore the entry by copying it.">Cannot be auto-restored</span>
+                                                <span v-if="entry.canBeAutoRestored()" class="status ok">Can be automatically restored</span>
+                                                <span v-if="!entry.canBeAutoRestored()" class="status bad">Cannot be automatically restored <a target="_blank" :href="noAutoRestoreHelpLink">(info)</a></span>
                                             </div>
                                             <div class="right">
                                                 <a class="delete" v-on:click="deleteEntry($event)" :class="delConfirmEntry === entry ? 'confirm' : ''">{{ delConfirmEntry === entry ? 'Click to confirm' : 'Delete' }}</a>
@@ -86,7 +88,7 @@
                     <div class="page page-entry" v-bind:class="[(page === 'entry') ? 'page-current' : '' ]" v-if="currEntry">
 
                         <div class="entry-header">
-                            <template v-if="currEntry.hasEditable()">
+                            <template v-if="currEntry.canBeAutoRestored()">
                                 <button class="btn btn-primary" v-on:click="restoreSession()">Restore session</button>
                                 <button class="btn btn-flat" v-on:click="restoreEntry()">Restore only this</button>
                             </template>
@@ -104,12 +106,12 @@
                                 <button style="float: right;" class="btn" v-on:click="copyEntry('plaintext')" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : 'btn-flat' ]">Copy</button>
                             </template>
 
-                            <p class="message-warn" v-if="!currEntry.hasEditable()"><span class="icon-info"></span> This entry cannot be restored automatically. <a target="_blank" :href="noAutoRestoreHelpLink">Why?</a></p>
+                            <p class="message-warn" v-if="!currEntry.canBeAutoRestored()"><span class="icon-info"></span> This entry cannot be restored automatically. <a target="_blank" :href="noAutoRestoreHelpLink">Why?</a></p>
                         </div>
 
-                        <iframe class="entry-text card-1" :srcdoc="iframeSrc"></iframe>
+                        <iframe class="entry-text card-1" :srcdoc="iframeSrc" sandbox=""></iframe>
                         <div id="entry-path" class="entry-meta card-1">
-                            {{ currEntry.path }} &nbsp; {{ currEntry.type }}
+                            {{ currEntry.path }} &nbsp; (type {{ currEntry.type }}, input {{ currEntry.hasEditable() ? 'found' : 'not found' }})
                         </div>
                     </div>
                 </div>
@@ -143,7 +145,7 @@
                 filteredCount: 0,
                 filterShowTextOnly: Options.get('hideSmallEntries'),
                 filterText: '',
-                noAutoRestoreHelpLink: chrome.runtime.getURL('/html/app.html#/faq#error-cannot-auto-restore'),
+                noAutoRestoreHelpLink: chrome.runtime.getURL('/html/app.html#/faq#cannot-auto-restore'),
 
                 delConfirmEntry: false,
 
@@ -160,7 +162,7 @@
         },
         computed: {
             iframeSrc() {
-                const style = '<style>body { margin: 0; font-family: sans-serif; }</style>';
+                const style = '<style>body { margin: 0; padding: 20px; font-family: sans-serif; font-size: 15px; color: #333; } body > *:first-child { margin-top: 0; }</style>';
                 return style + this.currEntry.getValue();
             }
         },
@@ -203,7 +205,14 @@
                 // Don't use this.currEntry.getSession(), entries could be filtered out!
                 const sess = db.getSession(this.currEntry.sessionId);
                 sess.restore({ flash: true }, db);
-                toastController.create('Session restored.');
+
+                const autoRestorableCount = sess.getAutoRestorableCount();
+                if(sess.length !== autoRestorableCount) {
+                    toastController.create('Some entries could not be automatically restored (restored '+ autoRestorableCount +' of '+ sess.length +')');
+                } else {
+                    toastController.create('Session restored');
+                }
+
                 this.hide();
             },
             restoreEntry: function() {
@@ -333,6 +342,16 @@
             },
             disableSite: function() {
                 if(blockController.block()) this.hide();
+            },
+            wipeData: function() {
+                if(confirm('Press OK to delete data for ' + window.location.host + '. You cannot undo this action.')) {
+                    db.deleteAllDataForDomain();
+                    toastController.create('Database cleared for ' + window.location.hostname);
+                    this.hide();
+                }
+            },
+            openDonationLink: function() {
+                window.open('https://www.buymeacoffee.com/typio');
             },
         },
     }

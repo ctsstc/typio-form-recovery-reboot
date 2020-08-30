@@ -65,7 +65,6 @@
 				flex: 0 1;
 				height: 40px;
 				padding: 0 10px 0 32px;
-				margin-left: 10px;
 				border-radius: 3px;
 				color: #FFF;
 				border: none;
@@ -75,15 +74,15 @@
 				cursor: pointer;
 
 				span {
-					font-size: 22px;
+					font-size: 17px;
 					position: absolute;
-					top: 8px;
-					left: 5px;
-					color: rgba(255,255,255,.4);
+					top: 12px;
+					left: 10px;
+					color: rgba(255,255,255,.5);
 				}
 
 				&:hover {
-					background: rgba(200,200,255,.15);
+					background: rgba(200,200,255,.07);
 				}
 			}
 		}
@@ -182,7 +181,7 @@
 				padding: 8px 20px 8px 8px;
 				font-size: 13px;
 				cursor: pointer;
-				color: #888;
+				color: #555;
 
 				&:hover {
 					background: rgba(0, 40, 125, .08);
@@ -365,6 +364,14 @@
 			flex: 1 0;
 		}
 
+		a {
+			color: #555;
+
+			&:hover {
+				color: #2583c6;
+			}
+		}
+
 		.delete {
 			color: #555;
 			text-decoration: none;
@@ -407,9 +414,6 @@
 			}
 		}
 	}
-	.entry-text, .entry-meta {
-		padding: 20px;
-	}
 	.entry-text {
 		border: none;
 		flex: 1 0;
@@ -418,13 +422,17 @@
 	}
 	.entry-meta {
 		border-top: 1px solid #e3e3e3;
-		padding-top: 10px;
-		padding-bottom: 10px;
+		padding: 10px 20px;
 		font-size: 12px;
 		color: #a5a5a5;
 		position: relative;
 		z-index: 1;
 		border-radius: 0 0 2px 2px;
+		transition-duration: .3s;
+
+		&:hover {
+			color: #333;
+		}
 	}
 }
 

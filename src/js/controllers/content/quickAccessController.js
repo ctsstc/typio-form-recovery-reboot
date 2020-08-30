@@ -6,14 +6,14 @@ import Events from '../../modules/Events';
 import keyboardShortcuts from '../../modules/keyboardShortcuts';
 import toastController from './toastController';
 import blockController from './blockController';
-import Vue from 'vue';
+import Cache from '../../modules/Cache';
 import QuickAccessPopup from '../../vue/content/QuickAccessPopup.vue';
+import recoveryDialogController from './recoveryDialogController';
+import Vue from 'vue';
 
 let controller = {};
-
-
-
 let vue;
+let qaOpenedFor;
 
 initHandler.onInit(function() {
 	if(Options.get('keybindEnabled')) {
@@ -37,6 +37,17 @@ controller.show = (...args) => show(...args);
 
 function show(editable, coord) {
 	if(!window.terafm.focusedEditable) return toastController.create('Typio could not detect a focused input field. <a target="_blank" href="'+ chrome.runtime.getURL('html/faq.html#no-field-focus') +'">Read more.</a>');
+	
+	if(editable.isContentEditable()) {
+		recoveryDialogController.open();
+		toastController.create('Cannot open Quick Restore Popup for selected input type (contentEditable)');
+		return;
+	}
+
+	Cache.wipeCache();
+
+	qaOpenedFor = editable;
+
 	build(function() {
 		vue.showAndPopulate(editable, coord);
 	});
@@ -63,8 +74,22 @@ function makeVue(rootnode, callback) {
 		el: rootnode,
 		render(h) { return h(QuickAccessPopup) },
 	});
+
+	vue.$on('afterRestore', () => {
+		console.log('after restore!');
+	})
+
 	vue = vue.$children[0];
-	Events.on('focus', vue.abort)
+
+	vue.$on('afterRestore', (x) => {
+		qaOpenedFor.el.focus();
+	});
+
+	Events.on('focus', () => {
+		if(window.terafm.isRestoring !== true) {
+			vue.abort();
+		}
+	})
 
 	if(callback) callback();
 }

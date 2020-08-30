@@ -18,20 +18,20 @@
             return {
                 menuItems: [
                     { label: 'Options', routeName: 'options', icon: 'icon-cog', children: [
-                        { label: 'Save-options', routeName: 'options', routeHash: '#save-options' },
-                        { label: 'Restore Icon', routeName: 'options', routeHash: '#restore-icon' },
-                        { label: 'Save Indicator', routeName: 'options', routeHash: '#save-indicator' },
-                        { label: 'Blacklist', routeName: 'options', routeHash: '#blacklist' },
-                        { label: 'Keyboard Shortcuts', routeName: 'options', routeHash: '#keyboard-shortcuts' },
-                        { label: 'Context Menu', routeName: 'options', routeHash: '#context-menu' },
+                        { label: 'Save & restore', routeName: 'options', routeHash: '#save-options' },
+                        { label: 'Restore icon', routeName: 'options', routeHash: '#restore-icon' },
+                        { label: 'Save indicator', routeName: 'options', routeHash: '#save-indicator' },
+                        { label: 'Domain blacklist', routeName: 'options', routeHash: '#blacklist' },
+                        { label: 'Keyboard shortcuts', routeName: 'options', routeHash: '#keyboard-shortcuts' },
+                        { label: 'Context menu', routeName: 'options', routeHash: '#context-menu' },
                     ] },
                     { label: 'Feedback', routeName: 'feedback', routeHash: '', icon: 'icon-megaphone' },
                     { label: 'Frequently Asked Questions', routeName: 'faq', routeHash: '', icon: 'icon-help-circled', children: [
                         { label: 'How frequently does Typio save my input?', routeName: 'faq', routeHash: '#save-frequency' },
                         { label: 'Why wasn\'t input wasn\'t saved?', routeName: 'faq', routeHash: '#input-not-saved' },
+                        { label: 'Why can some entries not be automatically restored?', routeName: 'faq', routeHash: '#cannot-auto-restore' },
                         { label: 'Why do some input fields break after restoring into them?', routeName: 'faq', routeHash: '#input-broken-after-restoration' },
                         { label: 'Error: Cannot find a focused input field', routeName: 'faq', routeHash: '#error-input-not-found' },
-                        { label: 'Error: Entry cannot be restored automatically', routeName: 'faq', routeHash: '#error-cannot-auto-restore' },
                     ] },
                     { label: 'Privacy Information', routeName: 'privacy', routeHash: '', icon: 'icon-lock' },
                 ]

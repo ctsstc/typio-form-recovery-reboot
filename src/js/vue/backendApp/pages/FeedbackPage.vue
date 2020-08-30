@@ -22,7 +22,9 @@
             <h2>Anything else?</h2>
 
             <p>You can also reach me on Twitter <a target="_blank" href="https://twitter.com/TypioRecovery">@TypioRecovery</a> or send me an email at
-                <a href="mailto:typiorecovery@gmail.com" target="_blank">typiorecovery@gmail.com</a>. If you like using Typio, you can let others know by <a target="_blank" href="https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhjaadbepppbpoedaa/reviews">leaving a review</a>, or spreading the word on social media.</p>        </div>
+                <a href="mailto:typiorecovery@gmail.com" target="_blank">typiorecovery@gmail.com</a>.</p>
+            <p>If you enjoy using Typio, you can <a target="_blank" href="https://www.buymeacoffee.com/typio">buy me a coffee</a>.</p>
+        </div>
 
     </div>
 </template>

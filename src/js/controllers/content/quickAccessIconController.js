@@ -3,7 +3,6 @@ import Events from '../../modules/Events';
 import initHandler from '../../modules/initHandler';
 import validator from '../../modules/validator';
 import ui from '../../modules/ui';
-import Cache from '../../modules/Cache';
 import quickAccessController from './quickAccessController';
 
 
@@ -28,6 +27,10 @@ function addDeepEventListeners() {
 		e.preventDefault();
 		e.stopPropagation();
 
+		// if(window.terafm.focusedEditable.isContentEditable()) {
+		// 	return recoveryDialogController.open();
+		// }
+
 		if(e.button !== 0) return;
 
 		if(e.target.dataset.hide !== undefined) {
@@ -35,7 +38,6 @@ function addDeepEventListeners() {
 			disableForEditable();
 		} else {
 			requestAnimationFrame(function() {
-				Cache.wipeCache();
 				quickAccessController.show(terafm.focusedEditable, {x: e.layerX, y: e.layerY});
 			})
 
@@ -105,6 +107,7 @@ function delayShow() {
 
 function show(trigger) {
 	if (!window.terafm.focusedEditable) return;
+	if(window.terafm.focusedEditable.isContentEditable()) return;
 
 	build(function () {
 		var editable = window.terafm.focusedEditable

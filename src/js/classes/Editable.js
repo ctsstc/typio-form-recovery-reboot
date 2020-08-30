@@ -78,7 +78,6 @@ export default class Editable {
 		if(!(entry instanceof Entry)) throw new Error('applyEntry requires an entry to set');
 		
 		let tmpVal;
-		let usePaste = false;
 
 		// contenteditable into text
 		if(false === this.isContentEditable() && entry.type === 'contenteditable') {
@@ -88,6 +87,8 @@ export default class Editable {
 		} else if(true === this.isContentEditable() && entry.type !== 'contenteditable') {
 			tmpVal = entry.getValue({encodeHTMLEntities: true, ...opts});
 
+		} else if (this.isContentEditable() && entry.type === 'contenteditable') {
+			tmpVal = entry.getValue({stripTags: true, decodeHTMLEntities: true, trim: true, ...opts});
 
 		} else {
 			tmpVal = entry.getValue(opts)
@@ -97,7 +98,7 @@ export default class Editable {
 			entry.cloneToCurrentSession(dbRef);
 		}
 
-		this.setValue(tmpVal, usePaste);
+		this.setValue(tmpVal);
 	}
 
 	getValue(trim) {
@@ -130,9 +131,16 @@ export default class Editable {
 
 		return value;
 	}
-	setValue(val, usePaste=false) {
+	setValue(val) {
 		Editables.pauseLoggingForJustABit();
 		EditableDefaults.add(this);
+
+		window.terafm.isRestoring = true;
+
+		clearTimeout(window.terafm.isRestoringTmt);
+		window.terafm.isRestoringTmt = setTimeout(() => {
+			window.terafm.isRestoring = false;
+		}, 10)
 
 		if(Editables.isNode(this.el, 'INPUT') || Editables.isNode(this.el, 'TEXTAREA')) {
 
@@ -148,22 +156,27 @@ export default class Editable {
 			this.el.value = val;
 
 		} else {
-			// this.el.innerHTML = val;
 			this.el.focus();
+
+			const ownerDocument = this.el.ownerDocument;
 
 			// DraftJS hack. If empty, simulate a keystroke first.
 			if (!this.el.textContent) {
-				const event = document.createEvent('TextEvent');
+				const event = ownerDocument.createEvent('TextEvent');
 				event.initTextEvent('textInput', true, true, window, '_', 0, '');
 				this.el.dispatchEvent(event);
 			}
+			
+			// innerHTML leads to issues with DraftJS
+			//this.el.innerHTML = val;
 
-			document.execCommand('selectAll', false, null);
-			document.execCommand('insertHTML', false, val);
+			ownerDocument.execCommand('selectAll', false, null);
+			ownerDocument.execCommand('insertHTML', false, val);
 		}
 
 		// Needed in order for state based editors to recognize the update (e.g. Vue or React)
-		this.el.dispatchEvent(new Event('input'));
+		this.el.dispatchEvent(new Event('input', { bubbles: true }));
+		this.el.dispatchEvent(new Event('change', { bubbles: true }));
 	}
 
 	touch() {

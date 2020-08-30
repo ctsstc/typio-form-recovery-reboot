@@ -77,3 +77,9 @@
 .icon-help-circled:before {
   content: "\71";
 }
+.icon-heart:before {
+  content: "\61";
+}
+.icon-window:before {
+  content: "\6d";
+}

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Blacklist</h2>
+        <h2>Domain Blacklist</h2>
 
         <p>Typio will be completely disabled on these domains. Autosave and restoration will not be available.</p>
         <p>Use * as a wildcard to block all subdomains, e.g: *.bank.com</p>
@@ -8,12 +8,12 @@
 
         <form @submit="onAdd" class="add-form">
             <input ref="domainToAdd" placeholder="Enter a domain name or a Regex to block" type="text">
-            <button>Add to blacklist</button>
+            <button>Add to domain blacklist</button>
         </form>
 
         <div ref="blockList" class="block-list">
             <div v-if="!blockedDomains || blockedDomains.length === 0" class="no-blocks-message">
-                Your blacklist is empty.
+                Your domain blacklist is empty.
             </div>
             <div v-for="domain in blockedDomains" ref="blockListItem" class="block-item">
                 <div>

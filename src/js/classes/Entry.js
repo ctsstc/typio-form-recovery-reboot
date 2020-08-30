@@ -77,6 +77,10 @@ export default class Entry {
 		return Editables.isTextEditableType(this.type);
 	}
 
+	isContentEditableType() {
+		return Editables.isContentEditableType(this.type);
+	}
+
 	getValue(opts = {encodeHTMLEntities: false, decodeHTMLEntities: false, stripTags: false, truncate: false, trim: false, trimNewLines: false, newLineToBr: false, brToNewLine: false,}) {
 
 		var str = this.value;
@@ -132,7 +136,7 @@ export default class Entry {
 			}
 
 			if(entry.type === 'contenteditable') {
-				value += this.getValue({stripTags: true, trim: true, ...opts});
+				value += this.getValue({stripTags: true, encodeHTMLEntities: true, trim: true, ...opts});
 			} else {
 				value += this.getValue({encodeHTMLEntities: true, trim: true, ...opts});
 			}
@@ -143,7 +147,7 @@ export default class Entry {
 
 	setPlaceholder() {
 		let editable = this.getEditable();
-		if(editable) {
+		if(this.canBeAutoRestored() && editable) {
 			editable.applyPlaceholderEntry(this);
 		}
 	}
@@ -151,7 +155,7 @@ export default class Entry {
 	restore(opts = { flash: false, clone: true }, dbRef=null) {
 		let editable = this.getEditable();
 
-		if(editable) {
+		if(this.canBeAutoRestored() && editable) {
 			editable.applyEntry(this);
 			if(opts.flash) editable.flashHighlight();
 		}
@@ -168,6 +172,10 @@ export default class Entry {
 
 	getSession() {
 		return this.session;
+	}
+
+	canBeAutoRestored() {
+		return this.hasEditable() && !this.isContentEditableType();
 	}
 
 	hasEditable() {

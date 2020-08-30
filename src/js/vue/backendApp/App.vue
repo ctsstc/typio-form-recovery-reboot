@@ -47,7 +47,7 @@
         overflow-y: scroll;
         background: #f9f9f9;
         color: #444;
-        line-height: 1.4;
+        line-height: 1.45;
     }
 
     *, *::before, *::after {
@@ -91,7 +91,7 @@
             position: relative;
             flex: 1 1 auto;
             background: #f5f5f5;
-            padding: 80px 60px 50vh;
+            padding: 80px 60px 80vh;
 
             .top-bar {
                 position: absolute;
@@ -125,6 +125,9 @@
 
 
 
+    h1, h2, h3 {
+        line-height: 1.3;
+    }
     h1 {
         font-weight: 300;
         font-size: 42px;
@@ -132,16 +135,20 @@
     }
     h2 {
         font-weight: 400;
-        font-size: 22px;
-        margin: 0;
+        font-size: 23px;
+        margin: 0 0 10px 0;
         padding: 0;
         color: #333;
         position: relative;
     }
     h3 {
         font-weight: 400;
-        font-size: 19px;
-        margin: 0;
+        font-size: 20px;
+        margin: 30px 0 10px;
+    }
+
+    p {
+        margin: 0 0 10px 0;
     }
 
 

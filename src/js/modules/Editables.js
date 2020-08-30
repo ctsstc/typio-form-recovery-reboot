@@ -16,6 +16,7 @@ editables.getTextEditable = (el) => getEditable(el, true);
 
 editables.isEditableType = (type) => editableTypes.includes(type);
 editables.isTextEditableType = (type) => textEditableTypes.includes(type);
+editables.isContentEditableType = (type) => type === 'contenteditable';
 
 
 function getEditable(el, onlyTextEditable=false) {
@@ -74,7 +75,7 @@ editables.isEditable = (elem) => {
 	} else if(editables.isNode(elem, 'SELECT')) {
 		return true;
 
-	} else if(elem.getAttribute('contenteditable') == 'true') {
+	} else if(elem.isContentEditable) {
 		return true;
 	}
 
@@ -86,7 +87,7 @@ editables.isTextEditable = (elem) => {
 	if(editables.isNode(elem, 'INPUT') && editables.isTextEditableType(elem.type)) {
 		return true;
 
-	} else if(elem.getAttribute('contenteditable') == 'true') {
+	} else if(elem.isContentEditable) {
 		return true;
 
 	} else if(editables.isNode(elem, 'TEXTAREA')) {
@@ -96,10 +97,10 @@ editables.isTextEditable = (elem) => {
 	return false;
 }
 editables.isContentEditable = (elem) => {
-	return elem.contentEditable === 'true';
+	return elem.isContentEditable;
 }
 editables.isBigTextEditable = (elem) => {
-	return elem.contentEditable === 'true' || elem.type === 'textarea';
+	return elem.isContentEditable || elem.type === 'textarea';
 }
 
 editables.isElement = (elem) => {
