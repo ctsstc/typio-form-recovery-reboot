@@ -1,5 +1,9 @@
 (function() {
 
+	// Disable splash!
+	return;
+
+
 	// Changing this number will make splash screen appear after update installation
 	const SPLASH_VERSION = 1;
 
