@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npx webpack --watch --config webpack.dev.js",
-    "build": "npx webpack --config webpack.prod.js"
+    "build": "npx webpack --config webpack.prod.js; rm -f ./dist.zip && (cd dist; zip -r ../dist.zip .; cd ..)"
   },
+    "test": "echo \"Error: no test specified\" && exit 1",
   "keywords": [],
   "author": "",
   "license": "ISC",
