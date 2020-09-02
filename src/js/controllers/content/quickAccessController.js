@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 controller.show = (...args) => show(...args);
 
 function show(editable, coord) {
-	if(!window.terafm.focusedEditable) return toastController.create('Typio could not detect a focused input field. <a target="_blank" href="'+ chrome.runtime.getURL('html/faq.html#no-field-focus') +'">Read more.</a>');
+	if(!window.terafm.focusedEditable) return toastController.create('Typio could not detect a focused input field. <a target="_blank" href="'+ chrome.runtime.getURL('html/app.html#/faq#error-input-not-found') +'">Read more.</a>');
 	
 	if(editable.isContentEditable()) {
 		recoveryDialogController.open();
