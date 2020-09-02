@@ -65,7 +65,7 @@
                     buckets = [];
                     for(let dom of doms) {
                         if(dom.indexOf('###') === 0) {
-                            // buckets.push(new StorageBucket(dom, {[dom]: storage[dom]}));
+                            buckets.push(new StorageBucket(dom, {[dom]: storage[dom]}));
                         }
                     }
                     this.hasBuckets = true;
@@ -91,7 +91,7 @@
                         let write = {};
                         for(const domain of arr) {
                             if(domain.hasOwnProperty('domainId') && domain.hasOwnProperty('context')) {
-                                write[domain.domainId] = domain;
+                                write[domain.domainId] = domain.context[domain.domainId];
                             }
                         }
                         chrome.storage.local.set(write)
