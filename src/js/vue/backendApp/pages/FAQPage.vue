@@ -29,7 +29,7 @@
         <div style="padding-top: 30px" id="cannot-auto-restore">
             <div class="card">
                 <h2>Why can some entries not be automatically restored?</h2>
-                <p>Typio does its best to make the process of restoring data as easy as possible. There are however cases when Typio is unable to do so. In those cases, you can restore an entry manually by copying and pasting it from the recovery window.</p>
+                <p>There are a few cases when Typio is unable to restore your data automatically. You can always access your data through the recovery window, and you can restore it manually by copying and pasting it.</p>
 
                 <p>Typio is unable to automatically restore an entry in the following cases:</p>
                 
@@ -44,7 +44,7 @@
         <div style="padding-top: 30px" id="input-broken-after-restoration">
             <div class="card">
                 <h2>Why do some input fields break after restoring into them?</h2>
-                <p>In order for Typio to restore input, it needs to manipulate the value of input fields programatically. Unfortunately, some input fields are not built to understand changes that happen programatically. Typio does its best to support as many input types as possible, but due to technical limitations there is only so much that can be done.</p>
+                <p>In order for Typio to restore input, it needs to change the value of the input field programatically. Unfortunately, some input fields are not built to understand changes that happen programatically, and they might not function as normal after being manipulated</p>
                 <p>If an input field doesn't work like it should after restoring into it, please restore the value manually by copying it from the recovery window (right click anywhere -> Open recovery). You might need to refresh the page in order for the broken input field to function as it should again.</p>
             </div>
         </div>
