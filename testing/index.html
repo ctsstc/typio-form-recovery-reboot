@@ -5,11 +5,20 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-	<a href="#bottom" id="top">Anchor link bottom</a>
 	<div id="shadow"></div>
+
 
 	<div>
 		<input placeholder="expand on focus" type="text" class="expand-on-focus">
+		<input type="text" onkeypress="if(event.key === 'Enter') {this.value = ''}" placeholder="Clear on enter">
+
+		<div style="display: inline;">
+			<div id="test" style="display: inline;">
+				<div class="testing" style="display: inline;">
+					<input placeholder="Input in ID WITHOUT ID" type="text"> <input id="inIdWithId" placeholder="Input in ID WITH ID" type="text">
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<form>
@@ -18,14 +27,6 @@
 	</form>
 
 	<iframe style="width: 800px" id="ifr"></iframe>
-
-	<div>
-		<div id="test">
-			<div class="testing">
-				<input placeholder="Input in ID WITHOUT ID" type="text"> <input id="inIdWithId" placeholder="Input in ID WITH WITH WITH ID" type="text">
-			</div>
-		</div>
-	</div>
 
 	<div class="editable" contenteditable="true">
 		<p>test</p>
@@ -81,7 +82,6 @@
 		</datalist>
 	</form>
 	<div></div>or
-	<a id="bottom" href="#top">Anchor link top</a>
 	<script src="javascript.js"></script>
 </body>
 </html>
