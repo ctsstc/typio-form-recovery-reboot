@@ -162,7 +162,7 @@
         },
         computed: {
             iframeSrc() {
-                const style = '<style>body { margin: 0; padding: 20px; font-family: sans-serif; font-size: 15px; color: #333; } body > *:first-child { margin-top: 0; }</style>';
+                const style = '<style>body { margin: 0; padding: 20px; font-family: sans-serif; font-size: 15px; color: #333; } body > *:first-child { margin-top: 0; }  img { max-width: 100%; }</style>';
                 return style + this.currEntry.getValue();
             }
         },
