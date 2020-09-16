@@ -15,13 +15,6 @@ initHandler.onInit(function() {
 	Events.on('input', e => changeHandler(e.path[0]));
 	Events.on('change', e => changeHandler(e.path[0], 'change'));
 
-	// Hack for facebook messenger
-	if(['www.facebook.com', 'www.messenger.com'].includes(window.location.host)) {
-		Events.on('keyup', function(e) {
-			if(e.keyCode == 8 || e.keyCode == 46 || e.keyCode === 13) changeHandler(e.path[0]);
-		});
-	}
-
 	// Watch for subtree changes (for contenteditables)
 	let observer = new MutationObserver(mutation => changeHandler(mutation[0].target));
 	Events.on('focus', e => {
