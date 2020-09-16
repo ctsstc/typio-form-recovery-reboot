@@ -34,7 +34,7 @@ Events.on('focus', function(e) {
 
 // Click is fallback to "focus" because shadow dom is being a dick and
 // will only bubble the first time. Tabbing still does not work correctly.
-/*
+// Also needed on pimcore login (among others) for focus issues.
 Events.on('click', function(e) {
 
 	// If focus has taken care of it, do nothing
@@ -52,7 +52,6 @@ Events.on('click', function(e) {
 		}
 	}
 })
-*/
 
 Events.on('blur', function() {
 	window.terafm.focusedEditable = null;
