@@ -40,7 +40,7 @@ function show(editable, coord) {
 	
 	if(editable.isContentEditable()) {
 		recoveryDialogController.open();
-		toastController.create('Cannot open Quick Restore Popup for selected input type (contentEditable)');
+		toastController.create('Cannot open Quick Restore Popup for selected input field (contentEditable). <a target="_blank" href="'+ chrome.runtime.getURL('html/app.html#/faq#qa-cant-open-for-contenteditable') +'">Read more.</a>');
 		return;
 	}
 
