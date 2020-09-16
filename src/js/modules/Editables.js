@@ -32,12 +32,13 @@ function getEditable(el, onlyTextEditable=false) {
 		if(parentEditable && parentEditable !== el) {
 			return getEditable(parentEditable, onlyTextEditable);
 		}
+		return;
 	}
 
 	// Element must have a parent node. Feedly breaks pathGenerator if this isn't here. I assume
 	// it has to do with the element being removed from the DOM before it reaches pathGen, and
 	// that breaks it.
-	if(!el || !el.parentNode) {
+	if(!el || !el.parentNode || !editables.isEditable(el)) {
 		return;
 	}
 
@@ -47,11 +48,26 @@ function getEditable(el, onlyTextEditable=false) {
 
 	} else if(!onlyTextEditable && editables.isEditable(el) || onlyTextEditable && editables.isTextEditable(el)) {
 		let ed = new Editable(el);
+		let isReplacement = false;
+	
+		// If a cached el was replaced with an existing one with the same
+		// path (as happens on twitter when composing new posts), delete the
+		// existing cache reference and make sure to re-generate the editable session id.
+		editableCache.forEach(cachedEd => {
+			if(ed.path === cachedEd.path) {
+				editableCache.delete(cachedEd);
+				isReplacement = true;
+			}
+		})
+		
 		editableCache.set(el, ed);
+		if(isReplacement) {
+			ed.generateOwnSessionId();
+		}
+
 		return ed;
 	}
 
-	return false;
 }
 
 
@@ -75,7 +91,7 @@ editables.isEditable = (elem) => {
 	} else if(editables.isNode(elem, 'SELECT')) {
 		return true;
 
-	} else if(elem.isContentEditable) {
+	} else if(elem.contentEditable === 'true') {
 		return true;
 	}
 
@@ -87,7 +103,7 @@ editables.isTextEditable = (elem) => {
 	if(editables.isNode(elem, 'INPUT') && editables.isTextEditableType(elem.type)) {
 		return true;
 
-	} else if(elem.isContentEditable) {
+	} else if(elem.contentEditable === 'true') {
 		return true;
 
 	} else if(editables.isNode(elem, 'TEXTAREA')) {

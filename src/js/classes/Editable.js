@@ -182,18 +182,20 @@ export default class Editable {
 	touch() {
 		if(this.isTextEditable()) {
 			const currLen = this.getValue(true).length;
-			const oldLen = this.length;
-
-			//console.log('curr', currLen, 'old', oldLen);
+			const oldLen = this._previousLength;
 
 			// If input was cleared, set new ID
 			if(oldLen !== null && oldLen > 1 && currLen < 2) {
-				//console.log('new id');
-				this._sessionId = SessionHandler.generateSessionId();
+				this.generateOwnSessionId();
 			}
 
-			this.length = currLen;
+			this._previousLength = currLen;
 		}
+	}
+
+	generateOwnSessionId() {
+		console.log('new id');
+		this._sessionId = SessionHandler.generateSessionId();
 	}
 
 	isEmpty() {
