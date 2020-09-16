@@ -39,7 +39,7 @@ export default class Editable {
 	}
 
 	is(editable) {
-		if(!(editable instanceof Editable)) throw new Error('Editable.is requires an editable to compare.');
+		if(!(editable instanceof Editable)) return false;
 		return this.el === editable.el;
 	}
 
