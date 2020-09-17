@@ -73,7 +73,7 @@ function addEventListeners() {
 function build(callback) {
 	if(!node) {
 		ui.inject({
-			html: '<a id="quickAccessIcon" title="Open Typio Quick Access"><span data-hide="" title="Hide icon for this input this page load"></span></a>',
+			html: '<a id="quickAccessIcon" title="Open Typio Quick Restore"><span data-hide="" title="Hide icon for this input this page load"></span></a>',
 			returnNode: '#quickAccessIcon'
 		}, function(res) {
 			node = res;

@@ -51,7 +51,7 @@
 
         <div style="padding-top: 30px" id="qa-cant-open-for-contenteditable">
             <div class="card">
-                <h2>Why can't the Quick Access Popup open for some input fields?</h2>
+                <h2>Why can't the Quick Restore Popup open for some input fields?</h2>
                 <p>Input fields of the type contentEditable have a tendency to not function as expected after restoring into them. When trying to open Quick Restore for a contentEditable field, the Recovery Window will open instead. From there, you can manually restore the data by copying and pasting it.</p>
             </div>
         </div>
@@ -59,7 +59,7 @@
         <div style="padding-top: 30px" id="error-input-not-found">
             <div class="card">
                 <h2>Error: Cannot find a focused input field</h2>
-                <p>You might encounter this error when attempting to open Quick Access with the icon or with the keyboard shortcut. This problem occurs when the input field is of type contentEditable and the website manipulates the field. Typio is still active and working, but the Quick Access popup cannot show. You can access your data through the recovery dialog (right click anywhere &gt; Open form recovery).</p>
+                <p>You might encounter this error when attempting to open Quick Restore with the icon or with the keyboard shortcut. This problem occurs when the input field is of type contentEditable and the website manipulates the field. Typio is still active and working, but the Quick Restore popup cannot show. You can access your data through the recovery dialog (right click anywhere &gt; Open form recovery).</p>
             </div>
         </div>
 
