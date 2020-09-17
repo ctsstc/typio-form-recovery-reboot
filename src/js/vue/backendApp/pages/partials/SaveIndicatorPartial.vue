@@ -6,7 +6,7 @@
 
         <form @change="$store.dispatch('options/save')">
             <p>Style:</p>
-            <select v-model="options.saveIndicator">
+            <select v-model="options.saveIndicator" style="width: 150px">
                 <option value="topline">Top line</option>
                 <option value="cornertriag">Corner triangle</option>
                 <option value="disable">Disable</option>

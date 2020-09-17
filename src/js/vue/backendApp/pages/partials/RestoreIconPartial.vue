@@ -8,7 +8,7 @@
 
             <br>
 
-            <select v-model="options.quickAccessButtonTrigger">
+            <select v-model="options.quickAccessButtonTrigger" style="width: 240px">
                 <option value="focus">Display on input focus</option>
                 <option value="doubleclick">Display on input double click</option>
             </select>

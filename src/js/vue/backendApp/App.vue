@@ -182,17 +182,19 @@
 
 
 
-    select {
-        appearance: none;
+    select, select:hover, select:focus {
         border-radius: 2px;
         background: #FFF;
         padding: 8px 10px;
         font-size: 15px;
-        background-size: 10px 10px;
-        background-position: right center;
-        background-origin: content-box;
-        background-repeat: no-repeat;
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzA2IiBoZWlnaHQ9IjE5MCIgdmlld0JveD0iMCAwIDMwNiAxOTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zMDYgMzYuMzVMMjcwLjMgMC42NDk5OTJMMTUzIDExNy45NUwzNS43IDAuNjQ5OTgyTDIuMjU0MmUtMDYgMzYuMzVMMTUzIDE4OS4zNUwzMDYgMzYuMzVaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K")
+
+        // !important to override default chrome styling
+        appearance: none !important;
+        background-size: 10px 10px !important;
+        background-position: right center !important;
+        background-origin: content-box !important;
+        background-repeat: no-repeat !important;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzA2IiBoZWlnaHQ9IjE5MCIgdmlld0JveD0iMCAwIDMwNiAxOTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zMDYgMzYuMzVMMjcwLjMgMC42NDk5OTJMMTUzIDExNy45NUwzNS43IDAuNjQ5OTgyTDIuMjU0MmUtMDYgMzYuMzVMMTUzIDE4OS4zNUwzMDYgMzYuMzVaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K") !important;
     }
 
     button {
