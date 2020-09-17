@@ -234,7 +234,7 @@
                     this.stats.countTotEntries = this.sesslist.countEntries();
                     db.getDomainSize().then(bytes => this.stats.countTotSize = Number(bytes/1024/1024).toFixed(2));
 
-                    if(this.filterShowTextOnly || this.filterText.length > 2) {
+                    if(this.filterShowTextOnly || this.filterText.length > 1) {
                         this.sesslist = this.sesslist.filterEntries(entry => {
                             if(this.filterText.length > 1) {
                                 if(entry.value.toLowerCase().indexOf(this.filterText.toLowerCase()) === -1) return null;
