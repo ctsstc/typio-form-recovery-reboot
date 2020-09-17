@@ -54,16 +54,18 @@ function getEditable(el, onlyTextEditable=false) {
 		// path (as happens on twitter when composing new posts), delete the
 		// existing cache reference and make sure to re-generate the editable session id.
 		editableCache.forEach(cachedEd => {
-			if(ed.path === cachedEd.path) {
+			if(cachedEd.el.ownerDocument.body.contains(cachedEd.el) === false) {
+				console.log('deleting nonexisting node', cachedEd.el);
 				editableCache.delete(cachedEd);
 				isReplacement = true;
 			}
 		})
 		
-		editableCache.set(el, ed);
 		if(isReplacement) {
 			ed.generateOwnSessionId();
 		}
+		
+		editableCache.set(el, ed);
 
 		return ed;
 	}
