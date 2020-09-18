@@ -6,6 +6,21 @@ https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhja
 Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open) or email me at typiorecovery@gmail.com.
 
 # Changelog
+### Version 3.2.3 (18th September, 2020)
+- Important: The Quick Restore popup will no longer show for contentEditable fields. These fields are known to not function as they should after restoring into them. Typio will no longer automatically restore data into these fields because there is no safe way of doing it. Your data can still be accessed from the Recovery Window and can be manually restored by copying and pasting it.
+- New: Better support for re-usable input fields (common in chat applications)
+- New: Better support for state based applications (React, Vue, Angular etc)
+- New: The Quick Restore Icon now re-positions with input fields if they change in size
+- New: Focus is now restored to the input after using the Quick Restore Popup to restore
+- New: More accurate text preview in the Recovery Window.
+- New: Improved copy function with better whitespace handling
+- New: Updated FAQ page with more information
+- New: The options page has been rewritten from ground up
+- New: The entire extension has been refactored to es6 modules and the build process has been updated and improved.
+- Fix: Fix edge cases with iframe editors
+- Fix: Radio buttons are now saved and restored more reliably
+- And as usual, lots of other bug fixes and preparation for future releases
+
 ### Version 2.4.1 (1st August, 2020)
 - Fix: In the Recovery Window, "Recover session" would not recover entries hidden hidden by the filters.
 - Fix: Editable cache is now cleared before opening the Quick Access popup (from icon) and the Recovery Window. This will resolve some edge case issues related to "Cannot be auto-restored" messages. It also fixes a bug where in some cases nothing would happen when hovering entries in the Quick Access popup.
