@@ -1,7 +1,7 @@
 (function() {
 
 	// Disable splash!
-	return;
+	// return;
 
 
 	// Changing this number will make splash screen appear after update installation
