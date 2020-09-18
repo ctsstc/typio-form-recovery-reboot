@@ -1,0 +1,135 @@
+$overlay-color: rgba(34,53,67,.75);
+
+#shadow-root {
+	font-size: 14px;
+	font-family: sans-serif;
+	line-height: 18px;
+}
+
+
+*:not(img) {
+	box-sizing: border-box;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+p {
+	margin: 0 0 20px 0;
+}
+
+a {
+	color: #2583c6; //#1e78b9; //#275e86;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&.confirm {
+		font-weight: bold;
+	}
+
+	&.danger {
+		color: #eb3e3e;
+	}
+}
+
+.key {
+    border: 1px solid #a3a3a3;
+    padding: 3px;
+    font-size: 13px;
+    line-height: 15px;
+    display: inline-block;
+    border-radius: 4px;
+    background: #efefef;
+    color: #5b5b5b;
+    box-shadow: inset 0 1px 0 white, 0 1px 0 #a3a3a3;
+
+    &.disabled {
+		border-color: #d7d7d7;
+		background: #f3f3f3;
+		box-shadow: none;
+    }
+}
+
+.modal-container {
+	position: fixed;
+	z-index: 999999999;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	background: $overlay-color;
+	align-items: center;
+	justify-content: center;
+	animation: modalContainerIn .3s;
+
+	& > .modal {
+		animation: modalInnerIn .3s;
+		box-shadow: 0 0 40px rgba(0, 0, 0, 0.22), 0 0 10px rgba(0,0,0,.1);
+	}
+
+	&.hidden {
+		animation: modalContainerOut forwards .3s;
+		pointer-events: none;
+
+		& > .modal {
+			animation: modalInnerOut forwards .3s;
+		}
+	}
+
+	@keyframes modalContainerIn {
+		from {
+			opacity: 0;
+		}
+	}
+	@keyframes modalInnerIn {
+		from {
+			transform: skew(-1deg, -1deg) scale(0.95);
+		}
+	}
+
+	@keyframes modalContainerOut {
+		to {
+			opacity: 0;
+		}
+	}
+	@keyframes modalInnerOut {
+		to {
+			transform: skew(1deg, 1deg) scale(0.95);
+		}
+	}
+}
+
+
+.status:before {
+	content: '';
+	display: inline-block;
+	height: 7px;
+	width: 7px;
+	border-radius: 100px;
+	margin-right: 5px;
+	position: relative;
+	top: -1px;
+}
+.status.ok:before {
+	background: #3FB91E;
+	box-shadow: 0 0 0 2px #D6F2CE;
+}
+.status.bad:before {
+	background: #DFAE17;
+	box-shadow: 0 0 0 2px #F2E7CE;
+}
+
+@import "shadowRoot/quickAccess";
+@import "shadowRoot/quickAccessIcon";
+@import "shadowRoot/dialog";
+@import "shadowRoot/keyboardShortcutPopup";
+@import "shadowRoot/saveIndicator";
+@import "shadowRoot/toast";

@@ -1,0 +1,148 @@
+body {
+	font-size: 15px;
+	width: 260px;
+	padding: 10px;
+	color: #333;
+}
+
+
+* {
+	box-sizing: border-box;
+}
+
+.head-toggle {
+    padding: 6px;
+    margin: -6px -6px 10px;
+	display: flex;
+	align-items: center;
+	text-align: left;
+	background: transparent;
+	border: 0;
+	width: 100%;
+	outline: none;
+	color: inherit;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	cursor: pointer;
+	transition-duration: .1s;
+	box-sizing: initial;
+
+	&:hover {
+    	border-color: #dadada;
+	}
+
+	&:not(.is-enabled) .toggle {
+		background-position-x: 100%;
+		span {
+			transform: none;
+		}
+	}
+
+	.toggle {
+		position: relative;
+		height: 20px;
+		border-radius: 100px;
+		display: inline-block;
+		flex: 0 0 40px;
+		transition-duration: .3s;
+		background-image: linear-gradient(to right, #60bd56 33.33%, #ff5050 66.6%);
+		background-size: 300% 100%;
+
+		span {
+			position: absolute;
+			top: 3px;
+			left: 3px;
+			bottom: 3px;
+			width: 16px;
+			display: block;
+			border-radius: 100px;
+			background: #FFF;
+			transition-duration: .3s;
+			opacity: 1;
+			transform: translateX(17px);
+		}
+	}
+
+	.text {
+		display: block;
+		padding-left: 15px;
+
+
+		p {
+			margin: 0;
+			font-size: 13px;
+
+			.green {
+				color: #37a92a;
+			}
+			.red {
+				color: #ff5050;
+			}
+		}
+
+		.big {
+			font-weight: bold;
+			font-size: 15px;
+			margin-bottom: 4px;
+		}
+
+		.js-hostname {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			max-width: 180px;
+		}
+	}
+
+
+	&.is-enabled {
+		.if-enabled {
+			display: block;
+		}
+		.if-disabled {
+			display: none;
+		}
+	}
+	&:not(.is-enabled) {
+		.if-disabled {
+			display: block;
+		}
+		.if-enabled {
+			display: none;
+		}
+	}
+}
+
+.link-list {
+	a {
+		color: #444;
+		text-decoration: none;
+		border: 1px solid transparent;
+		display: block;
+		padding: 5px;
+		margin: 0 -5px;
+		border-radius: 4px;
+		cursor: pointer;
+		margin-bottom: 2px;
+	
+		span {
+			position: relative;
+			top: 2px;
+			margin-right: 5px;
+		}
+	
+		&:hover {
+			border-color: #dadada;
+		}
+	}
+}
+
+a.confirm-click {
+	color: red;
+	font-weight: bold;
+}
+
+a.green {
+	color: green;
+	font-weight: bold;
+}
