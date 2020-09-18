@@ -6,17 +6,19 @@ import initHandler from '../../modules/initHandler';
 import validator from '../../modules/validator';
 import EditableDefaults from '../../modules/EditableDefaults';
 
+const elementsWithInputEventSupport = new Set();
 
 initHandler.onInit(function() {
 
 	// Force save before window is closed
 	window.addEventListener('beforeunload', db.push);
 
-	Events.on('input', e => changeHandler(e.path[0]));
+	Events.on('keydown', e => changeHandler(e.path[0], 'keydown'));
+	Events.on('input', e => changeHandler(e.path[0], 'input'));
 	Events.on('change', e => changeHandler(e.path[0], 'change'));
 
 	// Watch for subtree changes (for contenteditables)
-	let observer = new MutationObserver(mutation => changeHandler(mutation[0].target));
+	let observer = new MutationObserver(mutation => changeHandler(mutation[0].target, 'childMutation'));
 	Events.on('focus', e => {
 		observer.disconnect();
 
@@ -30,11 +32,19 @@ initHandler.onInit(function() {
 function changeHandler(el, changeEvent) {
 	if(window.terafm.pauseLogging) return;
 
+	// Some editors (like Slate) cancel the input event, so we use keydown to capture input
+	// for those instead. Because input has some advantages over keydown, we want to use
+	// that if possible. Keydown fires before input, so for inputs that support both events
+	// (most) the first keystroke will both input and keydown the first time.
+	if(elementsWithInputEventSupport.has(el) && changeEvent === 'keydown') return;
+	if(changeEvent === 'input' && !elementsWithInputEventSupport.has(el)) elementsWithInputEventSupport.add(el);
+
 	const editable = Editables.get(el);
 
 	if(!editable) return;
 
-	// Radios and checkboxes will be saved twice due to the change and input events, but we only need to save them once.
+	// Radios and checkboxes will be saved twice due to the change and input
+	// events, but we only need to save them once.
 	if(changeEvent !== 'change' && ['radio', 'checkbox'].includes(editable.el.type)) return false;
 
 	editable.touch();
