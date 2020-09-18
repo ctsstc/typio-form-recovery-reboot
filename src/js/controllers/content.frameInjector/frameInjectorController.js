@@ -2,7 +2,7 @@ import Cache from '../../modules/Cache';
 import PathGenerator from '../../modules/PathGenerator';
 
 // Run only in child frames
-if(document !== window.top.document) {
+if(window !== window.top) {
 
 	const events = [
 		{ name: 'input' },
