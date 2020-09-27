@@ -20,7 +20,11 @@ if(window !== window.top) {
 	function eventHandler(e) {
 		let msg = {
 			action: 'terafmEventCatcher',
-			event: {
+
+			// Was previously only "event", but this caused videos to not play on digg.com because there
+			// is an event listener and if the object isn't valid (according to them) they reload the page.
+			// They listen for a "msg.event", so if we rename that to be unique that resolves the issue.
+			terafmEvent: {
 				path: [Cache.cache(e.path[0], () => PathGenerator(e.path[0]))],
 				type: e.type
 			}
@@ -28,15 +32,14 @@ if(window !== window.top) {
 	
 		// Special case for to send mouse coordinates
 		if(e.type === 'contextmenu') {
-			msg.event.pageX = e.pageX;
-			msg.event.pageY = e.pageY;
+			msg.terafmEvent.pageX = e.pageX;
+			msg.terafmEvent.pageY = e.pageY;
 		} else if(e.type === 'keydown') {
-			msg.event.key = e.key;
+			msg.terafmEvent.key = e.key;
 		} else if(e.type === 'keyup') {
-			msg.event.keyCode = e.keyCode;
+			msg.terafmEvent.keyCode = e.keyCode;
 		}
 	
-		// console.log(msg);
 		window.top.postMessage(msg, '*');
 	}
 

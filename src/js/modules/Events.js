@@ -20,7 +20,7 @@ initHandler.onInit(function() {
 
 	window.addEventListener('message', function(msg) {
 		if(msg.data.action && msg.data.action === 'terafmEventCatcher') {
-			msg = msg.data.event;
+			msg = msg.data.terafmEvent;
 			let target = PathResolver(msg.path[0]);
 
 			if(target) {
