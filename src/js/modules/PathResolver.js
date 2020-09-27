@@ -12,7 +12,7 @@ export default function(selector) {
 		try {
 			currNode = currNode.querySelector(currSel);
 		} catch(e) {
-			throw new Error('Typio: querySelector failed on path:', currSel);
+			console.log('Typio: querySelector failed on path:', currSel);
 			return false;
 		}
 
