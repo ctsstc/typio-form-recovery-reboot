@@ -6,6 +6,10 @@ https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhja
 Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open) or email me at typiorecovery@gmail.com.
 
 # Changelog
+### Version 3.2.4 (27th September, 2020)
+- Fix: Fix Recovery Window stuck at "loading entries" forever
+- Fix: Fix collision with some embedded video players
+
 ### Version 3.2.3 (18th September, 2020)
 - Important: The Quick Restore popup will no longer show for contentEditable fields. These fields are known to not function as they should after restoring into them. Typio will no longer automatically restore data into these fields because there is no safe way of doing it. Your data can still be accessed from the Recovery Window and can be manually restored by copying and pasting it.
 - New: Better support for re-usable input fields (common in chat applications)
