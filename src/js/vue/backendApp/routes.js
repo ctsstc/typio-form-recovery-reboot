@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { createRouter } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 import FeedbackPage from './pages/FeedbackPage.vue';
 import OptionsPage from './pages/OptionsPage.vue';
@@ -18,6 +18,7 @@ const routes = [
 
 export default createRouter({
     routes,
+    history: createWebHashHistory(),
     scrollBehavior (to, from, savedPosition) {
         if (to.hash) {
             return { selector: to.hash }
