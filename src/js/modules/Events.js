@@ -1,3 +1,4 @@
+import { getEventTarget } from './Helpers';
 import initHandler from './initHandler';
 import PathResolver from './PathResolver';
 
@@ -21,10 +22,11 @@ initHandler.onInit(function() {
 	window.addEventListener('message', function(msg) {
 		if(msg.data.action && msg.data.action === 'terafmEventCatcher') {
 			msg = msg.data.terafmEvent;
-			let target = PathResolver(msg.path[0]);
+			const eventTarget = getEventTarget(msg);
+			let target = PathResolver(eventTarget);
 
 			if(target) {
-				msg.path[0] = target;
+				eventTarget = target;
 				Events.trigger(msg.type, msg);
 			}
 		}

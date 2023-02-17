@@ -1,4 +1,5 @@
 import Cache from '../../modules/Cache';
+import { getEventTarget } from '../../modules/Helpers';
 import PathGenerator from '../../modules/PathGenerator';
 
 // Run only in child frames
@@ -18,6 +19,8 @@ if(window !== window.top) {
 	];
 
 	function eventHandler(e) {
+		const target = getEventTarget(e);
+
 		let msg = {
 			action: 'terafmEventCatcher',
 
@@ -25,7 +28,7 @@ if(window !== window.top) {
 			// is an event listener and if the object isn't valid (according to them) they reload the page.
 			// They listen for a "msg.event", so if we rename that to be unique that resolves the issue.
 			terafmEvent: {
-				path: [Cache.cache(e.path[0], () => PathGenerator(e.path[0]))],
+				path: [Cache.cache(target, () => PathGenerator(target))],
 				type: e.type
 			}
 		}

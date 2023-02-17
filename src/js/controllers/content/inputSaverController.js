@@ -5,6 +5,7 @@ import Editables from '../../modules/Editables';
 import initHandler from '../../modules/initHandler';
 import validator from '../../modules/validator';
 import EditableDefaults from '../../modules/EditableDefaults';
+import { getEventTarget } from '../../modules/Helpers';
 
 const elementsWithInputEventSupport = new Set();
 
@@ -13,16 +14,16 @@ initHandler.onInit(function() {
 	// Force save before window is closed
 	window.addEventListener('beforeunload', db.push);
 
-	Events.on('keydown', e => changeHandler(e.path[0], 'keydown'));
-	Events.on('input', e => changeHandler(e.path[0], 'input'));
-	Events.on('change', e => changeHandler(e.path[0], 'change'));
+	Events.on('keydown', e => changeHandler(getEventTarget(e), 'keydown'));
+	Events.on('input', e => changeHandler(getEventTarget(e), 'input'));
+	Events.on('change', e => changeHandler(getEventTarget(e), 'change'));
 
 	// Watch for subtree changes (for contenteditables)
 	let observer = new MutationObserver(mutation => changeHandler(mutation[0].target, 'childMutation'));
 	Events.on('focus', e => {
 		observer.disconnect();
 
-		const editable = Editables.get(e.path[0]);
+		const editable = Editables.get(getEventTarget(e));
 		if(editable && editable.isContentEditable()) {
 			observer.observe(editable.el, {childList: true, subtree: true});
 		}

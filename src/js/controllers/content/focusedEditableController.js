@@ -1,6 +1,9 @@
 import Events from '../../modules/Events';
 import initHandler from '../../modules/initHandler';
 import Editables from '../../modules/Editables';
+import { getEventTarget } from '../../modules/Helpers';
+
+getEventTarget
 
 let target,
 	focusTimeout;
@@ -22,8 +25,8 @@ initHandler.onInit(function() {
 Events.on('focus', function(e) {
 	clearTimeout(focusTimeout)
 	focusTimeout = setTimeout(function() {
-		target = e.path[0];
-		const editable = Editables.getTextEditable(e.path[0]);
+		target = getEventTarget(e);
+		const editable = Editables.getTextEditable(target);
 		window.terafm.focusedEditable = editable;
 		if(editable) {
 			Events.trigger('editable-text-focus', null)
@@ -37,11 +40,12 @@ Events.on('focus', function(e) {
 // Also needed on pimcore login (among others) for focus issues.
 Events.on('click', function(e) {
 
+	var newTarget = getEventTarget(e);
 	// If focus has taken care of it, do nothing
-	if(e.path[0] !== target) {
-		var editable = Editables.getTextEditable(e.path[0]);
+	if(newTarget !== target) {
+		var editable = Editables.getTextEditable(newTarget);
 
-		target = e.path[0];
+		target = newTarget;
 
 		if(editable && !editable.is(terafm.focusedEditable)) {
 			clearTimeout(focusTimeout)

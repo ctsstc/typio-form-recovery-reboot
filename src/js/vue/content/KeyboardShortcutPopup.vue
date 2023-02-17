@@ -50,7 +50,8 @@
 </template>
 
 <script>
-    import keyboardShortcuts from '../../modules/keyboardShortcuts';
+    import { getEventTarget } from '../../modules/Helpers';
+import keyboardShortcuts from '../../modules/keyboardShortcuts';
     import Options from '../../modules/options/options';
 
     export default {
@@ -85,7 +86,8 @@
                 this.visible = false;
             },
             backgroundClickHide: function(e) {
-                if(e.path[0].classList.contains('modal-container')) this.closeModal();
+                const target = getEventTarget(e);
+                if(target.classList.contains('modal-container')) this.closeModal();
             },
         },
     }

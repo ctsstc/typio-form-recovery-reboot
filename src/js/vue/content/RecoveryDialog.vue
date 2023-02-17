@@ -94,7 +94,7 @@
                             </template>
 
                             <template v-if="currEntry.type === 'contenteditable'">
-                                <div style="float: right;" class="btn-drop-container" @click="$event.path[0].closest('.btn-drop-container').classList.toggle('open')">
+                                <div style="float: right;" class="btn-drop-container" @click="getEventTarget($event).closest('.btn-drop-container').classList.toggle('open')">
                                     <button class="btn" v-bind:class="[!currEntry.hasEditable() ? 'btn-primary' : 'btn-flat' ]">Copy &#9662;</button>
                                     <ul class="btn-drop">
                                         <li v-on:click="copyEntry('plaintext')">Copy plain text</li>
@@ -123,7 +123,7 @@
 <script>
     import Options from '../../modules/options/options';
     import db from '../../modules/db/db';
-    import Helpers from '../../modules/Helpers';
+    import Helpers, { getEventTarget } from '../../modules/Helpers';
     import EditableDefaults from '../../modules/EditableDefaults';
     import Cache from '../../modules/Cache';
     import toastController from '../../controllers/content/toastController';
@@ -171,7 +171,8 @@
                 this.visible = false;
             },
             backgroundClickHide: function(e) {
-                if(e.path[0].classList.contains('modal-container')) this.hide();
+                const target = getEventTarget(e);
+                if(target.classList.contains('modal-container')) this.hide();
             },
             show: function() {
                 if(this.visible) return;
@@ -179,7 +180,7 @@
                 this.populate();
             },
             setEntry: function(e) {
-                let target = e.path[0];
+                let target = getEventTarget(e);
                 if(!target.matches('li')) target = target.closest('li');
 
                 this.currEntry = this.sesslist.getEntry(target.dataset.sessionId, target.dataset.editableId);
@@ -266,7 +267,7 @@
             },
 
             deleteEntry: function(e) {
-                let target = e.path[0], li, entry;
+                let target = getEventTarget(e), li, entry;
                 if(!target.matches('.delete')) target = target.closest('.delete');
                 li = target.closest('li');
                 entry = this.sesslist.getEntry(li.dataset.sessionId, li.dataset.editableId);

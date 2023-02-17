@@ -176,6 +176,18 @@ exp.prettyKeys = function(keyarr) {
 
 }
 
+/**
+ * Returns the target for the given event
+ * @export
+ * @param {Event} e
+ * @returns {EventTarget}
+ */
+export function getEventTarget(e) {
+	// event.path has been deprecated in Chrome 109 (Jan. 2023)
+	// https://chromestatus.com/feature/5726124632965120
+	return e.composedPath()[0];
+}
+
 export default exp;
 
 
