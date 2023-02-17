@@ -82,7 +82,7 @@
         "open_in_tab": true
     },
 
-    "browser_action": {
+    "action": {
         "default_icon": {
             "16": "img/icon16.png",
             "38": "img/icon38.png"
