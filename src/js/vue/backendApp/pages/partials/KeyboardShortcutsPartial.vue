@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Keyboard Shorcuts</h2>
+        <h2>Keyboard Shortcuts</h2>
 
         <form @change="$store.dispatch('options/save')">
 
