@@ -1,12 +1,15 @@
 (function() {
-	chrome.storage.sync.get('hideContextItems', function(obj) {
-		if(obj.hideContextItems !== true) {
-			createContextMenus();
-		}
+	// Only add context menus on install
+	chrome.runtime.onInstalled.addListener(() => {
+		chrome.storage.sync.get('hideContextItems', function(obj) {
+			if(obj.hideContextItems !== true) {
+				createContextMenus();
+			}
+		})
 	})
 
 
-	// React to changes 
+	// React to changes
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		if(changes.hideContextItems && changes.hideContextItems.newValue === true) {
 			chrome.contextMenus.removeAll();
