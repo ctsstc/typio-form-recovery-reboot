@@ -17,18 +17,19 @@ def.qaGroupSessions = true;
 def.qaEnableSessionSubmenu = true;
 def.hideContextItems = false;
 
+/// TODO: window access is not available in manifest v3
 // Mac specific
-if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {
-	def.keybindToggleRecDiag = 'Control + Backspace';
-	def.keybindRestorePreviousSession = 'Control + Alt + Backspace';
-	def.keybindOpenQuickAccess = 'Control + r';
+// if(window.navigator.platform.toLowerCase().indexOf('mac') !== -1) {
+	// def.keybindToggleRecDiag = 'Control + Backspace';
+	// def.keybindRestorePreviousSession = 'Control + Alt + Backspace';
+	// def.keybindOpenQuickAccess = 'Control + r';
 
 // Windows and everything else
-} else {
+// } else {
 	def.keybindToggleRecDiag = 'Alt + Backspace';
 	def.keybindRestorePreviousSession = 'Shift + Alt + Backspace';
 	def.keybindOpenQuickAccess = 'Alt + r';
-}
+// }
 
 
 
