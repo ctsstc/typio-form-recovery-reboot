@@ -6,6 +6,10 @@ https://chrome.google.com/webstore/detail/typio-form-recovery/djkbihbnjhkjahbhja
 Please submit feedback or bugs on the [issues page](https://bitbucket.org/nicklassandell/chrome-form-recovery/issues?status=new&status=open) or email me at typiorecovery@gmail.com.
 
 # Changelog
+
+### Version 3.2.5 (16th February, 2023)
+- Fix: `Uncaught TypeError: Cannot read properties of undefined (reading '0')`. In Chrome v109 (Jan. 2023 Release) `event.path` was deprecated and replaced with `event.composedPath()`. This fixes that across the codebase by utilizing a new `getEventTarget` helper function to centralize the fix.
+
 ### Version 3.2.4 (27th September, 2020)
 - Fix: Fix Recovery Window stuck at "loading entries" forever
 - Fix: Fix collision with some embedded video players
