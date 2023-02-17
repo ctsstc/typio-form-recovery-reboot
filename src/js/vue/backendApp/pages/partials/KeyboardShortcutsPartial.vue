@@ -10,7 +10,7 @@
             <br>
 
             <div class="keyboard-shortcut-list">
-                <keyboard-shortcut-item v-for="option of keyboardShortcutOptions" :key="option.key" :option="option" :value="options[option.key]" @click.native="openPicker(option)"></keyboard-shortcut-item>
+                <keyboard-shortcut-item v-for="option of keyboardShortcutOptions" :key="option.key" :option="option" :value="options[option.key]" @click="openPicker(option)"></keyboard-shortcut-item>
             </div>
 
             <p>The Quick Restore Popup can be navigated with the up/down arrow keys. Press space to select, or <span style="white-space: nowrap">Shift + Delete</span> to delete the selected item.</p>
