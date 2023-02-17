@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { VueRouter } from 'vue-router';
 
 import FeedbackPage from './pages/FeedbackPage.vue';
 import OptionsPage from './pages/OptionsPage.vue';
