@@ -1,10 +1,15 @@
 const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const MinifyHtmlWebpackPlugin = require('minify-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+    resolve: {
+        alias: {
+            vue: '@vue/compat',
+        },
+    },
     entry: {
         background: './src/js/controllers/background/backgroundController.js',
         content: './src/js/controllers/content/contentController.js',
@@ -33,7 +38,14 @@ module.exports = {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                options: {
+                    compilerOptions: {
+                        compatConfig: {
+                            MODE: 2
+                        }
+                    }
+                }
             },
             {
                 test: /\.(css|sass|scss)$/,
