@@ -1,10 +1,10 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
 
-    "name": "Typio Form Recovery",
-    "short_name": "Typio",
+    "name": "Typio Form Recovery Reboot",
+    "short_name": "Typio Reboot",
     "description": "Autosave, everywhere. Recover lost form input with ease!",
-    "version": "3.2.5",
+    "version": "4.0.0",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
@@ -25,8 +25,7 @@
     ],
 
     "background": {
-        "scripts": ["js/background.js"],
-        "persistent": true
+        "service_worker": "js/background.js"
     },
 
     "content_scripts": [
@@ -47,18 +46,38 @@
     ],
 
     "web_accessible_resources": [
-        "img/*",
-        "css/*.css",
-        "fonts/*",
-        "templates/*",
-        "html/app.html",
-        "js/content.frameInjector.js",
-        "js/*.js.map"
+        {
+            "resources": ["img/*"],
+            "matches": ["<all_urls>"]
+        },
+        {
+            "resources": ["css/*.css"],
+            "matches": ["<all_urls>"]
+        },
+        {
+            "resources": ["fonts/*"],
+            "matches": ["<all_urls>"]
+        },
+        {
+            "resources": ["templates/*"],
+            "matches": ["<all_urls>"]
+        },
+        {
+            "resources": ["html/app.html"],
+            "matches": ["<all_urls>"]
+        },
+        {
+            "resources": ["js/content.frameInjector.js"],
+            "matches": ["<all_urls>"]
+        },
+        {
+            "resources": ["js/*.js.map"],
+            "matches": ["<all_urls>"]
+        }
     ],
 
     "options_ui" : {
         "page": "html/app.html",
-        "chrome_style": true,
         "open_in_tab": true
     },
 
