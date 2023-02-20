@@ -3,7 +3,8 @@ const { VueLoaderPlugin } = require('vue-loader');
 const MinifyHtmlWebpackPlugin = require('minify-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CircularDependencyPlugin = require('circular-dependency-plugin')
+const CircularDependencyPlugin = require('circular-dependency-plugin');
+const { DefinePlugin } = require('webpack');
 
 module.exports = {
     resolve: {
@@ -59,6 +60,10 @@ module.exports = {
         ],
     },
     plugins: [
+        new DefinePlugin({
+            __VUE_OPTIONS_API__: true,
+            __VUE_PROD_DEVTOOLS__: false,
+          }),
         new CircularDependencyPlugin({
             // exclude detection of files based on a RegExp
             exclude: /dist|node_modules/,
