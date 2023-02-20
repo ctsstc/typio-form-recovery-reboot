@@ -9,7 +9,7 @@ import blockController from './blockController';
 import Cache from '../../modules/Cache';
 import QuickAccessPopup from '../../vue/content/QuickAccessPopup.vue';
 import recoveryDialogController from './recoveryDialogController';
-import Vue from 'vue';
+import Vue, { h } from 'vue';
 
 let controller = {};
 let vue;
@@ -72,7 +72,7 @@ function makeVue(rootnode, callback) {
 
 	vue = new Vue({
 		el: rootnode,
-		render(h) { return h(QuickAccessPopup) },
+		render() { return h(QuickAccessPopup) },
 	});
 
 	vue.$on('afterRestore', () => {

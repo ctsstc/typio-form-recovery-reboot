@@ -1,6 +1,6 @@
 import ui from '../../modules/ui';
 import ToastComponent from '../../vue/backendApp/components/Toast.vue';
-import Vue from 'vue';
+import Vue, { h } from 'vue';
 let controller = {};
 
 let vue;
@@ -29,7 +29,7 @@ function makeVue(rootnode, callback) {
 
 	vue = new Vue({
 		el: rootnode,
-		render(h) { return h(ToastComponent) },
+		render() { return h(ToastComponent) },
 	});
 	vue = vue.$children[0];
 

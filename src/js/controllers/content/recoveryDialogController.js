@@ -4,7 +4,7 @@ import ui from '../../modules/ui';
 import Options from '../../modules/options/options';
 import blockController from './blockController';
 import RecoveryDialog from '../../vue/content/RecoveryDialog.vue';
-import Vue from "vue";
+import Vue, { h } from "vue";
 
 let recoveryDialogController = {};
 
@@ -55,7 +55,7 @@ function makeVue(rootnode, callback) {
 
 	vue = new Vue({
 		el: rootnode,
-		render(h) { return h(RecoveryDialog) },
+		render() { return h(RecoveryDialog) },
 	});
 	vue = vue.$children[0];
 

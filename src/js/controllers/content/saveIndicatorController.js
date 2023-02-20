@@ -3,7 +3,7 @@ import Events from '../../modules/Events';
 import initHandler from '../../modules/initHandler';
 import validator from '../../modules/validator';
 import ui from '../../modules/ui';
-import Vue from 'vue';
+import Vue, { h } from 'vue';
 import SaveIndicator from '../../vue/content/SaveIndicator.vue';
 
 
@@ -58,7 +58,7 @@ function build(callback) {
 function makeVue(rootnode, callback) {
 	vue = new Vue({
 		el: rootnode,
-		render(h) { return h(SaveIndicator) },
+		render() { return h(SaveIndicator) },
 	});
 	vue = vue.$children[0];
 	if(callback) callback();
