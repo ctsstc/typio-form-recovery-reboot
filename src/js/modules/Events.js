@@ -26,7 +26,7 @@ initHandler.onInit(function() {
 			let target = PathResolver(eventTarget);
 
 			if(target) {
-				eventTarget = target;
+				msg.path[0] = target;
 				Events.trigger(msg.type, msg);
 			}
 		}
