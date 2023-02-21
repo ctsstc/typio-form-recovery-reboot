@@ -23,6 +23,8 @@ initHandler.onInit(function() {
 		if(msg.data.action && msg.data.action === 'terafmEventCatcher') {
 			msg = msg.data.terafmEvent;
 			const eventTarget = getEventTarget(msg);
+			if (!eventTarget) return;
+
 			let target = PathResolver(eventTarget);
 
 			if(target) {
