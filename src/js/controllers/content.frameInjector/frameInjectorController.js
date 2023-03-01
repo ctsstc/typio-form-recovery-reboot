@@ -21,6 +21,9 @@ if(window !== window.top) {
 	function eventHandler(e) {
 		const target = getEventTarget(e);
 
+		console.log("TARGETTTT", { target })
+		if (!target) return;
+
 		let msg = {
 			action: 'terafmEventCatcher',
 
