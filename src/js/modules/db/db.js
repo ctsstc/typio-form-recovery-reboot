@@ -48,22 +48,30 @@ function mergeBuckets(b1, b2) {
 
 // Will override context metadata if present. Make updateSnapshotFields() function if needed.
 function fetchSnapshot() {
-	return new Promise(done => {
-		chrome.storage.local.get(domainId, data => {
-			buckets.snapshot.set(data);
-			done();
-		});
+	return new Promise((done, reject) => {
+		try {
+			chrome.storage.local.get(domainId, data => {
+				buckets.snapshot.set(data);
+				done();
+			});
+		}
+		catch (error) {
+			// console.error("Error fetching snapshot", { error })
+			reject(error)
+		}
 	});
 }
 
-function fetchAndMerge() {
-	return new Promise(done => {
-		fetchSnapshot().then(() => {
-			let ts = mergeBuckets(buckets.inUse, buckets.snapshot);
-			if(!ts.hasOwnProperty('context') || !ts.context.hasOwnProperty(domainId)) throw new Error('Attempted to write garbish to database. Careful!');
-			done(ts);
-		});
-	})
+async function fetchAndMerge() {
+	await fetchSnapshot();
+	
+	let ts = mergeBuckets(buckets.inUse, buckets.snapshot);
+	
+	if (!ts.hasOwnProperty('context') || !ts.context.hasOwnProperty(domainId)) {
+		throw new Error('Attempted to write garbish to database. Careful!');
+	}
+
+	return ts;
 }
 
 function pushBucket(bucket) {
