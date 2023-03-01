@@ -252,6 +252,8 @@
 
                     if(opts.scrollTop) this.scrollTop();
 
+                }).catch((error) => {
+                    console.warn("DB Fetch Error: ", { error })
                 });
             },
             scrollTop: function() {
