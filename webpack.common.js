@@ -78,17 +78,17 @@ module.exports = {
             cwd: process.cwd(),
         }),
         new VueLoaderPlugin(),
-        new MinifyHtmlWebpackPlugin({
-            src: './src/html',
-            dest: './dist/html',
-            rules: {
-                collapseBooleanAttributes: true,
-                collapseWhitespace: true,
-                removeAttributeQuotes: true,
-                removeComments: true,
-                minifyJS: true,
-            },
-        }),
+        // new MinifyHtmlWebpackPlugin({
+        //     src: './src/html',
+        //     dest: './dist/html',
+        //     rules: {
+        //         collapseBooleanAttributes: true,
+        //         collapseWhitespace: true,
+        //         removeAttributeQuotes: true,
+        //         removeComments: true,
+        //         minifyJS: true,
+        //     },
+        // }),
         new CopyPlugin({
             patterns: [
                 {
