@@ -5,7 +5,7 @@
 
 
 	// Changing this number will make splash screen appear after update installation
-	const SPLASH_VERSION = "4.0.0";
+	const SPLASH_VERSION = "4.0.1";
 
 	chrome.runtime.onInstalled.addListener(function(details) {
 		if(details.reason === 'update') {
@@ -15,7 +15,7 @@
 					chrome.tabs.create({
 						url: url
 					})
-					chrome.storage.sync.set({ splashVersion: SPLASH_VERSION });
+					// chrome.storage.sync.set({ splashVersion: SPLASH_VERSION });
 				}
 			});
 		}

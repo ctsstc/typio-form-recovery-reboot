@@ -7,6 +7,23 @@ Please submit feedback or bugs on the [issues page](https://bitbucket.org/nickla
 
 # Changelog
 
+### Version 4.0.0 (16th February, 2023)
+- Note: the project is now building and loads without errors in Chrome, but does not look great yet. Maybe the sass compiler is not wired up properly, or the new Vue router, or both!
+- Updated: the manifest from v2 to v3 since that's also deprecated in January 2023.
+  - Switched to background service workers.
+  - Fix: `chrome.extension.getURL` deprecation.
+- Updated: all the dependencies I could
+    - Vulnerabilities down to 0 🎉
+    - Vue 2 -> 3
+- Removed: `strip-loader` it's been deprecated for a while.
+- Added: `TerserPlugin` since `UglifyJsPlugin` is deprecated as well, and it allows for us to remove `consoles` in production like `strip-loader` did.
+- Removed: `node-sass` it's old, deprecated, and is a pain to try and build.
+- Added: `.gitkeep` for `dist/html` to allow building with a fresh repo -- the quick and dirty fix rather than doing it programmatically.
+- Added: npm script: `build:prod` so we can check the build without the other parts getting in the way.
+- Fix: spelling in `KeyboardShortcutsPartial`.
+- Fix: Chrome source mapping.
+- Fix: issue where context menus were trying to be created twice.
+
 ### Version 3.2.5 (16th February, 2023)
 - Fix: `Uncaught TypeError: Cannot read properties of undefined (reading '0')`. In Chrome v109 (Jan. 2023 Release) `event.path` was deprecated and replaced with `event.composedPath()`. This fixes that across the codebase by utilizing a new `getEventTarget` helper function to centralize the fix.
 
