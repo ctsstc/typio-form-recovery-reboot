@@ -9,7 +9,7 @@ import blockController from './blockController';
 import Cache from '../../modules/Cache';
 import QuickAccessPopup from '../../vue/content/QuickAccessPopup.vue';
 import recoveryDialogController from './recoveryDialogController';
-import Vue, { h } from 'vue';
+import { createApp } from 'vue';
 
 let controller = {};
 let vue;
@@ -70,16 +70,7 @@ function build(callback) {
 
 function makeVue(rootnode, callback) {
 
-	vue = new Vue({
-		el: rootnode,
-		render() { return h(QuickAccessPopup) },
-	});
-
-	vue.$on('afterRestore', () => {
-		console.log('after restore!');
-	})
-
-	vue = vue.$children[0];
+	vue = createApp(QuickAccessPopup).mount(rootnode);
 
 	vue.$on('afterRestore', (x) => {
 		qaOpenedFor.el.focus();
