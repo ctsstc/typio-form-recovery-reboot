@@ -5,16 +5,18 @@ let hostnamePlaceholder = document.querySelector('.js-hostname'),
 	blacklistToggleBtn = document.querySelector('.head-toggle'),
 	urlObj;
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', async function(e) {
 	e.preventDefault();
 
 	let target = e.target;
 
 	// Open recovery link
 	if(target.classList.contains('open-recovery-link')) {
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {action: 'openRecoveryDialog'});
-		});
+		let queryOptions = { active: true, currentWindow: true };
+	  // `tab` will either be a `tabs.Tab` instance or `undefined`.
+  	const [tab] = await chrome.tabs.query(queryOptions);
+
+		chrome.tabs.sendMessage(tab.id, { action: 'openRecoveryDialog' });
 
 	// Open options link
 	} else if(target.classList.contains('open-options-link')) {
