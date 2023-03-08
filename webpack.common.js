@@ -92,6 +92,10 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {
+                    from: path.resolve(__dirname, './src/html'),
+                    to: path.resolve(__dirname, './dist/html'),
+                },
+                {
                     from: path.resolve(__dirname, './src/manifest.json'),
                     to: path.resolve(__dirname, './dist'),
                 },
