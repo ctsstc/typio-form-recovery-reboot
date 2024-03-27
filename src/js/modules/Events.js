@@ -1,10 +1,21 @@
+import mitt from "mitt";
 import { getEventTarget } from "./Helpers";
-import initHandler from "./initHandler";
 import PathResolver from "./PathResolver";
+import initHandler from "./initHandler";
 
+export const emitter = mitt();
 const Events = {};
-
 let handlers = {};
+
+// Poor Man's Unsafe UnDRY Enum
+export const EventNames = {
+  afterRestore: "afterRestore",
+  quickAccessPopup: {
+    close: "quickAccessPopupClose",
+    select: "quickAccessPopupSelect",
+    unselect: "quickAccessPopupUnselect",
+  },
+};
 
 initHandler.onInit(function () {
   document.addEventListener("input", (e) => Events.trigger(e.type, e));
