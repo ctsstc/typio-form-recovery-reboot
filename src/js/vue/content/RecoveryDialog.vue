@@ -295,30 +295,6 @@
 
                 e.stopPropagation();
                 return;
-
-
-
-                if(!target.classList.contains('confirm')) {
-                    target.classList.add('confirm');
-                    target.querySelector('.text').innerText = 'Click to confirm';
-
-                    setTimeout(function() {
-                        target.classList.remove('confirm');
-                        target.querySelector('.text').innerText = 'Delete';
-                    }, 4000);
-                } else {
-                    let li = target.closest('li');
-
-                    db.deleteEntry(li.dataset.sessionId, li.dataset.editableId, () => {
-                        this.populate();
-
-                        // Vue will re-use other elements and change the text in them
-                        // instead of creating new ones, so the make sure the .confirm class
-                        // is removed if the li element was re-used
-                        let delLink = li && li.querySelector('.meta .delete.confirm');
-                        if(delLink) delLink.classList.remove('confirm');
-                    });
-                }
             },
 
             openKeyboardShortcuts: function() {
