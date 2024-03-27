@@ -43,7 +43,7 @@ function show(editable, coord) {
     return toastController.create(
       'Typio could not detect a focused input field. <a target="_blank" href="' +
         chrome.runtime.getURL("html/app.html#/faq#error-input-not-found") +
-        '">Read more.</a>'
+        '">Read more.</a>',
     );
 
   if (editable.isContentEditable()) {
@@ -51,9 +51,9 @@ function show(editable, coord) {
     toastController.create(
       'Cannot open Quick Restore Popup for selected input field (contentEditable). <a target="_blank" href="' +
         chrome.runtime.getURL(
-          "html/app.html#/faq#qa-cant-open-for-contenteditable"
+          "html/app.html#/faq#qa-cant-open-for-contenteditable",
         ) +
-        '">Read more.</a>'
+        '">Read more.</a>',
     );
     return;
   }
@@ -81,7 +81,7 @@ function build(callback) {
         if (callback) callback();
         setupKeyNav();
       });
-    }
+    },
   );
 }
 
@@ -130,7 +130,7 @@ function setupKeyNav() {
       }
 
       var sels = Array.prototype.slice.call(
-          vue.$el.querySelectorAll(".selectable:not(.keyboard-ignore)")
+          vue.$el.querySelectorAll(".selectable:not(.keyboard-ignore)"),
         ),
         currSel = vue.$el.querySelector(".selectable.selected"),
         currI = sels.indexOf(currSel),

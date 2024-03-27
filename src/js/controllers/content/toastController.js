@@ -23,7 +23,7 @@ function build(callback) {
       makeVue(rootnode, () => {
         if (callback) callback();
       });
-    }
+    },
   );
 }
 

@@ -1,19 +1,18 @@
 const initHandler = {};
 
 let initHandlers = [],
-	isInitiated = false;
+  isInitiated = false;
 
+initHandler.onInit = function (callback) {
+  if (isInitiated) callback();
+  else initHandlers.push(callback);
+};
 
-initHandler.onInit = function(callback) {
-	if (isInitiated) callback();
-	else initHandlers.push(callback);
-}
-
-initHandler.executeInitHandlers = function() {
-	isInitiated = true;
-	initHandlers.forEach(function(func) {
-		func();
-	});
-}
+initHandler.executeInitHandlers = function () {
+  isInitiated = true;
+  initHandlers.forEach(function (func) {
+    func();
+  });
+};
 
 export default initHandler;

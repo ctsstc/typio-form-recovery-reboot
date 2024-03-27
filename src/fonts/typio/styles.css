@@ -2,14 +2,14 @@
 
 @font-face {
   font-family: "typio";
-  src:url("fonts/typio.eot");
-  src:url("fonts/typio.eot?#iefix") format("embedded-opentype"),
+  src: url("fonts/typio.eot");
+  src:
+    url("fonts/typio.eot?#iefix") format("embedded-opentype"),
     url("fonts/typio.woff") format("woff"),
     url("fonts/typio.ttf") format("truetype"),
     url("fonts/typio.svg#typio") format("svg");
   font-weight: normal;
   font-style: normal;
-
 }
 
 [data-icon]:before {

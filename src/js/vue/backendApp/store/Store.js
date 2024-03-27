@@ -1,11 +1,11 @@
-import Vuex from 'vuex';
-import Vue from 'vue';
+import Vuex from "vuex";
+import Vue from "vue";
 Vue.use(Vuex);
 
-import options from './modules/options';
+import options from "./modules/options";
 
 export default new Vuex.Store({
-    modules: {
-        options,
-    }
+  modules: {
+    options,
+  },
 });

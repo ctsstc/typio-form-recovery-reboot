@@ -1,61 +1,59 @@
-import Options from '../../modules/options/options';
-import Events from '../../modules/Events';
-import initHandler from '../../modules/initHandler';
-import validator from '../../modules/validator';
-import ui from '../../modules/ui';
-import { createApp } from 'vue';
-import SaveIndicator from '../../vue/content/SaveIndicator.vue';
-
+import Options from "../../modules/options/options";
+import Events from "../../modules/Events";
+import initHandler from "../../modules/initHandler";
+import validator from "../../modules/validator";
+import ui from "../../modules/ui";
+import { createApp } from "vue";
+import SaveIndicator from "../../vue/content/SaveIndicator.vue";
 
 let vue;
 
-initHandler.onInit(function() {
-	let isEnabled = Options.get('saveIndicator') !== 'disable';
+initHandler.onInit(function () {
+  let isEnabled = Options.get("saveIndicator") !== "disable";
 
-	if(isEnabled) {
-		addEventListeners();
-	}
+  if (isEnabled) {
+    addEventListeners();
+  }
 });
 
-
 function addEventListeners() {
+  Events.on("db-save", () => {
+    if (vue) vue.animate();
+  });
 
-	Events.on('db-save', () => {
-		if(vue) vue.animate();
-	});
+  Events.on("editable-text-focus", function () {
+    build(function () {
+      if (!validator.validate(window.terafm.focusedEditable)) {
+        return false;
+      }
 
-	Events.on('editable-text-focus', function() {
-		build(function() {
-			if(!validator.validate(window.terafm.focusedEditable)) {
-				return false;
-			}
+      vue.show();
+      vue.animate();
+    });
+  });
 
-			vue.show();
-			vue.animate();
-		});
-	});
-
-	Events.on('blur', function() {
-		if(vue) vue.hide();
-	});
+  Events.on("blur", function () {
+    if (vue) vue.hide();
+  });
 }
 
-
-
 function build(callback) {
-	if(vue) return callback && callback();
+  if (vue) return callback && callback();
 
-	ui.inject({
-		html: '<div id="tmp-si-holder"></div>',
-		returnNode: '#tmp-si-holder'
-	}, function(rootnode) {
-		makeVue(rootnode, () => {
-			if(callback) callback();
-		});
-	});
+  ui.inject(
+    {
+      html: '<div id="tmp-si-holder"></div>',
+      returnNode: "#tmp-si-holder",
+    },
+    function (rootnode) {
+      makeVue(rootnode, () => {
+        if (callback) callback();
+      });
+    },
+  );
 }
 
 function makeVue(rootnode, callback) {
-	vue = createApp(SaveIndicator).mount(rootnode);
-	if(callback) callback();
+  vue = createApp(SaveIndicator).mount(rootnode);
+  if (callback) callback();
 }

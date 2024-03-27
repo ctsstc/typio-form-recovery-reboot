@@ -1,33 +1,50 @@
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Form Recovery</title>
-	<link rel="stylesheet" href="../css/popup.css">
-	<link rel="stylesheet" href="../fonts/typio/styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Form Recovery</title>
+    <link rel="stylesheet" href="../css/popup.css" />
+    <link rel="stylesheet" href="../fonts/typio/styles.css" />
+  </head>
+  <body>
+    <button class="head-toggle is-enabled">
+      <div class="toggle"><span></span></div>
+      <div class="text">
+        <p class="if-enabled big">
+          Typio is <span class="green">enabled</span> for
+        </p>
+        <p class="if-disabled big">
+          Typio is <span class="red">disabled</span> for
+        </p>
+        <p class="js-hostname">www</p>
+      </div>
+    </button>
 
-	<button class="head-toggle is-enabled">
-		<div class="toggle"><span></span></div>
-		<div class="text">
-			<p class="if-enabled big">Typio is <span class="green">enabled</span> for</p>
-			<p class="if-disabled big">Typio is <span class="red">disabled</span> for</p>
-			<p class="js-hostname">www</p>
-		</div>
-	</button>
+    <div class="link-list">
+      <a class="open-recovery-link"
+        ><span class="icon-window"></span> Open Recovery</a
+      >
+      <a class="open-keyboard-shortcuts"
+        ><span class="icon-keyboard"></span> Show keyboard shortcuts</a
+      >
+      <a class="delete-all-link"
+        ><span class="icon-trash"></span> Delete all data for this domain</a
+      >
+      <a class="open-options-link"
+        ><span class="icon-gear"></span> Open options page</a
+      >
+      <a class="feedback-link"
+        ><span class="icon-megaphone"></span> Leave feedback</a
+      >
+      <a class="faq-link"
+        ><span class="icon-help-circled"></span> Frequently Asked Questions</a
+      >
+      <a class="donate-link"
+        ><span style="color: #f96565" class="icon-heart"></span> Buy me a
+        coffee!</a
+      >
+    </div>
 
-	<div class="link-list">
-		<a class="open-recovery-link"><span class="icon-window"></span> Open Recovery</a>
-		<a class="open-keyboard-shortcuts"><span class="icon-keyboard"></span> Show keyboard shortcuts</a>
-		<a class="delete-all-link"><span class="icon-trash"></span> Delete all data for this domain</a>
-		<a class="open-options-link"><span class="icon-gear"></span> Open options page</a>
-		<a class="feedback-link"><span class="icon-megaphone"></span> Leave feedback</a>
-		<a class="faq-link"><span class="icon-help-circled"></span> Frequently Asked Questions</a>
-		<a class="donate-link"><span style="color: #f96565;" class="icon-heart"></span> Buy me a coffee!</a>
-	</div>
-
-	
-	<script src="../js/popup.js"></script>
-</body>
+    <script src="../js/popup.js"></script>
+  </body>
 </html>

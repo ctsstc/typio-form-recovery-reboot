@@ -10,13 +10,15 @@ a {
 }
 
 .expand-on-focus {
-  transition-duration: .5s;
+  transition-duration: 0.5s;
 }
 .expand-on-focus:focus {
   padding: 30px 60px;
 }
 
-input, textarea, .editable {
+input,
+textarea,
+.editable {
   /*background: inherit;*/
   border: none;
   margin: 5px;
@@ -27,7 +29,7 @@ input, textarea, .editable {
   /*color: #DDD;*/
   display: inline-block;
   vertical-align: top;
-  border: 1px solid rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .editable {
