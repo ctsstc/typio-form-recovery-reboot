@@ -31,6 +31,7 @@
   "dependencies": {
     "@types/chrome": "^0.0.213",
     "@vue/compat": "^3.2.47",
+    "mitt": "^3.0.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0"
