@@ -1,11 +1,13 @@
 import Vue from "vue";
-import { createRouter, createWebHashHistory } from "vue-router";
+import VueRouter from "vue-router";
 
 import FeedbackPage from "./pages/FeedbackPage.vue";
 import OptionsPage from "./pages/OptionsPage.vue";
 import FAQPage from "./pages/FAQPage.vue";
 import PrivacyPage from "./pages/PrivacyPage.vue";
 import DatabaseManager from "./pages/DatabaseManager.vue";
+
+Vue.use(VueRouter);
 
 const routes = [
   { path: "/", name: "home", component: OptionsPage },
@@ -20,9 +22,8 @@ const routes = [
   { path: "/privacy", name: "privacy", component: PrivacyPage },
 ];
 
-export default createRouter({
+export default new VueRouter({
   routes,
-  history: createWebHashHistory(),
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
       return { selector: to.hash };

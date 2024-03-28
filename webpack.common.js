@@ -1,17 +1,10 @@
 const path = require("path");
-const { VueLoaderPlugin } = require("vue-loader");
-const MinifyHtmlWebpackPlugin = require("minify-html-webpack-plugin");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
+// const MinifyHtmlWebpackPlugin = require("minify-html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CircularDependencyPlugin = require("circular-dependency-plugin");
-const { DefinePlugin } = require("webpack");
 
 module.exports = {
-  resolve: {
-    alias: {
-      vue: "@vue/compat",
-    },
-  },
   entry: {
     background: "./src/js/controllers/background/backgroundController.js",
     content: "./src/js/controllers/content/contentController.js",
@@ -42,13 +35,6 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: "vue-loader",
-        options: {
-          compilerOptions: {
-            compatConfig: {
-              MODE: 2,
-            },
-          },
-        },
       },
       {
         test: /\.(css|sass|scss)$/,
@@ -57,34 +43,17 @@ module.exports = {
     ],
   },
   plugins: [
-    new DefinePlugin({
-      __VUE_OPTIONS_API__: true,
-      __VUE_PROD_DEVTOOLS__: false,
-    }),
-    new CircularDependencyPlugin({
-      // exclude detection of files based on a RegExp
-      exclude: /dist|node_modules/,
-      // include specific files based on a RegExp
-      include: /src/,
-      // add errors to webpack instead of warnings
-      failOnError: false,
-      // allow import cycles that include an asyncronous import,
-      // e.g. via import(/* webpackMode: "weak" */ './file.js')
-      allowAsyncCycles: false,
-      // set the current working directory for displaying module paths
-      cwd: process.cwd(),
-    }),
     new VueLoaderPlugin(),
     // new MinifyHtmlWebpackPlugin({
-    //     src: './src/html',
-    //     dest: './dist/html',
-    //     rules: {
-    //         collapseBooleanAttributes: true,
-    //         collapseWhitespace: true,
-    //         removeAttributeQuotes: true,
-    //         removeComments: true,
-    //         minifyJS: true,
-    //     },
+    //   src: "./src/html",
+    //   dest: "./dist/html",
+    //   rules: {
+    //     collapseBooleanAttributes: true,
+    //     collapseWhitespace: true,
+    //     removeAttributeQuotes: true,
+    //     removeComments: true,
+    //     minifyJS: true,
+    //   },
     // }),
     new CopyPlugin({
       patterns: [

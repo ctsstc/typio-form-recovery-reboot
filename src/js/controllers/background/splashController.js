@@ -16,7 +16,7 @@
           chrome.tabs.create({
             url: url,
           });
-          // chrome.storage.sync.set({ splashVersion: SPLASH_VERSION });
+          chrome.storage.sync.set({ splashVersion: SPLASH_VERSION });
         }
       });
     }

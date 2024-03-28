@@ -1,30 +1,28 @@
-import KeyboardShortcuts from "../../modules/keyboardShortcuts";
+import Vue from "vue";
 import initHandler from "../../modules/initHandler";
-import ui from "../../modules/ui";
+import KeyboardShortcuts from "../../modules/keyboardShortcuts";
 import Options from "../../modules/options/options";
-import blockController from "./blockController";
+import ui from "../../modules/ui";
 import RecoveryDialog from "../../vue/content/RecoveryDialog.vue";
-import Vue, { createApp } from "vue";
+import blockController from "./blockController";
 
 let recoveryDialogController = {};
 
-/** @type {Vue.Component<RecoveryDialog>} */
-let recoveryDialog;
+let vue;
 
 // Key comobo to open/close diag
 initHandler.onInit(function () {
   if (Options.get("keybindEnabled")) {
     KeyboardShortcuts.on(Options.get("keybindToggleRecDiag"), function () {
-      if (!recoveryDialog) return build();
-      if (recoveryDialog.isVisible) {
-        recoveryDialog.hide();
+      if (!vue) return build();
+      if (vue.visible) {
+        vue.hide();
       } else {
-        recoveryDialog.show();
+        vue.show();
       }
     });
   }
 });
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "openRecoveryDialog") show();
 });
@@ -33,15 +31,15 @@ recoveryDialogController.open = () => show();
 
 function show() {
   if (terafm.isBlocked) return blockController.warn();
-  if (recoveryDialog) {
-    recoveryDialog.show();
+  if (vue) {
+    vue.show();
   } else {
     build();
   }
 }
 
 function build(callback) {
-  if (recoveryDialog) return callback && callback();
+  if (vue) return callback && callback();
 
   ui.inject(
     {
@@ -49,20 +47,23 @@ function build(callback) {
       returnNode: "#tmp-dialog-holder",
       loadIcons: true,
     },
-    function (rootNode) {
-      makeVue(rootNode, callback);
+    function (rootnode) {
+      makeVue(rootnode, callback);
     },
   );
 }
 
-function makeVue(rootNode, callback) {
-  const vue = createApp(RecoveryDialog);
-  recoveryDialog = vue.mount(rootNode);
-
-  recoveryDialog.show();
+function makeVue(rootnode, callback) {
+  vue = new Vue({
+    el: rootnode,
+    render(h) {
+      return h(RecoveryDialog);
+    },
+  });
+  vue = vue.$children[0];
 
   KeyboardShortcuts.on(["Escape"], function () {
-    recoveryDialog.hide();
+    vue.hide();
   });
 
   if (callback) callback();

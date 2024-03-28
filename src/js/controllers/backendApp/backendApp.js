@@ -1,12 +1,13 @@
-import { createApp, h } from "vue";
+import Vue from "vue";
 import router from "../../vue/backendApp/routes";
 import App from "../../vue/backendApp/App.vue";
 import store from "../../vue/backendApp/store/Store";
 
-createApp({
-  router,
+new Vue({
+  el: "#app",
   store,
-  render() {
+  router,
+  render(h) {
     return h(App);
   },
-}).mount("#app");
+});

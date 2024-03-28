@@ -1,6 +1,6 @@
 import ui from "../../modules/ui";
 import ToastComponent from "../../vue/backendApp/components/Toast.vue";
-import Vue, { createApp, h } from "vue";
+import Vue from "vue";
 let controller = {};
 
 let vue;
@@ -28,11 +28,13 @@ function build(callback) {
 }
 
 function makeVue(rootnode, callback) {
-  vue = createApp({
-    render() {
+  vue = new Vue({
+    el: rootnode,
+    render(h) {
       return h(ToastComponent);
     },
-  }).mount(rootnode);
+  });
+  vue = vue.$children[0];
 
   if (callback) requestAnimationFrame(() => requestAnimationFrame(callback));
 }

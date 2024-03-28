@@ -6,7 +6,7 @@ import EditableDefaults from "../../modules/EditableDefaults";
 import ui from "../../modules/ui";
 import toastController from "./toastController";
 import KeyboardShortcutPopup from "../../vue/content/KeyboardShortcutPopup.vue";
-import { createApp } from "vue";
+import Vue from "vue";
 
 let keyboardShortcutController = {};
 
@@ -94,7 +94,13 @@ function build(callback) {
 }
 
 function makeVue(rootnode, callback) {
-  vue = createApp(KeyboardShortcutPopup).mount(rootnode);
+  vue = new Vue({
+    el: rootnode,
+    render(h) {
+      return h(KeyboardShortcutPopup);
+    },
+  });
+  vue = vue.$children[0];
 
   if (callback) callback();
 }

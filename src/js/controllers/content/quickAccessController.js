@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import Vue from "vue";
 import Cache from "../../modules/Cache";
 import Events from "../../modules/Events";
 import db from "../../modules/db/db";
@@ -86,7 +86,18 @@ function build(callback) {
 }
 
 function makeVue(rootnode, callback) {
-  vue = createApp(QuickAccessPopup).mount(rootnode);
+  vue = new Vue({
+    el: rootnode,
+    render(h) {
+      return h(QuickAccessPopup);
+    },
+  });
+
+  vue.$on("afterRestore", () => {
+    console.log("after restore!");
+  });
+
+  vue = vue.$children[0];
 
   vue.$on("afterRestore", (x) => {
     qaOpenedFor.el.focus();
