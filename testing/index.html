@@ -1,38 +1,36 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Typio form testing</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-  </head>
-  <body>
-    <div id="shadow"></div>
 
+<head>
+  <title>Typio form testing</title>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+  <fieldset>
+    <legend>Shadow</legend>
+    <div id="shadow"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Inputs</legend>
     <div>
-      <input
-        placeholder="expand on focus"
-        type="text"
-        class="expand-on-focus"
-      />
-      <input
-        type="text"
-        onkeypress="if(event.key === 'Enter') {this.value = ''}"
-        placeholder="Clear on enter"
-      />
+      <input placeholder="expand on focus" type="text" class="expand-on-focus" />
+      <input type="text" onkeypress="if(event.key === 'Enter') {this.value = ''}" placeholder="Clear on enter" />
 
       <div style="display: inline">
         <div id="test" style="display: inline">
           <div class="testing" style="display: inline">
             <input placeholder="Input in ID WITHOUT ID" type="text" />
-            <input
-              id="inIdWithId"
-              placeholder="Input in ID WITH ID"
-              type="text"
-            />
+            <input id="inIdWithId" placeholder="Input in ID WITH ID" type="text" />
           </div>
         </div>
       </div>
     </div>
+  </fieldset>
 
+  <fieldset>
+    <legend>Form</legend>
     <form>
       <input placeholder="Password field" type="password" />
       <input placeholder="Text input" type="text" />
@@ -40,41 +38,44 @@
       <input placeholder="Number input" type="number" />
       <input placeholder="Email input" type="email" style="padding: 10px" />
       <input placeholder="Search" type="search" />
-      <textarea placeholder="Textarea"></textarea
-      ><textarea>
-Textarea with scrollbar...............................................................</textarea
-      >
+      <textarea placeholder="Textarea"></textarea><textarea>
+Textarea with scrollbar...............................................................</textarea>
     </form>
+  </fieldset>
 
+  <fieldset>
+    <legend>iFrame</legend>
     <iframe style="width: 800px" id="ifr"></iframe>
+  </fieldset>
 
+  <fieldset>
+    <legend>Editable</legend>
     <div class="editable" contenteditable="true">
       <p>test</p>
-      <div
-        style="
+      <div style="
           background: rgba(255, 255, 255, 0.2);
           height: 20px;
           margin-top: 10px;
-        "
-      ></div>
+        "></div>
       <div style="background: rgba(255, 255, 255, 0.3); height: 20px">
         text
-        <div
-          style="
+        <div style="
             display: inline;
             background: rgba(255, 0, 0, 0.3);
             padding: 3px;
-          "
-        >
+          ">
           div inside div
         </div>
         more text
       </div>
       nothing
     </div>
+  </fieldset>
 
-    <p></p>
+  <p></p>
 
+  <fieldset>
+    <legend>Beeg Form</legend>
     <form>
       <input type="range" name="rangeSliderOpt" />
       <input checked="checked" name="chk" type="checkbox" value="1" />
@@ -96,12 +97,7 @@ Textarea with scrollbar.........................................................
       <input type="color" />
       <input type="month" />
       <input type="datetime-local" />
-      <input
-        style="width: 80px"
-        id=":324"
-        placeholder="Invalid ID"
-        type="text"
-      />
+      <input style="width: 80px" id=":324" placeholder="Invalid ID" type="text" />
       <input id="fdsdsf-24" placeholder="Valid ID" type="text" />
       <select name="sel">
         <option value="opt1">Option 111</option>
@@ -110,12 +106,7 @@ Textarea with scrollbar.........................................................
         <option value="opt4">Option 444</option>
       </select>
 
-      <input
-        list="browsers"
-        name="myBrowser"
-        placeholder="Browsers"
-        type="text"
-      />
+      <input list="browsers" name="myBrowser" placeholder="Browsers" type="text" />
       <datalist id="browsers">
         <option value="Chrome">Chrome</option>
         <option value="Firefox">Firefox</option>
@@ -125,8 +116,9 @@ Textarea with scrollbar.........................................................
         <option value="Microsoft Edge">Microsoft Edge</option>
       </datalist>
     </form>
-    <div></div>
-    or
-    <script src="javascript.js"></script>
-  </body>
+  </fieldset>
+
+  <script src="javascript.js"></script>
+</body>
+
 </html>
