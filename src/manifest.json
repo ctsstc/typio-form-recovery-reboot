@@ -16,7 +16,8 @@
     "storage",
     "contextMenus",
     "unlimitedStorage",
-    "idle"
+    "idle",
+    "scripting"
   ],
 
   "host_permissions": ["<all_urls>"],
