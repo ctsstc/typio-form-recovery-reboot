@@ -1,8 +1,8 @@
-import Options from "../../modules/options/options";
 import Events from "../../modules/Events";
 import initHandler from "../../modules/initHandler";
-import validator from "../../modules/validator";
+import Options from "../../modules/options/options";
 import ui from "../../modules/ui";
+import validator from "../../modules/validator";
 import quickAccessController from "./quickAccessController";
 
 let node,
@@ -43,22 +43,14 @@ function addDeepEventListeners() {
 }
 
 function addEventListeners() {
-  if (triggerAction === "focus") {
-    Events.on("editable-text-focus", function () {
-      if (validator.validate(window.terafm.focusedEditable, "elem")) {
-        delayShow();
-      }
-    });
-  }
+  const eventAction =
+    triggerAction === "focus" ? "editable-text-focus" : "dblclick";
 
-  // On editable double click
-  if (triggerAction === "doubleclick") {
-    Events.on("dblclick", function () {
-      if (validator.validate(window.terafm.focusedEditable, "elem")) {
-        delayShow();
-      }
-    });
-  }
+  Events.on(eventAction, function () {
+    if (validator.validate(window.terafm.focusedEditable, "elem")) {
+      delayShow();
+    }
+  });
 
   Events.on(["blur"], function (e) {
     ui.touch();
@@ -105,7 +97,7 @@ function delayShow() {
   iconDelayTimeout = setTimeout(show, 50);
 }
 
-function show(trigger) {
+function show() {
   if (!window.terafm.focusedEditable) return;
   // if(window.terafm.focusedEditable.isContentEditable()) return;
 
