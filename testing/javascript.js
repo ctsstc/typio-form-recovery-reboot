@@ -17,12 +17,19 @@
 
 var randId = "randomId-" + Math.round(Math.random() * 100000),
   html =
-    '<input type="text" id="' + randId + '" placeholder="' + randId + '" />';
+    '<fieldset><legend>JS - Random ID, Inserted</legend><input type="text" id="' +
+    randId +
+    '" placeholder="' +
+    randId +
+    '" /></fieldset>';
 
 document.body.insertAdjacentHTML("beforeend", html);
 
 setTimeout(function () {
-  document.body.insertAdjacentHTML("afterbegin", '<div class="dyno"></div>');
+  document.body.insertAdjacentHTML(
+    "afterbegin",
+    '<fieldset><legend>Dynamic Insertion vis JS</legend><div class="dyno"></div></fieldset>',
+  );
   var shadowElm = document.querySelector(".dyno"),
     shroot = shadowElm.attachShadow({ mode: "open" });
 
@@ -45,7 +52,7 @@ setTimeout(function () {
         .querySelector("iframe")
         .contentWindow.document.body.insertAdjacentHTML(
           "afterbegin",
-          '<iframe height="40"></iframe><textarea placeholder="dsf" rows=5 cols=20></textarea>',
+          '<fieldset><legend>iframe A</legend><iframe height="40"></iframe><textarea placeholder="dsf" rows=5 cols=20></textarea></fieldset>',
         );
       var iframe = shroot
         .querySelector("iframe")
