@@ -20,7 +20,7 @@ if (window !== window.top) {
   function eventHandler(e) {
     const target = getEventTarget(e);
 
-    console.log("TARGETTTT", { target });
+    // console.log("TARGETTTT", { target, e });
     if (!target) return;
 
     let msg = {
