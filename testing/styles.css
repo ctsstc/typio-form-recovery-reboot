@@ -9,6 +9,11 @@ a {
   /*color: #666;*/
 }
 
+iframe {
+  border: 2px solid red;
+  background: rgba(255, 0, 0, .1);
+}
+
 .expand-on-focus {
   transition-duration: 0.5s;
 }
