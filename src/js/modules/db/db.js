@@ -1,7 +1,7 @@
-import StorageBucket from "../../classes/StorageBucket";
-import Helpers from "../../modules/Helpers";
-import Events from "../../modules/Events";
 import Entry from "../../classes/Entry";
+import StorageBucket from "../../classes/StorageBucket";
+import Events from "../../modules/Events";
+import Helpers from "../../modules/Helpers";
 
 const db = {};
 
@@ -73,6 +73,7 @@ async function fetchAndMerge() {
 }
 
 function pushBucket(bucket) {
+  // console.log("PUSH BUCKET", { bucket });
   return new Promise((done) => {
     if (
       !(bucket instanceof StorageBucket) ||
@@ -90,7 +91,7 @@ function pushBucket(bucket) {
 
 // Fetch, merge, push
 function sync() {
-  // console.log('sync');
+  // console.log("sync");
   return fetchAndMerge().then(pushBucket);
 }
 

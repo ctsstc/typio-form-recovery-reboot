@@ -1,17 +1,29 @@
-import db from "../../modules/db/db";
 import Editable from "../../classes/Editable";
-import Events from "../../modules/Events";
+import EditableDefaults from "../../modules/EditableDefaults";
 import Editables from "../../modules/Editables";
+import Events from "../../modules/Events";
+import { getEventTarget } from "../../modules/Helpers";
+import db from "../../modules/db/db";
 import initHandler from "../../modules/initHandler";
 import validator from "../../modules/validator";
-import EditableDefaults from "../../modules/EditableDefaults";
-import { getEventTarget } from "../../modules/Helpers";
 
 const elementsWithInputEventSupport = new Set();
 
 initHandler.onInit(function () {
   // Force save before window is closed
-  window.addEventListener("beforeunload", db.push);
+  const onUnloadHandler = () => {
+    if (chrome.runtime.id) {
+      // console.info("=== Saving on unload");
+      db.push();
+    }
+    // Cleanup the old chrome runtime, since its now disconnected
+    // This happens on an extension reload, but the new handler should be in place by now
+    else {
+      // console.info("=== Removing old onunload handler");
+      window.removeEventListener("beforeunload", onUnloadHandler);
+    }
+  };
+  window.addEventListener("beforeunload", onUnloadHandler);
 
   Events.on("keydown", (e) => changeHandler(getEventTarget(e), "keydown"));
   Events.on("input", (e) => changeHandler(getEventTarget(e), "input"));
