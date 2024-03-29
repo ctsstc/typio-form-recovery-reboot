@@ -34,17 +34,22 @@ setTimeout(function () {
     shroot = shadowElm.attachShadow({ mode: "open" });
 
   shroot.innerHTML =
-    '<input placeholder="Input dynamic shadow DOM" /><div style="display: inline-block; border: 1px solid blue; padding: 4px;" contenteditable>contenteditable</div><input placeholder="Input2 dynamic shadow DOM" /><iframe height="180"></iframe>';
+    "<style>iframe { border: 2px solid red; background: rgba(255, 0, 0, .1); }</style>" +
+    "<fieldset><legend>Shadow DOM Inputs</legend>" +
+    '<input placeholder="Input dynamic shadow DOM"/>' +
+    '<div style = "display: inline-block; border: 1px solid blue; padding: 4px;" contenteditable>contenteditable</div>' +
+    '<input placeholder = "Input2 dynamic shadow DOM"/>' +
+    '<fieldset><legend>Shadow DOM iFrame</legend><iframe height="360" width="400"></iframe></fieldset>';
 
   shroot.querySelector("iframe").contentWindow.document.body.innerHTML =
-    '<input placeholder="placeholder dynamic" />';
+    '<fieldset><legend>Initial iFrame Content</legend><input placeholder="placeholder dynamic" /></fieldset>';
 
   setTimeout(function () {
     shroot
       .querySelector("iframe")
       .contentWindow.document.body.insertAdjacentHTML(
         "afterbegin",
-        '<input placeholder="new" />',
+        '<fieldset><legend>Delayed Add</legend><input placeholder="delayed add" /></fieldset>',
       );
 
     setTimeout(function () {
@@ -52,7 +57,9 @@ setTimeout(function () {
         .querySelector("iframe")
         .contentWindow.document.body.insertAdjacentHTML(
           "afterbegin",
-          '<fieldset><legend>iframe A</legend><iframe height="40"></iframe><textarea placeholder="dsf" rows=5 cols=20></textarea></fieldset>',
+          "<style>iframe { border: 2px solid blue; background: rgba(0, 0, 255, .1); }</style>" +
+            '<fieldset><legend>Shadow DOM iFrame in an iFrame</legend><iframe height="40"></iframe></fieldset>' +
+            '<fieldset><legend>Text Area</legend><textarea placeholder="dsf" rows=5 cols=20></textarea></fieldset>',
         );
       var iframe = shroot
         .querySelector("iframe")
@@ -71,7 +78,8 @@ shroot.innerHTML = '<input placeholder="Input in shadow DOM" /><div></div>';
 
 var shroot2 = shroot.querySelector("div").attachShadow({ mode: "open" });
 shroot2.innerHTML =
-  '<input placeholder="2nd lvl input in shadow DOM" /><iframe id="frameId"></iframe>';
+  "<style>iframe { border: 2px solid red; background: rgba(255, 0, 0, .1); }</style>" +
+  '<input placeholder="2nd lvl input in shadow DOM" /><fieldset><legend>iFrame</legend><iframe id="frameId"></iframe></fieldset>';
 
 var iframe = shroot2.querySelector("iframe");
 iframe.contentWindow.document.body.innerHTML =
@@ -86,7 +94,8 @@ shroot3.innerHTML =
 
 var ifr = document.querySelector("#ifr");
 ifr.contentDocument.body.innerHTML =
-  'Hello says iframe! <input type="text" style="width: 80px"/><iframe id="ifr2"></iframe><div style="display: inline-block; border: 1px solid blue; padding: 4px;" contenteditable>contenteditable</div>';
+  'Hello says iframe! <input type="text" style="width: 80px"/><iframe id="ifr2"></iframe><div style="display: inline-block; border: 1px solid blue; padding: 4px;" contenteditable>contenteditable</div>' +
+  "<style>iframe { border: 2px solid blue; background: rgba(0, 0, 255, .1); }</style>";
 var ifr2 = ifr.contentDocument.body.querySelector("#ifr2");
 ifr2.contentDocument.body.innerHTML =
   'Hello from nested! <input style="position: absolute; left: 120px;" type="text"/>';
